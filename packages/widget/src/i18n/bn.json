@@ -4,370 +4,664 @@
     "title": "ভাষা"
   },
   "format": {
-    "currency": "",
-    "number": "{{value, number(maximumFractionDigits: 9)}}",
-    "percent": "",
-    "tokenAmount": ""
+    "currency": "{{value, currencyExt(currency: USD)}}",
+    "percent": "{{value, percent(maximumFractionDigits: 2)}}",
+    "tokenAmount": "{{value, numberExt}}"
   },
   "button": {
-    "auto": "স্বয়ংক্রিয়",
-    "bookmark": "",
-    "bookmarks": "",
-    "bridge": "",
-    "bridgeReview": "",
-    "buy": "",
+    "auto": "অটো",
+    "bookmark": "বুকমার্ক করুন",
+    "bridge": "ব্রিজ করুন",
+    "bridgeReview": "ব্রিজ রিভিউ করুন",
+    "buy": "কিনুন",
     "cancel": "বাতিল করুন",
-    "checkoutReview": "",
-    "clear": "",
-    "clearAllFailed": "",
-    "clearTransaction": "",
-    "close": "",
-    "confirm": "",
-    "connectAnotherWallet": "",
-    "connectChainWallet": "",
-    "connectWallet": "ওয়ালেট সংযুক্ত করুন",
-    "contactSupport": "সাপোর্ট এ যোগাযোগ করুন",
-    "continue": "এগিয়ে যান",
+    "checkoutReview": "ক্রয় রিভিউ করুন",
+    "clear": "সরান",
+    "clearAllFailed": "সব ব্যর্থ লেনদেন সরান",
+    "clearTransaction": "লেনদেন সরান",
+    "close": "বন্ধ করুন",
+    "confirm": "নিশ্চিত করুন",
+    "connectAnotherWallet": "অন্য একটি ওয়ালেট কানেক্ট করুন",
+    "connectChainWallet": "{{chain}} ওয়ালেট কানেক্ট করুন",
+    "connectWallet": "ওয়ালেট কানেক্ট করুন",
+    "contactSupport": "সাপোর্টে যোগাযোগ করুন",
+    "continue": "চালিয়ে যান",
     "copyAddress": "ঠিকানা কপি করুন",
-    "dark": "অন্ধকার",
-    "delete": "মুছে ফেলুন",
-    "deposit": "",
-    "depositReview": "",
-    "disconnect": "সংযোগ বিচ্ছিন্ন করুন",
-    "done": "সম্পন্ন হয়েছে",
-    "exchange": "",
+    "dark": "ডার্ক",
+    "delete": "মুছুন",
+    "deposit": "ডিপোজিট করুন",
+    "depositWithCash": "ক্যাশ দিয়ে ডিপোজিট করুন",
+    "pay": "পেমেন্ট করুন",
+    "depositReview": "ডিপোজিট রিভিউ করুন",
+    "connectExchange": "এক্সচেঞ্জ কানেক্ট করুন",
+    "transferCrypto": "ক্রিপ্টো ট্রান্সফার করুন",
+    "disconnect": "ডিসকানেক্ট করুন",
+    "done": "সম্পন্ন",
+    "exchange": "এক্সচেঞ্জ করুন",
     "getGas": "গ্যাস পান",
-    "learnMore": "আরও জানুন",
     "light": "লাইট",
-    "max": "",
-    "ok": "ঠিক আছে",
-    "options": "",
-    "reset": "পুনরায় সেট করুন",
+    "max": "সর্বোচ্চ",
+    "options": "অপশন",
+    "requestRefund": "রিফান্ডের অনুরোধ করুন",
+    "reset": "রিসেট করুন",
     "resetSettings": "সেটিংস রিসেট করুন",
-    "seeDetails": "বিস্তারিত দেখুন",
-    "showAll": "সবগুলো দেখুন",
-    "showLess": "",
-    "showMore": "",
-    "startBridging": "",
-    "startSwapping": "",
-    "swap": "সোওয়াপ",
-    "swapReview": "",
-    "system": "",
+    "resumeTransaction": "লেনদেন আবার চালু করুন",
+    "review": "রিভিউ করুন",
+    "topUp": "টপ আপ করুন",
+    "viewRefund": "রিফান্ড দেখুন",
+    "viewRefundStatus": "রিফান্ডের স্ট্যাটাস দেখুন",
+    "viewTransferDetails": "ট্রান্সফারের বিবরণ দেখুন",
+    "showAll": "সব দেখুন",
+    "showLess": "কম দেখুন",
+    "showMore": "আরও {{count}}টি দেখুন",
+    "startBridging": "ব্রিজ শুরু করুন",
+    "startSwapping": "সোয়াপ শুরু করুন",
+    "swap": "সোয়াপ করুন",
+    "swapReview": "সোয়াপ রিভিউ করুন",
+    "system": "সিস্টেম",
     "tryAgain": "আবার চেষ্টা করুন",
-    "viewCoverage": "কভারেজ দেখুন",
     "viewOnExplorer": "এক্সপ্লোরারে দেখুন"
   },
   "header": {
-    "amount": "",
-    "bookmarkedWallets": "",
-    "bridge": "",
+    "amount": "পরিমাণ",
+    "bookmarkedWallets": "বুকমার্ক করা ওয়ালেট",
+    "bridge": "ব্রিজ",
+    "buy": "কেনা",
     "checkout": "চেকআউট",
-    "checkoutDetails": "",
-    "deposit": "",
-    "depositDetails": "",
-    "depositTo": "",
-    "exchange": "",
-    "from": "থেকে সোওয়াপ করুন",
+    "checkoutDetails": "চেকআউটের বিবরণ",
+    "deposit": "ডিপোজিট",
+    "depositWithCash": "ক্যাশ দিয়ে ডিপোজিট করুন",
+    "depositAddress": "ডিপোজিট ঠিকানা",
+    "depositDetails": "ডিপোজিটের বিবরণ",
+    "depositTo": "ডিপোজিটের গন্তব্য",
+    "connectExchange": "এক্সচেঞ্জ কানেক্ট করুন",
+    "transferCrypto": "ক্রিপ্টো ট্রান্সফার করুন",
+    "currency": "মুদ্রা",
+    "exchange": "এক্সচেঞ্জ",
+    "from": "এক্সচেঞ্জের উৎস",
     "gas": "গ্যাস",
-    "payWith": "",
-    "receive": "",
-    "received": "",
-    "recentWallets": "",
-    "refunded": "",
+    "limit": "লিমিট",
+    "payWith": "পেমেন্টের মাধ্যম",
+    "private": "প্রাইভেট",
+    "receive": "গ্রহণ",
+    "received": "গ্রহণ করা হয়েছে",
+    "recentWallets": "সাম্প্রতিক ওয়ালেট",
+    "refunded": "রিফান্ড হয়েছে",
     "selectChain": "চেইন নির্বাচন করুন",
-    "selectWallet": "আপনার ওয়ালেট নির্বাচন করুন",
-    "send": "",
-    "sendToWallet": "",
+    "sell": "বিক্রি",
+    "send": "পাঠানো",
+    "sendToWallet": "ওয়ালেটে পাঠান",
     "settings": "সেটিংস",
-    "swap": "সোওয়াপ",
-    "to": "সোওয়াপ করুন",
-    "transactionDetails": "",
-    "activities": "",
-    "walletConnected": "ওয়ালেট সংযুক্ত",
-    "youGet": "",
-    "youPay": ""
+    "swap": "সোয়াপ",
+    "swapAndBridge": "সোয়াপ ও ব্রিজ",
+    "to": "এক্সচেঞ্জের গন্তব্য",
+    "transactionDetails": "লেনদেনের বিবরণ",
+    "activities": "অ্যাক্টিভিটি",
+    "youPay": "আপনার পেমেন্ট"
+  },
+  "limitOrder": {
+    "custom": "কাস্টম",
+    "expiresIn": "মেয়াদ",
+    "market": "মার্কেট",
+    "partiallyFillable": "আংশিক ফিলের অনুমতি দিন",
+    "price": "লিমিট প্রাইস",
+    "priceLabel": "যখন 1 {{symbol}}-এর দাম হবে"
   },
   "info": {
     "message": {
-      "accountDeployedMessage": "",
-      "unsupportedToAddressMessage": "",
-      "autoRefuel": "আপনার {{chainName}} গ্যাস কম। চালিয়ে যাওয়ার মাধ্যমে, আপনি সোওয়াপ সম্পূর্ণ করার জন্য পর্যাপ্ত গ্যাস পাবেন।",
-      "emptyBridgesList": "",
-      "emptyChainList": "",
-      "emptyExchangesList": "",
-      "emptyTokenListAllNetworks": "",
-      "emptyTransactionHistory": "",
-      "routeNotFound": "",
-      "missingRouteRequiredAccount": ""
+      "accountDeployedMessage": "অন্য চেইনে আপনার স্মার্ট অ্যাকাউন্টের ঠিকানা একই না-ও হতে পারে। এগিয়ে যাওয়ার আগে আবার যাচাই করে নিন।",
+      "unsupportedToAddressMessage": "Stellar ট্রান্সফার সবসময় স্বাক্ষরকারী অ্যাকাউন্টেই সেটেল হয়, তাই এই রুটে অন্য প্রাপক ব্যবহার করা যাবে না।",
+      "autoRefuel": "আপনার {{chainName}} গ্যাস কম। চালিয়ে গেলে লেনদেন সম্পন্ন করার মতো যথেষ্ট গ্যাস পাবেন।",
+      "emptyBridgesList": "আপনার সার্চের সাথে মেলে এমন কোনো ব্রিজ পাওয়া যায়নি",
+      "emptyChainList": "আপনার সার্চের সাথে মেলে এমন কোনো চেইন পাওয়া যায়নি",
+      "emptyExchangesList": "আপনার সার্চের সাথে মেলে এমন কোনো DEX পাওয়া যায়নি",
+      "emptyTokenListAllNetworks": "কোনো টোকেন পাওয়া যায়নি। আপনার টোকেন দেখা না গেলে কন্ট্রাক্ট ঠিকানা দিয়ে খুঁজুন, অথবা অন্য একটি চেইন নির্বাচন করে দেখুন।",
+      "emptyTransactionHistory": "আপনার প্রথম ট্রান্সফার সম্পন্ন হলে লেনদেনগুলো এখানে দেখা যাবে।",
+      "routeNotFound": "এর কারণ হতে পারে: কম লিকুইডিটি, নির্বাচিত পরিমাণ খুব কম, গ্যাস খরচ খুব বেশি, অথবা নির্বাচিত কম্বিনেশনের জন্য কোনো রুট নেই।",
+      "missingRouteRequiredAccount": "এগিয়ে যেতে আপনার {{chainName}} ওয়ালেট কানেক্ট করুন। {{address}}"
     },
     "title": {
-      "autoRefuel": "",
-      "emptyTransactionHistory": "",
-      "routeNotFound": "কোন রুট উপলব্ধ"
+      "autoRefuel": "{{chainName}}-এ গ্যাস পান",
+      "emptyTransactionHistory": "সাম্প্রতিক কোনো লেনদেন নেই",
+      "routeNotFound": "কোনো রুট পাওয়া যায়নি"
     }
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": ""
+      "exchangePartiallySuccessful": "আমরা লেনদেনটি সম্পন্ন করার চেষ্টা করেছি, কিন্তু স্লিপেজ সেটিংস বা {{tokenSymbol}} টোকেনের লিকুইডিটির অভাবে {{tool}} এগোতে পারেনি।"
     },
     "title": {
-      "bridgePartiallySuccessful": "",
-      "bridgeSuccessful": "",
-      "depositSuccessful": "",
-      "checkoutSuccessful": "",
-      "refundIssued": "রিফান্ড জারি করা হয়েছে",
-      "swapPartiallySuccessful": "সোওয়াপ আংশিকভাবে সফল",
-      "swapSuccessful": "সোওয়াপ সফল"
+      "bridgePartiallySuccessful": "ব্রিজ আংশিক সফল হয়েছে",
+      "bridgeSuccessful": "ব্রিজ সফল হয়েছে",
+      "depositSuccessful": "ডিপোজিট সফল হয়েছে",
+      "checkoutSuccessful": "ক্রয় সফল হয়েছে",
+      "refundIssued": "রিফান্ড দেওয়া হয়েছে",
+      "swapPartiallySuccessful": "সোয়াপ আংশিক সফল হয়েছে",
+      "swapSuccessful": "সোয়াপ সফল হয়েছে"
     }
   },
   "warning": {
     "message": {
-      "tokenUnverified": "",
-      "tokenUnverifiedByProvider": "",
-      "accountNotDeployedMessage": "",
-      "lowAddressActivity": "",
-      "clearFailedTransactions": "",
-      "fundsLossPrevention": "",
-      "highValueLoss": "প্রাপ্ত টোকেনগুলির মান সোওয়াপ করা টোকেন এবং লেনদেনের খরচের তুলনায় উল্লেখযোগ্যভাবে কম।",
-      "insufficientFunds": "সোওয়াপ সম্পূর্ণ করার জন্য আপনার কাছে পর্যাপ্ত তহবিল নেই।",
-      "insufficientGas": "সোওয়াপ সম্পূর্ণ করার জন্য আপনার কাছে পর্যাপ্ত গ্যাস নেই। আপনাকে অন্তত যোগ করতে হবে:",
-      "minFromAmountUSD": "",
-      "rateChanged": "বিনিময় হার পরিবর্তিত হয়েছে। সোওয়াপ চালিয়ে যাওয়ার মাধ্যমে, আপনি নতুন হার গ্রহণ করবেন।",
-      "resetSettings": "এটি আপনার রুটের অগ্রাধিকার, স্লিপেজ, গ্যাসের দাম, সক্ষম ব্রিজ এবং এক্সচেঞ্জ রিসেট করবে।",
-      "slippageOutsideRecommendedLimits": "",
-      "slippageUnderRecommendedLimits": ""
+      "tokenUnverified": "যাচাই না করা টোকেন। এগিয়ে যাওয়ার আগে সবসময় নিজে রিসার্চ করে নিন।",
+      "tokenUnverifiedByProvider": "Hypernative {{tokenSymbol}} যাচাই করেনি। এগিয়ে যাওয়ার আগে নিশ্চিত হয়ে নিন যে আপনি এই টোকেনকে বিশ্বাস করেন।",
+      "accountNotDeployedMessage": "গন্তব্য চেইনে এই স্মার্ট কন্ট্রাক্ট অ্যাকাউন্ট নেই। অস্তিত্বহীন স্মার্ট কন্ট্রাক্ট অ্যাকাউন্টে ফান্ড পাঠালে তা চিরতরে হারিয়ে যেতে পারে।",
+      "lowAddressActivity": "{{chainName}} নেটওয়ার্কে এই ঠিকানার অ্যাক্টিভিটি কম। ফান্ড হারানো এড়াতে যাচাই করে নিন যে আপনি সঠিক ঠিকানা ও নেটওয়ার্কে পাঠাচ্ছেন।",
+      "clearFailedTransactions": "ব্যর্থ লেনদেন শুধু আপনার ডিভাইসে সংরক্ষিত থাকে। একবার সরালে আর ফেরত আনা যাবে না।",
+      "fundsLossPrevention": "ফান্ড হারানো এড়াতে সবসময় নিশ্চিত করুন যে গন্তব্য চেইনে স্মার্ট কন্ট্রাক্ট অ্যাকাউন্ট ঠিকভাবে সেট আপ করা আছে, এবং সরাসরি কোনো এক্সচেঞ্জে ট্রান্সফার করবেন না।",
+      "highValueLoss": "প্রাপ্ত টোকেনের মূল্য পাঠানো টোকেন ও লেনদেনের খরচের চেয়ে অনেক কম।",
+      "tokenFlagged": "Hypernative {{tokenSymbol}}-কে ক্ষতিকর হিসেবে চিহ্নিত করেছে। এই টোকেন সোয়াপ করলে আপনার সব ফান্ড হারিয়ে যেতে পারে।",
+      "insufficientFunds": "লেনদেন সম্পন্ন করার মতো যথেষ্ট ফান্ড আপনার কাছে নেই।",
+      "insufficientGas": "লেনদেন সম্পন্ন করার মতো যথেষ্ট গ্যাস আপনার কাছে নেই। আপনাকে কমপক্ষে যোগ করতে হবে:",
+      "minFromAmountUSD": "ন্যূনতম পরিমাণ {{amount, currencyExt(currency: USD)}}। এর চেয়ে বেশি পরিমাণ লিখুন।",
+      "rateChanged": "বিনিময় হার পরিবর্তিত হয়েছে। লেনদেন চালিয়ে গেলে আপনি নতুন হার মেনে নেবেন।",
+      "resetSettings": "এতে আপনার রুট অগ্রাধিকার, স্লিপেজ, গ্যাসের দাম এবং চালু করা ব্রিজ ও DEX রিসেট হবে।",
+      "slippageOutsideRecommendedLimits": "স্লিপেজ টলারেন্স বেশি হলে ফ্রন্ট-রানিংয়ের কারণে আপনি খারাপ দামে ট্রেড পেতে পারেন।",
+      "slippageUnderRecommendedLimits": "স্লিপেজ টলারেন্স কম হলে লেনদেনে দেরি হতে পারে বা লেনদেন ব্যর্থ হতে পারে।"
     },
     "checkbox": {
-      "highValueLoss": ""
+      "highValueLoss": "আমি মূল্যের বড় ক্ষতি মেনে নিচ্ছি",
+      "tokenFlagged": "আমি ঝুঁকি বুঝেছি এবং তবুও এগিয়ে যেতে চাই"
     },
     "title": {
-      "clearFailedTransactions": "",
-      "highValueLoss": "উচ্চ মূল্য ক্ষতি",
+      "clearFailedTransactions": "সব ব্যর্থ লেনদেন সরাবেন?",
+      "highValueLoss": "মূল্যের বড় ক্ষতি",
       "insufficientGas": "অপর্যাপ্ত গ্যাস",
       "rateChanged": "হার পরিবর্তিত হয়েছে",
-      "resetSettings": "রিসেট সেটিংস?",
-      "lowAddressActivity": ""
+      "resetSettings": "সেটিংস রিসেট করবেন?",
+      "tokenFlagged": "ক্ষতিকর টোকেন শনাক্ত হয়েছে",
+      "lowAddressActivity": "কম অ্যাক্টিভিটির ঠিকানা"
     }
   },
   "error": {
     "message": {
-      "allowanceRequired": "",
-      "insufficientFunds": "",
-      "rateLimitExceeded": "",
-      "remainInYourWallet": "",
-      "signatureRejected": "",
-      "slippageThreshold": "স্লিপেজ সংজ্ঞায়িত থ্রেশহোল্ডের চেয়ে বড়। একটি নতুন উদ্ধৃতি পেতে একটি নতুন রুট অনুরোধ করুন।",
-      "thirdPartyError": "",
-      "transactionCanceled": "",
-      "transactionConflict": "",
-      "transactionExpired": "",
-      "transactionRejected": "",
+      "allowanceRequired": "{{tokenSymbol}}-এর ট্রান্সফারের পরিমাণ আপনার বর্তমান অনুমোদনের চেয়ে বেশি। অনুমোদনের পরিমাণ বাড়িয়ে আবার চেষ্টা করুন।",
+      "insufficientFunds": "লেনদেনের খরচ মেটানোর মতো যথেষ্ট গ্যাস আপনার কাছে নেই।",
+      "rateLimitExceeded": "অল্প সময়ে অনেক বেশি অনুরোধ পাঠানো হয়েছে। কিছুক্ষণ অপেক্ষা করে আবার চেষ্টা করুন। সমস্যা থেকে গেলে সাপোর্টে যোগাযোগ করুন।",
+      "remainInYourWallet": "{{chainName}}-এ {{amount, numberExt}} {{tokenSymbol}} আপনার ওয়ালেটেই আছে।",
+      "signatureRejected": "লেনদেন সম্পন্ন করতে আপনার স্বাক্ষর প্রয়োজন। {{chainName}}-এ {{amount, numberExt}} {{tokenSymbol}} আপনার ওয়ালেটেই আছে।",
+      "slippageThreshold": "স্লিপেজ নির্ধারিত সীমার চেয়ে বেশি। নতুন কোটেশনের অনুরোধ করুন।",
+      "thirdPartyError": "একটি বাইরের সার্ভিসে সমস্যার কারণে আমরা আপনার অনুরোধ সম্পন্ন করতে পারিনি। আবার চেষ্টা করুন। সমস্যা থেকে গেলে সাপোর্টে যোগাযোগ করুন।",
+      "transactionCanceled": "লেনদেন বাতিল করা হয়েছে।",
+      "transactionConflict": "একই ফান্ড ব্যবহার করা আরেকটি পেন্ডিং লেনদেনের সাথে কনফ্লিক্ট হওয়ায় এই লেনদেন প্রসেস করা যায়নি। পেন্ডিং লেনদেনটি নিশ্চিত হওয়া পর্যন্ত অপেক্ষা করুন, অথবা আবার চেষ্টা করার আগে আপনার লেনদেনের ইতিহাস দেখে নিন।",
+      "transactionExpired": "ব্লক হাইট সর্বোচ্চ সীমা ছাড়িয়ে গেছে, অথবা ব্লকহ্যাশ আর যথেষ্ট সাম্প্রতিক নয়।",
+      "transactionRejected": "ওয়ালেটের অভ্যন্তরীণ ত্রুটির কারণে লেনদেনটি প্রত্যাখ্যান করা হয়েছে। আবার চেষ্টা করুন অথবা নতুন কোটেশনের অনুরোধ করুন।",
       "transactionFailed": "আরও তথ্যের জন্য ব্লক এক্সপ্লোরার চেক করুন।",
-      "transactionNotSent": "",
-      "transactionSimulationFailed": "",
-      "unknown": "অনুগ্রহ করে আবার চেষ্টা করুন বা সাপোর্ট এর সাথে যোগাযোগ করুন।",
-      "walletChangedDuringExecution": ""
+      "transactionNotSent": "লেনদেন পাঠানো হয়নি।",
+      "transactionSimulationFailed": "সিমুলেশনে লেনদেনটি এক্সিকিউট করা যায়নি।",
+      "unknown": "আবার চেষ্টা করুন অথবা সাপোর্টে যোগাযোগ করুন।",
+      "walletChangedDuringExecution": "যে ওয়ালেট ঠিকানা কোটেশনের অনুরোধ করেছে, তা লেনদেনে স্বাক্ষর করতে চাওয়া ওয়ালেট ঠিকানার সাথে মেলে না। পুরো লেনদেন জুড়ে একই ওয়ালেট ঠিকানা ব্যবহার করুন।"
     },
     "title": {
-      "allowanceRequired": "",
+      "allowanceRequired": "অপর্যাপ্ত অনুমোদন",
       "balanceIsTooLow": "ব্যালেন্স খুব কম",
-      "bookmarkAlreadyExists": "",
-      "bookmarkNameRequired": "",
+      "bookmarkAlreadyExists": "ওয়ালেটটি আগেই {{name}} নামে বুকমার্ক করা আছে",
+      "bookmarkNameRequired": "বুকমার্কের নাম দিতে হবে",
       "chainSwitch": "চেইন সুইচ প্রয়োজন",
-      "exchangeRateUpdateCanceled": "",
+      "exchangeRateUpdateCanceled": "বিনিময় হার আপডেট বাতিল করা হয়েছে",
       "gasLimitIsTooLow": "গ্যাসের সীমা খুব কম",
-      "insufficientFunds": "",
-      "insufficientGas": "",
-      "rateLimitExceeded": "",
-      "signatureRejected": "",
-      "slippageNotMet": "স্লিপেজ শর্ত পূরণ করা হয়নি",
-      "thirdPartyError": "",
+      "insufficientFunds": "অপর্যাপ্ত ফান্ড",
+      "insufficientGas": "অপর্যাপ্ত গ্যাস",
+      "rateLimitExceeded": "অনুরোধের সীমা ছাড়িয়ে গেছে",
+      "signatureRejected": "স্বাক্ষর প্রয়োজন",
+      "slippageNotMet": "স্লিপেজের শর্ত পূরণ হয়নি",
+      "thirdPartyError": "থার্ড-পার্টি সার্ভিস উপলব্ধ নয়",
       "transactionCanceled": "লেনদেন বাতিল করা হয়েছে",
-      "transactionConflict": "",
-      "transactionExpired": "",
+      "transactionConflict": "লেনদেনে কনফ্লিক্ট",
+      "transactionExpired": "লেনদেনের মেয়াদ শেষ",
       "transactionFailed": "লেনদেন ব্যর্থ হয়েছে",
-      "transactionRejected": "",
-      "transactionSimulationFailed": "",
-      "transactionUnderpriced": "লেনদেনের দাম কম",
-      "transactionUnprepared": "লেনদেন প্রস্তুত করতে অক্ষম",
-      "unknown": "কিছু ভুল হয়েছে",
-      "walletAddressInvalid": "",
-      "walletAddressInvalid_chain": "",
+      "transactionRejected": "লেনদেন প্রত্যাখ্যান করা হয়েছে",
+      "transactionSimulationFailed": "লেনদেনের সিমুলেশন ব্যর্থ হয়েছে",
+      "transactionUnderpriced": "লেনদেনের গ্যাসের দাম খুব কম",
+      "transactionUnprepared": "লেনদেন প্রস্তুত করা যায়নি",
+      "unknown": "কিছু একটা ভুল হয়েছে",
+      "walletAddressInvalid": "ওয়ালেট ঠিকানা বা ডোমেইন নাম সঠিক নয়",
+      "walletAddressInvalid_chain": "নির্বাচিত গন্তব্য চেইন {{chainName}}-এর জন্য ওয়ালেট ঠিকানা বা ডোমেইন নাম সঠিক নয়",
       "walletAddressRequired": "ওয়ালেট ঠিকানা প্রয়োজন।",
-      "walletChainTypeInvalid": "",
-      "walletMismatch": "",
-      "zcashAddressInvalid": ""
+      "walletChainTypeInvalid": "ওয়ালেট ঠিকানা নির্বাচিত গন্তব্য চেইন {{chainName}}-এর সাথে মেলে না",
+      "walletMismatch": "ওয়ালেট ঠিকানা মেলেনি",
+      "zcashAddressInvalid": "একটি ট্রান্সপারেন্ট Zcash ঠিকানা (t1 বা t3) অথবা Orchard রিসিভারসহ একটি ইউনিফায়েড ঠিকানা (u1) দিন। Sapling (zs1) ও TEX ঠিকানা সমর্থিত নয়।"
     }
   },
   "tooltip": {
-    "deselectAll": "",
-    "estimatedTime": "",
-    "exchangeRate": "",
-    "feeCollection": "",
-    "minReceived": "",
+    "deselectAll": "সব নির্বাচন বাতিল করুন",
+    "estimatedTime": "চেইন সুইচ ও টোকেন অনুমোদন বাদে সোয়াপ বা ব্রিজ লেনদেন সম্পন্ন হতে যে সময় লাগে।",
+    "exchangeRate": "উৎস ও গন্তব্য টোকেনের মধ্যে আনুমানিক বিনিময় হার। দিক বদলাতে ক্লিক করুন।",
+    "feeCollection": "নির্বাচিত টোকেন পেয়ারে এই ফি প্রযোজ্য, যাতে আমরা সেরা অভিজ্ঞতা দিতে পারি।",
+    "minReceived": "সোয়াপ/ব্রিজ লেনদেনে স্বাক্ষর না করা পর্যন্ত আনুমানিক ন্যূনতম পরিমাণ বদলাতে পারে। 2-ধাপের ট্রান্সফারে দ্বিতীয় ধাপের লেনদেনে স্বাক্ষর না করা পর্যন্ত এটি প্রযোজ্য।",
     "notFound": {
-      "text": "আমরা এই পৃষ্ঠাটি খুঁজে পাইনি।",
-      "title": "৪০৪"
+      "text": "আমরা এই পেজটি খুঁজে পাইনি।",
+      "title": "404"
     },
-    "multistep": "",
-    "gasless": "",
-    "numberOfSteps": "",
-    "priceImpact": "",
-    "progressToNextUpdate": "প্রদর্শিত ডেটা {{value}} সেকেন্ড পরে স্বয়ংক্রিয়ভাবে রিফ্রেশ হবে। ম্যানুয়ালি আপডেট করতে এখানে ক্লিক করুন।",
-    "selectAll": "",
+    "multistep": "এই রুটে ট্রান্সফার সম্পন্ন করতে একাধিক লেনদেন লাগে। প্রতিটি ধাপে স্বাক্ষর প্রয়োজন এমন 1-2টি লেনদেন থাকতে পারে।",
+    "gasless": "গ্যাস আমরা দিই, তাই নেটিভ টোকেন ছাড়াই আপনি অ্যাসেট ট্রান্সফার করতে পারেন। নেটওয়ার্ক ফি ট্রান্সফারের মধ্যেই ধরা আছে।",
+    "priceImpact": "উৎস ও গন্তব্য টোকেনের মধ্যে আনুমানিক মূল্যের পার্থক্য।",
+    "progressToNextUpdate": "{{value}} সেকেন্ড পরে কোটেশন আপডেট হবে। <0/> এখনই আপডেট করতে এখানে ক্লিক করুন।",
+    "selectAll": "সব নির্বাচন করুন",
     "settingsModified": "সেটিংস (পরিবর্তিত)",
-    "slippage": ""
+    "slippage": "প্রত্যাশিত দাম এবং যে প্রকৃত দামে ট্রান্সফার সম্পন্ন হয়, এই দুইয়ের মধ্যে সর্বোচ্চ শতাংশ পার্থক্য। এই মান সেটিংসে পরিবর্তন করা যায়।",
+    "tokenNative": "{{tokenSymbol}} এই নেটওয়ার্কের নেটিভ টোকেন।",
+    "tokenNativeOnChain": "{{tokenSymbol}} হলো {{chainName}}-এর নেটিভ টোকেন।",
+    "tokenVerified": "{{tokenSymbol}} যাচাই করা হয়েছে।",
+    "tokenVerifiedByProvider": "{{provider}} {{tokenSymbol}} যাচাই করেছে।"
   },
   "main": {
-    "allNetworks": "",
-    "allTokens": "",
-    "bridgeStepDetails": "",
-    "checkoutStepDetails": "",
+    "allNetworks": "সব নেটওয়ার্ক",
+    "allTokens": "সব টোকেন",
+    "bridgeStepDetails": "{{tool}}-এর মাধ্যমে {{from}} থেকে {{to}}-তে ব্রিজ",
+    "checkoutStepDetails": "{{tool}}-এর মাধ্যমে ক্রয়",
     "currentAmount": "বর্তমান পরিমাণ",
-    "depositStepDetails": "",
-    "estimatedTime": "",
-    "exchangeRate": "",
-    "featuredTokens": "বৈশিষ্ট্যযুক্ত টোকেন",
+    "depositStepDetails": "{{tool}}-এর মাধ্যমে ডিপোজিট",
+    "estimatedTime": "আনুমানিক সময়",
+    "exchangeRate": "বিনিময় হার",
+    "featuredTokens": "ফিচার্ড টোকেন",
     "fees": {
-      "defaultIntegrator": "",
-      "relayerService": "",
-      "estimated": "",
-      "free": "",
-      "network": "",
-      "paid": "",
-      "provider": ""
+      "defaultIntegrator": "ইন্টিগ্রেটর ফি",
+      "relayerService": "গ্যাসলেস সার্ভিস",
+      "free": "ফ্রি",
+      "network": "নেটওয়ার্ক ফি",
+      "provider": "প্রোভাইডার ফি"
     },
     "from": "থেকে",
-    "inProgress": "প্রক্রিয়াধীন",
-    "maxSlippage": "",
-    "minReceived": "",
-    "myTokens": "",
-    "onChain": "{{chainName}} -এ",
+    "maxSlippage": "সর্বোচ্চ স্লিপেজ",
+    "minReceived": "ন্যূনতম প্রাপ্ত পরিমাণ",
+    "myTokens": "আমার টোকেন",
     "ownedBy": "মালিক",
-    "pinnedTokens": "",
-    "popularTokens": "",
-    "priceImpact": "",
+    "pinnedTokens": "পিন করা টোকেন",
+    "popularTokens": "জনপ্রিয় টোকেন",
+    "priceImpact": "প্রাইস ইমপ্যাক্ট",
     "process": {
       "bridge": {
-        "actionRequired": "",
-        "messageRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "ব্রিজ লেনদেনে স্বাক্ষর করুন",
+        "messageRequired": "ব্রিজ মেসেজে স্বাক্ষর করুন",
+        "done": "ব্রিজ লেনদেন নিশ্চিত হয়েছে",
+        "pending": "ব্রিজ লেনদেন পেন্ডিং",
+        "started": "ব্রিজ লেনদেন প্রস্তুত করা হচ্ছে"
       },
       "checkout": {
-        "done": ""
+        "done": "ক্রয় সম্পন্ন হয়েছে"
       },
       "deposit": {
-        "done": ""
+        "done": "ডিপোজিট সম্পন্ন হয়েছে"
       },
       "receivingChain": {
         "done": "ব্রিজ সম্পন্ন হয়েছে",
-        "partial": "ব্রিজ আংশিকভাবে সম্পন্ন হয়েছে",
-        "pending": "গন্তব্য চেইন এর জন্য অপেক্ষা",
-        "refunded": "ব্রিজ লেনদেন ফেরত করা হয়েছে"
+        "partial": "ব্রিজ আংশিক সম্পন্ন হয়েছে",
+        "pending": "গন্তব্য চেইনের অপেক্ষায়"
       },
       "swap": {
-        "actionRequired": "",
-        "messageRequired": "",
-        "done": "সোওয়াপ সম্পন্ন হয়েছে",
-        "pending": "",
+        "actionRequired": "সোয়াপ লেনদেনে স্বাক্ষর করুন",
+        "messageRequired": "সোয়াপ মেসেজে স্বাক্ষর করুন",
+        "done": "সোয়াপ সম্পন্ন হয়েছে",
+        "pending": "সোয়াপ লেনদেন পেন্ডিং",
         "started": "সোয়াপ লেনদেন প্রস্তুত করা হচ্ছে"
       },
       "permit": {
-        "actionRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "পারমিট মেসেজে স্বাক্ষর করুন",
+        "done": "পারমিট মেসেজে স্বাক্ষর করা হয়েছে",
+        "pending": "পারমিট মেসেজের অপেক্ষায়",
+        "started": "লেনদেন প্রস্তুত করা হচ্ছে"
       },
       "tokenAllowance": {
-        "actionRequired": "",
-        "resetRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "{{tokenSymbol}} খরচ অনুমোদন করুন",
+        "resetRequired": "{{tokenSymbol}} খরচের অনুমোদন প্রত্যাহার করুন",
+        "done": "{{tokenSymbol}} খরচ অনুমোদিত হয়েছে",
+        "pending": "{{tokenSymbol}} অনুমোদন পেন্ডিং",
+        "started": "অনুমোদন লেনদেন প্রস্তুত করা হচ্ছে"
       }
     },
-    "quotedAmount": "উদ্ধৃত পরিমাণ",
-    "rateChange": "রেট পরিবর্তন",
-    "receiving": "রিসিভিং",
-    "recentSearches": "",
-    "refuelStepDetails": "{{tool}} এর মাধ্যমে গ্যাস পান",
-    "route": "",
-    "select": "",
-    "sendToAddress": "{{address}} এ পাঠান",
+    "quotedAmount": "কোটেশনের পরিমাণ",
+    "rateChange": "হার পরিবর্তন",
+    "receiving": "গ্রহণ করা হচ্ছে",
+    "recentSearches": "সাম্প্রতিক সার্চ",
+    "refuelStepDetails": "{{tool}}-এর মাধ্যমে গ্যাস পান",
+    "route": "রুট",
+    "select": "নির্বাচন করুন",
     "sendToWallet": "অন্য ওয়ালেটে পাঠান",
-    "sending": "",
-    "sentToAddress": "{{address}} এ পাঠানো হয়েছে",
-    "stepBridge": "ব্রিজ",
-    "stepBridgeAndBuy": "",
-    "stepBridgeAndDeposit": "",
-    "stepBuy": "",
-    "stepDeposit": "",
-    "stepDetails": "লি.ফাই এর মাধ্যমে {{tool}}",
-    "stepSwap": "সোওয়াপ",
-    "stepSwapAndBridge": "সোওয়াপ এবং ব্রিজ",
-    "stepSwapAndBuy": "",
-    "stepSwapAndDeposit": "",
-    "swapStepDetails": "{{tool}} এর মাধ্যমে {{chain}} এ সোওয়াপ করুন",
-    "receipts": "",
-    "sentToWallet": "",
-    "transferId": "",
+    "sending": "পাঠানো হচ্ছে",
+    "swapStepDetails": "{{tool}}-এর মাধ্যমে {{chain}}-এ সোয়াপ",
+    "receipts": "রসিদ",
+    "sentToWallet": "ওয়ালেটে পাঠানো হয়েছে",
+    "transferId": "ট্রান্সফার আইডি",
     "tags": {
-      "cheapest": "",
-      "fastest": "",
-      "gasless": "",
-      "multistep": ""
+      "cheapest": "সেরা রিটার্ন",
+      "fastest": "দ্রুততম",
+      "gasless": "গ্যাসলেস",
+      "multistep": "একাধিক ধাপ"
     },
-    "to": "প্রতি",
-    "tokenOnChain": "{{chainName}} -এ {{tokenSymbol}}",
-    "tokenOnChainAmount": "",
-    "tokenSearch": "",
-    "valueLoss": "মান ক্ষতি",
-    "searchBridges": "",
-    "searchExchanges": "",
-    "searchNetwork": ""
+    "to": "গন্তব্য",
+    "tokenOnChain": "{{chainName}}-এ {{tokenSymbol}}",
+    "tokenOnChainAmount": "{{chainName}}-এ {{amount, numberExt}} {{tokenSymbol}}",
+    "tokenSearch": "টোকেন বা ঠিকানা দিয়ে খুঁজুন",
+    "valueLoss": "মূল্যের ক্ষতি",
+    "searchBridges": "ব্রিজের নাম দিয়ে খুঁজুন",
+    "searchCurrency": "মুদ্রা খুঁজুন",
+    "searchExchanges": "DEX-এর নাম দিয়ে খুঁজুন",
+    "searchNetwork": "নেটওয়ার্ক খুঁজুন"
   },
   "settings": {
-    "appearance": "",
-    "enabledBridges": "",
-    "enabledExchanges": "",
+    "appearance": "থিম",
+    "enabledBridges": "ব্রিজ",
+    "enabledExchanges": "DEX",
     "gasPrice": {
       "fast": "দ্রুত",
       "normal": "স্বাভাবিক",
-      "slow": "ধীরে",
+      "slow": "ধীর",
       "title": "গ্যাসের দাম"
     },
     "routePriority": "রুট অগ্রাধিকার",
-    "slippage": "",
-    "custom": "",
-    "resetSettings": "",
-    "hideSmallBalances": ""
+    "routePriorityOptions": {
+      "cheapest": {
+        "title": "সেরা রিটার্ন",
+        "description": "সবচেয়ে কম নেটওয়ার্ক ফি"
+      },
+      "fastest": {
+        "title": "দ্রুততম",
+        "description": "সবচেয়ে কম এক্সিকিউশন সময়"
+      }
+    },
+    "slippage": "সর্বোচ্চ স্লিপেজ",
+    "slippageAutoDescription": "প্রতিটি রুটের জন্য অপটিমাইজ করা",
+    "custom": "কাস্টম",
+    "resetSettings": "আপনি কাস্টম সেটিংস ব্যবহার করছেন, যা উপলব্ধ রুটের সংখ্যা বা ক্রমকে প্রভাবিত করতে পারে।",
+    "hideSmallBalances": "ছোট ব্যালেন্স লুকান"
   },
   "sendToWallet": {
-    "addBookmark": "",
-    "bookmarkWallet": "",
-    "confirmWalletAddress": "",
-    "connectedWallets": "",
-    "enterAddress_long": "",
-    "enterAddress_short": "",
-    "enterName": "",
-    "noBookmarkedWallets": "",
-    "noBookmarkedWalletsMessage": "",
-    "noConnectedWallets": "",
-    "noConnectedWalletsMessage": "",
-    "noRecentWallets": "",
-    "noRecentWalletsMessage": "",
-    "required": ""
+    "addBookmark": "বুকমার্ক যোগ করুন",
+    "bookmarkWallet": "ওয়ালেট বুকমার্ক করুন",
+    "confirmWalletAddress": "ওয়ালেট ঠিকানা নিশ্চিত করুন",
+    "connectedWallets": "কানেক্ট করা ওয়ালেট",
+    "enterAddress_long": "ঠিকানা বা ওয়ালেট ডোমেইন লিখুন",
+    "enterAddress_short": "ওয়ালেট ঠিকানা লিখুন",
+    "enterName": "নাম লিখুন",
+    "noBookmarkedWallets": "কোনো বুকমার্ক করা ওয়ালেট নেই",
+    "noBookmarkedWalletsMessage": "দ্রুত ব্যবহারের জন্য প্রায়ই ব্যবহৃত ওয়ালেট ঠিকানা সেভ করে রাখুন।",
+    "noConnectedWallets": "কোনো কানেক্ট করা ওয়ালেট নেই",
+    "noConnectedWalletsMessage": "এখানে তালিকায় দেখতে একটি ওয়ালেট কানেক্ট করুন।",
+    "noRecentWallets": "কোনো সাম্প্রতিক ওয়ালেট নেই",
+    "noRecentWalletsMessage": "আপনার সম্প্রতি ব্যবহৃত ওয়ালেট ঠিকানা এখানে দেখা যাবে।",
+    "required": "আবশ্যক"
   },
   "tokenMetric": {
-    "currentPrice": "",
-    "contractAddress": "",
-    "marketCap": "",
-    "volume24h": "",
-    "status": "",
-    "statusFlagged": "",
-    "statusUnverified": "",
-    "statusVerified": ""
+    "currentPrice": "বর্তমান দাম",
+    "contractAddress": "কন্ট্রাক্ট ঠিকানা",
+    "marketCap": "মার্কেট ক্যাপ",
+    "volume24h": "24 ঘণ্টার ভলিউম",
+    "status": "স্ট্যাটাস",
+    "statusFlagged": "Hypernative এটিকে ক্ষতিকর হিসেবে চিহ্নিত করেছে। এই টোকেন ট্রেড করলে আপনার সব ফান্ড হারিয়ে যেতে পারে।",
+    "statusUnverified": "Hypernative যাচাই করেনি",
+    "statusVerified": "Hypernative যাচাই করেছে। ভুল ফলাফল আসতে পারে, এবং এসব সতর্কতার জন্য আমরা কোনো দায় নিই না। কোনো পদক্ষেপ নেওয়ার আগে সবসময় নিজে রিসার্চ করে নিন।"
+  },
+  "tags": {
+    "connected": "কানেক্ট করা",
+    "getStarted": "শুরু করুন",
+    "installed": "ইনস্টল করা",
+    "multichain": "মাল্টি-চেইন",
+    "qrCode": "QR কোড"
+  },
+  "checkout": {
+    "closeConfirmation": {
+      "title": "চেকআউট থেকে বের হবেন?",
+      "body": "বন্ধ করলে আপনার ডিপোজিট বাতিল হবে না। যেকোনো সময় এখানে ফিরে এসে এর স্ট্যাটাস দেখতে পারবেন।",
+      "confirm": "চেকআউট বন্ধ করুন",
+      "cancel": "বাতিল করুন"
+    },
+    "abandonConfirmation": {
+      "title": "এই ট্রান্সফার বাতিল করবেন?",
+      "body": "আপনার ডিপোজিটের বিবরণ মুছে ফেলা হবে। বাতিল করার পর এই ঠিকানায় ফান্ড পাঠাবেন না।",
+      "confirm": "ট্রান্সফার বাতিল করুন",
+      "cancel": "ট্রান্সফার রাখুন"
+    },
+    "activity": {
+      "title": "অ্যাক্টিভিটি",
+      "deposit": "ডিপোজিট",
+      "amountOnChain": "{{chain}}-এ {{amount}} {{symbol}}",
+      "depositInProgress": "ডিপোজিট চলছে",
+      "refundInProgress": "রিফান্ড চলছে",
+      "couldNotComplete": "সম্পন্ন করা যায়নি",
+      "singleFailed": "ডিপোজিট ব্যর্থ হয়েছে। সমাধান করুন",
+      "dismiss": "বাদ দিন"
+    },
+    "transak": {
+      "forceClose": {
+        "tooltip": "বন্ধ করুন (লেনদেন আর চালু হবে না)"
+      }
+    },
+    "legal": {
+      "termsDisclaimer": "চালিয়ে গেলে আপনি LI.FI-এর <terms>সার্ভিসের শর্তাবলি</terms> মেনে নিচ্ছেন।"
+    },
+    "resume": {
+      "notFoundToast": "আপনার লেনদেন খুঁজে পাওয়া যায়নি। আবার শুরু করুন, অথবা এটি ভুল মনে হলে সাপোর্টে যোগাযোগ করুন।"
+    },
+    "transferDeposit": {
+      "warning": "<b>{{chain}}</b>-এ কমপক্ষে <b>{{amount}} {{symbol}}</b> পাঠান। ভুল টোকেন বা চেইনে পাঠালে তা আর ফেরত না-ও পাওয়া যেতে পারে।",
+      "expiresIn": "{{minutes}}:{{seconds}} পরে ডিপোজিট ঠিকানার মেয়াদ শেষ হবে",
+      "copyAddress": "ঠিকানা কপি করুন",
+      "addressCopied": "কপি করা হয়েছে!",
+      "polling": "আপনার ডিপোজিটের অপেক্ষায়…",
+      "detailsTitle": "ডিপোজিটের বিবরণ",
+      "table": {
+        "required": "প্রয়োজন",
+        "received": "প্রাপ্ত",
+        "minRefundable": "ন্যূনতম রিফান্ডযোগ্য",
+        "remaining": "বাকি",
+        "excess": "অতিরিক্ত",
+        "timeRemaining": "বাকি সময়"
+      },
+      "errors": {
+        "unexpected": {
+          "title": "অপ্রত্যাশিত ডিপোজিট",
+          "description": "আমরা এমন একটি ডিপোজিট পেয়েছি যা কোনো সমর্থিত রুটের সাথে মেলে না। পরবর্তী পদক্ষেপের জন্য সাপোর্টে যোগাযোগ করুন।"
+        },
+        "amountLowThreshold": {
+          "title": "ডিপোজিট অসম্পূর্ণ",
+          "description": "অর্ডার সম্পন্ন করতে অথবা রিফান্ড চালু করতে টপ আপ করুন।"
+        },
+        "amountLowTopUp": {
+          "title": "ডিপোজিট অসম্পূর্ণ",
+          "description": "ডিপোজিটের সময় শেষ হওয়ার আগে বাকি পরিমাণ পাঠান।"
+        },
+        "amountLowExpired": {
+          "title": "ডিপোজিট অসম্পূর্ণ",
+          "description": "ডিপোজিটের সময় শেষ হয়ে গেছে। প্রাপ্ত পরিমাণের জন্য আপনি রিফান্ডের অনুরোধ করতে পারেন।"
+        },
+        "excessHeld": {
+          "title": "অতিরিক্ত পরিমাণ রাখা আছে",
+          "description": "আপনার অর্ডার প্রসেস হচ্ছে। অতিরিক্ত পরিমাণ রাখা আছে — তা ফেরত পেতে রিফান্ডের অনুরোধ করুন।"
+        },
+        "lateArrival": {
+          "title": "ডিপোজিট দেরিতে এসেছে",
+          "description": "ডিপোজিটের সময় শেষ হওয়ার পর আপনার ফান্ড আমাদের কাছে পৌঁছেছে। চালিয়ে যেতে আবার সক্রিয় করতে পারেন, অথবা রিফান্ডের অনুরোধ করতে পারেন।"
+        },
+        "addressExpired": {
+          "title": "ডিপোজিট ঠিকানার মেয়াদ শেষ",
+          "description": "কোনো ফান্ড না পেয়েই ডিপোজিট ঠিকানার মেয়াদ শেষ হয়ে গেছে। নতুন একটি ডিপোজিট ঠিকানা দিয়ে আবার চেষ্টা করতে পারেন।"
+        },
+        "marketMoved": {
+          "title": "লেনদেন ব্যর্থ হয়েছে",
+          "description": "আপনার অর্ডার সম্পন্ন হওয়ার আগেই বিনিময় হার বদলে গেছে। আপনার ফান্ড নিরাপদ — রিফান্ড শুরু হয়েছে।"
+        }
+      }
+    },
+    "fiatCurrency": {
+      "label": "পেমেন্টের মাধ্যম"
+    },
+    "cashCurrency": {
+      "error": "এই মুহূর্তে মুদ্রার তালিকা লোড করা যাচ্ছে না। আবার চেষ্টা করুন।"
+    },
+    "cashQuote": {
+      "totalFeesLabel": "মোট ফি",
+      "feeFallback": "ফি {{index}}",
+      "refundNote": "আপনি কমপক্ষে {{value}} পাবেন, অথবা পুরো রিফান্ড পাবেন।"
+    },
+    "cashHandoff": {
+      "title": "Transak-এ আপনি পেমেন্ট সম্পন্ন করবেন",
+      "body": "আপনার পেমেন্ট আপনার ব্যক্তিগত ওয়ালেটে নয়, বরং এই ক্রয়ের জন্য আমাদের তৈরি একটি অস্থায়ী ডিপোজিট ঠিকানার মধ্য দিয়ে যায়। এটি স্বাভাবিক, এবং স্বয়ংক্রিয়ভাবে হয়।",
+      "addressLabel": "ডিপোজিট ঠিকানা",
+      "addressHint": "Transak-এও আপনি এই একই ঠিকানা দেখবেন।",
+      "continue": "Transak-এ চালিয়ে যান",
+      "goBack": "ফিরে যান"
+    },
+    "transactionStatus": {
+      "detailsTitle": "লেনদেনের বিবরণ",
+      "watching": "লেনদেনের অপেক্ষায়",
+      "executing": "লেনদেন প্রসেস হচ্ছে",
+      "success": "লেনদেন সফল হয়েছে",
+      "seeDetails": "বিবরণ দেখুন",
+      "steps": {
+        "receive": {
+          "upcoming": "{{symbol}} গ্রহণ",
+          "loading": "{{symbol}} গ্রহণ করা হচ্ছে",
+          "done": "{{symbol}} গ্রহণ করা হয়েছে"
+        },
+        "swap": {
+          "upcoming": "{{symbol}}-তে সোয়াপ",
+          "loading": "{{symbol}}-তে সোয়াপ করা হচ্ছে",
+          "done": "{{symbol}}-তে সোয়াপ করা হয়েছে"
+        },
+        "bridge": {
+          "upcoming": "{{chain}}-এ ব্রিজ",
+          "loading": "{{chain}}-এ ব্রিজ করা হচ্ছে",
+          "done": "{{chain}}-এ ব্রিজ করা হয়েছে"
+        }
+      }
+    },
+    "chooseFundingSource": "ফান্ডের উৎস বেছে নিন",
+    "whereToSendIt": "কোথায় পাঠাবেন",
+    "walletAddressOrEns": "ওয়ালেট ঠিকানা বা ENS নাম",
+    "insufficientFunds": "অপর্যাপ্ত ফান্ড — {{chain}}-এ আপনার যথেষ্ট {{symbol}} নেই। আবার চেষ্টা করতে অন্য একটি টোকেন নির্বাচন করুন।",
+    "routeNotFound": {
+      "title": "এখানে এই টোকেন কেনা যাবে না",
+      "description": "আপনার নির্বাচিত পেমেন্ট পদ্ধতিতে এই টোকেন পাওয়া যায় না। অন্য একটি টোকেন বেছে নিন, অথবা কানেক্ট করা ওয়ালেট থেকে পেমেন্ট করুন।"
+    },
+    "useYourTokens": "আপনার টোকেন ব্যবহার করুন",
+    "buyTokens": "টোকেন কিনুন",
+    "or": "অথবা",
+    "payFromWallet": "ওয়ালেট থেকে পেমেন্ট করুন",
+    "payFromWalletSubtitle": "একটি ব্রাউজার ওয়ালেট কানেক্ট করুন",
+    "transferCrypto": "ক্রিপ্টো ট্রান্সফার করুন",
+    "transferCryptoSubtitle": "যেকোনো ওয়ালেট থেকে",
+    "connectExchange": "এক্সচেঞ্জ কানেক্ট করুন",
+    "connectExchangeSubtitle": "আপনার এক্সচেঞ্জ অ্যাকাউন্ট লিংক করুন",
+    "payWithExchange": "{{exchange}} দিয়ে পেমেন্ট করুন",
+    "reuseExchangeSubtitle": "আপনার লিংক করা অ্যাকাউন্ট দিয়ে চালিয়ে যান",
+    "depositWithCash": "ক্যাশ দিয়ে ডিপোজিট করুন",
+    "depositWithCashSubtitle": "ডেবিট বা ক্রেডিট কার্ড",
+    "connectWallet": "ওয়ালেট কানেক্ট করুন",
+    "useAnotherWallet": "অন্য একটি ওয়ালেট ব্যবহার করুন",
+    "progress": {
+      "title": "ক্রয় চলছে",
+      "description": "আমরা আপনার ক্রয় প্রসেস করছি। এতে কয়েক মিনিট লাগতে পারে।"
+    },
+    "onramp": {
+      "errors": {
+        "MISSING_API_URL": "{{providerName}} কনফিগার করা হয়নি: চেকআউটে sdkConfig.apiUrl সেট করুন।",
+        "MISSING_API_KEY": "{{providerName}} কনফিগার করা হয়নি: চেকআউট সেশন কল করতে widget apiKey সেট করুন।",
+        "TARGET_NOT_CONFIGURED": "{{providerName}}-এর গন্তব্য কনফিগার করা হয়নি: widget.toChain ও widget.toToken সেট করুন।",
+        "INVALID_RESPONSE": "{{providerName}} সেশন API-এর রেসপন্স সঠিক নয়।",
+        "NETWORK_ERROR": "{{providerName}} সেশন শুরু করার সময় নেটওয়ার্ক ত্রুটি হয়েছে।",
+        "SESSION_HTTP": "{{providerName}} সেশন শুরু করা যায়নি ({{status}})। পরে আবার চেষ্টা করুন।",
+        "generic": "কিছু একটা ভুল হয়েছে। পরে আবার চেষ্টা করুন।"
+      },
+      "failure": {
+        "transferTitle": "লেনদেন ব্যর্থ হয়েছে - রিফান্ড করা হচ্ছে",
+        "transferDescription": "কয়েকবার চেষ্টা করেও আমরা ট্রান্সফার সম্পন্ন করতে পারিনি। যে ওয়ালেট থেকে ফান্ড পাঠানো হয়েছিল, সেখানে তা রিফান্ড করা হচ্ছে।"
+      }
+    },
+    "status": {
+      "successCompleted": {
+        "title": "লেনদেন সফল হয়েছে",
+        "description": "আপনার লেনদেন সফলভাবে সম্পন্ন হয়েছে।"
+      },
+      "successPartial": {
+        "title": "আংশিক সম্পন্ন হয়েছে",
+        "description": "আপনার লেনদেন সম্পন্ন হয়েছে, কিন্তু প্রাপ্ত টোকেনের কিছু অংশ অনুরোধ করা গন্তব্য টোকেন নয়। আপনি কী পেয়েছেন তা দেখতে বিবরণ খুলুন।"
+      },
+      "successRefund": {
+        "title": "রিফান্ড সম্পন্ন হয়েছে",
+        "description": "আপনার লেনদেন সম্পন্ন করা যায়নি এবং আপনার ফান্ড রিফান্ড করা হয়েছে।"
+      },
+      "pendingDefault": {
+        "title": "লেনদেন প্রসেস হচ্ছে",
+        "description": "আপনার লেনদেন প্রসেস করা হচ্ছে। এতে কয়েক মিনিট লাগতে পারে।"
+      },
+      "pendingRefund": {
+        "title": "রিফান্ড চলছে",
+        "description": "আমরা আপনার ফান্ড ফেরত পাঠাচ্ছি। সাধারণত এতে কয়েক মিনিট লাগে।"
+      },
+      "pendingRetrying": {
+        "title": "লেনদেন আবার চেষ্টা করা হচ্ছে",
+        "description": "একটি সমস্যা হয়েছে, তাই আমরা স্বয়ংক্রিয়ভাবে আপনার লেনদেন আবার চেষ্টা করছি।"
+      },
+      "errorExpired": {
+        "title": "লেনদেনের মেয়াদ শেষ",
+        "description": "লেনদেনের সময় শেষ হয়ে গেছে। আবার চেষ্টা করুন।"
+      },
+      "errorFailed": {
+        "title": "লেনদেন ব্যর্থ হয়েছে",
+        "description": "আমরা আপনার লেনদেন সম্পন্ন করতে পারিনি। আবার চেষ্টা করুন অথবা সাপোর্টে যোগাযোগ করুন।"
+      },
+      "errorConnection": {
+        "title": "কানেক্ট করা যায়নি",
+        "description": "আমরা পেমেন্ট প্রোভাইডারের সাথে কানেক্ট করতে পারিনি। আবার চেষ্টা করুন অথবা সাপোর্টে যোগাযোগ করুন।",
+        "exchange": {
+          "title": "এক্সচেঞ্জ কানেক্ট করা যায়নি",
+          "description": "আমরা আপনার এক্সচেঞ্জ অ্যাকাউন্টের সাথে কানেক্ট করতে পারিনি। আবার চেষ্টা করুন অথবা সাপোর্টে যোগাযোগ করুন।"
+        }
+      },
+      "errorWithdrawal": {
+        "title": "উইথড্র ব্যর্থ হয়েছে",
+        "description": "পেমেন্ট প্রোভাইডার আপনার উইথড্র প্রসেস করতে পারেনি। আপনার ফান্ড আপনার অ্যাকাউন্টেই আছে।",
+        "cash": {
+          "title": "পেমেন্ট সম্পন্ন হয়নি",
+          "description": "আপনার পেমেন্ট সম্পন্ন হয়নি। আপনার কাছ থেকে কোনো ফান্ড নেওয়া হয়নি।"
+        },
+        "exchange": {
+          "title": "এক্সচেঞ্জ থেকে উইথড্র ব্যর্থ হয়েছে",
+          "description": "আপনার এক্সচেঞ্জ উইথড্র প্রসেস করতে পারেনি। আপনার ফান্ড আপনার এক্সচেঞ্জ অ্যাকাউন্টেই আছে।"
+        }
+      },
+      "errorCancelled": {
+        "title": "লেনদেন বাতিল করা হয়েছে",
+        "description": "আপনার লেনদেন বাতিল করা হয়েছে। প্রস্তুত হলে যেকোনো সময় আবার চেষ্টা করতে পারেন।",
+        "cash": {
+          "title": "পেমেন্ট বাতিল করা হয়েছে",
+          "description": "আপনি পেমেন্ট উইন্ডো বন্ধ করেছেন। আপনার অর্ডার দেওয়া হয়নি।"
+        }
+      },
+      "errorUnavailable": {
+        "title": "সার্ভিস উপলব্ধ নয়",
+        "description": "পেমেন্ট প্রোভাইডার সাময়িকভাবে উপলব্ধ নয়। পরে আবার চেষ্টা করুন অথবা সাপোর্টে যোগাযোগ করুন।",
+        "cash": {
+          "title": "কার্ড পেমেন্ট উপলব্ধ নয়",
+          "description": "কার্ড পেমেন্ট সাময়িকভাবে উপলব্ধ নয়। পরে আবার চেষ্টা করুন অথবা অন্য পদ্ধতি ব্যবহার করুন।"
+        }
+      },
+      "walletDisconnected": {
+        "title": "ওয়ালেট ডিসকানেক্ট হয়েছে",
+        "description": "লেনদেন চলার সময় আপনার ওয়ালেট ডিসকানেক্ট হয়ে গেছে। আবার কানেক্ট করে চেষ্টা করুন।"
+      },
+      "walletErrorFailed": {
+        "title": "লেনদেন ব্যর্থ হয়েছে",
+        "description": "আমরা আপনার লেনদেন সম্পন্ন করতে পারিনি। বিবরণ দেখুন অথবা আবার চেষ্টা করুন।"
+      },
+      "walletErrorExpired": {
+        "title": "অর্ডারের মেয়াদ শেষ",
+        "description": "আপনার অর্ডার প্রসেস হওয়ার আগেই লেনদেনের সময় শেষ হয়ে গেছে। আবার চেষ্টা করুন।"
+      },
+      "walletPendingRefund": {
+        "title": "রিফান্ড চলছে",
+        "description": "যে ওয়ালেট থেকে পেমেন্ট করেছিলেন, আমরা সেখানে আপনার ফান্ড ফেরত পাঠাচ্ছি। সাধারণত এতে কয়েক মিনিট লাগে।"
+      },
+      "walletSuccessRefund": {
+        "title": "রিফান্ড সম্পন্ন হয়েছে",
+        "description": "আপনার লেনদেন সম্পন্ন করা যায়নি এবং আপনার ফান্ড আপনার ওয়ালেটে রিফান্ড করা হয়েছে।"
+      }
+    },
+    "refund": {
+      "title": "রিফান্ড",
+      "inProgressDescription": "{{chain}}-এ আপনার {{amount}} {{symbol}} আপনার ওয়ালেটে ফেরত পাঠানো হচ্ছে। সাধারণত এতে কয়েক মিনিট লাগে।",
+      "completeDescription": "{{chain}}-এ আপনার {{amount}} {{symbol}} আপনার ওয়ালেটে ফেরত পাঠানো হয়েছে।",
+      "viewTransaction": "লেনদেন দেখুন"
+    }
   }
 }

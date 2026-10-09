@@ -1,23 +1,22 @@
 {
   "title": {
-    "connectWallet": "Kết nối ví",
-    "connecting": "",
-    "selectWallet": "",
-    "selectWalletWithChain": "",
-    "selectEcosystem": "",
-    "waitingForWallet": "",
-    "availableWalletsNotFound": ""
+    "connecting": "Đang kết nối",
+    "selectWallet": "Chọn ví",
+    "selectWalletWithChain": "Chọn ví {{chainLabel}}",
+    "selectEcosystem": "Chọn hệ sinh thái",
+    "waitingForWallet": "Đang chờ {{walletName}}",
+    "availableWalletsNotFound": "Không tìm thấy ví khả dụng"
   },
   "message": {
-    "connecting": "",
-    "multipleEcosystems": "",
-    "availableWalletsNotFound": ""
+    "connecting": "Nhấn kết nối trong cửa sổ bật lên của ví. Không thấy ví? Hãy kiểm tra các cửa sổ trình duyệt khác.",
+    "multipleEcosystems": "{{walletName}} hỗ trợ nhiều hệ sinh thái chuỗi. Hãy chọn hệ sinh thái để kết nối.",
+    "availableWalletsNotFound": "Không phát hiện tiện ích ví tương thích. Vui lòng cài đặt một ví được hỗ trợ và tải lại trang. Nếu đã cài đặt, hãy đảm bảo ví đã được bật và tương thích, hoặc liên hệ bộ phận hỗ trợ."
   },
   "tags": {
-    "connected": "",
-    "multichain": "",
-    "installed": "",
-    "qrCode": "",
-    "getStarted": ""
+    "connected": "Đã kết nối",
+    "multichain": "Đa chuỗi",
+    "installed": "Đã cài đặt",
+    "qrCode": "Mã QR",
+    "getStarted": "Bắt đầu"
   }
 }

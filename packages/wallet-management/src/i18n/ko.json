@@ -1,23 +1,22 @@
 {
   "title": {
-    "connectWallet": "지갑 연결",
-    "connecting": "",
-    "selectWallet": "",
-    "selectWalletWithChain": "",
-    "selectEcosystem": "",
-    "waitingForWallet": "",
-    "availableWalletsNotFound": ""
+    "connecting": "연결 중",
+    "selectWallet": "지갑 선택",
+    "selectWalletWithChain": "{{chainLabel}} 지갑 선택",
+    "selectEcosystem": "생태계 선택",
+    "waitingForWallet": "{{walletName}} 대기 중",
+    "availableWalletsNotFound": "사용 가능한 지갑 없음"
   },
   "message": {
-    "connecting": "",
-    "multipleEcosystems": "",
-    "availableWalletsNotFound": ""
+    "connecting": "지갑 팝업에서 연결을 클릭하세요. 지갑이 보이지 않나요? 다른 브라우저 창을 확인하세요.",
+    "multipleEcosystems": "{{walletName}}은(는) 여러 체인 생태계를 지원합니다. 연결할 생태계를 선택하세요.",
+    "availableWalletsNotFound": "호환되는 지갑 확장 프로그램이 감지되지 않았습니다. 지원되는 지갑을 설치한 후 페이지를 새로고침하세요. 이미 설치했다면 지갑이 활성화되어 있고 호환되는지 확인하거나 고객 지원팀에 문의하세요."
   },
   "tags": {
-    "connected": "",
-    "multichain": "",
-    "installed": "",
-    "qrCode": "",
-    "getStarted": ""
+    "connected": "연결됨",
+    "multichain": "멀티체인",
+    "installed": "설치됨",
+    "qrCode": "QR 코드",
+    "getStarted": "시작하기"
   }
 }

@@ -5,14 +5,12 @@
   },
   "format": {
     "currency": "{{value, currencyExt(currency: USD)}}",
-    "number": "{{value, number(maximumFractionDigits: 9)}}",
     "percent": "{{value, percent(maximumFractionDigits: 2)}}",
     "tokenAmount": "{{value, numberExt}}"
   },
   "button": {
     "auto": "Auto",
     "bookmark": "Bookmark",
-    "bookmarks": "Bookmarks",
     "bridge": "Bridge",
     "bridgeReview": "Review bridge",
     "buy": "Buy",
@@ -41,17 +39,14 @@
     "done": "Done",
     "exchange": "Exchange",
     "getGas": "Get gas",
-    "learnMore": "Learn more",
     "light": "Light",
     "max": "MAX",
-    "ok": "Ok",
     "options": "Options",
     "requestRefund": "Request refund",
     "reset": "Reset",
     "resetSettings": "Reset settings",
     "resumeTransaction": "Resume transaction",
     "review": "Review",
-    "seeDetails": "See details",
     "topUp": "Top up",
     "viewRefund": "View refund",
     "viewRefundStatus": "View refund status",
@@ -65,7 +60,6 @@
     "swapReview": "Review swap",
     "system": "System",
     "tryAgain": "Try again",
-    "viewCoverage": "View coverage",
     "viewOnExplorer": "View on explorer"
   },
   "header": {
@@ -94,7 +88,6 @@
     "recentWallets": "Recent wallets",
     "refunded": "Refunded",
     "selectChain": "Select chain",
-    "selectWallet": "Select your wallet",
     "sell": "Sell",
     "send": "Send",
     "sendToWallet": "Send to wallet",
@@ -104,8 +97,6 @@
     "to": "Exchange to",
     "transactionDetails": "Transaction details",
     "activities": "Activities",
-    "walletConnected": "Wallet connected",
-    "youGet": "You get",
     "youPay": "You pay"
   },
   "limitOrder": {
@@ -266,17 +257,14 @@
     "fees": {
       "defaultIntegrator": "Integrator fee",
       "relayerService": "Gasless service",
-      "estimated": "estimated costs",
       "free": "Free",
       "network": "Network cost",
-      "paid": "paid costs",
       "provider": "Provider fee"
     },
     "from": "From",
     "maxSlippage": "Max. slippage",
     "minReceived": "Min. received",
     "myTokens": "My tokens",
-    "onChain": "on {{chainName}}",
     "ownedBy": "Owned by",
     "pinnedTokens": "Pinned tokens",
     "popularTokens": "Popular tokens",
@@ -298,8 +286,7 @@
       "receivingChain": {
         "done": "Bridge completed",
         "partial": "Bridge partially completed",
-        "pending": "Waiting for destination chain",
-        "refunded": "Bridge transaction refunded"
+        "pending": "Waiting for destination chain"
       },
       "swap": {
         "actionRequired": "Sign swap transaction",
@@ -329,20 +316,8 @@
     "refuelStepDetails": "Get gas via {{tool}}",
     "route": "Route",
     "select": "Select",
-    "sendToAddress": "Send to {{address}}",
     "sendToWallet": "Send to a different wallet",
     "sending": "Sending",
-    "sentToAddress": "Sent to {{address}}",
-    "stepBridge": "Bridge",
-    "stepBridgeAndBuy": "Bridge and buy",
-    "stepBridgeAndDeposit": "Bridge and deposit",
-    "stepBuy": "Buy",
-    "stepDeposit": "Deposit",
-    "stepDetails": "{{tool}} via LI.FI",
-    "stepSwap": "Swap",
-    "stepSwapAndBridge": "Swap and bridge",
-    "stepSwapAndBuy": "Swap and buy",
-    "stepSwapAndDeposit": "Swap and deposit",
     "swapStepDetails": "Swap on {{chain}} via {{tool}}",
     "receipts": "Receipts",
     "sentToWallet": "Sent to wallet",
@@ -460,11 +435,8 @@
     "transferDeposit": {
       "warning": "Send at least <b>{{amount}} {{symbol}}</b> on <b>{{chain}}</b>. Wrong token or chain may be unrecoverable.",
       "expiresIn": "Deposit address expires in {{minutes}}:{{seconds}}",
-      "addressLabel": "Deposit address",
       "copyAddress": "Copy address",
       "addressCopied": "Copied!",
-      "regenerate": "Generate new deposit address",
-      "expired": "This deposit window expired. Generate a new one to continue.",
       "polling": "Watching for your deposit…",
       "detailsTitle": "Deposit details",
       "table": {
@@ -507,10 +479,6 @@
         "marketMoved": {
           "title": "Transaction failed",
           "description": "The exchange rate moved before your order could complete. Your funds are safe — a refund has been started."
-        },
-        "refunding": {
-          "title": "Transaction failed — refunding",
-          "description": "We couldn't complete the transfer after several attempts. Your funds are being refunded to the wallet that sent them."
         }
       }
     },
@@ -523,9 +491,7 @@
     "cashQuote": {
       "totalFeesLabel": "Total fees",
       "feeFallback": "Fee {{index}}",
-      "guaranteedMinimum": "Guaranteed minimum",
-      "refundNote": "You'll receive at least {{value}}, or a full refund.",
-      "error": "Unable to refresh the quote right now. Try again."
+      "refundNote": "You'll receive at least {{value}}, or a full refund."
     },
     "cashHandoff": {
       "title": "You'll finish paying in Transak",
@@ -535,15 +501,6 @@
       "continue": "Continue to Transak",
       "goBack": "Go back"
     },
-    "paymentMethod": {
-      "label": "Payment method"
-    },
-    "flowSummary": {
-      "wallet": "From your wallet",
-      "transfer": "Transfer crypto",
-      "exchange": "From an exchange",
-      "cash": "Buy with cash"
-    },
     "transactionStatus": {
       "detailsTitle": "Transaction details",
       "watching": "Watching for transaction",
@@ -551,7 +508,6 @@
       "success": "Transaction successful",
       "seeDetails": "See details",
       "steps": {
-        "transferInitiated": "Transfer initiated",
         "receive": {
           "upcoming": "Receive {{symbol}}",
           "loading": "Receiving {{symbol}}",
@@ -571,9 +527,6 @@
     },
     "chooseFundingSource": "Choose funding source",
     "whereToSendIt": "Where to send it",
-    "sendingTo": "Sending to",
-    "required": "Required",
-    "addWalletToReceive": "Add a wallet to receive your {{token}}",
     "walletAddressOrEns": "Wallet address or ENS name",
     "insufficientFunds": "Insufficient funds — You don't have enough {{symbol}} on {{chain}}. Select a different token to try again.",
     "routeNotFound": {
@@ -585,7 +538,6 @@
     "or": "or",
     "payFromWallet": "Pay from Wallet",
     "payFromWalletSubtitle": "Connect a browser wallet",
-    "payFromWalletConnectedSubtitle": "Select token & amount",
     "transferCrypto": "Transfer Crypto",
     "transferCryptoSubtitle": "From any wallet",
     "connectExchange": "Connect Exchange",
@@ -596,14 +548,11 @@
     "depositWithCashSubtitle": "Debit or credit card",
     "connectWallet": "Connect wallet",
     "useAnotherWallet": "Use another wallet",
-    "moreWallets": "More",
     "progress": {
       "title": "Purchase in progress",
       "description": "We're processing your purchase. This may take a few minutes."
     },
     "onramp": {
-      "dialogTitle": "Deposit with {{providerName}}",
-      "close": "Close",
       "errors": {
         "MISSING_API_URL": "{{providerName}} is not configured: set sdkConfig.apiUrl on the checkout.",
         "MISSING_API_KEY": "{{providerName}} is not configured: set widget apiKey to call checkout sessions.",
@@ -614,10 +563,6 @@
         "generic": "Something went wrong. Try again later."
       },
       "failure": {
-        "connectionTitle": "Connection failed",
-        "connectionDescription": "We couldn't connect to {{providerName}}. Try again or contact support.",
-        "withdrawalTitle": "Withdrawal failed",
-        "withdrawalDescription": "{{providerName}} couldn't process your withdrawal. Your funds remain in your account.",
         "transferTitle": "Transaction failed - refunding",
         "transferDescription": "We couldn't complete the transfer after several attempts. Your funds are being refunded to the wallet that sent them."
       }
@@ -641,8 +586,7 @@
       },
       "pendingRefund": {
         "title": "Refund in progress",
-        "description": "We're sending your funds back. This usually takes a few minutes.",
-        "sentTo": "Sent to:"
+        "description": "We're sending your funds back. This usually takes a few minutes."
       },
       "pendingRetrying": {
         "title": "Retrying transaction",
@@ -706,8 +650,7 @@
       },
       "walletPendingRefund": {
         "title": "Refund in progress",
-        "description": "We're sending your funds back to the wallet you paid from. This usually takes a few minutes.",
-        "sentToWallet": "Sent to wallet:"
+        "description": "We're sending your funds back to the wallet you paid from. This usually takes a few minutes."
       },
       "walletSuccessRefund": {
         "title": "Refund complete",

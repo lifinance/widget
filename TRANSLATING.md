@@ -66,6 +66,7 @@ i18next selects the plural form with `Intl.PluralRules`. A plural key in English
 
 - English files: `packages/widget/src/i18n/en.json` and `packages/wallet-management/src/i18n/en.json`.
 - Locale files: `<locale>.json` in the same folders.
+- Test: `pnpm --filter @lifi/widget exec vitest run src/i18n/locales.test.ts`. The test checks rules 1–8 for both folders. CI runs it with `pnpm test`.
 
 ## Locale glossaries
 

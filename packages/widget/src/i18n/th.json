@@ -4,370 +4,664 @@
     "title": "ภาษา"
   },
   "format": {
-    "currency": "",
-    "number": "{{value, number(maximumFractionDigits: 9)}}",
-    "percent": "",
-    "tokenAmount": ""
+    "currency": "{{value, currencyExt(currency: USD)}}",
+    "percent": "{{value, percent(maximumFractionDigits: 2)}}",
+    "tokenAmount": "{{value, numberExt}}"
   },
   "button": {
     "auto": "อัตโนมัติ",
-    "bookmark": "บุ๊คมาร์ก",
-    "bookmarks": "บุ๊กมาร์ก",
-    "bridge": "บริดจ์",
-    "bridgeReview": "",
+    "bookmark": "บุ๊กมาร์ก",
+    "bridge": "Bridge",
+    "bridgeReview": "ตรวจสอบ Bridge",
     "buy": "ซื้อ",
     "cancel": "ยกเลิก",
-    "checkoutReview": "",
-    "clear": "",
-    "clearAllFailed": "",
-    "clearTransaction": "",
+    "checkoutReview": "ตรวจสอบการซื้อ",
+    "clear": "ล้าง",
+    "clearAllFailed": "ล้างธุรกรรมที่ไม่สำเร็จ",
+    "clearTransaction": "ล้างธุรกรรม",
     "close": "ปิด",
     "confirm": "ยืนยัน",
-    "connectAnotherWallet": "",
-    "connectChainWallet": "",
-    "connectWallet": "เชื่อมต่อ กระเป๋า",
+    "connectAnotherWallet": "เชื่อมต่อ Wallet อื่น",
+    "connectChainWallet": "เชื่อมต่อ Wallet {{chain}}",
+    "connectWallet": "เชื่อมต่อ Wallet",
     "contactSupport": "ติดต่อฝ่ายสนับสนุน",
     "continue": "ดำเนินการต่อ",
     "copyAddress": "คัดลอกที่อยู่",
     "dark": "มืด",
     "delete": "ลบ",
-    "deposit": "",
-    "depositReview": "",
+    "deposit": "ฝาก",
+    "depositWithCash": "ฝากด้วยบัตร",
+    "pay": "ชำระเงิน",
+    "depositReview": "ตรวจสอบการฝาก",
+    "connectExchange": "เชื่อมต่อตลาดแลกเปลี่ยน",
+    "transferCrypto": "โอนคริปโต",
     "disconnect": "ยกเลิกการเชื่อมต่อ",
     "done": "เสร็จสิ้น",
     "exchange": "แลกเปลี่ยน",
-    "getGas": "รับแก็ส",
-    "learnMore": "เรียนรู้เพิ่มเติม",
+    "getGas": "รับ Gas",
     "light": "สว่าง",
-    "max": "",
-    "ok": "ตกลง",
-    "options": "การตั้งค่า",
-    "reset": "ล้างข้อมูล",
+    "max": "สูงสุด",
+    "options": "ตัวเลือก",
+    "requestRefund": "ขอคืนเงิน",
+    "reset": "รีเซ็ต",
     "resetSettings": "รีเซ็ตการตั้งค่า",
-    "seeDetails": "ดูรายละเอียด",
+    "resumeTransaction": "ทำธุรกรรมต่อ",
+    "review": "ตรวจสอบ",
+    "topUp": "เติมเงิน",
+    "viewRefund": "ดูการคืนเงิน",
+    "viewRefundStatus": "ดูสถานะการคืนเงิน",
+    "viewTransferDetails": "ดูรายละเอียดการโอน",
     "showAll": "แสดงทั้งหมด",
-    "showLess": "",
-    "showMore": "",
-    "startBridging": "เริ่มต้นการบริดจ์",
-    "startSwapping": "เริ่มต้นการแลกเปลี่ยน",
-    "swap": "การแลกเปลี่ยน",
-    "swapReview": "",
-    "system": "",
-    "tryAgain": "ลองใหม่",
-    "viewCoverage": "ดูความคุ้มครอง",
-    "viewOnExplorer": "ดูในการสำรวจ"
+    "showLess": "แสดงน้อยลง",
+    "showMore": "แสดงอีก {{count}} รายการ",
+    "startBridging": "เริ่ม Bridge",
+    "startSwapping": "เริ่ม Swap",
+    "swap": "Swap",
+    "swapReview": "ตรวจสอบ Swap",
+    "system": "ตามระบบ",
+    "tryAgain": "ลองอีกครั้ง",
+    "viewOnExplorer": "ดูบน Explorer"
   },
   "header": {
-    "amount": "",
-    "bookmarkedWallets": "กระเป๋าเงินที่ Bokkmark ไว้แล้ว",
-    "bridge": "บริดจ์",
-    "checkout": "เช็คเอาท์",
-    "checkoutDetails": "",
-    "deposit": "",
-    "depositDetails": "",
-    "depositTo": "",
+    "amount": "จำนวน",
+    "bookmarkedWallets": "Wallet ที่บุ๊กมาร์กไว้",
+    "bridge": "Bridge",
+    "buy": "ซื้อ",
+    "checkout": "ชำระเงิน",
+    "checkoutDetails": "รายละเอียดการชำระเงิน",
+    "deposit": "ฝาก",
+    "depositWithCash": "ฝากด้วยบัตร",
+    "depositAddress": "ที่อยู่สำหรับฝาก",
+    "depositDetails": "รายละเอียดการฝาก",
+    "depositTo": "ฝากไปยัง",
+    "connectExchange": "เชื่อมต่อตลาดแลกเปลี่ยน",
+    "transferCrypto": "โอนคริปโต",
+    "currency": "สกุลเงิน",
     "exchange": "แลกเปลี่ยน",
     "from": "แลกเปลี่ยนจาก",
-    "gas": "แก็ส",
+    "gas": "Gas",
+    "limit": "Limit",
     "payWith": "ชำระด้วย",
-    "receive": "",
-    "received": "",
-    "recentWallets": "กระเป๋าเงินล่าสุด",
-    "refunded": "",
+    "private": "ส่วนตัว",
+    "receive": "รับ",
+    "received": "จำนวนที่ได้รับ",
+    "recentWallets": "Wallet ล่าสุด",
+    "refunded": "คืนเงินแล้ว",
     "selectChain": "เลือกเชน",
-    "selectWallet": "เลือกกระเป๋าของคุณ",
-    "send": "",
-    "sendToWallet": "ส่งไปยังกระเป๋าเงิน",
-    "settings": "ตั้งค่า",
-    "swap": "แลกเปลี่ยน",
+    "sell": "ขาย",
+    "send": "ส่ง",
+    "sendToWallet": "ส่งไปยัง Wallet",
+    "settings": "การตั้งค่า",
+    "swap": "Swap",
+    "swapAndBridge": "Swap และ Bridge",
     "to": "แลกเปลี่ยนเป็น",
-    "transactionDetails": "รายละเอียดของธุรกรรม",
-    "activities": "",
-    "walletConnected": "กระเป๋าถูกเชื่อมต่อแล้ว",
-    "youGet": "คุณได้รับ",
-    "youPay": ""
+    "transactionDetails": "รายละเอียดธุรกรรม",
+    "activities": "กิจกรรม",
+    "youPay": "คุณจ่าย"
+  },
+  "limitOrder": {
+    "custom": "กำหนดเอง",
+    "expiresIn": "หมดอายุใน",
+    "market": "ราคาตลาด",
+    "partiallyFillable": "ยอมให้จับคู่บางส่วน",
+    "price": "ราคา Limit",
+    "priceLabel": "เมื่อ 1 {{symbol}} มีมูลค่า"
   },
   "info": {
     "message": {
-      "accountDeployedMessage": "",
-      "unsupportedToAddressMessage": "",
-      "autoRefuel": "คุณใช้แก็ส {{chainName}} เหลือน้อย เมื่อดำเนินการต่อ คุณจะได้รับแก็สเพียงพอสำหรับการแลกเปลี่ยนให้เสร็จสมบูรณ์",
-      "emptyBridgesList": "",
-      "emptyChainList": "",
-      "emptyExchangesList": "",
-      "emptyTokenListAllNetworks": "",
-      "emptyTransactionHistory": "",
-      "routeNotFound": "เหตุผลที่อาจเกิดขึ้น : สภาพคล่องต่ำ , จำนวนที่เลือกน้อยเกินไป , ต้นทุนแก็สสูงหรือไม่มีเส้นทางที่ใช้งานได้",
-      "missingRouteRequiredAccount": ""
+      "accountDeployedMessage": "Smart Account ของคุณอาจมีที่อยู่ไม่เหมือนกันบนเชนอื่น โปรดตรวจสอบอีกครั้งก่อนดำเนินการต่อ",
+      "unsupportedToAddressMessage": "การโอนบน Stellar จะเข้าบัญชีที่เซ็นธุรกรรมเสมอ จึงใช้ผู้รับรายอื่นกับเส้นทางนี้ไม่ได้",
+      "autoRefuel": "คุณมี Gas บน {{chainName}} เหลือน้อย เมื่อดำเนินการต่อ คุณจะได้รับ Gas เพียงพอสำหรับทำธุรกรรมให้เสร็จสมบูรณ์",
+      "emptyBridgesList": "ไม่พบ Bridge ที่ตรงกับการค้นหาของคุณ",
+      "emptyChainList": "ไม่พบเชนที่ตรงกับการค้นหาของคุณ",
+      "emptyExchangesList": "ไม่พบ DEX ที่ตรงกับการค้นหาของคุณ",
+      "emptyTokenListAllNetworks": "ไม่พบโทเค็น หากโทเค็นของคุณไม่แสดง โปรดค้นหาด้วยที่อยู่ Contract หรือลองเลือกเชนอื่น",
+      "emptyTransactionHistory": "ธุรกรรมของคุณจะแสดงที่นี่หลังจากคุณโอนครั้งแรกเสร็จสิ้น",
+      "routeNotFound": "สาเหตุที่เป็นไปได้: สภาพคล่องต่ำ จำนวนที่เลือกน้อยเกินไป ค่า Gas สูงเกินไป หรือไม่มีเส้นทางสำหรับคู่โทเค็นที่เลือก",
+      "missingRouteRequiredAccount": "เชื่อมต่อ Wallet {{chainName}} ของคุณเพื่อดำเนินการต่อ {{address}}"
     },
     "title": {
-      "autoRefuel": "",
+      "autoRefuel": "รับ Gas บน {{chainName}}",
       "emptyTransactionHistory": "ไม่มีธุรกรรมล่าสุด",
       "routeNotFound": "ไม่พบเส้นทาง"
     }
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": ""
+      "exchangePartiallySuccessful": "เราพยายามทำธุรกรรมให้เสร็จสมบูรณ์แล้ว แต่ {{tool}} ดำเนินการต่อไม่ได้ เนื่องจากการตั้งค่า Slippage หรือสภาพคล่องของโทเค็น {{tokenSymbol}} ไม่เพียงพอ"
     },
     "title": {
-      "bridgePartiallySuccessful": "แลกเปลี่ยนสำเร็จบางส่วน",
-      "bridgeSuccessful": "บริดจ์สำเร็จ",
-      "depositSuccessful": "",
-      "checkoutSuccessful": "",
+      "bridgePartiallySuccessful": "Bridge สำเร็จบางส่วน",
+      "bridgeSuccessful": "Bridge สำเร็จ",
+      "depositSuccessful": "ฝากสำเร็จ",
+      "checkoutSuccessful": "ซื้อสำเร็จ",
       "refundIssued": "คืนเงินแล้ว",
-      "swapPartiallySuccessful": "แลกเปลี่ยนสำเร็จบางส่วน",
-      "swapSuccessful": "แลกเปลี่ยนสำเร็จ"
+      "swapPartiallySuccessful": "Swap สำเร็จบางส่วน",
+      "swapSuccessful": "Swap สำเร็จ"
     }
   },
   "warning": {
     "message": {
-      "tokenUnverified": "",
-      "tokenUnverifiedByProvider": "",
-      "accountNotDeployedMessage": "",
-      "lowAddressActivity": "",
-      "clearFailedTransactions": "",
-      "fundsLossPrevention": "",
-      "highValueLoss": "มูลค่าของโทเค็นที่ได้รับนั้นต่ำกว่าโทเค็นที่แลกเปลี่ยนและต้นทุนการทำธุรกรรมอย่างมาก.",
-      "insufficientFunds": "คุณมีเงินไม่เพียงพอที่จะดำเนินการแลกเปลี่ยน.",
-      "insufficientGas": "คุณมีแก๊สไม่เพียงพอที่จะแลกเปลี่ยนให้เสร็จสมบูรณ์ คุณต้องเพิ่มอย่างน้อย:",
-      "minFromAmountUSD": "",
-      "rateChanged": "อัตราแลกเปลี่ยนมีการเปลี่ยนแปลง คุณจะยอมรับอัตราใหม่.",
-      "resetSettings": "การดำเนินการนี้จะรีเซ็ตลำดับความสำคัญของเส้นทาง การคลาดเลื่อน ค่าแก็ส บริดจ์ที่เปิดใช้งานและการแลกเปลี่ยน",
-      "slippageOutsideRecommendedLimits": "การยอมรับความผิดปกติในการสลิปเพจสูงอาจส่งผลให้เกิดการซื้อขายที่ไม่คุ้มค่า ซึ่งเกิดจากการดำเนินการขายก่อน",
-      "slippageUnderRecommendedLimits": ""
+      "tokenUnverified": "โทเค็นนี้ยังไม่ได้รับการยืนยัน โปรดศึกษาข้อมูลด้วยตนเองทุกครั้งก่อนดำเนินการต่อ",
+      "tokenUnverifiedByProvider": "{{tokenSymbol}} ยังไม่ได้รับการยืนยันจาก Hypernative โปรดตรวจสอบให้แน่ใจว่าคุณเชื่อถือโทเค็นนี้ก่อนดำเนินการต่อ",
+      "accountNotDeployedMessage": "ไม่มีบัญชี Smart Contract นี้บนเชนปลายทาง การส่งเงินทุนไปยังบัญชี Smart Contract ที่ไม่มีอยู่อาจทำให้สูญเสียเงินทุนถาวร",
+      "lowAddressActivity": "ที่อยู่นี้มีกิจกรรมน้อยบนเครือข่าย {{chainName}} โปรดตรวจสอบว่าคุณส่งไปยังที่อยู่และเครือข่ายที่ถูกต้อง เพื่อป้องกันการสูญเสียเงินทุน",
+      "clearFailedTransactions": "ธุรกรรมที่ไม่สำเร็จจะเก็บไว้ในอุปกรณ์นี้เท่านั้น และจะกู้คืนไม่ได้หลังจากล้างแล้ว",
+      "fundsLossPrevention": "โปรดตรวจสอบเสมอว่าบัญชี Smart Contract ตั้งค่าบนเชนปลายทางอย่างถูกต้อง และหลีกเลี่ยงการโอนตรงไปยังตลาดแลกเปลี่ยน เพื่อป้องกันการสูญเสียเงินทุน",
+      "highValueLoss": "มูลค่าของโทเค็นที่ได้รับต่ำกว่ามูลค่าของโทเค็นต้นทางรวมกับค่าธรรมเนียมธุรกรรมอย่างมาก",
+      "tokenFlagged": "Hypernative ระบุว่า {{tokenSymbol}} เป็นโทเค็นอันตราย การ Swap โทเค็นนี้อาจทำให้สูญเสียเงินทุนทั้งหมด",
+      "insufficientFunds": "คุณมีเงินทุนไม่เพียงพอสำหรับทำธุรกรรมให้เสร็จสมบูรณ์",
+      "insufficientGas": "คุณมี Gas ไม่เพียงพอสำหรับทำธุรกรรมให้เสร็จสมบูรณ์ คุณต้องเพิ่มอย่างน้อย:",
+      "minFromAmountUSD": "จำนวนขั้นต่ำคือ {{amount, currencyExt(currency: USD)}} โปรดกรอกจำนวนที่สูงกว่านี้",
+      "rateChanged": "อัตราแลกเปลี่ยนเปลี่ยนแปลงแล้ว หากทำธุรกรรมต่อ ถือว่าคุณยอมรับอัตราใหม่",
+      "resetSettings": "การดำเนินการนี้จะรีเซ็ตลำดับความสำคัญของเส้นทาง Slippage ราคา Gas รวมถึง Bridge และ DEX ที่เปิดใช้งาน",
+      "slippageOutsideRecommendedLimits": "การตั้ง Slippage สูงอาจทำให้ได้ราคาเทรดที่ไม่คุ้มค่าจากการถูก Front-running",
+      "slippageUnderRecommendedLimits": "การตั้ง Slippage ต่ำอาจทำให้ธุรกรรมล่าช้าหรือไม่สำเร็จ"
     },
     "checkbox": {
-      "highValueLoss": ""
+      "highValueLoss": "ฉันยอมรับการสูญเสียมูลค่าสูง",
+      "tokenFlagged": "ฉันเข้าใจความเสี่ยงและต้องการดำเนินการต่อ"
     },
     "title": {
-      "clearFailedTransactions": "",
+      "clearFailedTransactions": "ล้างธุรกรรมที่ไม่สำเร็จทั้งหมด?",
       "highValueLoss": "สูญเสียมูลค่าสูง",
-      "insufficientGas": "ค่าแก็สไม่พอ",
-      "rateChanged": "อัตราการแลกเปลี่ยนถูกเปลี่ยน",
-      "resetSettings": "รีเซ็ทการตั้งค่า?",
-      "lowAddressActivity": ""
+      "insufficientGas": "Gas ไม่เพียงพอ",
+      "rateChanged": "อัตราแลกเปลี่ยนเปลี่ยนแปลง",
+      "resetSettings": "รีเซ็ตการตั้งค่า?",
+      "tokenFlagged": "ตรวจพบโทเค็นอันตราย",
+      "lowAddressActivity": "ที่อยู่มีกิจกรรมน้อย"
     }
   },
   "error": {
     "message": {
-      "allowanceRequired": "โอนด้วยจำนวน {{tokenSymbol}} ตามการอนุญาตของคุณ.ได้โปรดเพิ่มการอนุญาตของคุณอีกครั้ง",
-      "insufficientFunds": "คุณมีแก็สไม่พอสำหรับการธุรกรรมนี้",
-      "rateLimitExceeded": "",
-      "remainInYourWallet": "",
-      "signatureRejected": "",
-      "slippageThreshold": "การคลาดเคลื่อนมีขนาดใหญ่กว่าเกณฑ์ที่กำหนด โปรดขอเส้นทางใหม่เพื่อได้รับการเสนอราคาใหม่.",
-      "thirdPartyError": "",
-      "transactionCanceled": "ธุรกรรมได้ถูกยกเลิกแล้ว",
-      "transactionConflict": "",
-      "transactionExpired": "",
-      "transactionRejected": "",
-      "transactionFailed": "โปรดตรวจสอบบล็อกการสำรวจสำหรับข้อมูลเพิ่มเติม.",
-      "transactionNotSent": "ธุรกรรมไม่ได้ถูกส่ง",
-      "transactionSimulationFailed": "",
-      "unknown": "โปรดลองอีกครั้งหรือติดต่อฝ่ายสนับสนุน.",
-      "walletChangedDuringExecution": "ที่อยู่ของวอลเล็ตที่ร้องขอให้ใช้ในการขอราคาไม่ตรงกับที่อยู่ของวอลเล็ตที่พยายามลงนามธุรกรรม โปรดตรวจสอบให้แน่ใจว่าใช้ที่อยู่เดียวกันตลอดการดำเนินการทั้งหมดของธุรกรรม"
+      "allowanceRequired": "จำนวนโอน {{tokenSymbol}} เกินจำนวนที่อนุมัติไว้ในปัจจุบัน โปรดเพิ่มจำนวนที่อนุมัติแล้วลองอีกครั้ง",
+      "insufficientFunds": "คุณมี Gas ไม่พอสำหรับจ่ายค่าธุรกรรมนี้",
+      "rateLimitExceeded": "มีคำขอมากเกินไปในช่วงเวลาสั้นๆ โปรดรอสักครู่แล้วลองอีกครั้ง หรือติดต่อฝ่ายสนับสนุนหากยังพบปัญหา",
+      "remainInYourWallet": "{{amount, numberExt}} {{tokenSymbol}} บน {{chainName}} ยังอยู่ใน Wallet ของคุณ",
+      "signatureRejected": "ต้องใช้ลายเซ็นของคุณเพื่อทำธุรกรรมให้เสร็จสมบูรณ์ {{amount, numberExt}} {{tokenSymbol}} บน {{chainName}} ยังอยู่ใน Wallet ของคุณ",
+      "slippageThreshold": "Slippage สูงกว่าเกณฑ์ที่กำหนด โปรดขอการเสนอราคาใหม่",
+      "thirdPartyError": "เราดำเนินการตามคำขอของคุณไม่ได้ เนื่องจากบริการภายนอกมีปัญหา โปรดลองอีกครั้ง หรือติดต่อฝ่ายสนับสนุนหากยังพบปัญหา",
+      "transactionCanceled": "ธุรกรรมถูกยกเลิกแล้ว",
+      "transactionConflict": "ดำเนินธุรกรรมไม่ได้ เนื่องจากขัดแย้งกับธุรกรรมอื่นที่รอดำเนินการและใช้เงินทุนเดียวกัน โปรดรอให้ธุรกรรมที่รอดำเนินการได้รับการยืนยัน หรือตรวจสอบประวัติธุรกรรมก่อนลองอีกครั้ง",
+      "transactionExpired": "Block Height เกินขีดจำกัดสูงสุดที่กำหนด หรือ Blockhash เก่าเกินไปแล้ว",
+      "transactionRejected": "ธุรกรรมถูกปฏิเสธเนื่องจากข้อผิดพลาดภายในของ Wallet โปรดลองอีกครั้ง หรือขอการเสนอราคาใหม่",
+      "transactionFailed": "โปรดตรวจสอบข้อมูลเพิ่มเติมใน Block Explorer",
+      "transactionNotSent": "ยังไม่ได้ส่งธุรกรรม",
+      "transactionSimulationFailed": "ธุรกรรมดำเนินการไม่สำเร็จในการจำลอง",
+      "unknown": "โปรดลองอีกครั้งหรือติดต่อฝ่ายสนับสนุน",
+      "walletChangedDuringExecution": "ที่อยู่ Wallet ที่ขอการเสนอราคาไม่ตรงกับที่อยู่ Wallet ที่กำลังเซ็นธุรกรรม โปรดใช้ที่อยู่ Wallet เดียวกันตลอดการทำธุรกรรม"
     },
     "title": {
-      "allowanceRequired": "การอนุญาตไม่เพียงพอ",
+      "allowanceRequired": "จำนวนที่อนุมัติไม่เพียงพอ",
       "balanceIsTooLow": "ยอดคงเหลือต่ำเกินไป",
-      "bookmarkAlreadyExists": "กระเป๋าเงินถูก bookmark แล้วในชื่อ {{name}}",
-      "bookmarkNameRequired": "จำเป็นต้องมีชื่อ Bookmark ",
+      "bookmarkAlreadyExists": "Wallet นี้บุ๊กมาร์กไว้แล้วในชื่อ {{name}}",
+      "bookmarkNameRequired": "โปรดกรอกชื่อบุ๊กมาร์ก",
       "chainSwitch": "จำเป็นต้องเปลี่ยนเชน",
       "exchangeRateUpdateCanceled": "การอัปเดตอัตราแลกเปลี่ยนถูกยกเลิก",
-      "gasLimitIsTooLow": "แก๊สคงเหลือต่ำเกินไป",
-      "insufficientFunds": "ยอดคงเหลือไม่เพียงพอ",
-      "insufficientGas": "",
-      "rateLimitExceeded": "",
-      "signatureRejected": "ต้องมีลายเซ็น",
-      "slippageNotMet": "ความคลาดเคลื่อนของราคาไม่เป็นไปตามเงื่อนไข.",
-      "thirdPartyError": "",
-      "transactionCanceled": "ธุรกรรมถูกยกเลิกแล้ว",
-      "transactionConflict": "",
-      "transactionExpired": "",
-      "transactionFailed": "การทำธุรกรรมล้มเหลว",
-      "transactionRejected": "",
-      "transactionSimulationFailed": "",
-      "transactionUnderpriced": "ราคาธุรกรรมต่ำเกินไป",
-      "transactionUnprepared": "ไม่สามารถจัดทำธุรกรรมได้",
-      "unknown": "มีบางอย่างผิดพลาด",
-      "walletAddressInvalid": "ที่อยู่ของกระเป๋าเงินหรือชื่อโดเมนไม่ถูกต้อง",
-      "walletAddressInvalid_chain": "ที่อยู่กระเป๋าเงินหรือชื่อโดเมนไม่ถูกต้องสำหรับเครือข่ายปลายทางที่เลือก {{chainName}}",
-      "walletAddressRequired": "กรุณากรอกที่อยู่กระเป๋าเงิน.",
-      "walletChainTypeInvalid": "ที่อยู่กระเป๋าเงินหรือชื่อโดเมนไม่ถูกต้องสำหรับเครือข่ายปลายทางที่เลือก {{chainName}}",
-      "walletMismatch": "ที่อยู่ของกระเป๋าเงินไม่ตรงกัน",
-      "zcashAddressInvalid": ""
+      "gasLimitIsTooLow": "Gas Limit ต่ำเกินไป",
+      "insufficientFunds": "เงินทุนไม่เพียงพอ",
+      "insufficientGas": "Gas ไม่เพียงพอ",
+      "rateLimitExceeded": "เกินขีดจำกัดจำนวนคำขอ",
+      "signatureRejected": "ต้องใช้ลายเซ็น",
+      "slippageNotMet": "ไม่เป็นไปตามเงื่อนไข Slippage",
+      "thirdPartyError": "บริการภายนอกไม่พร้อมใช้งาน",
+      "transactionCanceled": "ธุรกรรมถูกยกเลิก",
+      "transactionConflict": "ธุรกรรมขัดแย้งกัน",
+      "transactionExpired": "ธุรกรรมหมดอายุ",
+      "transactionFailed": "ธุรกรรมไม่สำเร็จ",
+      "transactionRejected": "ธุรกรรมถูกปฏิเสธ",
+      "transactionSimulationFailed": "จำลองธุรกรรมไม่สำเร็จ",
+      "transactionUnderpriced": "ค่า Gas ของธุรกรรมต่ำเกินไป",
+      "transactionUnprepared": "ไม่สามารถเตรียมธุรกรรมได้",
+      "unknown": "เกิดข้อผิดพลาด",
+      "walletAddressInvalid": "ที่อยู่ Wallet หรือชื่อโดเมนไม่ถูกต้อง",
+      "walletAddressInvalid_chain": "ที่อยู่ Wallet หรือชื่อโดเมนไม่ถูกต้องสำหรับเชนปลายทาง {{chainName}} ที่เลือก",
+      "walletAddressRequired": "โปรดกรอกที่อยู่ Wallet",
+      "walletChainTypeInvalid": "ที่อยู่ Wallet ไม่ตรงกับเชนปลายทาง {{chainName}} ที่เลือก",
+      "walletMismatch": "ที่อยู่ Wallet ไม่ตรงกัน",
+      "zcashAddressInvalid": "โปรดกรอกที่อยู่ Zcash แบบ Transparent (t1 หรือ t3) หรือที่อยู่แบบ Unified (u1) ที่มี Orchard Receiver ไม่รองรับที่อยู่ Sapling (zs1) และ TEX"
     }
   },
   "tooltip": {
     "deselectAll": "ยกเลิกการเลือกทั้งหมด",
-    "estimatedTime": "",
-    "exchangeRate": "",
-    "feeCollection": "",
-    "minReceived": "",
+    "estimatedTime": "เวลาที่ใช้ทำธุรกรรม Swap หรือ Bridge ให้เสร็จสมบูรณ์ ไม่รวมการเปลี่ยนเชนและการอนุมัติโทเค็น",
+    "exchangeRate": "อัตราแลกเปลี่ยนโดยประมาณระหว่างโทเค็นต้นทางและโทเค็นปลายทาง คลิกเพื่อกลับทิศทาง",
+    "feeCollection": "ค่าธรรมเนียมนี้ใช้กับคู่โทเค็นที่เลือก และช่วยให้เรามอบประสบการณ์ที่ดีที่สุดให้คุณได้",
+    "minReceived": "จำนวนขั้นต่ำโดยประมาณอาจเปลี่ยนแปลงได้จนกว่าจะเซ็นธุรกรรม Swap/Bridge สำหรับการโอนแบบ 2 ขั้นตอน จำนวนนี้อาจเปลี่ยนแปลงได้จนกว่าจะเซ็นธุรกรรมของขั้นตอนที่สอง",
     "notFound": {
-      "text": "เราไม่พบหน้านี้.",
+      "text": "เราไม่พบหน้านี้",
       "title": "404"
     },
-    "multistep": "",
-    "gasless": "",
-    "numberOfSteps": "",
-    "priceImpact": "",
-    "progressToNextUpdate": "ข้อมูลที่แสดงจะรีเฟรชอัตโนมัติหลังจาก {{value}} วินาที คลิกที่นี่เพื่ออัปเดตด้วยตนเอง",
+    "multistep": "เส้นทางนี้ต้องใช้หลายธุรกรรมเพื่อโอนให้เสร็จสมบูรณ์ แต่ละขั้นตอนอาจมี 1-2 ธุรกรรมที่ต้องเซ็น",
+    "gasless": "เราจัดการค่า Gas ให้ คุณจึงโอนสินทรัพย์ได้โดยไม่ต้องถือโทเค็นดั้งเดิม ค่าธรรมเนียมเครือข่ายรวมอยู่ในการโอนแล้ว",
+    "priceImpact": "ส่วนต่างมูลค่าโดยประมาณระหว่างโทเค็นต้นทางและโทเค็นปลายทาง",
+    "progressToNextUpdate": "การเสนอราคาจะอัปเดตใน {{value}} วินาที <0/> คลิกที่นี่เพื่ออัปเดตทันที",
     "selectAll": "เลือกทั้งหมด",
-    "settingsModified": "การตั้งค่า (แก้ไข)",
-    "slippage": ""
+    "settingsModified": "การตั้งค่า (แก้ไขแล้ว)",
+    "slippage": "เปอร์เซ็นต์ส่วนต่างสูงสุดระหว่างราคาที่คาดไว้กับราคาจริงขณะดำเนินการโอน คุณเปลี่ยนค่านี้ได้ในการตั้งค่า",
+    "tokenNative": "{{tokenSymbol}} คือโทเค็นดั้งเดิมของเครือข่ายนี้",
+    "tokenNativeOnChain": "{{tokenSymbol}} คือโทเค็นดั้งเดิมของ {{chainName}}",
+    "tokenVerified": "{{tokenSymbol}} ได้รับการยืนยันแล้ว",
+    "tokenVerifiedByProvider": "{{tokenSymbol}} ได้รับการยืนยันจาก {{provider}} แล้ว"
   },
   "main": {
-    "allNetworks": "",
-    "allTokens": "โทเคนทั้งหมด",
-    "bridgeStepDetails": "บริดจ์จาก{{from}} ไปยัง {{to}} โดย {{tool}}",
+    "allNetworks": "ทุกเครือข่าย",
+    "allTokens": "โทเค็นทั้งหมด",
+    "bridgeStepDetails": "Bridge จาก {{from}} ไปยัง {{to}} ผ่าน {{tool}}",
     "checkoutStepDetails": "ซื้อผ่าน {{tool}}",
-    "currentAmount": "จำนวนเงินปัจจุบัน",
+    "currentAmount": "จำนวนปัจจุบัน",
     "depositStepDetails": "ฝากผ่าน {{tool}}",
-    "estimatedTime": "",
-    "exchangeRate": "",
-    "featuredTokens": "จุดเด่นของเหรียญ",
+    "estimatedTime": "เวลาโดยประมาณ",
+    "exchangeRate": "อัตราแลกเปลี่ยน",
+    "featuredTokens": "โทเค็นแนะนำ",
     "fees": {
-      "defaultIntegrator": "",
-      "relayerService": "",
-      "estimated": "",
-      "free": "",
-      "network": "",
-      "paid": "",
-      "provider": ""
+      "defaultIntegrator": "ค่าธรรมเนียมแพลตฟอร์ม",
+      "relayerService": "บริการ Gasless",
+      "free": "ฟรี",
+      "network": "ค่าธรรมเนียมเครือข่าย",
+      "provider": "ค่าธรรมเนียมผู้ให้บริการ"
     },
     "from": "จาก",
-    "inProgress": "กำลังดำเนินการ",
-    "maxSlippage": "",
-    "minReceived": "",
-    "myTokens": "โทเคนของฉัน",
-    "onChain": "บน {{chainName}}",
+    "maxSlippage": "Slippage สูงสุด",
+    "minReceived": "จำนวนที่ได้รับขั้นต่ำ",
+    "myTokens": "โทเค็นของฉัน",
     "ownedBy": "เป็นเจ้าของโดย",
-    "pinnedTokens": "",
+    "pinnedTokens": "โทเค็นที่ปักหมุด",
     "popularTokens": "โทเค็นยอดนิยม",
-    "priceImpact": "",
+    "priceImpact": "Price Impact",
     "process": {
       "bridge": {
-        "actionRequired": "",
-        "messageRequired": "",
-        "done": "ธุรกรรมข้ามเชนได้รับการยืนยันแล้ว",
-        "pending": "",
-        "started": "เตรียมการทำรายการบริดจ์"
+        "actionRequired": "เซ็นธุรกรรม Bridge",
+        "messageRequired": "เซ็นข้อความ Bridge",
+        "done": "ยืนยันธุรกรรม Bridge แล้ว",
+        "pending": "ธุรกรรม Bridge รอดำเนินการ",
+        "started": "กำลังเตรียมธุรกรรม Bridge"
       },
       "checkout": {
-        "done": "ซื้อเสร็จสมบูรณ์"
+        "done": "ซื้อสำเร็จแล้ว"
       },
       "deposit": {
-        "done": "ฝากเงินสำเร็จ"
+        "done": "ฝากสำเร็จแล้ว"
       },
       "receivingChain": {
-        "done": "ข้ามเชนเสร็จสมบูรณ์",
-        "partial": "การข้ามเชนเสร็จสมบูรณ์บางส่วน",
-        "pending": "กำลังรอเชนปลายทาง",
-        "refunded": "คืนเงินการทำธุรกรรมข้ามเชนแล้ว"
+        "done": "Bridge สำเร็จแล้ว",
+        "partial": "Bridge สำเร็จบางส่วน",
+        "pending": "กำลังรอเชนปลายทาง"
       },
       "swap": {
-        "actionRequired": "",
-        "messageRequired": "",
-        "done": "การแลกเปลี่ยนเสร็จสมบูรณ์",
-        "pending": "",
-        "started": "กำลังเตรียมการแลกเปลี่ยนธุรกรรม"
+        "actionRequired": "เซ็นธุรกรรม Swap",
+        "messageRequired": "เซ็นข้อความ Swap",
+        "done": "Swap สำเร็จแล้ว",
+        "pending": "ธุรกรรม Swap รอดำเนินการ",
+        "started": "กำลังเตรียมธุรกรรม Swap"
       },
       "permit": {
-        "actionRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "เซ็นข้อความ Permit",
+        "done": "เซ็นข้อความ Permit แล้ว",
+        "pending": "กำลังรอข้อความ Permit",
+        "started": "กำลังเตรียมธุรกรรม"
       },
       "tokenAllowance": {
-        "actionRequired": "",
-        "resetRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "อนุมัติการใช้ {{tokenSymbol}}",
+        "resetRequired": "เพิกถอนการอนุมัติ {{tokenSymbol}}",
+        "done": "อนุมัติการใช้ {{tokenSymbol}} แล้ว",
+        "pending": "การอนุมัติ {{tokenSymbol}} รอดำเนินการ",
+        "started": "กำลังเตรียมธุรกรรมอนุมัติ"
       }
     },
-    "quotedAmount": "จำนวนทั้งหมดที่เสนอ",
-    "rateChange": "อัตราแลกเปลี่ยน",
-    "receiving": "ได้รับ",
-    "recentSearches": "",
-    "refuelStepDetails": "รับแก๊สผ่าน {{tool}}",
-    "route": "",
-    "select": "",
-    "sendToAddress": "ส่งไปยัง {{address}}",
-    "sendToWallet": "ส่งไปยังกระเป๋าเงินอื่น",
-    "sending": "กำลังส่ง",
-    "sentToAddress": "ส่งไปยัง {{address}}",
-    "stepBridge": "บริดจ์",
-    "stepBridgeAndBuy": "บริดจ์และซื้อ",
-    "stepBridgeAndDeposit": "",
-    "stepBuy": "ซื้อ",
-    "stepDeposit": "",
-    "stepDetails": "{{tool}} โดย LI.FI",
-    "stepSwap": "แลกเปลี่ยน",
-    "stepSwapAndBridge": "แลกเปลี่ยนและบริดจ์",
-    "stepSwapAndBuy": "แลกเปลี่ยน และ ซื้อ",
-    "stepSwapAndDeposit": "",
-    "swapStepDetails": "แลกเปลี่ยนบน {{chain}} ผ่าน {{tool}}",
-    "receipts": "",
-    "sentToWallet": "",
-    "transferId": "",
+    "quotedAmount": "จำนวนตามการเสนอราคา",
+    "rateChange": "การเปลี่ยนแปลงอัตรา",
+    "receiving": "จำนวนที่จะได้รับ",
+    "recentSearches": "การค้นหาล่าสุด",
+    "refuelStepDetails": "รับ Gas ผ่าน {{tool}}",
+    "route": "เส้นทาง",
+    "select": "เลือก",
+    "sendToWallet": "ส่งไปยัง Wallet อื่น",
+    "sending": "จำนวนที่ส่ง",
+    "swapStepDetails": "Swap บน {{chain}} ผ่าน {{tool}}",
+    "receipts": "ใบเสร็จ",
+    "sentToWallet": "ส่งไปยัง Wallet แล้ว",
+    "transferId": "รหัสการโอน",
     "tags": {
       "cheapest": "ผลตอบแทนที่ดีที่สุด",
-      "fastest": "รวดเร็วที่สุด",
-      "gasless": "",
-      "multistep": ""
+      "fastest": "เร็วที่สุด",
+      "gasless": "Gasless",
+      "multistep": "หลายขั้นตอน"
     },
-    "to": "ถึง",
+    "to": "ไปยัง",
     "tokenOnChain": "{{tokenSymbol}} บน {{chainName}}",
-    "tokenOnChainAmount": "",
-    "tokenSearch": "",
+    "tokenOnChainAmount": "{{amount, numberExt}} {{tokenSymbol}} บน {{chainName}}",
+    "tokenSearch": "ค้นหาด้วยชื่อโทเค็นหรือที่อยู่",
     "valueLoss": "มูลค่าที่สูญเสีย",
-    "searchBridges": "",
-    "searchExchanges": "",
-    "searchNetwork": ""
+    "searchBridges": "ค้นหาด้วยชื่อ Bridge",
+    "searchCurrency": "ค้นหาสกุลเงิน",
+    "searchExchanges": "ค้นหาด้วยชื่อ DEX",
+    "searchNetwork": "ค้นหาเครือข่าย"
   },
   "settings": {
-    "appearance": "",
-    "enabledBridges": "บริดจ์",
-    "enabledExchanges": "แลกเปลี่ยน",
+    "appearance": "การแสดงผล",
+    "enabledBridges": "Bridge",
+    "enabledExchanges": "DEX",
     "gasPrice": {
-      "fast": "รวดเร็ว",
+      "fast": "เร็ว",
       "normal": "ปกติ",
       "slow": "ช้า",
-      "title": "ค่าแก็ส"
+      "title": "ราคา Gas"
     },
-    "routePriority": "ลำดับสำคัญของเส้นทาง",
-    "slippage": "",
+    "routePriority": "ลำดับความสำคัญของเส้นทาง",
+    "routePriorityOptions": {
+      "cheapest": {
+        "title": "ผลตอบแทนที่ดีที่สุด",
+        "description": "ค่าธรรมเนียมเครือข่ายต่ำที่สุด"
+      },
+      "fastest": {
+        "title": "เร็วที่สุด",
+        "description": "ใช้เวลาดำเนินการสั้นที่สุด"
+      }
+    },
+    "slippage": "Slippage สูงสุด",
+    "slippageAutoDescription": "ปรับให้เหมาะกับแต่ละเส้นทาง",
     "custom": "กำหนดเอง",
     "resetSettings": "คุณกำลังใช้การตั้งค่าที่กำหนดเองซึ่งอาจมีผลต่อจำนวนหรือการเรียงลำดับของเส้นทางที่ใช้ได้",
-    "hideSmallBalances": ""
+    "hideSmallBalances": "ซ่อนยอดคงเหลือเล็กน้อย"
   },
   "sendToWallet": {
     "addBookmark": "เพิ่มบุ๊กมาร์ก",
-    "bookmarkWallet": "Bookmark กระเป๋าเงิน",
-    "confirmWalletAddress": "ยืนยันที่อยู่กระเป๋าเงิน",
-    "connectedWallets": "เชื่อมต่อกระเป๋าเงินแล้ว",
-    "enterAddress_long": "ระบุที่อยู่หรือโดเมนของกระเป๋าเงิน",
-    "enterAddress_short": "ป้อนที่อยู่กระเป๋าเงิน",
-    "enterName": "ใส่ชื่อ",
-    "noBookmarkedWallets": "ไม่มีกระเป๋าเงินที่ bookmark ไว้",
-    "noBookmarkedWalletsMessage": "",
-    "noConnectedWallets": "ไม่มีกระเป๋าเงินที่เชื่อมต่อไว้",
-    "noConnectedWalletsMessage": "",
-    "noRecentWallets": "ไม่พบกระเป๋าเงินล่าสุด",
-    "noRecentWalletsMessage": "",
-    "required": ""
+    "bookmarkWallet": "บุ๊กมาร์ก Wallet",
+    "confirmWalletAddress": "ยืนยันที่อยู่ Wallet",
+    "connectedWallets": "Wallet ที่เชื่อมต่อแล้ว",
+    "enterAddress_long": "กรอกที่อยู่หรือโดเมนของ Wallet",
+    "enterAddress_short": "กรอกที่อยู่ Wallet",
+    "enterName": "กรอกชื่อ",
+    "noBookmarkedWallets": "ไม่มี Wallet ที่บุ๊กมาร์กไว้",
+    "noBookmarkedWalletsMessage": "บันทึกที่อยู่ Wallet ที่ใช้บ่อยเพื่อเข้าถึงได้รวดเร็ว",
+    "noConnectedWallets": "ไม่มี Wallet ที่เชื่อมต่อ",
+    "noConnectedWalletsMessage": "เชื่อมต่อ Wallet เพื่อให้แสดงในรายการนี้",
+    "noRecentWallets": "ไม่มี Wallet ล่าสุด",
+    "noRecentWalletsMessage": "ที่อยู่ Wallet ที่คุณใช้ล่าสุดจะแสดงที่นี่",
+    "required": "ต้องระบุ"
   },
   "tokenMetric": {
-    "currentPrice": "",
-    "contractAddress": "",
-    "marketCap": "",
-    "volume24h": "",
-    "status": "",
-    "statusFlagged": "",
-    "statusUnverified": "",
-    "statusVerified": ""
+    "currentPrice": "ราคาปัจจุบัน",
+    "contractAddress": "ที่อยู่ Contract",
+    "marketCap": "มูลค่าตลาด",
+    "volume24h": "ปริมาณซื้อขาย 24 ชั่วโมง",
+    "status": "สถานะ",
+    "statusFlagged": "Hypernative ระบุว่าเป็นโทเค็นอันตราย การเทรดโทเค็นนี้อาจทำให้สูญเสียเงินทุนทั้งหมด",
+    "statusUnverified": "ยังไม่ได้รับการยืนยันจาก Hypernative",
+    "statusVerified": "ได้รับการยืนยันจาก Hypernative ผลการตรวจสอบอาจผิดพลาดได้ และเราไม่รับผิดชอบต่อการแจ้งเตือนเหล่านี้ โปรดศึกษาข้อมูลด้วยตนเองทุกครั้งก่อนดำเนินการ"
+  },
+  "tags": {
+    "connected": "เชื่อมต่อแล้ว",
+    "getStarted": "เริ่มต้นใช้งาน",
+    "installed": "ติดตั้งแล้ว",
+    "multichain": "หลายเชน",
+    "qrCode": "QR Code"
+  },
+  "checkout": {
+    "closeConfirmation": {
+      "title": "ออกจากหน้าชำระเงิน?",
+      "body": "การปิดหน้านี้จะไม่ยกเลิกการฝากของคุณ คุณกลับมาตรวจสอบสถานะได้ที่นี่ทุกเมื่อ",
+      "confirm": "ปิดหน้าชำระเงิน",
+      "cancel": "ยกเลิก"
+    },
+    "abandonConfirmation": {
+      "title": "ยกเลิกการโอนนี้?",
+      "body": "ระบบจะลบรายละเอียดการฝากของคุณ อย่าส่งเงินทุนไปยังที่อยู่นี้หลังจากยกเลิกแล้ว",
+      "confirm": "ยกเลิกการโอน",
+      "cancel": "เก็บการโอนไว้"
+    },
+    "activity": {
+      "title": "กิจกรรม",
+      "deposit": "ฝาก",
+      "amountOnChain": "{{amount}} {{symbol}} บน {{chain}}",
+      "depositInProgress": "กำลังฝาก",
+      "refundInProgress": "กำลังคืนเงิน",
+      "couldNotComplete": "ดำเนินการไม่สำเร็จ",
+      "singleFailed": "ฝากไม่สำเร็จ โปรดแก้ไขปัญหา",
+      "dismiss": "ซ่อน"
+    },
+    "transak": {
+      "forceClose": {
+        "tooltip": "ปิด (ธุรกรรมจะไม่ดำเนินต่อ)"
+      }
+    },
+    "legal": {
+      "termsDisclaimer": "เมื่อดำเนินการต่อ ถือว่าคุณยอมรับ<terms>ข้อกำหนดในการให้บริการ</terms>ของ LI.FI"
+    },
+    "resume": {
+      "notFoundToast": "ไม่พบธุรกรรมของคุณ โปรดเริ่มใหม่ หรือติดต่อฝ่ายสนับสนุนหากคิดว่านี่เป็นข้อผิดพลาด"
+    },
+    "transferDeposit": {
+      "warning": "ส่งอย่างน้อย <b>{{amount}} {{symbol}}</b> บน <b>{{chain}}</b> หากส่งโทเค็นหรือเชนผิด อาจกู้คืนไม่ได้",
+      "expiresIn": "ที่อยู่สำหรับฝากจะหมดอายุใน {{minutes}}:{{seconds}}",
+      "copyAddress": "คัดลอกที่อยู่",
+      "addressCopied": "คัดลอกแล้ว!",
+      "polling": "กำลังรอรับยอดฝากของคุณ…",
+      "detailsTitle": "รายละเอียดการฝาก",
+      "table": {
+        "required": "จำนวนที่ต้องฝาก",
+        "received": "จำนวนที่ได้รับ",
+        "minRefundable": "คืนเงินได้ขั้นต่ำ",
+        "remaining": "จำนวนที่เหลือ",
+        "excess": "ส่วนเกิน",
+        "timeRemaining": "เวลาที่เหลือ"
+      },
+      "errors": {
+        "unexpected": {
+          "title": "ยอดฝากที่ไม่คาดคิด",
+          "description": "เราได้รับยอดฝากที่ไม่ตรงกับเส้นทางที่รองรับ โปรดติดต่อฝ่ายสนับสนุนเพื่อดูขั้นตอนถัดไป"
+        },
+        "amountLowThreshold": {
+          "title": "ฝากไม่ครบ",
+          "description": "เติมเงินเพื่อให้คำสั่งซื้อเสร็จสมบูรณ์ หรือเพื่อให้ขอคืนเงินได้"
+        },
+        "amountLowTopUp": {
+          "title": "ฝากไม่ครบ",
+          "description": "ส่งจำนวนที่เหลือก่อนหมดเวลาฝาก"
+        },
+        "amountLowExpired": {
+          "title": "ฝากไม่ครบ",
+          "description": "หมดเวลาฝากแล้ว คุณขอคืนเงินสำหรับจำนวนที่ได้รับได้"
+        },
+        "excessHeld": {
+          "title": "ยอดส่วนเกินถูกพักไว้",
+          "description": "คำสั่งซื้อของคุณกำลังดำเนินการ เราพักยอดส่วนเกินไว้ โปรดขอคืนเงินเพื่อรับยอดนี้คืน"
+        },
+        "lateArrival": {
+          "title": "ยอดฝากมาถึงล่าช้า",
+          "description": "เงินทุนของคุณมาถึงหลังจากหมดเวลาฝาก คุณเปิดใช้งานอีกครั้งเพื่อดำเนินการต่อ หรือขอคืนเงินได้"
+        },
+        "addressExpired": {
+          "title": "ที่อยู่สำหรับฝากหมดอายุ",
+          "description": "ที่อยู่สำหรับฝากหมดอายุโดยไม่ได้รับเงินทุน คุณลองอีกครั้งด้วยที่อยู่สำหรับฝากใหม่ได้"
+        },
+        "marketMoved": {
+          "title": "ธุรกรรมไม่สำเร็จ",
+          "description": "อัตราแลกเปลี่ยนเปลี่ยนแปลงก่อนที่คำสั่งซื้อของคุณจะเสร็จสมบูรณ์ เงินทุนของคุณปลอดภัย และเราเริ่มคืนเงินแล้ว"
+        }
+      }
+    },
+    "fiatCurrency": {
+      "label": "ชำระด้วย"
+    },
+    "cashCurrency": {
+      "error": "โหลดสกุลเงินไม่ได้ในขณะนี้ โปรดลองอีกครั้ง"
+    },
+    "cashQuote": {
+      "totalFeesLabel": "ค่าธรรมเนียมทั้งหมด",
+      "feeFallback": "ค่าธรรมเนียม {{index}}",
+      "refundNote": "คุณจะได้รับอย่างน้อย {{value}} หรือได้รับเงินคืนเต็มจำนวน"
+    },
+    "cashHandoff": {
+      "title": "คุณจะชำระเงินให้เสร็จใน Transak",
+      "body": "การชำระเงินของคุณจะผ่านที่อยู่สำหรับฝากชั่วคราวที่เราสร้างขึ้นสำหรับการซื้อนี้ ไม่ใช่ Wallet ส่วนตัวของคุณ ซึ่งเป็นเรื่องปกติและเกิดขึ้นโดยอัตโนมัติ",
+      "addressLabel": "ที่อยู่สำหรับฝาก",
+      "addressHint": "คุณจะเห็นที่อยู่เดียวกันนี้ใน Transak",
+      "continue": "ดำเนินการต่อที่ Transak",
+      "goBack": "ย้อนกลับ"
+    },
+    "transactionStatus": {
+      "detailsTitle": "รายละเอียดธุรกรรม",
+      "watching": "กำลังรอธุรกรรม",
+      "executing": "กำลังดำเนินธุรกรรม",
+      "success": "ธุรกรรมสำเร็จ",
+      "seeDetails": "ดูรายละเอียด",
+      "steps": {
+        "receive": {
+          "upcoming": "รับ {{symbol}}",
+          "loading": "กำลังรับ {{symbol}}",
+          "done": "ได้รับ {{symbol}} แล้ว"
+        },
+        "swap": {
+          "upcoming": "Swap เป็น {{symbol}}",
+          "loading": "กำลัง Swap เป็น {{symbol}}",
+          "done": "Swap เป็น {{symbol}} แล้ว"
+        },
+        "bridge": {
+          "upcoming": "Bridge ไปยัง {{chain}}",
+          "loading": "กำลัง Bridge ไปยัง {{chain}}",
+          "done": "Bridge ไปยัง {{chain}} แล้ว"
+        }
+      }
+    },
+    "chooseFundingSource": "เลือกแหล่งเงินทุน",
+    "whereToSendIt": "ที่อยู่ปลายทาง",
+    "walletAddressOrEns": "ที่อยู่ Wallet หรือชื่อ ENS",
+    "insufficientFunds": "เงินทุนไม่เพียงพอ — คุณมี {{symbol}} บน {{chain}} ไม่พอ โปรดเลือกโทเค็นอื่นแล้วลองอีกครั้ง",
+    "routeNotFound": {
+      "title": "ซื้อโทเค็นนี้ที่นี่ไม่ได้",
+      "description": "โทเค็นนี้ใช้กับวิธีชำระเงินที่คุณเลือกไม่ได้ โปรดลองโทเค็นอื่น หรือชำระจาก Wallet ที่เชื่อมต่ออยู่"
+    },
+    "useYourTokens": "ใช้โทเค็นของคุณ",
+    "buyTokens": "ซื้อโทเค็น",
+    "or": "หรือ",
+    "payFromWallet": "ชำระจาก Wallet",
+    "payFromWalletSubtitle": "เชื่อมต่อ Wallet บนเบราว์เซอร์",
+    "transferCrypto": "โอนคริปโต",
+    "transferCryptoSubtitle": "จาก Wallet ใดก็ได้",
+    "connectExchange": "เชื่อมต่อตลาดแลกเปลี่ยน",
+    "connectExchangeSubtitle": "เชื่อมโยงบัญชีตลาดแลกเปลี่ยนของคุณ",
+    "payWithExchange": "ชำระด้วย {{exchange}}",
+    "reuseExchangeSubtitle": "ดำเนินการต่อด้วยบัญชีที่เชื่อมโยงไว้",
+    "depositWithCash": "ฝากด้วยบัตร",
+    "depositWithCashSubtitle": "บัตรเดบิตหรือบัตรเครดิต",
+    "connectWallet": "เชื่อมต่อ Wallet",
+    "useAnotherWallet": "ใช้ Wallet อื่น",
+    "progress": {
+      "title": "กำลังดำเนินการซื้อ",
+      "description": "เรากำลังดำเนินการซื้อของคุณ ขั้นตอนนี้อาจใช้เวลาไม่กี่นาที"
+    },
+    "onramp": {
+      "errors": {
+        "MISSING_API_URL": "ยังไม่ได้ตั้งค่า {{providerName}}: โปรดตั้งค่า sdkConfig.apiUrl ใน Checkout",
+        "MISSING_API_KEY": "ยังไม่ได้ตั้งค่า {{providerName}}: โปรดตั้งค่า apiKey ของ Widget เพื่อเรียกใช้เซสชัน Checkout",
+        "TARGET_NOT_CONFIGURED": "ยังไม่ได้ตั้งค่าปลายทางของ {{providerName}}: โปรดตั้งค่า widget.toChain และ widget.toToken",
+        "INVALID_RESPONSE": "การตอบกลับจาก Session API ของ {{providerName}} ไม่ถูกต้อง",
+        "NETWORK_ERROR": "เกิดข้อผิดพลาดของเครือข่ายขณะเริ่มเซสชัน {{providerName}}",
+        "SESSION_HTTP": "เริ่มเซสชัน {{providerName}} ไม่ได้ ({{status}}) โปรดลองอีกครั้งภายหลัง",
+        "generic": "เกิดข้อผิดพลาด โปรดลองอีกครั้งภายหลัง"
+      },
+      "failure": {
+        "transferTitle": "ธุรกรรมไม่สำเร็จ - กำลังคืนเงิน",
+        "transferDescription": "เราโอนไม่สำเร็จหลังจากพยายามหลายครั้ง เงินทุนของคุณกำลังถูกคืนไปยัง Wallet ที่ส่งมา"
+      }
+    },
+    "status": {
+      "successCompleted": {
+        "title": "ธุรกรรมสำเร็จ",
+        "description": "ธุรกรรมของคุณสำเร็จแล้ว"
+      },
+      "successPartial": {
+        "title": "สำเร็จบางส่วน",
+        "description": "ธุรกรรมของคุณสำเร็จแล้ว แต่โทเค็นที่ได้รับบางส่วนไม่ใช่โทเค็นปลายทางที่ขอไว้ เปิดรายละเอียดเพื่อดูสิ่งที่คุณได้รับ"
+      },
+      "successRefund": {
+        "title": "คืนเงินสำเร็จ",
+        "description": "ธุรกรรมของคุณดำเนินการไม่สำเร็จ และเราคืนเงินทุนให้คุณแล้ว"
+      },
+      "pendingDefault": {
+        "title": "กำลังดำเนินธุรกรรม",
+        "description": "ธุรกรรมของคุณกำลังดำเนินการ ขั้นตอนนี้อาจใช้เวลาไม่กี่นาที"
+      },
+      "pendingRefund": {
+        "title": "กำลังคืนเงิน",
+        "description": "เรากำลังส่งเงินทุนคืนให้คุณ ปกติจะใช้เวลาไม่กี่นาที"
+      },
+      "pendingRetrying": {
+        "title": "กำลังลองทำธุรกรรมอีกครั้ง",
+        "description": "เราพบปัญหาและกำลังลองทำธุรกรรมของคุณอีกครั้งโดยอัตโนมัติ"
+      },
+      "errorExpired": {
+        "title": "ธุรกรรมหมดอายุ",
+        "description": "หมดเวลาทำธุรกรรมแล้ว โปรดลองอีกครั้ง"
+      },
+      "errorFailed": {
+        "title": "ธุรกรรมไม่สำเร็จ",
+        "description": "เราทำธุรกรรมของคุณไม่สำเร็จ โปรดลองอีกครั้งหรือติดต่อฝ่ายสนับสนุน"
+      },
+      "errorConnection": {
+        "title": "เชื่อมต่อไม่สำเร็จ",
+        "description": "เราเชื่อมต่อกับผู้ให้บริการชำระเงินไม่สำเร็จ โปรดลองอีกครั้งหรือติดต่อฝ่ายสนับสนุน",
+        "exchange": {
+          "title": "เชื่อมต่อตลาดแลกเปลี่ยนไม่สำเร็จ",
+          "description": "เราเชื่อมต่อกับบัญชีตลาดแลกเปลี่ยนของคุณไม่สำเร็จ โปรดลองอีกครั้งหรือติดต่อฝ่ายสนับสนุน"
+        }
+      },
+      "errorWithdrawal": {
+        "title": "ถอนไม่สำเร็จ",
+        "description": "ผู้ให้บริการชำระเงินดำเนินการถอนของคุณไม่สำเร็จ เงินทุนของคุณยังอยู่ในบัญชี",
+        "cash": {
+          "title": "ชำระเงินไม่สำเร็จ",
+          "description": "การชำระเงินของคุณไม่สำเร็จ และไม่มีการหักเงิน"
+        },
+        "exchange": {
+          "title": "ถอนจากตลาดแลกเปลี่ยนไม่สำเร็จ",
+          "description": "ตลาดแลกเปลี่ยนของคุณดำเนินการถอนไม่สำเร็จ เงินทุนของคุณยังอยู่ในบัญชีตลาดแลกเปลี่ยน"
+        }
+      },
+      "errorCancelled": {
+        "title": "ธุรกรรมถูกยกเลิก",
+        "description": "ธุรกรรมของคุณถูกยกเลิก คุณลองอีกครั้งได้ทุกเมื่อที่พร้อม",
+        "cash": {
+          "title": "การชำระเงินถูกยกเลิก",
+          "description": "คุณปิดหน้าต่างชำระเงิน คำสั่งซื้อของคุณจึงไม่ถูกสร้าง"
+        }
+      },
+      "errorUnavailable": {
+        "title": "บริการไม่พร้อมใช้งาน",
+        "description": "ผู้ให้บริการชำระเงินไม่พร้อมใช้งานชั่วคราว โปรดลองอีกครั้งภายหลังหรือติดต่อฝ่ายสนับสนุน",
+        "cash": {
+          "title": "ชำระด้วยบัตรไม่ได้ในขณะนี้",
+          "description": "การชำระด้วยบัตรไม่พร้อมใช้งานชั่วคราว โปรดลองอีกครั้งภายหลังหรือใช้วิธีอื่น"
+        }
+      },
+      "walletDisconnected": {
+        "title": "ยกเลิกการเชื่อมต่อ Wallet แล้ว",
+        "description": "การเชื่อมต่อ Wallet ของคุณถูกยกเลิกระหว่างทำธุรกรรม โปรดเชื่อมต่อใหม่แล้วลองอีกครั้ง"
+      },
+      "walletErrorFailed": {
+        "title": "ธุรกรรมไม่สำเร็จ",
+        "description": "เราทำธุรกรรมของคุณไม่สำเร็จ โปรดดูรายละเอียดหรือลองอีกครั้ง"
+      },
+      "walletErrorExpired": {
+        "title": "คำสั่งซื้อหมดอายุ",
+        "description": "หมดเวลาทำธุรกรรมก่อนที่คำสั่งซื้อของคุณจะได้รับการดำเนินการ โปรดลองอีกครั้ง"
+      },
+      "walletPendingRefund": {
+        "title": "กำลังคืนเงิน",
+        "description": "เรากำลังส่งเงินทุนคืนไปยัง Wallet ที่คุณใช้ชำระ ปกติจะใช้เวลาไม่กี่นาที"
+      },
+      "walletSuccessRefund": {
+        "title": "คืนเงินสำเร็จ",
+        "description": "ธุรกรรมของคุณดำเนินการไม่สำเร็จ และเราคืนเงินทุนไปยัง Wallet ของคุณแล้ว"
+      }
+    },
+    "refund": {
+      "title": "คืนเงิน",
+      "inProgressDescription": "{{amount}} {{symbol}} บน {{chain}} ของคุณกำลังถูกส่งคืนไปยัง Wallet ของคุณ ปกติจะใช้เวลาไม่กี่นาที",
+      "completeDescription": "{{amount}} {{symbol}} บน {{chain}} ถูกส่งคืนไปยัง Wallet ของคุณแล้ว",
+      "viewTransaction": "ดูธุรกรรม"
+    }
   }
 }

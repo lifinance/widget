@@ -1,6 +1,5 @@
 {
   "title": {
-    "connectWallet": "Connect wallet",
     "connecting": "Connecting",
     "selectWallet": "Select a wallet",
     "selectWalletWithChain": "Select {{chainLabel}} wallet",

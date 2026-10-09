@@ -5,258 +5,280 @@
   },
   "format": {
     "currency": "{{value, currencyExt(currency: USD)}}",
-    "number": "{{value, number(maximumFractionDigits: 9)}}",
     "percent": "{{value, percent(maximumFractionDigits: 2)}}",
     "tokenAmount": "{{value, numberExt}}"
   },
   "button": {
     "auto": "Otomatik",
-    "bookmark": "Yer İşareti",
-    "bookmarks": "Yer işaretleri",
-    "bridge": "Gönder",
+    "bookmark": "Kaydet",
+    "bridge": "Köprüle",
     "bridgeReview": "Köprüyü incele",
     "buy": "Satın al",
     "cancel": "İptal",
-    "checkoutReview": "Satın alımı incele",
-    "clear": "",
-    "clearAllFailed": "",
-    "clearTransaction": "",
+    "checkoutReview": "Satın almayı incele",
+    "clear": "Temizle",
+    "clearAllFailed": "Başarısız olanları temizle",
+    "clearTransaction": "İşlemi temizle",
     "close": "Kapat",
     "confirm": "Onayla",
-    "connectAnotherWallet": "Diğer bir cüzdanı bağla",
-    "connectChainWallet": "",
-    "connectWallet": "Cüzdanı Bağla",
-    "contactSupport": "Destek Ekibine Ulaş",
+    "connectAnotherWallet": "Başka bir cüzdan bağla",
+    "connectChainWallet": "{{chain}} cüzdanı bağla",
+    "connectWallet": "Cüzdan bağla",
+    "contactSupport": "Destek ekibine ulaş",
     "continue": "Devam et",
-    "copyAddress": "Adresi Kopyala",
+    "copyAddress": "Adresi kopyala",
     "dark": "Koyu",
     "delete": "Sil",
-    "deposit": "Para Yatır",
-    "depositReview": "Para yatırmayı incele",
-    "disconnect": "Bağlantıyı Kes",
-    "done": "Tamamlandı",
-    "exchange": "Al-Sat",
-    "getGas": "Gaz al",
-    "learnMore": "Daha fazla bilgi edinin",
+    "deposit": "Yatır",
+    "depositWithCash": "Para yatır",
+    "pay": "Öde",
+    "depositReview": "Yatırmayı incele",
+    "connectExchange": "Borsa bağla",
+    "transferCrypto": "Kripto transfer et",
+    "disconnect": "Bağlantıyı kes",
+    "done": "Tamam",
+    "exchange": "Takas et",
+    "getGas": "Gas al",
     "light": "Açık",
-    "max": "",
-    "ok": "Tamam",
-    "options": "Ayarlar",
+    "max": "Maks.",
+    "options": "Seçenekler",
+    "requestRefund": "İade talep et",
     "reset": "Sıfırla",
-    "resetSettings": "Ayarları Sıfırla",
-    "seeDetails": "Detayları Gör",
-    "showAll": "Tümünü Göster",
-    "showLess": "",
-    "showMore": "",
-    "startBridging": "Başla",
-    "startSwapping": "Takas işlemini başlat",
+    "resetSettings": "Ayarları sıfırla",
+    "resumeTransaction": "İşleme devam et",
+    "review": "İncele",
+    "topUp": "Tutarı tamamla",
+    "viewRefund": "İadeyi görüntüle",
+    "viewRefundStatus": "İade durumunu görüntüle",
+    "viewTransferDetails": "Transfer ayrıntılarını görüntüle",
+    "showAll": "Tümünü göster",
+    "showLess": "Daha az göster",
+    "showMore": "{{count}} tane daha göster",
+    "startBridging": "Köprülemeye başla",
+    "startSwapping": "Takas etmeye başla",
     "swap": "Takas et",
-    "swapReview": "Takas işlemini incele",
-    "system": "",
-    "tryAgain": "Tekrar Deneyin",
-    "viewCoverage": "Kapsamaya bak",
-    "viewOnExplorer": "Tarayıcıda Görüntüle"
+    "swapReview": "Swap'ı incele",
+    "system": "Sistem",
+    "tryAgain": "Tekrar dene",
+    "viewOnExplorer": "Blok gezgininde görüntüle"
   },
   "header": {
-    "amount": "Miktar",
+    "amount": "Tutar",
     "bookmarkedWallets": "Kayıtlı cüzdanlar",
-    "bridge": "Gönder",
-    "checkout": "Ödeme yap",
-    "checkoutDetails": "Ödeme detayları",
-    "deposit": "Para Yatır",
-    "depositDetails": "Para Yatırma Detayı",
-    "depositTo": "Şuraya yatır",
-    "exchange": "Al-Sat",
-    "from": "Şundan takas et",
-    "gas": "Gaz",
-    "payWith": "Şununla öde",
-    "receive": "Al",
-    "received": "",
+    "bridge": "Köprü",
+    "buy": "Alış",
+    "checkout": "Ödeme",
+    "checkoutDetails": "Ödeme ayrıntıları",
+    "deposit": "Yatırma",
+    "depositWithCash": "Para yatır",
+    "depositAddress": "Yatırma adresi",
+    "depositDetails": "Yatırma ayrıntıları",
+    "depositTo": "Yatırma hedefi",
+    "connectExchange": "Borsa bağla",
+    "transferCrypto": "Kripto transfer et",
+    "currency": "Para birimi",
+    "exchange": "Takas",
+    "from": "Kaynak token",
+    "gas": "Gas",
+    "limit": "Limit",
+    "payWith": "Ödenecek token",
+    "private": "Gizli",
+    "receive": "Alınacak",
+    "received": "Alınan",
     "recentWallets": "Son kullanılan cüzdanlar",
-    "refunded": "",
-    "selectChain": "Zincir Seç",
-    "selectWallet": "Bir Cüzdan Seçin",
-    "send": "Gönder",
+    "refunded": "İade edilen",
+    "selectChain": "Zincir seç",
+    "sell": "Satış",
+    "send": "Gönderilecek",
     "sendToWallet": "Cüzdana gönder",
     "settings": "Ayarlar",
-    "swap": "Takas",
-    "to": "Şuna takas et",
+    "swap": "Swap",
+    "swapAndBridge": "Swap ve köprü",
+    "to": "Hedef token",
     "transactionDetails": "İşlem ayrıntıları",
-    "activities": "",
-    "walletConnected": "Cüzdan Bağlandı",
-    "youGet": "Alacağınız",
-    "youPay": "Ödediğiniz"
+    "activities": "Aktiviteler",
+    "youPay": "Ödenecek"
+  },
+  "limitOrder": {
+    "custom": "Özel",
+    "expiresIn": "Geçerlilik süresi",
+    "market": "Piyasa",
+    "partiallyFillable": "Kısmi gerçekleşmeye izin ver",
+    "price": "Limit fiyatı",
+    "priceLabel": "1 {{symbol}} şu değere ulaştığında"
   },
   "info": {
     "message": {
-      "accountDeployedMessage": "",
-      "unsupportedToAddressMessage": "",
-      "autoRefuel": "{{chainName}} ağında gaz yetersiz. Devam ederek, işlem için gereken miktarda gaz alacaksınız.",
-      "emptyBridgesList": "Aradığın köprüyü bulamadık",
-      "emptyChainList": "Aradığın zinciri bulamadık",
-      "emptyExchangesList": "Aradığın borsayı bulamadık",
-      "emptyTokenListAllNetworks": "",
-      "emptyTransactionHistory": "",
-      "routeNotFound": "Muhtemel sebepler şunlar olabilir: Düşük likidite, seçilen miktarın çok düşük olması, gaz masrafının çok olması ya da seçilen kombinasyon için rota olmaması.",
-      "missingRouteRequiredAccount": ""
+      "accountDeployedMessage": "Akıllı hesabınız diğer zincirlerde aynı adrese sahip olmayabilir. Lütfen devam etmeden önce tekrar kontrol edin.",
+      "unsupportedToAddressMessage": "Stellar transferleri her zaman işlemi imzalayan hesaba ulaşır. Bu nedenle bu rotada farklı bir alıcı kullanılamaz.",
+      "autoRefuel": "{{chainName}} ağında gas'ınız azaldı. Devam ederseniz işlemi tamamlamaya yetecek kadar gas alırsınız.",
+      "emptyBridgesList": "Aramanızla eşleşen köprü bulamadık",
+      "emptyChainList": "Aramanızla eşleşen zincir bulamadık",
+      "emptyExchangesList": "Aramanızla eşleşen DEX bulamadık",
+      "emptyTokenListAllNetworks": "Hiç token bulamadık. Token'ınız görünmüyorsa kontrat adresiyle arayın veya farklı bir zincir seçmeyi deneyin.",
+      "emptyTransactionHistory": "İlk transferinizi tamamladığınızda işlemleriniz burada görünür.",
+      "routeNotFound": "Bunun nedenleri şunlar olabilir: düşük likidite, seçilen tutarın çok düşük olması, gas ücretlerinin çok yüksek olması veya seçilen kombinasyon için rota bulunmaması.",
+      "missingRouteRequiredAccount": "Devam etmek için {{chainName}} cüzdanınızı bağlayın. {{address}}"
     },
     "title": {
-      "autoRefuel": "{{chainName}} ağında gaz al",
-      "emptyTransactionHistory": "Yakın zamanda bir işlem yok",
-      "routeNotFound": "Kullanılabilir bir yol bulunamadı"
+      "autoRefuel": "{{chainName}} ağında gas al",
+      "emptyTransactionHistory": "Yakın zamanda işlem yok",
+      "routeNotFound": "Kullanılabilir rota yok"
     }
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "İşlemi tamamlamaya çalıştık, ancak {{tool}}, slipaj ayarları veya {{tokenSymbol}} tokeninin likidite eksikliği nedeniyle devam edemedi."
+      "exchangePartiallySuccessful": "İşlemi tamamlamaya çalıştık, ancak {{tool}} kayma ayarları veya {{tokenSymbol}} token'ı için yetersiz likidite nedeniyle devam edemedi."
     },
     "title": {
       "bridgePartiallySuccessful": "Köprü işlemi kısmen başarılı",
-      "bridgeSuccessful": "İşlem başarılı",
-      "depositSuccessful": "Yatırma başarılı",
-      "checkoutSuccessful": "Satın alma başarılı",
-      "refundIssued": "Geri ödeme yapıldı",
-      "swapPartiallySuccessful": "Takas işlemi kısmen başarılı",
-      "swapSuccessful": "Takas başarılı"
+      "bridgeSuccessful": "Köprü işlemi başarılı",
+      "depositSuccessful": "Yatırma işlemi başarılı",
+      "checkoutSuccessful": "Satın alma işlemi başarılı",
+      "refundIssued": "İade yapıldı",
+      "swapPartiallySuccessful": "Swap işlemi kısmen başarılı",
+      "swapSuccessful": "Swap işlemi başarılı"
     }
   },
   "warning": {
     "message": {
-      "tokenUnverified": "",
-      "tokenUnverifiedByProvider": "",
-      "accountNotDeployedMessage": "",
-      "lowAddressActivity": "Bu adres {{chainName}} ağında düşük etkinliğe sahip. Olası fon kaybını önlemek için lütfen doğru adrese ve ağa gönderim yaptığınızı doğrulayın.",
-      "clearFailedTransactions": "",
-      "fundsLossPrevention": "Her zaman akıllı sözleşme hesaplarının hedef zincirde düzgün bir şekilde ayarlandığından emin olun ve fon kaybını önlemek için borsalara doğrudan transferlerden kaçının.",
-      "highValueLoss": "Elde edilecek varlıkların değeri, takas edilen varlıklardan ve işlem maliyetinden önemli ölçüde düşüktür.",
-      "insufficientFunds": "Takas işlemini gerçekleştirmek için yeterli bakiyeniz bulunmamaktadır.",
-      "insufficientGas": "En azından şunları eklemelisiniz:",
-      "minFromAmountUSD": "",
-      "rateChanged": "Takas oranı değişti. İşleme devam ederek yeni oranı kabul etmiş olursunuz.",
-      "resetSettings": "Bu, rota önceliğinizi, slipajı, gaz fiyatını, etkin köprüleri ve takasları sıfırlayacaktır.",
-      "slippageOutsideRecommendedLimits": "Yüksek slipaj, ani fiyat hareketleri nedeniyle zarara yol açabilir.",
-      "slippageUnderRecommendedLimits": "Düşük kayma toleransı işlem gecikmelerine veya hatalarına neden olabilir."
+      "tokenUnverified": "Doğrulanmamış token. Devam etmeden önce her zaman kendi araştırmanızı yapın.",
+      "tokenUnverifiedByProvider": "{{tokenSymbol}}, Hypernative tarafından doğrulanmadı. Devam etmeden önce bu token'a güvendiğinizden emin olun.",
+      "accountNotDeployedMessage": "Akıllı kontrat hesabı hedef zincirde mevcut değil. Var olmayan bir akıllı kontrat hesabına fon göndermek kalıcı kayba yol açabilir.",
+      "lowAddressActivity": "Bu adresin {{chainName}} ağındaki aktivitesi düşük. Olası fon kaybını önlemek için lütfen doğru adrese ve ağa gönderim yaptığınızı doğrulayın.",
+      "clearFailedTransactions": "Başarısız işlemler yalnızca yerel olarak saklanır ve temizlendikten sonra geri getirilemez.",
+      "fundsLossPrevention": "Fon kaybını önlemek için akıllı kontrat hesaplarının hedef zincirde doğru şekilde kurulduğundan her zaman emin olun ve borsalara doğrudan transfer yapmaktan kaçının.",
+      "highValueLoss": "Alınacak token'ların değeri, takas edilen token'ların değerinden ve işlem ücretinden önemli ölçüde düşük.",
+      "tokenFlagged": "{{tokenSymbol}}, Hypernative tarafından kötü amaçlı olarak işaretlendi. Bu token'ı takas etmek fonlarınızın tamamını kaybetmenize yol açabilir.",
+      "insufficientFunds": "İşlemi tamamlamak için yeterli bakiyeniz yok.",
+      "insufficientGas": "İşlemi tamamlamak için yeterli gas'ınız yok. En az şu kadar eklemeniz gerekir:",
+      "minFromAmountUSD": "Minimum tutar {{amount, currencyExt(currency: USD)}}. Lütfen daha yüksek bir tutar girin.",
+      "rateChanged": "Kur değişti. İşleme devam ederseniz yeni kuru kabul etmiş olursunuz.",
+      "resetSettings": "Bu, rota önceliğinizi, kayma ve gas fiyatı ayarlarınızı, etkin köprüleri ve DEX'leri sıfırlar.",
+      "slippageOutsideRecommendedLimits": "Yüksek kayma toleransı, front-running nedeniyle zararlı bir işleme yol açabilir.",
+      "slippageUnderRecommendedLimits": "Düşük kayma toleransı, işlemlerin gecikmesine veya başarısız olmasına neden olabilir."
     },
     "checkbox": {
-      "highValueLoss": ""
+      "highValueLoss": "Yüksek değer kaybını kabul ediyorum",
+      "tokenFlagged": "Riskleri anlıyorum ve yine de devam etmek istiyorum"
     },
     "title": {
-      "clearFailedTransactions": "",
+      "clearFailedTransactions": "Tüm başarısız işlemler temizlensin mi?",
       "highValueLoss": "Yüksek değer kaybı",
-      "insufficientGas": "Yetersiz gaz",
-      "rateChanged": "Oran değişti",
-      "resetSettings": "Ayarları sıfırla?",
-      "lowAddressActivity": "Düşük Aktivite Adresi"
+      "insufficientGas": "Yetersiz gas",
+      "rateChanged": "Kur değişti",
+      "resetSettings": "Ayarlar sıfırlansın mı?",
+      "tokenFlagged": "Kötü amaçlı token tespit edildi",
+      "lowAddressActivity": "Düşük aktiviteli adres"
     }
   },
   "error": {
     "message": {
-      "allowanceRequired": "{{tokenSymbol}} için verilen izinden fazla miktarda transfer yapılamaz. Token izinlerini arttırıp tekrar deneyiniz.",
-      "insufficientFunds": "Bu işlemi gerçekleştirmek için yeterli gaz bulunmamaktadır.",
-      "rateLimitExceeded": "",
-      "remainInYourWallet": "",
-      "signatureRejected": "",
-      "slippageThreshold": "Slipaj, tanımlanan eşikten daha büyük. Yeni bir fiyat teklifi almak için lütfen yeni bir rota isteyin.",
-      "thirdPartyError": "",
+      "allowanceRequired": "{{tokenSymbol}} için transfer tutarı mevcut harcama limitinizi aşıyor. Lütfen harcama limitinizi artırıp tekrar deneyin.",
+      "insufficientFunds": "İşlem ücretini karşılamak için yeterli gas'ınız yok.",
+      "rateLimitExceeded": "Kısa sürede çok fazla istek gönderildi. Lütfen biraz bekleyip tekrar deneyin veya sorun devam ederse destek ekibiyle iletişime geçin.",
+      "remainInYourWallet": "{{chainName}} ağındaki {{amount, numberExt}} {{tokenSymbol}} cüzdanınızda duruyor.",
+      "signatureRejected": "İşlemi tamamlamak için imzanız gerekiyor. {{chainName}} ağındaki {{amount, numberExt}} {{tokenSymbol}} cüzdanınızda duruyor.",
+      "slippageThreshold": "Kayma, belirlenen eşikten büyük. Lütfen yeni bir teklif isteyin.",
+      "thirdPartyError": "Harici bir hizmetteki sorun nedeniyle talebinizi tamamlayamadık. Lütfen tekrar deneyin veya sorun devam ederse destek ekibiyle iletişime geçin.",
       "transactionCanceled": "İşlem iptal edildi.",
       "transactionConflict": "İşlem, aynı fonları kullanan başka bir bekleyen işlemle çakıştığı için işleme alınamadı. Lütfen bekleyen işlemin onaylanmasını bekleyin veya tekrar denemeden önce işlem geçmişinizi kontrol edin.",
       "transactionExpired": "Blok yüksekliği izin verilen maksimum sınırı aştı veya blok hash'i artık yeterince güncel değil.",
-      "transactionRejected": "",
-      "transactionFailed": "Daha fazla bilgi için ağ tarayıcısını kontrol edin.",
+      "transactionRejected": "İşlem, dahili bir cüzdan hatası nedeniyle reddedildi. Lütfen tekrar deneyin veya yeni bir teklif isteyin.",
+      "transactionFailed": "Daha fazla bilgi için blok gezginini kontrol edin.",
       "transactionNotSent": "İşlem gönderilmedi.",
       "transactionSimulationFailed": "İşlem simülasyonda yürütülemedi.",
-      "unknown": "Lütfen tekrar deneyin veya desteğe başvurun.",
-      "walletChangedDuringExecution": "Fiyat teklifini talep eden cüzdan adresi, işlemi imzalamaya çalışan cüzdan adresiyle eşleşmiyor. Lütfen işlemin yürütülmesi boyunca aynı cüzdan adresinin kullanıldığından emin olun."
+      "unknown": "Lütfen tekrar deneyin veya destek ekibiyle iletişime geçin.",
+      "walletChangedDuringExecution": "Teklifi talep eden cüzdan adresi, işlemi imzalamaya çalışan cüzdan adresiyle eşleşmiyor. Lütfen işlemin tamamı boyunca aynı cüzdan adresini kullandığınızdan emin olun."
     },
     "title": {
-      "allowanceRequired": "İzin miktarı yetersiz",
+      "allowanceRequired": "Yetersiz harcama limiti",
       "balanceIsTooLow": "Bakiye çok düşük",
-      "bookmarkAlreadyExists": "Bu cüzdan daha önce {{name}} adıyla kaydedilmiş",
-      "bookmarkNameRequired": "Yer işareti için isim gereklidir",
-      "chainSwitch": "Lütfen ağı değiştirin",
-      "exchangeRateUpdateCanceled": "Fiyat güncellemesi iptal edildi",
-      "gasLimitIsTooLow": "Gaz limiti çok düşük",
+      "bookmarkAlreadyExists": "Bu cüzdan zaten {{name}} adıyla kayıtlı",
+      "bookmarkNameRequired": "Cüzdan adı gerekli",
+      "chainSwitch": "Zincir değişikliği gerekli",
+      "exchangeRateUpdateCanceled": "Kur güncellemesi iptal edildi",
+      "gasLimitIsTooLow": "Gas limiti çok düşük",
       "insufficientFunds": "Yetersiz bakiye",
-      "insufficientGas": "",
-      "rateLimitExceeded": "",
-      "signatureRejected": "İmza gerekiyor",
-      "slippageNotMet": "Slipaj koşulları karşılanmadı",
-      "thirdPartyError": "",
+      "insufficientGas": "Yetersiz gas",
+      "rateLimitExceeded": "İstek sınırı aşıldı",
+      "signatureRejected": "İmza gerekli",
+      "slippageNotMet": "Kayma koşulları karşılanmadı",
+      "thirdPartyError": "Harici hizmet kullanılamıyor",
       "transactionCanceled": "İşlem iptal edildi",
       "transactionConflict": "İşlem çakışması",
-      "transactionExpired": "İşlem zaman aşımına uğradı",
+      "transactionExpired": "İşlemin süresi doldu",
       "transactionFailed": "İşlem başarısız",
-      "transactionRejected": "",
-      "transactionSimulationFailed": "İşlem simulasyonu başarısız oldu",
-      "transactionUnderpriced": "İşlemin değeri düşük",
-      "transactionUnprepared": "İşlem başlatılamıyor",
+      "transactionRejected": "İşlem reddedildi",
+      "transactionSimulationFailed": "İşlem simülasyonu başarısız oldu",
+      "transactionUnderpriced": "İşlem ücreti çok düşük",
+      "transactionUnprepared": "İşlem hazırlanamadı",
       "unknown": "Bir sorun oluştu",
-      "walletAddressInvalid": "Cüzdan adresi ya da domain adı geçersiz",
-      "walletAddressInvalid_chain": "Cüzdan adresi ya da domain adı {{chainName}} hedef ağında geçerli değil",
+      "walletAddressInvalid": "Cüzdan adresi veya alan adı geçersiz",
+      "walletAddressInvalid_chain": "Cüzdan adresi veya alan adı, seçilen hedef zincir {{chainName}} için geçersiz",
       "walletAddressRequired": "Cüzdan adresi gereklidir.",
-      "walletChainTypeInvalid": "Cüzdan adresi ile {{chainName}} hedef ağ eşleşmiyor",
+      "walletChainTypeInvalid": "Cüzdan adresi, seçilen hedef zincir {{chainName}} ile eşleşmiyor",
       "walletMismatch": "Cüzdan adresi uyuşmazlığı",
-      "zcashAddressInvalid": ""
+      "zcashAddressInvalid": "Şeffaf bir Zcash adresi (t1 veya t3) ya da Orchard alıcısı içeren birleşik bir adres (u1) girin. Sapling (zs1) ve TEX adresleri desteklenmez."
     }
   },
   "tooltip": {
-    "deselectAll": "Tüm seçimi kaldır",
-    "estimatedTime": "",
-    "exchangeRate": "",
-    "feeCollection": "",
-    "minReceived": "Takas/köprüleme işlemi imzalanana kadar tahmini minimum tutar değişebilir. 2 adımlı transferlerde bu durum, ikinci adım işlemi imzalanana kadar geçerlidir.",
+    "deselectAll": "Tüm seçimleri kaldır",
+    "estimatedTime": "Zincir değiştirme ve token onayı hariç, swap veya köprü işleminin tamamlanma süresi.",
+    "exchangeRate": "Kaynak ve hedef token'lar arasındaki tahmini kur. Yönü değiştirmek için tıklayın.",
+    "feeCollection": "Bu ücret seçili token çiftlerine uygulanır ve size en iyi deneyimi sunmamızı sağlar.",
+    "minReceived": "Tahmini minimum tutar, swap veya köprü işlemi imzalanana kadar değişebilir. 2 adımlı transferlerde bu durum, ikinci adımın işlemi imzalanana kadar geçerlidir.",
     "notFound": {
-      "text": "Aradığınız sayfayı bulamadık.",
+      "text": "Bu sayfayı bulamadık.",
       "title": "404"
     },
-    "multistep": "",
-    "gasless": "",
-    "numberOfSteps": "Her adım, imza gerektiren 1-2 işlem içerebilir.",
-    "priceImpact": "Kaynak ve hedef tokenlar arasındaki tahmini değer farkı.",
-    "progressToNextUpdate": "Görüntülenen veriler, {{value}} saniye sonra otomatik olarak yenilenecektir. Manuel olarak güncellemek için burayı tıklayın.",
+    "multistep": "Bu rota, transferi tamamlamak için birden fazla işlem gerektirir. Her takas adımı, imza gerektiren 1-2 işlem içerebilir.",
+    "gasless": "Gas'ı biz karşılıyoruz, böylece yerel token tutmadan varlık transfer edebilirsiniz. Ağ ücretleri transfere dahildir.",
+    "priceImpact": "Kaynak ve hedef token'lar arasındaki tahmini değer farkı.",
+    "progressToNextUpdate": "Teklifler {{value}} saniye içinde güncellenecek. <0/> Hemen güncellemek için buraya tıklayın.",
     "selectAll": "Tümünü seç",
-    "settingsModified": "Ayarlar (değiştirilen)",
-    "slippage": "Beklenen fiyat ile transferin gerçekleştirildiği gerçek fiyat arasındaki maksimum yüzde fark. Bu değer ayarlardan değiştirilebilir."
+    "settingsModified": "Ayarlar (değiştirildi)",
+    "slippage": "Beklenen fiyat ile transferin gerçekleştirildiği gerçek fiyat arasındaki maksimum yüzde fark. Bu değer ayarlardan değiştirilebilir.",
+    "tokenNative": "{{tokenSymbol}}, bu ağın yerel token'ıdır.",
+    "tokenNativeOnChain": "{{tokenSymbol}}, {{chainName}} ağının yerel token'ıdır.",
+    "tokenVerified": "{{tokenSymbol}} doğrulandı.",
+    "tokenVerifiedByProvider": "{{tokenSymbol}}, {{provider}} tarafından doğrulandı."
   },
   "main": {
-    "allNetworks": "",
-    "allTokens": "Tüm varlıklar",
+    "allNetworks": "Tüm ağlar",
+    "allTokens": "Tüm token'lar",
     "bridgeStepDetails": "{{tool}} aracılığıyla {{from}} ağından {{to}} ağına köprüle",
-    "checkoutStepDetails": "{{tool}} aracılığıyla alım yap",
-    "currentAmount": "Geçerli miktar",
+    "checkoutStepDetails": "{{tool}} aracılığıyla satın al",
+    "currentAmount": "Güncel tutar",
     "depositStepDetails": "{{tool}} aracılığıyla yatır",
-    "estimatedTime": "",
-    "exchangeRate": "",
-    "featuredTokens": "Öne çıkan jetonlar",
+    "estimatedTime": "Tahmini süre",
+    "exchangeRate": "Kur",
+    "featuredTokens": "Öne çıkan token'lar",
     "fees": {
-      "defaultIntegrator": "Integrator ücreti",
-      "relayerService": "",
-      "estimated": "tahmini işlem ücretleri",
-      "free": "",
-      "network": "Ağ maliyeti",
-      "paid": "ödenmiş ücretler",
+      "defaultIntegrator": "Entegratör ücreti",
+      "relayerService": "Gas ücretsiz hizmet",
+      "free": "Ücretsiz",
+      "network": "Ağ ücreti",
       "provider": "Sağlayıcı ücreti"
     },
-    "from": "Gönderen",
-    "inProgress": "işlem devam ediyor",
-    "maxSlippage": "Maksimum kayma oranı",
-    "minReceived": "Minimum alınan",
-    "myTokens": "Varlıklarım",
-    "onChain": "{{chainName}} üzerinde",
-    "ownedBy": "Tarafından sahip olunan",
-    "pinnedTokens": "",
-    "popularTokens": "Popüler varlıklar",
+    "from": "Kaynak",
+    "maxSlippage": "Maks. kayma",
+    "minReceived": "Alınacak minimum",
+    "myTokens": "Token'larım",
+    "ownedBy": "Sahibi",
+    "pinnedTokens": "Sabitlenmiş token'lar",
+    "popularTokens": "Popüler token'lar",
     "priceImpact": "Fiyat etkisi",
     "process": {
       "bridge": {
-        "actionRequired": "",
-        "messageRequired": "",
-        "done": "Köprü işlemi teyit edildi",
-        "pending": "",
+        "actionRequired": "Köprü işlemini imzala",
+        "messageRequired": "Köprü mesajını imzala",
+        "done": "Köprü işlemi onaylandı",
+        "pending": "Köprü işlemi beklemede",
         "started": "Köprü işlemi hazırlanıyor"
       },
       "checkout": {
-        "done": "Satın alma tamamlandı"
+        "done": "Satın alma işlemi tamamlandı"
       },
       "deposit": {
         "done": "Yatırma işlemi tamamlandı"
@@ -264,110 +286,382 @@
       "receivingChain": {
         "done": "Köprü işlemi tamamlandı",
         "partial": "Köprü işlemi kısmen tamamlandı",
-        "pending": "Hedef zincir bekleniyor",
-        "refunded": "Köprü işlemi iade edildi"
+        "pending": "Hedef zincir bekleniyor"
       },
       "swap": {
-        "actionRequired": "",
-        "messageRequired": "",
-        "done": "Takas işlemi tamamlandı",
-        "pending": "",
-        "started": "Takas işlemi hazırlanıyor"
+        "actionRequired": "Swap işlemini imzala",
+        "messageRequired": "Swap mesajını imzala",
+        "done": "Swap işlemi tamamlandı",
+        "pending": "Swap işlemi beklemede",
+        "started": "Swap işlemi hazırlanıyor"
       },
       "permit": {
-        "actionRequired": "",
-        "done": "",
-        "pending": "",
+        "actionRequired": "İzin mesajını imzala",
+        "done": "İzin mesajı imzalandı",
+        "pending": "İzin mesajı bekleniyor",
         "started": "İşlem hazırlanıyor"
       },
       "tokenAllowance": {
-        "actionRequired": "",
-        "resetRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "{{tokenSymbol}} harcamasını onayla",
+        "resetRequired": "{{tokenSymbol}} harcama onayını iptal et",
+        "done": "{{tokenSymbol}} harcaması onaylandı",
+        "pending": "{{tokenSymbol}} onayı beklemede",
+        "started": "Onay işlemi hazırlanıyor"
       }
     },
     "quotedAmount": "Teklif edilen tutar",
-    "rateChange": "Değişiklik oranı",
-    "receiving": "Alınıyor",
-    "recentSearches": "",
-    "refuelStepDetails": "{{tool}} aracılığıyla gaz al",
-    "route": "",
-    "select": "",
-    "sendToAddress": "Bu adrese gönder: {{address}}",
+    "rateChange": "Kur değişimi",
+    "receiving": "Alınacak",
+    "recentSearches": "Son aramalar",
+    "refuelStepDetails": "{{tool}} aracılığıyla gas al",
+    "route": "Rota",
+    "select": "Seç",
     "sendToWallet": "Farklı bir cüzdana gönder",
-    "sending": "Gönderiliyor",
-    "sentToAddress": "Bu adrese gönderildi: {{address}}",
-    "stepBridge": "Köprüle",
-    "stepBridgeAndBuy": "Köprüle ve satın al",
-    "stepBridgeAndDeposit": "Köprüle ve yatır",
-    "stepBuy": "Satın al",
-    "stepDeposit": "Para Yatır",
-    "stepDetails": "LI.FI aracılığıyla {{tool}}",
-    "stepSwap": "Takas et",
-    "stepSwapAndBridge": "Takas et ve Köprüle",
-    "stepSwapAndBuy": "Takasla ve satın al",
-    "stepSwapAndDeposit": "Takas et ve yatır",
-    "swapStepDetails": "{{chain}} üzerinde {{tool}} aracılığıyla takas et",
-    "receipts": "",
-    "sentToWallet": "",
+    "sending": "Gönderilecek",
+    "swapStepDetails": "{{chain}} ağında {{tool}} aracılığıyla takas et",
+    "receipts": "İşlem kayıtları",
+    "sentToWallet": "Cüzdana gönderildi",
     "transferId": "Transfer ID",
     "tags": {
-      "cheapest": "En iyi sonuç",
-      "fastest": "En Hızlı",
-      "gasless": "",
-      "multistep": ""
+      "cheapest": "En kârlı",
+      "fastest": "En hızlı",
+      "gasless": "Gas ücretsiz",
+      "multistep": "Çok adımlı"
     },
-    "to": "Şuna",
-    "tokenOnChain": "{{chainName}} üzerindeki {{tokenSymbol}}",
-    "tokenOnChainAmount": "",
-    "tokenSearch": "",
+    "to": "Hedef",
+    "tokenOnChain": "{{chainName}} ağında {{tokenSymbol}}",
+    "tokenOnChainAmount": "{{chainName}} ağında {{amount, numberExt}} {{tokenSymbol}}",
+    "tokenSearch": "Token adı veya adresiyle ara",
     "valueLoss": "Değer kaybı",
     "searchBridges": "Köprü adına göre ara",
-    "searchExchanges": "Borsa adına göre ara",
-    "searchNetwork": ""
+    "searchCurrency": "Para birimi ara",
+    "searchExchanges": "DEX adına göre ara",
+    "searchNetwork": "Ağ ara"
   },
   "settings": {
-    "appearance": "",
+    "appearance": "Görünüm",
     "enabledBridges": "Köprüler",
-    "enabledExchanges": "Borsalar",
+    "enabledExchanges": "DEX'ler",
     "gasPrice": {
       "fast": "Hızlı",
-      "normal": "Standard",
+      "normal": "Normal",
       "slow": "Yavaş",
-      "title": "Gaz ücreti"
+      "title": "Gas fiyatı"
     },
     "routePriority": "Rota önceliği",
+    "routePriorityOptions": {
+      "cheapest": {
+        "title": "En kârlı",
+        "description": "En düşük ağ ücreti"
+      },
+      "fastest": {
+        "title": "En hızlı",
+        "description": "En kısa işlem süresi"
+      }
+    },
     "slippage": "Maks. kayma",
+    "slippageAutoDescription": "Her rota için optimize edilir",
     "custom": "Özel",
-    "resetSettings": "Kullanılabilir rotaların sayısını etkileyebilecek özel bir ayar kullanıyorsunuz.",
-    "hideSmallBalances": ""
+    "resetSettings": "Kullanılabilir rotaların sayısını veya sıralamasını etkileyebilecek özel ayarlar kullanıyorsunuz.",
+    "hideSmallBalances": "Küçük bakiyeleri gizle"
   },
   "sendToWallet": {
-    "addBookmark": "Yer işareti ekle",
+    "addBookmark": "Cüzdan kaydet",
     "bookmarkWallet": "Cüzdanı kaydet",
-    "confirmWalletAddress": "Cüzdan adresini doğrula",
+    "confirmWalletAddress": "Cüzdan adresini onayla",
     "connectedWallets": "Bağlı cüzdanlar",
-    "enterAddress_long": "Adres veya domain girin",
+    "enterAddress_long": "Adres veya cüzdan alan adı girin",
     "enterAddress_short": "Cüzdan adresini girin",
-    "enterName": "İsim girin",
-    "noBookmarkedWallets": "Kayıtlı cüzdan bulunamadı",
-    "noBookmarkedWalletsMessage": "",
-    "noConnectedWallets": "Bağlı cüzdan bulunamadı",
-    "noConnectedWalletsMessage": "",
-    "noRecentWallets": "Son kullanılan cüzdan bulunamadı",
-    "noRecentWalletsMessage": "",
-    "required": ""
+    "enterName": "Ad girin",
+    "noBookmarkedWallets": "Kayıtlı cüzdan yok",
+    "noBookmarkedWalletsMessage": "Hızlı erişim için sık kullandığınız cüzdan adreslerini kaydedin.",
+    "noConnectedWallets": "Bağlı cüzdan yok",
+    "noConnectedWalletsMessage": "Burada listelenmesi için bir cüzdan bağlayın.",
+    "noRecentWallets": "Son kullanılan cüzdan yok",
+    "noRecentWalletsMessage": "Son kullandığınız cüzdan adresleri burada görünür.",
+    "required": "Gerekli"
   },
   "tokenMetric": {
-    "currentPrice": "",
-    "contractAddress": "",
-    "marketCap": "",
-    "volume24h": "",
-    "status": "",
-    "statusFlagged": "",
-    "statusUnverified": "",
-    "statusVerified": ""
+    "currentPrice": "Güncel fiyat",
+    "contractAddress": "Kontrat adresi",
+    "marketCap": "Piyasa değeri",
+    "volume24h": "24 saatlik hacim",
+    "status": "Durum",
+    "statusFlagged": "Hypernative tarafından kötü amaçlı olarak işaretlendi. Bu token ile işlem yapmak fonlarınızın tamamını kaybetmenize yol açabilir.",
+    "statusUnverified": "Hypernative tarafından doğrulanmadı",
+    "statusVerified": "Hypernative tarafından doğrulandı. Hatalı pozitif sonuçlar oluşabilir ve bu uyarılar için hiçbir sorumluluk kabul etmiyoruz. İşlem yapmadan önce her zaman kendi araştırmanızı yapın."
+  },
+  "tags": {
+    "connected": "Bağlı",
+    "getStarted": "Başla",
+    "installed": "Yüklü",
+    "multichain": "Çoklu zincir",
+    "qrCode": "QR kod"
+  },
+  "checkout": {
+    "closeConfirmation": {
+      "title": "Ödeme ekranından çıkılsın mı?",
+      "body": "Kapatmak yatırma işleminizi iptal etmez. Durumunu kontrol etmek için istediğiniz zaman buraya geri dönebilirsiniz.",
+      "confirm": "Ödeme ekranını kapat",
+      "cancel": "İptal"
+    },
+    "abandonConfirmation": {
+      "title": "Bu transfer iptal edilsin mi?",
+      "body": "Yatırma ayrıntılarınız silinecek. İptal ettikten sonra bu adrese fon göndermeyin.",
+      "confirm": "Transferi iptal et",
+      "cancel": "Transfere devam et"
+    },
+    "activity": {
+      "title": "Aktivite",
+      "deposit": "Yatırma",
+      "amountOnChain": "{{chain}} ağında {{amount}} {{symbol}}",
+      "depositInProgress": "Yatırma işlemi sürüyor",
+      "refundInProgress": "İade sürüyor",
+      "couldNotComplete": "Tamamlanamadı",
+      "singleFailed": "Yatırma işlemi başarısız oldu. Lütfen kontrol edin",
+      "dismiss": "Kapat"
+    },
+    "transak": {
+      "forceClose": {
+        "tooltip": "Kapat (işlem devam etmez)"
+      }
+    },
+    "legal": {
+      "termsDisclaimer": "Devam ederek LI.FI <terms>Hizmet Şartlarını</terms> kabul etmiş olursunuz."
+    },
+    "resume": {
+      "notFoundToast": "İşleminizi bulamadık. Baştan başlayın veya bunun bir hata olduğunu düşünüyorsanız destek ekibiyle iletişime geçin."
+    },
+    "transferDeposit": {
+      "warning": "<b>{{chain}}</b> ağında en az <b>{{amount}} {{symbol}}</b> gönderin. Yanlış token veya zincir kullanırsanız fonlarınız geri alınamayabilir.",
+      "expiresIn": "Yatırma adresinin süresi {{minutes}}:{{seconds}} içinde doluyor",
+      "copyAddress": "Adresi kopyala",
+      "addressCopied": "Kopyalandı!",
+      "polling": "Yatırma işleminiz bekleniyor…",
+      "detailsTitle": "Yatırma ayrıntıları",
+      "table": {
+        "required": "Gereken",
+        "received": "Alınan",
+        "minRefundable": "Min. iade edilebilir",
+        "remaining": "Kalan",
+        "excess": "Fazla",
+        "timeRemaining": "Kalan süre"
+      },
+      "errors": {
+        "unexpected": {
+          "title": "Beklenmeyen yatırma işlemi",
+          "description": "Desteklenen bir rotayla eşleşmeyen bir yatırma işlemi aldık. Sonraki adımlar için destek ekibiyle iletişime geçin."
+        },
+        "amountLowThreshold": {
+          "title": "Yatırılan tutar eksik",
+          "description": "Siparişinizi tamamlamak veya iade alabilmek için tutarı tamamlayın."
+        },
+        "amountLowTopUp": {
+          "title": "Yatırılan tutar eksik",
+          "description": "Yatırma süresi dolmadan kalan tutarı gönderin."
+        },
+        "amountLowExpired": {
+          "title": "Yatırılan tutar eksik",
+          "description": "Yatırma süresi doldu. Alınan tutar için iade talep edebilirsiniz."
+        },
+        "excessHeld": {
+          "title": "Fazla tutar bekletiliyor",
+          "description": "Siparişiniz işleniyor. Fazla tutar bekletiliyor; geri almak için iade talep edin."
+        },
+        "lateArrival": {
+          "title": "Yatırılan tutar geç ulaştı",
+          "description": "Fonlarınız yatırma süresi dolduktan sonra bize ulaştı. Devam etmek için işlemi yeniden etkinleştirebilir veya iade talep edebilirsiniz."
+        },
+        "addressExpired": {
+          "title": "Yatırma adresinin süresi doldu",
+          "description": "Yatırma adresinin süresi, fon alınmadan doldu. Yeni bir yatırma adresiyle tekrar deneyebilirsiniz."
+        },
+        "marketMoved": {
+          "title": "İşlem başarısız oldu",
+          "description": "Siparişiniz tamamlanmadan kur değişti. Fonlarınız güvende; iade başlatıldı."
+        }
+      }
+    },
+    "fiatCurrency": {
+      "label": "Ödeme para birimi"
+    },
+    "cashCurrency": {
+      "error": "Para birimleri şu anda yüklenemiyor. Tekrar deneyin."
+    },
+    "cashQuote": {
+      "totalFeesLabel": "Toplam ücretler",
+      "feeFallback": "Ücret {{index}}",
+      "refundNote": "En az {{value}} alırsınız ya da tutarın tamamı iade edilir."
+    },
+    "cashHandoff": {
+      "title": "Ödemeyi Transak'ta tamamlayacaksınız",
+      "body": "Ödemeniz kişisel cüzdanınızdan değil, bu satın alma için oluşturduğumuz geçici bir yatırma adresinden geçer. Bu beklenen bir durumdur ve otomatik olarak gerçekleşir.",
+      "addressLabel": "Yatırma adresi",
+      "addressHint": "Aynı adresi Transak'ta da göreceksiniz.",
+      "continue": "Transak ile devam et",
+      "goBack": "Geri dön"
+    },
+    "transactionStatus": {
+      "detailsTitle": "İşlem ayrıntıları",
+      "watching": "İşlem izleniyor",
+      "executing": "İşlem gerçekleştiriliyor",
+      "success": "İşlem başarılı",
+      "seeDetails": "Ayrıntıları gör",
+      "steps": {
+        "receive": {
+          "upcoming": "{{symbol}} alınacak",
+          "loading": "{{symbol}} alınıyor",
+          "done": "{{symbol}} alındı"
+        },
+        "swap": {
+          "upcoming": "{{symbol}} ile takas edilecek",
+          "loading": "{{symbol}} ile takas ediliyor",
+          "done": "{{symbol}} ile takas edildi"
+        },
+        "bridge": {
+          "upcoming": "{{chain}} ağına köprülenecek",
+          "loading": "{{chain}} ağına köprüleniyor",
+          "done": "{{chain}} ağına köprülendi"
+        }
+      }
+    },
+    "chooseFundingSource": "Ödeme kaynağı seç",
+    "whereToSendIt": "Nereye gönderilsin?",
+    "walletAddressOrEns": "Cüzdan adresi veya ENS adı",
+    "insufficientFunds": "Yetersiz bakiye — {{chain}} ağında yeterli {{symbol}} bakiyeniz yok. Tekrar denemek için farklı bir token seçin.",
+    "routeNotFound": {
+      "title": "Bu token burada satın alınamıyor",
+      "description": "Bu token, seçtiğiniz ödeme yöntemiyle kullanılamıyor. Farklı bir token deneyin veya bağlı bir cüzdandan ödeme yapın."
+    },
+    "useYourTokens": "Token'larınızı kullanın",
+    "buyTokens": "Token satın alın",
+    "or": "veya",
+    "payFromWallet": "Cüzdandan öde",
+    "payFromWalletSubtitle": "Bir tarayıcı cüzdanı bağlayın",
+    "transferCrypto": "Kripto transfer et",
+    "transferCryptoSubtitle": "Herhangi bir cüzdandan",
+    "connectExchange": "Borsa bağla",
+    "connectExchangeSubtitle": "Borsa hesabınızı bağlayın",
+    "payWithExchange": "{{exchange}} ile öde",
+    "reuseExchangeSubtitle": "Bağlı hesabınızla devam edin",
+    "depositWithCash": "Para yatır",
+    "depositWithCashSubtitle": "Banka veya kredi kartı",
+    "connectWallet": "Cüzdan bağla",
+    "useAnotherWallet": "Başka bir cüzdan kullan",
+    "progress": {
+      "title": "Satın alma işlemi sürüyor",
+      "description": "Satın alma işleminizi gerçekleştiriyoruz. Bu birkaç dakika sürebilir."
+    },
+    "onramp": {
+      "errors": {
+        "MISSING_API_URL": "{{providerName}} yapılandırılmamış: checkout için sdkConfig.apiUrl değerini ayarlayın.",
+        "MISSING_API_KEY": "{{providerName}} yapılandırılmamış: checkout oturumlarını çağırmak için widget apiKey değerini ayarlayın.",
+        "TARGET_NOT_CONFIGURED": "{{providerName}} hedefi yapılandırılmamış: widget.toChain ve widget.toToken değerlerini ayarlayın.",
+        "INVALID_RESPONSE": "{{providerName}} oturum API'sinden geçersiz yanıt alındı.",
+        "NETWORK_ERROR": "{{providerName}} oturumu başlatılırken ağ hatası oluştu.",
+        "SESSION_HTTP": "{{providerName}} oturumu başlatılamadı ({{status}}). Daha sonra tekrar deneyin.",
+        "generic": "Bir sorun oluştu. Daha sonra tekrar deneyin."
+      },
+      "failure": {
+        "transferTitle": "İşlem başarısız oldu - iade ediliyor",
+        "transferDescription": "Birkaç denemeden sonra transferi tamamlayamadık. Fonlarınız, gönderildikleri cüzdana iade ediliyor."
+      }
+    },
+    "status": {
+      "successCompleted": {
+        "title": "İşlem başarılı",
+        "description": "İşleminiz başarıyla tamamlandı."
+      },
+      "successPartial": {
+        "title": "Kısmen tamamlandı",
+        "description": "İşleminiz tamamlandı, ancak alınan token'ların bir kısmı istenen hedef token'lar değil. Ne aldığınızı görmek için ayrıntıları açın."
+      },
+      "successRefund": {
+        "title": "İade tamamlandı",
+        "description": "İşleminiz tamamlanamadı ve fonlarınız iade edildi."
+      },
+      "pendingDefault": {
+        "title": "İşlem gerçekleştiriliyor",
+        "description": "İşleminiz gerçekleştiriliyor. Bu birkaç dakika sürebilir."
+      },
+      "pendingRefund": {
+        "title": "İade sürüyor",
+        "description": "Fonlarınızı geri gönderiyoruz. Bu genellikle birkaç dakika sürer."
+      },
+      "pendingRetrying": {
+        "title": "İşlem yeniden deneniyor",
+        "description": "Bir sorunla karşılaştık ve işleminizi otomatik olarak yeniden deniyoruz."
+      },
+      "errorExpired": {
+        "title": "İşlemin süresi doldu",
+        "description": "İşlem süresi doldu. Lütfen tekrar deneyin."
+      },
+      "errorFailed": {
+        "title": "İşlem başarısız oldu",
+        "description": "İşleminizi tamamlayamadık. Tekrar deneyin veya destek ekibiyle iletişime geçin."
+      },
+      "errorConnection": {
+        "title": "Bağlantı başarısız oldu",
+        "description": "Ödeme sağlayıcısına bağlanamadık. Tekrar deneyin veya destek ekibiyle iletişime geçin.",
+        "exchange": {
+          "title": "Borsa bağlantısı başarısız oldu",
+          "description": "Borsa hesabınıza bağlanamadık. Tekrar deneyin veya destek ekibiyle iletişime geçin."
+        }
+      },
+      "errorWithdrawal": {
+        "title": "Çekme işlemi başarısız oldu",
+        "description": "Ödeme sağlayıcısı çekme işleminizi gerçekleştiremedi. Fonlarınız hesabınızda duruyor.",
+        "cash": {
+          "title": "Ödeme tamamlanmadı",
+          "description": "Ödemeniz gerçekleşmedi. Sizden herhangi bir tutar tahsil edilmedi."
+        },
+        "exchange": {
+          "title": "Borsadan çekme işlemi başarısız oldu",
+          "description": "Borsanız çekme işlemini gerçekleştiremedi. Fonlarınız borsa hesabınızda duruyor."
+        }
+      },
+      "errorCancelled": {
+        "title": "İşlem iptal edildi",
+        "description": "İşleminiz iptal edildi. Hazır olduğunuzda tekrar deneyebilirsiniz.",
+        "cash": {
+          "title": "Ödeme iptal edildi",
+          "description": "Ödeme penceresini kapattınız. Siparişiniz oluşturulmadı."
+        }
+      },
+      "errorUnavailable": {
+        "title": "Hizmet kullanılamıyor",
+        "description": "Ödeme sağlayıcısı geçici olarak kullanılamıyor. Lütfen daha sonra tekrar deneyin veya destek ekibiyle iletişime geçin.",
+        "cash": {
+          "title": "Kartla ödeme kullanılamıyor",
+          "description": "Kartla ödemeler geçici olarak kullanılamıyor. Daha sonra tekrar deneyin veya farklı bir yöntem kullanın."
+        }
+      },
+      "walletDisconnected": {
+        "title": "Cüzdan bağlantısı kesildi",
+        "description": "İşlem sırasında cüzdanınızın bağlantısı kesildi. Cüzdanınızı yeniden bağlayıp tekrar deneyin."
+      },
+      "walletErrorFailed": {
+        "title": "İşlem başarısız oldu",
+        "description": "İşleminizi tamamlayamadık. Ayrıntıları görüntüleyin veya tekrar deneyin."
+      },
+      "walletErrorExpired": {
+        "title": "Siparişin süresi doldu",
+        "description": "Siparişiniz işlenemeden işlem süresi doldu. Lütfen tekrar deneyin."
+      },
+      "walletPendingRefund": {
+        "title": "İade sürüyor",
+        "description": "Fonlarınızı ödeme yaptığınız cüzdana geri gönderiyoruz. Bu genellikle birkaç dakika sürer."
+      },
+      "walletSuccessRefund": {
+        "title": "İade tamamlandı",
+        "description": "İşleminiz tamamlanamadı ve fonlarınız cüzdanınıza iade edildi."
+      }
+    },
+    "refund": {
+      "title": "İade",
+      "inProgressDescription": "{{chain}} ağındaki {{amount}} {{symbol}} tutarınız cüzdanınıza iade ediliyor. Bu genellikle birkaç dakika sürer.",
+      "completeDescription": "{{chain}} ağındaki {{amount}} {{symbol}} tutarınız cüzdanınıza iade edildi.",
+      "viewTransaction": "İşlemi görüntüle"
+    }
   }
 }

@@ -5,369 +5,663 @@
   },
   "format": {
     "currency": "{{value, currencyExt(currency: USD)}}",
-    "number": "{{value, number(maximumFractionDigits: 9)}}",
     "percent": "{{value, percent(maximumFractionDigits: 2)}}",
     "tokenAmount": "{{value, numberExt}}"
   },
   "button": {
     "auto": "自动",
     "bookmark": "收藏",
-    "bookmarks": "收藏夹",
     "bridge": "跨链",
-    "bridgeReview": "查看跨链详情",
+    "bridgeReview": "预览跨链",
     "buy": "购买",
     "cancel": "取消",
-    "checkoutReview": "查看购买详情",
-    "clear": "",
-    "clearAllFailed": "",
-    "clearTransaction": "",
+    "checkoutReview": "预览购买",
+    "clear": "清除",
+    "clearAllFailed": "清除所有失败交易",
+    "clearTransaction": "清除交易",
     "close": "关闭",
     "confirm": "确认",
     "connectAnotherWallet": "连接另一个钱包",
-    "connectChainWallet": "",
-    "connectWallet": "关联钱包",
+    "connectChainWallet": "连接 {{chain}} 钱包",
+    "connectWallet": "连接钱包",
     "contactSupport": "联系技术支持",
     "continue": "继续",
     "copyAddress": "复制地址",
-    "dark": "深色主题",
+    "dark": "深色",
     "delete": "删除",
-    "deposit": "存款",
-    "depositReview": "查看存款详情",
+    "deposit": "存入",
+    "depositWithCash": "用银行卡充值",
+    "pay": "支付",
+    "depositReview": "预览存入",
+    "connectExchange": "连接交易所",
+    "transferCrypto": "转入加密货币",
     "disconnect": "断开连接",
-    "done": "确认",
+    "done": "完成",
     "exchange": "兑换",
-    "getGas": "开始兑换燃气费",
-    "learnMore": "了解更多",
-    "light": "浅色主题",
-    "max": "",
-    "ok": "确认",
+    "getGas": "获取 Gas",
+    "light": "浅色",
+    "max": "最大",
     "options": "选项",
+    "requestRefund": "申请退款",
     "reset": "重置",
-    "resetSettings": "恢复默认设置",
-    "seeDetails": "查看详情",
-    "showAll": "显示所有",
-    "showLess": "",
-    "showMore": "",
+    "resetSettings": "重置设置",
+    "resumeTransaction": "继续交易",
+    "review": "预览",
+    "topUp": "补足金额",
+    "viewRefund": "查看退款",
+    "viewRefundStatus": "查看退款状态",
+    "viewTransferDetails": "查看转账详情",
+    "showAll": "显示全部",
+    "showLess": "收起",
+    "showMore": "再显示 {{count}} 个",
     "startBridging": "开始跨链",
     "startSwapping": "开始兑换",
     "swap": "兑换",
-    "swapReview": "查看兑换详情",
-    "system": "",
+    "swapReview": "预览兑换",
+    "system": "跟随系统",
     "tryAgain": "重试",
-    "viewCoverage": "查看我们的覆盖范围",
-    "viewOnExplorer": "在区块链浏览器上查看"
+    "viewOnExplorer": "在区块浏览器中查看"
   },
   "header": {
     "amount": "金额",
     "bookmarkedWallets": "已收藏的钱包",
     "bridge": "跨链",
-    "checkout": "支付",
-    "checkoutDetails": "交易细节",
-    "deposit": "存款",
-    "depositDetails": "存款详情",
-    "depositTo": "充币至",
+    "buy": "买入",
+    "checkout": "结账",
+    "checkoutDetails": "购买详情",
+    "deposit": "存入",
+    "depositWithCash": "用银行卡充值",
+    "depositAddress": "充值地址",
+    "depositDetails": "存入详情",
+    "depositTo": "存入至",
+    "connectExchange": "连接交易所",
+    "transferCrypto": "转入加密货币",
+    "currency": "币种",
     "exchange": "兑换",
-    "from": "兑换自",
-    "gas": "燃气费",
-    "payWith": "支付方式",
+    "from": "选择源代币",
+    "gas": "Gas",
+    "limit": "限价",
+    "payWith": "支付代币",
+    "private": "隐私兑换",
     "receive": "接收",
-    "received": "",
+    "received": "已收到",
     "recentWallets": "最近使用的钱包",
-    "refunded": "",
-    "selectChain": "选择网络",
-    "selectWallet": "选择你的钱包",
+    "refunded": "已退款",
+    "selectChain": "选择链",
+    "sell": "卖出",
     "send": "发送",
-    "sendToWallet": "发送到该钱包",
+    "sendToWallet": "发送至钱包",
     "settings": "设置",
     "swap": "兑换",
-    "to": "兑换为",
+    "swapAndBridge": "兑换与跨链",
+    "to": "选择目标代币",
     "transactionDetails": "交易详情",
-    "activities": "",
-    "walletConnected": "连接钱包",
-    "youGet": "您获得",
-    "youPay": "需要支付"
+    "activities": "交易记录",
+    "youPay": "您支付"
+  },
+  "limitOrder": {
+    "custom": "自定义",
+    "expiresIn": "到期时间",
+    "market": "市价",
+    "partiallyFillable": "允许部分成交",
+    "price": "限价",
+    "priceLabel": "当 1 {{symbol}} 的价格达到"
   },
   "info": {
     "message": {
-      "accountDeployedMessage": "",
-      "unsupportedToAddressMessage": "",
-      "autoRefuel": "您在 {{chainName}} 链上的燃气费很低。如果启用该选项，您将获得足够的燃气费完成此次兑换。",
-      "emptyBridgesList": "我们找不到任何匹配的桥",
-      "emptyChainList": "我们找不到任何匹配的链",
-      "emptyExchangesList": "我们找不到任何匹配的交易所",
-      "emptyTokenListAllNetworks": "",
-      "emptyTransactionHistory": "",
-      "routeNotFound": "导致其的原因可能是：流动性低，所选定代币的数额太低，燃气费过高，或者当前没有合适的交易路径。",
-      "missingRouteRequiredAccount": ""
+      "accountDeployedMessage": "您的智能账户在其他链上的地址可能不同。请在继续前仔细核对。",
+      "unsupportedToAddressMessage": "Stellar 转账始终结算到签名的账户，因此此路由无法使用其他接收地址。",
+      "autoRefuel": "您在 {{chainName}} 上的 Gas 不足。继续操作后，您将获得足够的 Gas 来完成交易。",
+      "emptyBridgesList": "未找到与搜索匹配的跨链桥",
+      "emptyChainList": "未找到与搜索匹配的链",
+      "emptyExchangesList": "未找到与搜索匹配的 DEX",
+      "emptyTokenListAllNetworks": "未找到任何代币。如果您的代币未显示，请按合约地址搜索，或尝试选择其他链。",
+      "emptyTransactionHistory": "完成首笔交易后，您的交易将显示在这里。",
+      "routeNotFound": "可能的原因：流动性不足、所选金额过低、Gas 费过高，或所选组合没有可用路由。",
+      "missingRouteRequiredAccount": "请连接您的 {{chainName}} 钱包以继续。{{address}}"
     },
     "title": {
-      "autoRefuel": "获得 {{chainName}} 链的燃气费",
-      "emptyTransactionHistory": "近期无交易",
-      "routeNotFound": "没有可用的路由"
+      "autoRefuel": "获取 {{chainName}} Gas",
+      "emptyTransactionHistory": "暂无近期交易",
+      "routeNotFound": "暂无可用路由"
     }
   },
   "success": {
     "message": {
-      "exchangePartiallySuccessful": "我们尝试执行这笔交易，但是因为滑点设置的问题或者 {{tokenSymbol}} 代币流动性不足，{{tool}} 无法完成交易"
+      "exchangePartiallySuccessful": "我们已尝试完成交易，但由于滑点设置或 {{tokenSymbol}} 代币流动性不足，{{tool}} 无法继续执行。"
     },
     "title": {
       "bridgePartiallySuccessful": "跨链部分成功",
       "bridgeSuccessful": "跨链成功",
-      "depositSuccessful": "存款成功",
+      "depositSuccessful": "存入成功",
       "checkoutSuccessful": "购买成功",
-      "refundIssued": "退款已受理",
-      "swapPartiallySuccessful": "兑换部分完成",
+      "refundIssued": "退款已发放",
+      "swapPartiallySuccessful": "兑换部分成功",
       "swapSuccessful": "兑换成功"
     }
   },
   "warning": {
     "message": {
-      "tokenUnverified": "",
-      "tokenUnverifiedByProvider": "",
-      "accountNotDeployedMessage": "",
-      "lowAddressActivity": "此地址在 {{chainName}} 网络上的活跃度较低。请确认您发送到了正确的地址和网络，以防止潜在的资金损失。",
-      "clearFailedTransactions": "",
-      "fundsLossPrevention": "总是确保在目的地链上适当建立智能合同账户，并避免直接转给交易所，以防止资金损失。",
-      "highValueLoss": "收到的代币的价值明显低于要被兑换的代币和交易成本。",
-      "insufficientFunds": "你没有足够的资金来完成这笔交易。",
-      "insufficientGas": "您没有足够的燃气费来完成此次交易。您至少需要添加：",
-      "minFromAmountUSD": "",
-      "rateChanged": "兑换比例已经改变，如果继续兑换，您将接受新的兑换比例。",
-      "resetSettings": "这将重置您的路由优先级，滑点，燃气费，选中的跨链桥和链上交易所。",
-      "slippageOutsideRecommendedLimits": "过高的滑点可能会导致交易被抢跑，造成财产损失",
-      "slippageUnderRecommendedLimits": "低幻灯片宽度可能会导致交易延迟或失败。"
+      "tokenUnverified": "未经验证的代币。继续之前，请务必自行研究。",
+      "tokenUnverifiedByProvider": "{{tokenSymbol}} 未经 Hypernative 验证。继续之前，请确保您信任此代币。",
+      "accountNotDeployedMessage": "目标链上不存在该智能合约账户。向不存在的智能合约账户发送资金可能导致永久损失。",
+      "lowAddressActivity": "此地址在 {{chainName}} 网络上的活跃度较低。请确认接收地址和网络正确，以免造成资金损失。",
+      "clearFailedTransactions": "失败的交易仅保存在本地，清除后将无法恢复。",
+      "fundsLossPrevention": "请务必确保目标链上的智能合约账户已正确设置，并避免直接转账到交易所，以免造成资金损失。",
+      "highValueLoss": "收到代币的价值明显低于所兑换代币的价值与交易成本之和。",
+      "tokenFlagged": "{{tokenSymbol}} 已被 Hypernative 标记为恶意代币。兑换此代币可能导致资金全部损失。",
+      "insufficientFunds": "您的资金不足，无法完成此交易。",
+      "insufficientGas": "您的 Gas 不足，无法完成此交易。您至少需要添加：",
+      "minFromAmountUSD": "最低金额为 {{amount, currencyExt(currency: USD)}}。请输入更高的金额。",
+      "rateChanged": "汇率已变动。继续交易即表示您接受新汇率。",
+      "resetSettings": "此操作将重置您的路由优先级、滑点、Gas 价格，以及已启用的跨链桥和 DEX。",
+      "slippageOutsideRecommendedLimits": "滑点容差过高，可能因抢跑交易导致成交价格不利。",
+      "slippageUnderRecommendedLimits": "滑点容差过低，可能导致交易延迟或失败。"
     },
     "checkbox": {
-      "highValueLoss": ""
+      "highValueLoss": "我接受过高的价值损失",
+      "tokenFlagged": "我了解风险，仍要继续"
     },
     "title": {
-      "clearFailedTransactions": "",
-      "highValueLoss": "大额资金损失",
-      "insufficientGas": "燃气费不足",
-      "rateChanged": "兑换比例变动",
-      "resetSettings": "确定要恢复默认设置吗?",
-      "lowAddressActivity": "低活动地址"
+      "clearFailedTransactions": "清除所有失败交易？",
+      "highValueLoss": "价值损失过高",
+      "insufficientGas": "Gas 不足",
+      "rateChanged": "汇率已变动",
+      "resetSettings": "重置设置？",
+      "tokenFlagged": "检测到恶意代币",
+      "lowAddressActivity": "低活跃度地址"
     }
   },
   "error": {
     "message": {
-      "allowanceRequired": "{{tokenSymbol}} 的转账金额超过了您设置的支出上限。请提高该代币的支出上限，然后重试。",
-      "insufficientFunds": "您没有足够的燃气费支付该交易。",
-      "rateLimitExceeded": "",
-      "remainInYourWallet": "",
-      "signatureRejected": "",
-      "slippageThreshold": "滑点大于预设值，请选择其他路由并获取新的价格。",
-      "thirdPartyError": "",
-      "transactionCanceled": "交易已被取消。",
-      "transactionConflict": "交易无法处理，因为它与使用相同资金的另一个待处理交易相冲突。 请等待交易确认或检查您的交易历史，然后再次尝试。",
-      "transactionExpired": "区块高度已超过允许的最大值，或者交易哈希值已经过期。",
-      "transactionRejected": "",
-      "transactionFailed": "请查看区块浏览器以了解更多信息。",
-      "transactionNotSent": "交易未能发送。",
-      "transactionSimulationFailed": "该交易模拟执行失败。",
-      "unknown": "请再试一次或者联系支持。",
-      "walletChangedDuringExecution": "询价的钱包地址与试图签署交易的钱包地址不匹配，请确保在整个交易执行过程中使用相同的钱包地址。"
+      "allowanceRequired": "{{tokenSymbol}} 的转账金额超过了当前授权额度。请提高授权额度后重试。",
+      "insufficientFunds": "您的 Gas 不足，无法支付此交易的费用。",
+      "rateLimitExceeded": "短时间内请求过多。请稍候重试；如果问题仍然存在，请联系技术支持。",
+      "remainInYourWallet": "{{chainName}} 上的 {{amount, numberExt}} {{tokenSymbol}} 仍在您的钱包中。",
+      "signatureRejected": "需要您的签名才能完成交易。{{chainName}} 上的 {{amount, numberExt}} {{tokenSymbol}} 仍在您的钱包中。",
+      "slippageThreshold": "滑点超出设定阈值。请获取新报价。",
+      "thirdPartyError": "由于外部服务出现问题，我们无法完成您的请求。请重试；如果问题仍然存在，请联系技术支持。",
+      "transactionCanceled": "交易已取消。",
+      "transactionConflict": "该交易与另一笔使用相同资金的待处理交易冲突，因此无法处理。请等待待处理交易确认，或在重试前查看交易记录。",
+      "transactionExpired": "区块高度已超过允许的最大值，或区块哈希已过期。",
+      "transactionRejected": "由于钱包内部错误，交易已被拒绝。请重试或获取新报价。",
+      "transactionFailed": "请在区块浏览器中查看更多信息。",
+      "transactionNotSent": "交易未发送。",
+      "transactionSimulationFailed": "交易模拟执行失败。",
+      "unknown": "请重试或联系技术支持。",
+      "walletChangedDuringExecution": "请求报价的钱包地址与尝试签名交易的钱包地址不一致。请确保整个交易执行过程中使用同一钱包地址。"
     },
     "title": {
-      "allowanceRequired": "余额不足",
-      "balanceIsTooLow": "余额太低",
-      "bookmarkAlreadyExists": "钱包: {{name}}，已被收藏",
-      "bookmarkNameRequired": "请输入收藏钱包的名称",
-      "chainSwitch": "请切换当前网络",
-      "exchangeRateUpdateCanceled": "兑换率更新已取消",
-      "gasLimitIsTooLow": "燃气费设置过低",
+      "allowanceRequired": "授权额度不足",
+      "balanceIsTooLow": "余额过低",
+      "bookmarkAlreadyExists": "该钱包已收藏为 {{name}}",
+      "bookmarkNameRequired": "请输入收藏名称",
+      "chainSwitch": "需要切换链",
+      "exchangeRateUpdateCanceled": "汇率更新已取消",
+      "gasLimitIsTooLow": "Gas 上限过低",
       "insufficientFunds": "资金不足",
-      "insufficientGas": "",
-      "rateLimitExceeded": "",
-      "signatureRejected": "交易需要签名。",
-      "slippageNotMet": "滑点未满足",
-      "thirdPartyError": "",
-      "transactionCanceled": "交易取消",
+      "insufficientGas": "Gas 不足",
+      "rateLimitExceeded": "请求频率超限",
+      "signatureRejected": "需要签名",
+      "slippageNotMet": "未满足滑点条件",
+      "thirdPartyError": "第三方服务不可用",
+      "transactionCanceled": "交易已取消",
       "transactionConflict": "交易冲突",
-      "transactionExpired": "交易过期",
+      "transactionExpired": "交易已过期",
       "transactionFailed": "交易失败",
-      "transactionRejected": "",
+      "transactionRejected": "交易已拒绝",
       "transactionSimulationFailed": "交易模拟失败",
-      "transactionUnderpriced": "交易定价过低",
-      "transactionUnprepared": "无法开始该交易",
-      "unknown": "未知错误",
+      "transactionUnderpriced": "交易费用过低",
+      "transactionUnprepared": "无法准备交易",
+      "unknown": "出错了",
       "walletAddressInvalid": "钱包地址或域名无效",
-      "walletAddressInvalid_chain": "钱包地址或者域名在所选中的 {{chainName}} 链无效",
-      "walletAddressRequired": "请输入钱包地址。",
-      "walletChainTypeInvalid": "钱包地址与所选中目标的 {{chainName}} 链不匹配",
+      "walletAddressInvalid_chain": "钱包地址或域名对所选目标链 {{chainName}} 无效",
+      "walletAddressRequired": "请输入钱包地址",
+      "walletChainTypeInvalid": "钱包地址与所选目标链 {{chainName}} 不匹配",
       "walletMismatch": "钱包地址不匹配",
-      "zcashAddressInvalid": ""
+      "zcashAddressInvalid": "请输入透明 Zcash 地址（t1 或 t3），或包含 Orchard 接收方的统一地址（u1）。不支持 Sapling（zs1）和 TEX 地址。"
     }
   },
   "tooltip": {
     "deselectAll": "取消全选",
-    "estimatedTime": "",
-    "exchangeRate": "",
-    "feeCollection": "",
-    "minReceived": "在签署兑换或者跨链交易之前， 预估的最低代币数量可能会变化，对于两步交易，这适用于第二步交易签署之前。",
+    "estimatedTime": "完成兑换或跨链交易预计需要的时间，不包括切换链和代币授权。",
+    "exchangeRate": "源代币与目标代币之间的预计汇率。点击可切换方向。",
+    "feeCollection": "该手续费仅适用于部分代币对，以确保我们能提供最佳体验。",
+    "minReceived": "在兑换/跨链交易签名之前，预计最少收到的数量可能会变化。对于两步交易，此情况持续到第二步交易签名为止。",
     "notFound": {
-      "text": "我们找不到这个页面。",
+      "text": "找不到此页面。",
       "title": "404"
     },
-    "multistep": "",
-    "gasless": "",
-    "numberOfSteps": "每次代币兑换包含了一到两次需要签名的交易。",
-    "priceImpact": "源代币和目标代币之间的估计差值。",
-    "progressToNextUpdate": "数据将在{{value}} 秒后自动刷新，点击这里可以手动更新。",
+    "multistep": "此路由需要多笔交易才能完成。每个兑换步骤可能包含 1-2 笔需要签名的交易。",
+    "gasless": "由我们处理 Gas，您无需持有原生代币即可转移资产。网络费用已包含在本次交易中。",
+    "priceImpact": "源代币与目标代币之间的预计价值差异。",
+    "progressToNextUpdate": "报价将在 {{value}} 秒后更新。<0/>点击此处立即更新。",
     "selectAll": "全选",
-    "settingsModified": "设置(已修改)",
-    "slippage": "真实的成交价位与预设的成交价位间相差的最大百分比。该值可以在设置中更改。"
+    "settingsModified": "设置（已修改）",
+    "slippage": "预期价格与交易实际执行价格之间的最大百分比差异。此数值可在设置中更改。",
+    "tokenNative": "{{tokenSymbol}} 是该网络的原生代币。",
+    "tokenNativeOnChain": "{{tokenSymbol}} 是 {{chainName}} 的原生代币。",
+    "tokenVerified": "{{tokenSymbol}} 已通过验证。",
+    "tokenVerifiedByProvider": "{{tokenSymbol}} 已通过 {{provider}} 验证。"
   },
   "main": {
-    "allNetworks": "",
+    "allNetworks": "所有网络",
     "allTokens": "所有代币",
-    "bridgeStepDetails": "通过 {{tool}} 把资产从 {{from}} 链跨到 {{to}} 链上",
+    "bridgeStepDetails": "通过 {{tool}} 从 {{from}} 跨链至 {{to}}",
     "checkoutStepDetails": "通过 {{tool}} 购买",
-    "currentAmount": "当前余额",
-    "depositStepDetails": "通过 {{tool}} 存入资金",
-    "estimatedTime": "",
-    "exchangeRate": "",
+    "currentAmount": "当前金额",
+    "depositStepDetails": "通过 {{tool}} 存入",
+    "estimatedTime": "预计时间",
+    "exchangeRate": "汇率",
     "featuredTokens": "精选代币",
     "fees": {
-      "defaultIntegrator": "集成商费用",
-      "relayerService": "",
-      "estimated": "预估总费用",
-      "free": "",
+      "defaultIntegrator": "集成商手续费",
+      "relayerService": "免 Gas 服务",
+      "free": "免费",
       "network": "网络费用",
-      "paid": "已支付的费用",
-      "provider": "供应商费用"
+      "provider": "服务商手续费"
     },
     "from": "从",
-    "inProgress": "进行中",
     "maxSlippage": "最大滑点",
     "minReceived": "最少收到",
     "myTokens": "我的代币",
-    "onChain": "在{{chainName}} 上",
-    "ownedBy": "属于",
-    "pinnedTokens": "",
+    "ownedBy": "持有者",
+    "pinnedTokens": "置顶代币",
     "popularTokens": "热门代币",
-    "priceImpact": "价格冲击",
+    "priceImpact": "价格影响",
     "process": {
       "bridge": {
-        "actionRequired": "",
-        "messageRequired": "",
+        "actionRequired": "签名跨链交易",
+        "messageRequired": "签名跨链消息",
         "done": "跨链交易已确认",
-        "pending": "",
-        "started": "准备执行跨链交易"
+        "pending": "跨链交易待处理",
+        "started": "正在准备跨链交易"
       },
       "checkout": {
-        "done": "购买完成"
+        "done": "购买已完成"
       },
       "deposit": {
-        "done": "已完成存款"
+        "done": "存入已完成"
       },
       "receivingChain": {
-        "done": "跨链完成",
+        "done": "跨链已完成",
         "partial": "跨链部分完成",
-        "pending": "等待接收链回应",
-        "refunded": "跨链交易资产已退还"
+        "pending": "等待目标链确认"
       },
       "swap": {
-        "actionRequired": "",
-        "messageRequired": "",
-        "done": "兑换完成",
-        "pending": "",
-        "started": "准备兑换"
+        "actionRequired": "签名兑换交易",
+        "messageRequired": "签名兑换消息",
+        "done": "兑换已完成",
+        "pending": "兑换交易待处理",
+        "started": "正在准备兑换交易"
       },
       "permit": {
-        "actionRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "签名 Permit 消息",
+        "done": "Permit 消息已签名",
+        "pending": "等待 Permit 消息签名",
+        "started": "正在准备交易"
       },
       "tokenAllowance": {
-        "actionRequired": "",
-        "resetRequired": "",
-        "done": "",
-        "pending": "",
-        "started": ""
+        "actionRequired": "授权使用 {{tokenSymbol}}",
+        "resetRequired": "撤销 {{tokenSymbol}} 授权",
+        "done": "{{tokenSymbol}} 已授权",
+        "pending": "{{tokenSymbol}} 授权待处理",
+        "started": "正在准备授权交易"
       }
     },
     "quotedAmount": "报价金额",
-    "rateChange": "波动率",
+    "rateChange": "汇率变动",
     "receiving": "接收",
-    "recentSearches": "",
-    "refuelStepDetails": "通过 {{tool}} 获取燃气费",
-    "route": "",
-    "select": "",
-    "sendToAddress": "发送到{{address}}",
-    "sendToWallet": "发送到另外的钱包",
-    "sending": "发送中",
-    "sentToAddress": "发送到{{address}}",
-    "stepBridge": "跨链",
-    "stepBridgeAndBuy": "跨链并购买",
-    "stepBridgeAndDeposit": "跨链并存款",
-    "stepBuy": "购买",
-    "stepDeposit": "存款",
-    "stepDetails": "通过 LI.FI {{tool}}",
-    "stepSwap": "兑换",
-    "stepSwapAndBridge": "兑换和跨链",
-    "stepSwapAndBuy": "兑换并购买",
-    "stepSwapAndDeposit": "兑换并存款",
-    "swapStepDetails": "通过{{tool}}在{{chain}}链上兑换代币",
-    "receipts": "",
-    "sentToWallet": "",
+    "recentSearches": "最近搜索",
+    "refuelStepDetails": "通过 {{tool}} 获取 Gas",
+    "route": "路由",
+    "select": "选择",
+    "sendToWallet": "发送至其他钱包",
+    "sending": "发送",
+    "swapStepDetails": "通过 {{tool}} 在 {{chain}} 上兑换",
+    "receipts": "交易凭证",
+    "sentToWallet": "已发送至钱包",
     "transferId": "交易 ID",
     "tags": {
       "cheapest": "最佳报价",
-      "fastest": "速度最快",
-      "gasless": "",
-      "multistep": ""
+      "fastest": "最快",
+      "gasless": "免 Gas",
+      "multistep": "多步骤"
     },
-    "to": "到",
-    "tokenOnChain": "{{chainName}}链上的{{tokenSymbol}}",
-    "tokenOnChainAmount": "",
-    "tokenSearch": "",
-    "valueLoss": "资金损失",
-    "searchBridges": "搜索跨链桥",
-    "searchExchanges": "搜索交易所",
-    "searchNetwork": ""
+    "to": "至",
+    "tokenOnChain": "{{chainName}} 上的 {{tokenSymbol}}",
+    "tokenOnChainAmount": "{{chainName}} 上的 {{amount, numberExt}} {{tokenSymbol}}",
+    "tokenSearch": "按代币名称或地址搜索",
+    "valueLoss": "价值损失",
+    "searchBridges": "按跨链桥名称搜索",
+    "searchCurrency": "搜索币种",
+    "searchExchanges": "按 DEX 名称搜索",
+    "searchNetwork": "搜索网络"
   },
   "settings": {
-    "appearance": "",
+    "appearance": "外观",
     "enabledBridges": "跨链桥",
-    "enabledExchanges": "交易所",
+    "enabledExchanges": "DEX",
     "gasPrice": {
       "fast": "快速",
-      "normal": "正常",
-      "slow": "缓慢",
-      "title": "燃气费"
+      "normal": "标准",
+      "slow": "慢速",
+      "title": "Gas 价格"
     },
     "routePriority": "路由优先级",
+    "routePriorityOptions": {
+      "cheapest": {
+        "title": "最佳报价",
+        "description": "网络费用最低"
+      },
+      "fastest": {
+        "title": "最快",
+        "description": "执行时间最短"
+      }
+    },
     "slippage": "最大滑点",
+    "slippageAutoDescription": "按路由自动优化",
     "custom": "自定义",
-    "resetSettings": "您正在使用自定义设置来过滤可用路由。",
-    "hideSmallBalances": ""
+    "resetSettings": "您正在使用自定义设置，这可能影响可用路由的数量或排序。",
+    "hideSmallBalances": "隐藏小额资产"
   },
   "sendToWallet": {
-    "addBookmark": "添加到收藏",
-    "bookmarkWallet": "已收藏的钱包",
+    "addBookmark": "添加收藏",
+    "bookmarkWallet": "收藏钱包",
     "confirmWalletAddress": "确认钱包地址",
     "connectedWallets": "已连接的钱包",
     "enterAddress_long": "请输入地址或钱包域名",
     "enterAddress_short": "请输入钱包地址",
-    "enterName": "输入名称",
-    "noBookmarkedWallets": "没有收藏的钱包",
-    "noBookmarkedWalletsMessage": "",
-    "noConnectedWallets": "没有已连接的钱包",
-    "noConnectedWalletsMessage": "",
-    "noRecentWallets": "没有最近使用的钱包",
-    "noRecentWalletsMessage": "",
-    "required": ""
+    "enterName": "请输入名称",
+    "noBookmarkedWallets": "暂无收藏的钱包",
+    "noBookmarkedWalletsMessage": "收藏常用的钱包地址，方便快速访问。",
+    "noConnectedWallets": "暂无已连接的钱包",
+    "noConnectedWalletsMessage": "连接钱包后，它将显示在这里。",
+    "noRecentWallets": "暂无最近使用的钱包",
+    "noRecentWalletsMessage": "您最近使用的钱包地址将显示在这里。",
+    "required": "必填"
   },
   "tokenMetric": {
-    "currentPrice": "",
-    "contractAddress": "",
-    "marketCap": "",
-    "volume24h": "",
-    "status": "",
-    "statusFlagged": "",
-    "statusUnverified": "",
-    "statusVerified": ""
+    "currentPrice": "当前价格",
+    "contractAddress": "合约地址",
+    "marketCap": "市值",
+    "volume24h": "24 小时交易量",
+    "status": "状态",
+    "statusFlagged": "已被 Hypernative 标记为恶意代币。交易此代币可能导致资金全部损失。",
+    "statusUnverified": "未经 Hypernative 验证",
+    "statusVerified": "已通过 Hypernative 验证。可能存在误报，我们对这些警报不承担任何责任。采取任何操作前，请务必自行研究。"
+  },
+  "tags": {
+    "connected": "已连接",
+    "getStarted": "开始使用",
+    "installed": "已安装",
+    "multichain": "多链",
+    "qrCode": "二维码"
+  },
+  "checkout": {
+    "closeConfirmation": {
+      "title": "退出结账？",
+      "body": "关闭不会取消您的充值。您可以随时回到这里查看进度。",
+      "confirm": "退出结账",
+      "cancel": "取消"
+    },
+    "abandonConfirmation": {
+      "title": "取消此次转账？",
+      "body": "您的充值信息将被丢弃。取消后，请勿再向此地址发送资金。",
+      "confirm": "取消转账",
+      "cancel": "继续转账"
+    },
+    "activity": {
+      "title": "交易记录",
+      "deposit": "充值",
+      "amountOnChain": "{{chain}} 上的 {{amount}} {{symbol}}",
+      "depositInProgress": "充值处理中",
+      "refundInProgress": "退款处理中",
+      "couldNotComplete": "无法完成",
+      "singleFailed": "充值失败，请处理",
+      "dismiss": "忽略"
+    },
+    "transak": {
+      "forceClose": {
+        "tooltip": "关闭（交易将不会继续）"
+      }
+    },
+    "legal": {
+      "termsDisclaimer": "继续即表示您同意 LI.FI 的<terms>服务条款</terms>。"
+    },
+    "resume": {
+      "notFoundToast": "找不到您的交易。请重新开始；如果您认为这是错误，请联系技术支持。"
+    },
+    "transferDeposit": {
+      "warning": "请在 <b>{{chain}}</b> 上发送至少 <b>{{amount}} {{symbol}}</b>。代币或链错误可能导致资金无法找回。",
+      "expiresIn": "充值地址将在 {{minutes}}:{{seconds}} 后过期",
+      "copyAddress": "复制地址",
+      "addressCopied": "已复制！",
+      "polling": "正在等待您的充值…",
+      "detailsTitle": "充值详情",
+      "table": {
+        "required": "所需金额",
+        "received": "已收到",
+        "minRefundable": "最低可退金额",
+        "remaining": "待补足",
+        "excess": "超额",
+        "timeRemaining": "剩余时间"
+      },
+      "errors": {
+        "unexpected": {
+          "title": "异常充值",
+          "description": "我们收到了一笔与任何受支持路由都不匹配的充值。请联系技术支持了解后续步骤。"
+        },
+        "amountLowThreshold": {
+          "title": "充值未完成",
+          "description": "请补足金额以完成订单，或使其满足退款条件。"
+        },
+        "amountLowTopUp": {
+          "title": "充值未完成",
+          "description": "请在充值时限结束前发送剩余金额。"
+        },
+        "amountLowExpired": {
+          "title": "充值未完成",
+          "description": "充值时限已过。您可以为已收到的金额申请退款。"
+        },
+        "excessHeld": {
+          "title": "超额部分已暂存",
+          "description": "您的订单正在处理中。超额部分已暂存，请申请退款以取回。"
+        },
+        "lateArrival": {
+          "title": "充值到账过晚",
+          "description": "您的资金在充值时限结束后才到账。您可以重新激活以继续，或申请退款。"
+        },
+        "addressExpired": {
+          "title": "充值地址已过期",
+          "description": "充值地址已过期，且未收到任何资金。您可以使用新的充值地址重试。"
+        },
+        "marketMoved": {
+          "title": "交易失败",
+          "description": "订单完成前汇率发生了变动。您的资金是安全的，退款已开始处理。"
+        }
+      }
+    },
+    "fiatCurrency": {
+      "label": "支付币种"
+    },
+    "cashCurrency": {
+      "error": "暂时无法加载币种，请重试。"
+    },
+    "cashQuote": {
+      "totalFeesLabel": "总费用",
+      "feeFallback": "费用 {{index}}",
+      "refundNote": "您将至少收到 {{value}}，否则全额退款。"
+    },
+    "cashHandoff": {
+      "title": "您将在 Transak 中完成支付",
+      "body": "您的付款会经过我们为此次购买创建的临时充值地址，而不是您的个人钱包。这是正常现象，且会自动完成。",
+      "addressLabel": "充值地址",
+      "addressHint": "您将在 Transak 中看到相同的地址。",
+      "continue": "前往 Transak",
+      "goBack": "返回"
+    },
+    "transactionStatus": {
+      "detailsTitle": "交易详情",
+      "watching": "正在等待交易",
+      "executing": "正在处理交易",
+      "success": "交易成功",
+      "seeDetails": "查看详情",
+      "steps": {
+        "receive": {
+          "upcoming": "接收 {{symbol}}",
+          "loading": "正在接收 {{symbol}}",
+          "done": "已收到 {{symbol}}"
+        },
+        "swap": {
+          "upcoming": "兑换为 {{symbol}}",
+          "loading": "正在兑换为 {{symbol}}",
+          "done": "已兑换为 {{symbol}}"
+        },
+        "bridge": {
+          "upcoming": "跨链至 {{chain}}",
+          "loading": "正在跨链至 {{chain}}",
+          "done": "已跨链至 {{chain}}"
+        }
+      }
+    },
+    "chooseFundingSource": "选择资金来源",
+    "whereToSendIt": "接收地址",
+    "walletAddressOrEns": "钱包地址或 ENS 名称",
+    "insufficientFunds": "资金不足：您在 {{chain}} 上的 {{symbol}} 不足。请选择其他代币重试。",
+    "routeNotFound": {
+      "title": "无法在此购买该代币",
+      "description": "您选择的支付方式不支持此代币。请尝试其他代币，或使用已连接的钱包支付。"
+    },
+    "useYourTokens": "使用您的代币",
+    "buyTokens": "购买代币",
+    "or": "或",
+    "payFromWallet": "从钱包支付",
+    "payFromWalletSubtitle": "连接浏览器钱包",
+    "transferCrypto": "转入加密货币",
+    "transferCryptoSubtitle": "从任意钱包转入",
+    "connectExchange": "连接交易所",
+    "connectExchangeSubtitle": "绑定您的交易所账户",
+    "payWithExchange": "使用 {{exchange}} 支付",
+    "reuseExchangeSubtitle": "继续使用已绑定的账户",
+    "depositWithCash": "用银行卡充值",
+    "depositWithCashSubtitle": "借记卡或信用卡",
+    "connectWallet": "连接钱包",
+    "useAnotherWallet": "使用其他钱包",
+    "progress": {
+      "title": "购买处理中",
+      "description": "我们正在处理您的购买，可能需要几分钟。"
+    },
+    "onramp": {
+      "errors": {
+        "MISSING_API_URL": "{{providerName}} 未配置：请在 checkout 配置中设置 sdkConfig.apiUrl。",
+        "MISSING_API_KEY": "{{providerName}} 未配置：请设置 widget apiKey 以调用 checkout 会话。",
+        "TARGET_NOT_CONFIGURED": "{{providerName}} 的目标未配置：请设置 widget.toChain 和 widget.toToken。",
+        "INVALID_RESPONSE": "{{providerName}} 会话 API 返回了无效响应。",
+        "NETWORK_ERROR": "启动 {{providerName}} 会话时出现网络错误。",
+        "SESSION_HTTP": "无法启动 {{providerName}} 会话（{{status}}）。请稍后重试。",
+        "generic": "出错了，请稍后重试。"
+      },
+      "failure": {
+        "transferTitle": "交易失败，正在退款",
+        "transferDescription": "多次尝试后仍无法完成转账。您的资金正在退回至发送资金的钱包。"
+      }
+    },
+    "status": {
+      "successCompleted": {
+        "title": "交易成功",
+        "description": "您的交易已成功完成。"
+      },
+      "successPartial": {
+        "title": "部分完成",
+        "description": "您的交易已完成，但收到的部分代币并非所请求的目标代币。请打开详情查看您收到的代币。"
+      },
+      "successRefund": {
+        "title": "退款已完成",
+        "description": "您的交易未能完成，资金已退还。"
+      },
+      "pendingDefault": {
+        "title": "正在处理交易",
+        "description": "您的交易正在处理中，可能需要几分钟。"
+      },
+      "pendingRefund": {
+        "title": "退款处理中",
+        "description": "我们正在退还您的资金，通常需要几分钟。"
+      },
+      "pendingRetrying": {
+        "title": "正在重试交易",
+        "description": "我们遇到了问题，正在自动重试您的交易。"
+      },
+      "errorExpired": {
+        "title": "交易已过期",
+        "description": "交易时限已过，请重试。"
+      },
+      "errorFailed": {
+        "title": "交易失败",
+        "description": "我们无法完成您的交易。请重试或联系技术支持。"
+      },
+      "errorConnection": {
+        "title": "连接失败",
+        "description": "无法连接到支付服务商。请重试或联系技术支持。",
+        "exchange": {
+          "title": "交易所连接失败",
+          "description": "无法连接到您的交易所账户。请重试或联系技术支持。"
+        }
+      },
+      "errorWithdrawal": {
+        "title": "提币失败",
+        "description": "支付服务商无法处理您的提币请求。您的资金仍在您的账户中。",
+        "cash": {
+          "title": "支付未完成",
+          "description": "您的付款未成功，未扣除任何资金。"
+        },
+        "exchange": {
+          "title": "交易所提币失败",
+          "description": "您的交易所无法处理此次提币。您的资金仍在交易所账户中。"
+        }
+      },
+      "errorCancelled": {
+        "title": "交易已取消",
+        "description": "您的交易已取消。准备好后可随时重试。",
+        "cash": {
+          "title": "支付已取消",
+          "description": "您关闭了支付窗口，订单未提交。"
+        }
+      },
+      "errorUnavailable": {
+        "title": "服务不可用",
+        "description": "支付服务商暂时不可用。请稍后重试或联系技术支持。",
+        "cash": {
+          "title": "银行卡支付不可用",
+          "description": "银行卡支付暂时不可用。请稍后重试或使用其他方式。"
+        }
+      },
+      "walletDisconnected": {
+        "title": "钱包已断开连接",
+        "description": "交易过程中您的钱包已断开连接。请重新连接后重试。"
+      },
+      "walletErrorFailed": {
+        "title": "交易失败",
+        "description": "我们无法完成您的交易。请查看详情或重试。"
+      },
+      "walletErrorExpired": {
+        "title": "订单已过期",
+        "description": "订单处理前交易时限已过。请重试。"
+      },
+      "walletPendingRefund": {
+        "title": "退款处理中",
+        "description": "我们正在将资金退回您付款的钱包，通常需要几分钟。"
+      },
+      "walletSuccessRefund": {
+        "title": "退款已完成",
+        "description": "您的交易未能完成，资金已退回您的钱包。"
+      }
+    },
+    "refund": {
+      "title": "退款",
+      "inProgressDescription": "您在 {{chain}} 上的 {{amount}} {{symbol}} 正在退回您的钱包，通常需要几分钟。",
+      "completeDescription": "您在 {{chain}} 上的 {{amount}} {{symbol}} 已退回您的钱包。",
+      "viewTransaction": "查看交易"
+    }
   }
 }

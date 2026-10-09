@@ -3,7 +3,6 @@
 [![license](https://img.shields.io/github/license/lifinance/widget)](/LICENSE)
 [![npm latest package](https://img.shields.io/npm/v/@lifi/widget/latest.svg)](https://www.npmjs.com/package/@lifi/widget)
 [![npm downloads](https://img.shields.io/npm/dm/@lifi/widget.svg)](https://www.npmjs.com/package/@lifi/widget)
-[![Crowdin](https://badges.crowdin.net/lifi-widget/localized.svg)](https://crowdin.com/project/lifi-widget)
 [![Follow on Twitter](https://img.shields.io/twitter/follow/lifiprotocol.svg?label=follow+LI.FI)](https://twitter.com/lifiprotocol)
 
 </div>
@@ -345,13 +344,9 @@ Visit our [playground](https://playground.li.fi) to see how you can customize yo
 
 Please visit [LI.FI Widget Documentation](https://docs.li.fi/widget/install-widget).
 
-## Contributing Translations
+## Translations
 
-We appreciate your interest in helping translate our project!
-
-If you'd like to contribute translations, please visit our Crowdin project page at [Crowdin LI.FI Widget](https://crowdin.com/project/lifi-widget). Register on Crowdin and you can start translating the project into your preferred language. Your contributions will help make our project accessible to a wider audience around the world.
-
-Thank you for your support!
+The widget has 17 languages. The person or the AI agent that changes an English text in `en.json` also translates it into the 16 other languages, in the same PR. To fix a translation, open a PR that changes the locale file. Follow [TRANSLATING.md](./TRANSLATING.md).
 
 ## Changelog
 
