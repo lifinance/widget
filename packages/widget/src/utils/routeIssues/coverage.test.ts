@@ -5,7 +5,7 @@ import reasons from './fixtures/backend-reasons.json' with { type: 'json' }
 import { routeIssueRules } from './rules.js'
 import type { ClassifyContext } from './types.js'
 
-// Every `filteredOut.reason` template lifted from lifi-backend with its
+// `filteredOut.reason` templates lifted from lifi-backend with their
 // placeholders filled, plus the templates observed live against the deployed
 // API. The deployed service is not lifi-backend, so source alone never covered
 // it — these were collected by sweeping real quotes across chains and amounts.

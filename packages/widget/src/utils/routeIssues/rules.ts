@@ -277,6 +277,8 @@ export const routeIssueRules: RouteIssueRule[] = [
     /Positive price impact too high for blue chip route/
   ),
   suppressedFragment('pureBtcMode', /pure BTC mode/),
+  // Across refusing its own handler contract: no receiver the user chose.
+  suppressedFragment('acrossHandlerReceiver', /\(receiver: Receiver\w+\)/),
   suppressedFragment('routeNotAllowed', /^Route not allowed: /),
   suppressedFragment(
     'mixedExecutionTypes',
@@ -296,7 +298,7 @@ export const routeIssueRules: RouteIssueRule[] = [
   fragmentRule(
     'gaslessMinTradeSize',
     'amountTooLow',
-    /the trade is worth ([\d.]+) USD, below the gasless minimum of ([\d.]+) USD/,
+    /(?:the trade is worth ([\d.]+) USD, )?below the gasless minimum of ([\d.]+)/i,
     (match, context) => {
       const minUsd = Number.parseFloat(match[2])
       const currentUsd = usdToBigInt(match[1])
@@ -438,9 +440,9 @@ export const routeIssueRules: RouteIssueRule[] = [
   fragmentRule(
     'slippageTooTight',
     'slippageTooTight',
-    /Path requires a slippage of ([\d.]+) but ([\d.]+) is applied/,
+    /Path requires a slippage of ([\d.]+)(%?) but .+ is applied/,
     (match) => {
-      const required = Number.parseFloat(match[1])
+      const required = Number.parseFloat(match[1]) / (match[2] ? 100 : 1)
       // The backend reports a fraction; anything else still sets the bucket.
       return Number.isFinite(required) && required > 0 && required < 1
         ? { requiredSlippage: required }
@@ -523,7 +525,15 @@ export const routeIssueRules: RouteIssueRule[] = [
   fragmentRule(
     'contractRecipient',
     'recipientNotSupported',
-    /does not send ETH to contracts|does not send WETH to EOAs|EVM contract addresses not currently supported by|EVM contract destination addresses are not currently supported by|does not support contract receivers on destination chain|Contract destination addresses which cannot receive native tokens are not supported by/
+    /does not send ETH to contracts|does not send WETH to EOAs|EVM contract addresses not currently supported by|EVM contract destination addresses are not currently supported by|does not support contract receivers on destination chain|Contract destination addresses which cannot receive native tokens are not supported by/,
+    // A refused receiver other than the user's is an address the route chose,
+    // so clearing theirs would change nothing.
+    (match, context) => {
+      const named = /\(receiver:? ([^,)\s]+)/.exec(match.input)?.[1]
+      return named && named.toLowerCase() !== context.toAddress?.toLowerCase()
+        ? null
+        : {}
+    }
   ),
   fragmentRule(
     'multistepDifferentAddress',
