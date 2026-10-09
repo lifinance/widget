@@ -458,6 +458,21 @@ describe('Start a new swap and the transaction page cleanup', () => {
     expect(bookmarks.selected).toEqual(locked)
   })
 
+  it("should keep the integrator's receiver when the receiver is locked", async () => {
+    await render(RouteExecutionStatus.Failed, {
+      disabledUI: { toAddress: true },
+    })
+    await waitFor(() => !!newSwapButton())
+    formStore.getState().setFieldValue('toAddress', '0xlocked')
+
+    newSwapButton()!.click()
+
+    await waitFor(() => !!container.querySelector('#home'))
+    await sleep(300)
+    expect(field('fromAmount')).toBe('1.5')
+    expect(field('toAddress')).toBe('0xlocked')
+  })
+
   it("should fill the route's receiver when a locked receiver is empty", async () => {
     await render(
       RouteExecutionStatus.Failed,
