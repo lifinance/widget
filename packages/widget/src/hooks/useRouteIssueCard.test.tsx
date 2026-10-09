@@ -219,6 +219,28 @@ it('sends one request for two quick presses of retry', async () => {
   unsubscribe()
 })
 
+// The data is kept through a refetch, so the card did not change while the
+// retry ran and a second press looked like it did nothing.
+it('holds the retry button while the routes query runs', async () => {
+  const observer = new QueryObserver(client, {
+    queryKey: ['test-widget-routes', '0xfrom'],
+    queryFn: () =>
+      new Promise((resolve) => setTimeout(() => resolve({ routes: [] }), 50)),
+  })
+  const unsubscribe = observer.subscribe(() => {})
+  await vi.waitFor(() =>
+    expect(observer.getCurrentResult().isFetched).toBe(true)
+  )
+
+  press(withBucket('temporary'))
+  await vi.waitFor(() => expect(card?.action?.disabled).toBe(true))
+  expect(card?.action?.label).toBe('info.routeIssue.temporary.busy')
+
+  await vi.waitFor(() => expect(card?.action?.disabled).toBeFalsy())
+  expect(card?.action?.label).toBe('info.routeIssue.temporary.action')
+  unsubscribe()
+})
+
 describe('the amount button and the wallet balance', () => {
   const show = (): void => {
     act(() => {

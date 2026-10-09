@@ -1,4 +1,4 @@
-import { useQueryClient } from '@tanstack/react-query'
+import { useIsFetching, useQueryClient } from '@tanstack/react-query'
 import { useTranslation } from 'react-i18next'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useBookmarkActions } from '../stores/bookmarks/useBookmarkActions.js'
@@ -27,6 +27,8 @@ export function useRouteIssueCard(
   const { t } = useTranslation()
   const { disabledUI, hiddenUI, storageScopeKey } = useWidgetConfig()
   const queryClient = useQueryClient()
+  const routesKey = [getQueryKey('routes', storageScopeKey)]
+  const isFetching = useIsFetching({ queryKey: routesKey }) > 0
   const [fromChainId, fromTokenAddress, toChainId, toAddress] = useFieldValues(
     FormKeyHelper.getChainKey('from'),
     FormKeyHelper.getTokenKey('from'),
@@ -52,6 +54,7 @@ export function useRouteIssueCard(
     useToAddressRequirements()
 
   const deps: RouteIssueCardDeps = {
+    isFetching,
     t,
     token,
     slippage,
@@ -76,7 +79,7 @@ export function useRouteIssueCard(
     retry: () =>
       queryClient.invalidateQueries(
         {
-          queryKey: [getQueryKey('routes', storageScopeKey)],
+          queryKey: routesKey,
           exact: false,
         },
         // A second press while the first refetch runs must not restart it.
