@@ -24,6 +24,7 @@ import {
   getNewSwapFormValues,
   getRetryGates,
   getTokenValueLossThreshold,
+  isCallBundleNotFound,
   openNextGate,
 } from './utils.js'
 
@@ -61,6 +62,7 @@ export const TransactionFailedButtons: React.FC<
   }
 
   const showStartNewSwap = canStartNewSwap({ route, mode, swapOnly })
+  const showRetry = !isCallBundleNotFound(route)
 
   // Home, not back: after a reload, the route is opened from Activities.
   const handleStartNewSwap = () => {
@@ -145,24 +147,27 @@ export const TransactionFailedButtons: React.FC<
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
       <Box sx={{ display: 'flex', gap: 1.5 }}>
         <Box sx={{ flex: 1 }}>
-          {showStartNewSwap ? (
-            <Button onClick={handleStartNewSwap} fullWidth>
+          <Button onClick={handleRemoveRoute} fullWidth>
+            {t('button.delete')}
+          </Button>
+        </Box>
+        {showStartNewSwap ? (
+          <Box sx={{ flex: 1 }}>
+            <Button variant="contained" onClick={handleStartNewSwap} fullWidth>
               {t('button.startNewSwap')}
             </Button>
-          ) : (
-            <Button onClick={handleRemoveRoute} fullWidth>
-              {t('button.delete')}
-            </Button>
-          )}
-        </Box>
-        <Box sx={{ flex: 1 }}>
-          <StartTransactionButton
-            text={t('button.tryAgain')}
-            onClick={handleRetryClick}
-            route={route}
-            loading={isLoadingAddressActivity}
-          />
-        </Box>
+          </Box>
+        ) : null}
+        {showRetry ? (
+          <Box sx={{ flex: 1 }}>
+            <StartTransactionButton
+              text={t('button.tryAgain')}
+              onClick={handleRetryClick}
+              route={route}
+              loading={isLoadingAddressActivity}
+            />
+          </Box>
+        ) : null}
       </Box>
       {mode !== 'custom' ? (
         <TokenValueBottomSheet

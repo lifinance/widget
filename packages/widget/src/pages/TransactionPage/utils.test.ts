@@ -10,6 +10,7 @@ import {
   getNewSwapFormValues,
   getRetryGates,
   getStartGates,
+  isCallBundleNotFound,
   nextGate,
   openNextGate,
 } from './utils.js'
@@ -199,6 +200,51 @@ const route = (...steps: LiFiStepExtended[]): RouteExtended =>
     toChainId: steps.at(-1)!.action.toChainId,
     steps,
   }) as RouteExtended
+
+describe('isCallBundleNotFound', () => {
+  it('should find the error on the failed action', () => {
+    expect(isCallBundleNotFound(route(step(1, 8453, failedExecution())))).toBe(
+      true
+    )
+  })
+
+  it('should find the error that the failed step holds itself', () => {
+    const execution: Execution = {
+      status: 'FAILED',
+      startedAt: 0,
+      actions: [],
+      error: { code: LiFiErrorCode.CallBundleNotFound, message: '' },
+    }
+    expect(isCallBundleNotFound(route(step(1, 8453, execution)))).toBe(true)
+  })
+
+  it('should find the error when a later step failed', () => {
+    const later = route(
+      step(1, 1, doneExecution),
+      step(1, 8453, failedExecution())
+    )
+    expect(isCallBundleNotFound(later)).toBe(true)
+  })
+
+  it('should not find the error for other errors', () => {
+    for (const code of [
+      LiFiErrorCode.SignatureRejected,
+      LiFiErrorCode.TransactionRejected,
+      LiFiErrorCode.TransactionFailed,
+    ]) {
+      expect(
+        isCallBundleNotFound(route(step(1, 8453, failedExecution(code))))
+      ).toBe(false)
+    }
+  })
+
+  it('should not find the error for a route that did not fail', () => {
+    expect(isCallBundleNotFound(route(step(1, 8453, doneExecution)))).toBe(
+      false
+    )
+    expect(isCallBundleNotFound(route(step(1, 8453)))).toBe(false)
+  })
+})
 
 describe('canStartNewSwap', () => {
   const base = { mode: 'default' as const, swapOnly: false }

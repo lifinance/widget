@@ -81,7 +81,9 @@ vi.mock('./ExchangeRateBottomSheet.js', () => ({
   ExchangeRateBottomSheet: () => null,
 }))
 vi.mock('./StartTransactionButton.js', () => ({
-  StartTransactionButton: () => null,
+  StartTransactionButton: ({ text }: { text?: string }) => (
+    <button type="button">{text}</button>
+  ),
 }))
 vi.mock('./TokenValueBottomSheet.js', () => ({
   TokenValueBottomSheet: () => null,
@@ -117,6 +119,12 @@ vi.mock('./TransactionContent.js', async () => {
 
 const { TransactionPage } = await import('./TransactionPage.js')
 
+const failedExecution = (code: LiFiErrorCode) => ({
+  status: 'FAILED',
+  startedAt: 0,
+  actions: [{ type: 'SWAP', status: 'FAILED', error: { code, message: '' } }],
+})
+
 const step = {
   id: 'step-0',
   action: {
@@ -129,17 +137,7 @@ const step = {
     toAddress: SENDER,
   },
   estimate: { gasCosts: [], feeCosts: [] },
-  execution: {
-    status: 'FAILED',
-    startedAt: 0,
-    actions: [
-      {
-        type: 'SWAP',
-        status: 'FAILED',
-        error: { code: LiFiErrorCode.CallBundleNotFound, message: '' },
-      },
-    ],
-  },
+  execution: failedExecution(LiFiErrorCode.CallBundleNotFound),
 } as unknown as LiFiStepExtended
 
 const route = {
@@ -164,6 +162,28 @@ const routeToSolana = {
         toAddress: SOLANA_RECEIVER,
       },
     },
+  ],
+} as unknown as RouteExtended
+
+const routeFailedWith = (code: LiFiErrorCode) =>
+  ({
+    ...route,
+    steps: [{ ...step, execution: failedExecution(code) }],
+  }) as unknown as RouteExtended
+
+// The first step is done, so a new swap would send its funds again.
+const routeFailedInLaterStep = {
+  ...route,
+  steps: [
+    {
+      ...step,
+      execution: {
+        status: 'DONE',
+        startedAt: 0,
+        actions: [{ type: 'SWAP', status: 'DONE', txHash: '0xhash' }],
+      },
+    },
+    { ...step, id: 'step-1' },
   ],
 } as unknown as RouteExtended
 
@@ -258,29 +278,76 @@ const newSwapButton = () =>
     (button) => button.textContent === 'button.startNewSwap'
   )
 
+const deleteButton = () =>
+  [...container.querySelectorAll('button')].find(
+    (button) => button.textContent === 'button.delete'
+  )
+
+const buttonTexts = () =>
+  [...container.querySelectorAll('button')].map((button) => button.textContent)
+
 const field = (name: 'fromAmount' | 'toAmount' | 'toAddress' | 'fromToken') =>
   formStore.getState().userValues[name]?.value
 
+beforeEach(() => {
+  ;(
+    globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }
+  ).IS_REACT_ACT_ENVIRONMENT = false
+  vi.spyOn(console, 'warn').mockImplementation(() => {})
+  container = document.createElement('div')
+  document.body.appendChild(container)
+  root = createRoot(container)
+  formStore = createFormStore()
+  bookmarks = {}
+})
+
+afterEach(() => {
+  root.unmount()
+  container.remove()
+  localStorage.clear()
+  vi.restoreAllMocks()
+})
+
+describe('The buttons of a failed route', () => {
+  it('should offer Delete and a new swap, and no retry, when the wallet has no record of the bundle', async () => {
+    await render(RouteExecutionStatus.Failed)
+    await waitFor(() => buttonTexts().length > 0)
+
+    expect(buttonTexts()).toEqual(['button.delete', 'button.startNewSwap'])
+  })
+
+  it('should offer only Delete when the wallet has no record of the bundle and a new swap is not possible', async () => {
+    await render(RouteExecutionStatus.Failed, {}, routeFailedInLaterStep)
+    await waitFor(() => buttonTexts().length > 0)
+
+    expect(buttonTexts()).toEqual(['button.delete'])
+  })
+
+  it('should offer Delete and a retry for other errors', async () => {
+    await render(
+      RouteExecutionStatus.Failed,
+      {},
+      routeFailedWith(LiFiErrorCode.SignatureRejected)
+    )
+    await waitFor(() => buttonTexts().length > 0)
+
+    expect(buttonTexts()).toEqual(['button.delete', 'button.tryAgain'])
+  })
+
+  it('should delete the route and not fill the form when Delete is clicked', async () => {
+    await render(RouteExecutionStatus.Failed)
+    await waitFor(() => !!newSwapButton())
+
+    deleteButton()!.click()
+
+    await waitFor(() => !!container.querySelector('#home'))
+    await sleep(300)
+    expect(testRouteState().status).toBeUndefined()
+    expect(field('fromAmount')).toBeFalsy()
+  })
+})
+
 describe('Start a new swap and the transaction page cleanup', () => {
-  beforeEach(() => {
-    ;(
-      globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }
-    ).IS_REACT_ACT_ENVIRONMENT = false
-    vi.spyOn(console, 'warn').mockImplementation(() => {})
-    container = document.createElement('div')
-    document.body.appendChild(container)
-    root = createRoot(container)
-    formStore = createFormStore()
-    bookmarks = {}
-  })
-
-  afterEach(() => {
-    root.unmount()
-    container.remove()
-    localStorage.clear()
-    vi.restoreAllMocks()
-  })
-
   // Within the 1.2 s pacing window the page still holds the failed status when it unmounts.
   it('should keep the filled amount when the route failed just before the click', async () => {
     await render(RouteExecutionStatus.Pending)

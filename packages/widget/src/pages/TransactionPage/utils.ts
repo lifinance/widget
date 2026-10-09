@@ -114,7 +114,12 @@ const newSwapModes: readonly (WidgetMode | undefined)[] = [
   'split',
 ]
 
-// Try again only waits for the same bundle; a new swap repeats the route.
+// Try again only waits for the same bundle again.
+export const isCallBundleNotFound = (route: RouteExtended): boolean =>
+  getFailedStepAction(route)?.action.error?.code ===
+  LiFiErrorCode.CallBundleNotFound
+
+// A new swap repeats the whole route.
 export const canStartNewSwap = ({
   route,
   mode,
@@ -125,7 +130,7 @@ export const canStartNewSwap = ({
   swapOnly: boolean
 }): boolean => {
   const failed = getFailedStepAction(route)
-  if (failed?.action.error?.code !== LiFiErrorCode.CallBundleNotFound) {
+  if (!failed || !isCallBundleNotFound(route)) {
     return false
   }
   return (
