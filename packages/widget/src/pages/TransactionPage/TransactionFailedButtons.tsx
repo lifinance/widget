@@ -61,9 +61,11 @@ export const TransactionFailedButtons: React.FC<
     deleteRoute()
   }
 
-  const showStartNewSwap = canStartNewSwap({ route, mode, swapOnly })
+  const callBundleNotFound = isCallBundleNotFound(route)
+  const showStartNewSwap =
+    callBundleNotFound && canStartNewSwap({ route, mode, swapOnly })
   // Try again would only wait for the same bundle again.
-  const showRetry = !isCallBundleNotFound(route)
+  const showRetry = !callBundleNotFound
 
   // Home, not back: after a reload, the route is opened from Activities.
   const handleStartNewSwap = () => {
@@ -76,14 +78,13 @@ export const TransactionFailedButtons: React.FC<
       keepReceiver,
       receiverRequired: requiredUI?.toAddress,
     })
+    const fieldNames = Object.keys(values) as (keyof typeof values)[]
     const receiver = keepReceiver ? formReceiver : values.toAddress
     // Fill after navigate resolves: this page's unmount cleanup has run by then,
     // as TransactionFailedButtons.test.tsx checks.
     navigate({ to: navigationRoutes.home, replace: true })
       .then(() => {
-        for (const fieldName of Object.keys(
-          values
-        ) as (keyof typeof values)[]) {
+        for (const fieldName of fieldNames) {
           setFieldValue(fieldName, values[fieldName], {
             isDirty: true,
             isTouched: true,
