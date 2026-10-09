@@ -185,7 +185,7 @@
   "error": {
     "message": {
       "allowanceRequired": "Transfer amount for {{tokenSymbol}} exceeds your current allowance. Please increase your allowance and try again.",
-      "callBundleNotFound": "Your wallet has no record of this transaction. If you rejected it, start a new swap. If you approved it, do not start a new swap. The first swap can still complete.",
+      "callBundleNotFound": "Your wallet has no record of this transaction. If you approved it, it can still complete. Check your wallet balance before you swap again.",
       "insufficientFunds": "You don't have enough gas to cover the cost of the transaction.",
       "rateLimitExceeded": "Too many requests have been made in a short period of time. Please wait a moment and try again or contact support if the issue persists.",
       "remainInYourWallet": "{{amount, numberExt}} {{tokenSymbol}} on {{chainName}} remain in your wallet.",

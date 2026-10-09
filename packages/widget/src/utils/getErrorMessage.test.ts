@@ -45,7 +45,7 @@ describe('getErrorMessage', () => {
     ).toEqual({
       title: 'Transaction not found in your wallet',
       message:
-        'Your wallet has no record of this transaction. If you rejected it, start a new swap. If you approved it, do not start a new swap. The first swap can still complete.',
+        'Your wallet has no record of this transaction. If you approved it, it can still complete. Check your wallet balance before you swap again.',
     })
   })
 
