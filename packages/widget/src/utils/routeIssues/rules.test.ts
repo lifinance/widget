@@ -334,7 +334,7 @@ describe('pinned reason fragments', () => {
   })
 
   // temporary always offers a retry, and a path overwrite returns the same
-  // entry on the next quote — so this stays suppressed despite the ticket.
+  // entry on the next quote — so this stays suppressed.
   it('never surfaces a tool that was not applied', () => {
     expect(fromReason('Tool relay not applied.')).toEqual([])
   })

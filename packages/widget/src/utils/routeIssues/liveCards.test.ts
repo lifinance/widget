@@ -170,6 +170,79 @@ describe('captured coverage', () => {
   })
 })
 
+// Partner prose arrives under TOOL_SPECIFIC_ERROR, which is suppressed, or
+// NO_POSSIBLE_ROUTE, the catch-all, so a reason a partner states outright is
+// lost unless a rule reads it. Every text collected so far is either read by a
+// rule or named here as saying nothing the user can act on.
+const partnerNoise: RegExp[] = [
+  // A bare "no route", in each partner's own words.
+  /^No route (?:was found for this action|available)/,
+  /^(?:route not found|no routes found|No quote found\.|Swap is not available)$/i,
+  /^(?:Token|Route) not found when route/,
+  /^couldn't recognize to token$/,
+  /^Sending or receiving asset is not supported$/,
+  /^lock\/driver token pair not available for direct-only mode$/,
+  // Internal checks and integrator configuration.
+  /^Tool \(\w+\) slippage \([\d.]+\) does not match expected slippage/,
+  /^allowance too low$/,
+  /^SOL lane missing /,
+  /^BTC lane requires a pure-BTC enabled integrator$/,
+  // Does not say which limit, or which way.
+  /^Quote: Chain Limit Exceeded$/,
+  // Upstream failures.
+  /^LiFi Intents API returned empty quote data$/,
+  /^Grpc error Status/,
+  /^Query deserialize error/,
+  /^Failed to get quote$/,
+  /^Bitget error: quote failed$/,
+  /^The third party tool returned an error\.$/,
+  /^Invalid parameter or method$/,
+  /^Oops! Try again$/,
+  /^An unknown error occurred\.$/,
+  /Request failed with status \d+/,
+  /Failed in quoting message fee from pool contract/,
+]
+
+const partnerCodes = new Set([
+  'TOOL_SPECIFIC_ERROR',
+  'NO_POSSIBLE_ROUTE',
+  'UNKNOWN_ERROR',
+])
+
+const readByRule = (text: string): boolean =>
+  routeIssueRules.some(
+    (rule) =>
+      !rule.suppressed &&
+      'fragment' in rule.match &&
+      rule.match.fragment.test(text)
+  )
+
+describe('partner prose', () => {
+  it('reads every collected text, or names it as noise', () => {
+    const texts = new Set<string>()
+    for (const entry of payloads) {
+      for (const route of (entry.unavailableRoutes.failed ?? []) as {
+        subpaths?: Record<string, { code?: string; message?: string }[]>
+      }[]) {
+        for (const errors of Object.values(route.subpaths ?? {})) {
+          for (const error of errors) {
+            if (error.code && partnerCodes.has(error.code) && error.message) {
+              texts.add(error.message)
+            }
+          }
+        }
+      }
+    }
+    expect(texts.size).toBeGreaterThan(0)
+    expect(
+      [...texts].filter(
+        (text) =>
+          !readByRule(text) && !partnerNoise.some((noise) => noise.test(text))
+      )
+    ).toEqual([])
+  })
+})
+
 describe('cards built from real API payloads', () => {
   it.each(payloads)('$name', (entry) => {
     const { request } = entry
