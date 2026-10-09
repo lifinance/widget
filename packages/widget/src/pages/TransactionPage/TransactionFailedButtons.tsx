@@ -77,7 +77,8 @@ export const TransactionFailedButtons: React.FC<
       receiverRequired: requiredUI?.toAddress,
     })
     const receiver = keepReceiver ? formReceiver : values.toAddress
-    // This page clears the amounts of a failed route on unmount, so fill after it.
+    // Fill after navigate resolves: this page's unmount cleanup has run by then,
+    // as TransactionFailedButtons.test.tsx checks.
     navigate({ to: navigationRoutes.home, replace: true }).then(() => {
       for (const fieldName of Object.keys(values) as (keyof typeof values)[]) {
         setFieldValue(fieldName, values[fieldName], {
