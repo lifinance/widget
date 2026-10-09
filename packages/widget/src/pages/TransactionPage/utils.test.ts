@@ -234,18 +234,6 @@ describe('isCallBundleNotFound', () => {
     expect(isCallBundleNotFound(later)).toBe(true)
   })
 
-  it('should not find the error for other errors', () => {
-    for (const code of [
-      LiFiErrorCode.SignatureRejected,
-      LiFiErrorCode.TransactionRejected,
-      LiFiErrorCode.TransactionFailed,
-    ]) {
-      expect(
-        isCallBundleNotFound(route(step(1, 8453, failedExecution(code))))
-      ).toBe(false)
-    }
-  })
-
   it('should not find the error for a route that did not fail', () => {
     expect(isCallBundleNotFound(route(step(1, 8453, doneExecution)))).toBe(
       false

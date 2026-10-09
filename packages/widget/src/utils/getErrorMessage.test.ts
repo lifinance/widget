@@ -43,9 +43,8 @@ describe('getErrorMessage', () => {
         failedSwap(LiFiErrorCode.CallBundleNotFound)
       )
     ).toEqual({
-      title: 'Transaction not found in your wallet',
-      message:
-        'Your wallet has no record of this transaction. If you approved it, it can still complete. Check your wallet balance before you swap again.',
+      title: en.error.title.callBundleNotFound,
+      message: en.error.message.callBundleNotFound,
     })
   })
 

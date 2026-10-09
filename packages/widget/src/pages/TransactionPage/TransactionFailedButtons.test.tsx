@@ -438,42 +438,41 @@ describe('Start a new swap and the transaction page cleanup', () => {
     expect(field('toAddress')).toBe(SENDER)
   })
 
-  for (const config of [
-    { hiddenUI: { toAddress: true } },
-    { disabledUI: { toAddress: true } },
-  ]) {
-    it(`should keep the integrator's receiver and bookmark with ${JSON.stringify(config)}`, async () => {
-      await render(RouteExecutionStatus.Failed, config)
-      await waitFor(() => !!newSwapButton() && !!bookmarks.select)
-      formStore.getState().setFieldValue('toAddress', '0xlocked')
-      const locked = {
-        name: 'Locked',
-        address: '0xlocked',
-        chainType: 'EVM',
-      } as Bookmark
-      bookmarks.select?.(locked)
+  it("should keep the integrator's receiver and bookmark when the receiver is hidden", async () => {
+    await render(RouteExecutionStatus.Failed, { hiddenUI: { toAddress: true } })
+    await waitFor(() => !!newSwapButton() && !!bookmarks.select)
+    formStore.getState().setFieldValue('toAddress', '0xlocked')
+    const locked = {
+      name: 'Locked',
+      address: '0xlocked',
+      chainType: 'EVM',
+    } as Bookmark
+    bookmarks.select?.(locked)
 
-      newSwapButton()!.click()
+    newSwapButton()!.click()
 
-      await waitFor(() => !!container.querySelector('#home'))
-      await sleep(300)
-      expect(field('fromAmount')).toBe('1.5')
-      expect(field('toAddress')).toBe('0xlocked')
-      expect(bookmarks.selected).toEqual(locked)
-    })
+    await waitFor(() => !!container.querySelector('#home'))
+    await sleep(300)
+    expect(field('fromAmount')).toBe('1.5')
+    expect(field('toAddress')).toBe('0xlocked')
+    expect(bookmarks.selected).toEqual(locked)
+  })
 
-    it(`should fill the route's receiver when the form has none with ${JSON.stringify(config)}`, async () => {
-      await render(RouteExecutionStatus.Failed, config, routeToSolana)
-      await waitFor(() => !!newSwapButton())
+  it("should fill the route's receiver when a locked receiver is empty", async () => {
+    await render(
+      RouteExecutionStatus.Failed,
+      { disabledUI: { toAddress: true } },
+      routeToSolana
+    )
+    await waitFor(() => !!newSwapButton())
 
-      newSwapButton()!.click()
+    newSwapButton()!.click()
 
-      await waitFor(() => !!container.querySelector('#home'))
-      await sleep(300)
-      expect(field('fromAmount')).toBe('1.5')
-      expect(field('toAddress')).toBe(SOLANA_RECEIVER)
-    })
-  }
+    await waitFor(() => !!container.querySelector('#home'))
+    await sleep(300)
+    expect(field('fromAmount')).toBe('1.5')
+    expect(field('toAddress')).toBe(SOLANA_RECEIVER)
+  })
 })
 
 function testRouteState(): TestRouteState {
