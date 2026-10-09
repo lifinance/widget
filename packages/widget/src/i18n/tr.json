@@ -55,6 +55,7 @@
     "showLess": "Daha az göster",
     "showMore": "{{count}} tane daha göster",
     "startBridging": "Köprülemeye başla",
+    "startNewSwap": "Yeni swap başlat",
     "startSwapping": "Takas etmeye başla",
     "swap": "Takas et",
     "swapReview": "Swap'ı incele",
@@ -175,6 +176,7 @@
   "error": {
     "message": {
       "allowanceRequired": "{{tokenSymbol}} için transfer tutarı mevcut harcama limitinizi aşıyor. Lütfen harcama limitinizi artırıp tekrar deneyin.",
+      "callBundleNotFound": "Cüzdanınızda bu işleme ait bir kayıt yok. Onayladıysanız işlem yine de tamamlanabilir. Tekrar takas etmeden önce cüzdan bakiyenizi kontrol edin.",
       "insufficientFunds": "İşlem ücretini karşılamak için yeterli gas'ınız yok.",
       "rateLimitExceeded": "Kısa sürede çok fazla istek gönderildi. Lütfen biraz bekleyip tekrar deneyin veya sorun devam ederse destek ekibiyle iletişime geçin.",
       "remainInYourWallet": "{{chainName}} ağındaki {{amount, numberExt}} {{tokenSymbol}} cüzdanınızda duruyor.",
@@ -196,6 +198,7 @@
       "balanceIsTooLow": "Bakiye çok düşük",
       "bookmarkAlreadyExists": "Bu cüzdan zaten {{name}} adıyla kayıtlı",
       "bookmarkNameRequired": "Cüzdan adı gerekli",
+      "callBundleNotFound": "İşlem cüzdanınızda bulunamadı",
       "chainSwitch": "Zincir değişikliği gerekli",
       "exchangeRateUpdateCanceled": "Kur güncellemesi iptal edildi",
       "gasLimitIsTooLow": "Gas limiti çok düşük",

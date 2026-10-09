@@ -55,6 +55,7 @@
     "showLess": "Afficher moins",
     "showMore": "Afficher {{count}} de plus",
     "startBridging": "Lancer le bridge",
+    "startNewSwap": "Lancer un nouveau swap",
     "startSwapping": "Lancer le swap",
     "swap": "Échanger",
     "swapReview": "Vérifier le swap",
@@ -175,6 +176,7 @@
   "error": {
     "message": {
       "allowanceRequired": "Le montant du transfert dépasse votre plafond de dépenses actuel pour {{tokenSymbol}}. Veuillez augmenter votre plafond de dépenses et réessayer.",
+      "callBundleNotFound": "Votre wallet n’a aucune trace de cette transaction. Si vous l’avez approuvée, elle peut encore être finalisée. Vérifiez le solde de votre wallet avant d’échanger à nouveau.",
       "insufficientFunds": "Vous n’avez pas assez de gaz pour couvrir le coût de la transaction.",
       "rateLimitExceeded": "Trop de requêtes ont été envoyées en peu de temps. Veuillez patienter un instant et réessayer, ou contactez le support si le problème persiste.",
       "remainInYourWallet": "Il reste {{amount, numberExt}} {{tokenSymbol}} sur {{chainName}} dans votre wallet.",
@@ -196,6 +198,7 @@
       "balanceIsTooLow": "Le solde est trop bas",
       "bookmarkAlreadyExists": "Ce wallet est déjà dans vos favoris sous le nom {{name}}",
       "bookmarkNameRequired": "Le nom du favori est requis",
+      "callBundleNotFound": "Transaction introuvable dans votre wallet",
       "chainSwitch": "Changement de chaîne requis",
       "exchangeRateUpdateCanceled": "Mise à jour du taux de change annulée",
       "gasLimitIsTooLow": "La limite de gaz est trop basse",

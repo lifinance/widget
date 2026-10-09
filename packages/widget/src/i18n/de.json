@@ -55,6 +55,7 @@
     "showLess": "Weniger anzeigen",
     "showMore": "{{count}} weitere anzeigen",
     "startBridging": "Jetzt bridgen",
+    "startNewSwap": "Neuen Swap starten",
     "startSwapping": "Jetzt swappen",
     "swap": "Swappen",
     "swapReview": "Swap prüfen",
@@ -175,6 +176,7 @@
   "error": {
     "message": {
       "allowanceRequired": "Der Transferbetrag für {{tokenSymbol}} übersteigt deinen genehmigten Betrag. Bitte erhöhe den genehmigten Betrag und versuche es erneut.",
+      "callBundleNotFound": "Deine Wallet hat keinen Eintrag zu dieser Transaktion. Wenn du sie genehmigt hast, kann sie noch abgeschlossen werden. Prüfe dein Wallet-Guthaben, bevor du erneut swappst.",
       "insufficientFunds": "Du hast nicht genug Gas, um die Kosten der Transaktion zu decken.",
       "rateLimitExceeded": "Zu viele Anfragen in kurzer Zeit. Bitte warte einen Moment und versuche es erneut. Wenn das Problem weiterhin besteht, kontaktiere den Support.",
       "remainInYourWallet": "{{amount, numberExt}} {{tokenSymbol}} auf {{chainName}} bleiben in deiner Wallet.",
@@ -196,6 +198,7 @@
       "balanceIsTooLow": "Das Guthaben ist zu niedrig",
       "bookmarkAlreadyExists": "Wallet ist bereits als {{name}} gespeichert",
       "bookmarkNameRequired": "Name ist erforderlich",
+      "callBundleNotFound": "Transaktion in deiner Wallet nicht gefunden",
       "chainSwitch": "Chain-Wechsel erforderlich",
       "exchangeRateUpdateCanceled": "Kursaktualisierung abgebrochen",
       "gasLimitIsTooLow": "Das Gaslimit ist zu niedrig",

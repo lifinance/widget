@@ -55,6 +55,7 @@
     "showLess": "แสดงน้อยลง",
     "showMore": "แสดงอีก {{count}} รายการ",
     "startBridging": "เริ่ม Bridge",
+    "startNewSwap": "เริ่ม Swap ใหม่",
     "startSwapping": "เริ่ม Swap",
     "swap": "Swap",
     "swapReview": "ตรวจสอบ Swap",
@@ -175,6 +176,7 @@
   "error": {
     "message": {
       "allowanceRequired": "จำนวนโอน {{tokenSymbol}} เกินจำนวนที่อนุมัติไว้ในปัจจุบัน โปรดเพิ่มจำนวนที่อนุมัติแล้วลองอีกครั้ง",
+      "callBundleNotFound": "Wallet ของคุณไม่มีบันทึกธุรกรรมนี้ หากคุณอนุมัติแล้ว ธุรกรรมนี้อาจยังสำเร็จได้ โปรดตรวจสอบยอดคงเหลือใน Wallet ก่อน Swap อีกครั้ง",
       "insufficientFunds": "คุณมี Gas ไม่พอสำหรับจ่ายค่าธุรกรรมนี้",
       "rateLimitExceeded": "มีคำขอมากเกินไปในช่วงเวลาสั้นๆ โปรดรอสักครู่แล้วลองอีกครั้ง หรือติดต่อฝ่ายสนับสนุนหากยังพบปัญหา",
       "remainInYourWallet": "{{amount, numberExt}} {{tokenSymbol}} บน {{chainName}} ยังอยู่ใน Wallet ของคุณ",
@@ -196,6 +198,7 @@
       "balanceIsTooLow": "ยอดคงเหลือต่ำเกินไป",
       "bookmarkAlreadyExists": "Wallet นี้บุ๊กมาร์กไว้แล้วในชื่อ {{name}}",
       "bookmarkNameRequired": "โปรดกรอกชื่อบุ๊กมาร์ก",
+      "callBundleNotFound": "ไม่พบธุรกรรมใน Wallet ของคุณ",
       "chainSwitch": "จำเป็นต้องเปลี่ยนเชน",
       "exchangeRateUpdateCanceled": "การอัปเดตอัตราแลกเปลี่ยนถูกยกเลิก",
       "gasLimitIsTooLow": "Gas Limit ต่ำเกินไป",

@@ -55,6 +55,7 @@
     "showLess": "Mostrar menos",
     "showMore": "Mostrar mais {{count}}",
     "startBridging": "Começar a fazer bridge",
+    "startNewSwap": "Começar um novo swap",
     "startSwapping": "Começar a trocar",
     "swap": "Trocar",
     "swapReview": "Revisar swap",
@@ -175,6 +176,7 @@
   "error": {
     "message": {
       "allowanceRequired": "O valor da transferência de {{tokenSymbol}} excede seu limite de gastos atual. Aumente o limite de gastos e tente novamente.",
+      "callBundleNotFound": "Sua carteira não tem registro desta transação. Se você a aprovou, ela ainda pode ser concluída. Verifique o saldo da sua carteira antes de trocar novamente.",
       "insufficientFunds": "Você não tem gas suficiente para cobrir as taxas da transação.",
       "rateLimitExceeded": "Muitas solicitações foram feitas em pouco tempo. Aguarde um momento e tente novamente ou entre em contato com o suporte se o problema continuar.",
       "remainInYourWallet": "{{amount, numberExt}} {{tokenSymbol}} na {{chainName}} continuam na sua carteira.",
@@ -196,6 +198,7 @@
       "balanceIsTooLow": "Saldo muito baixo",
       "bookmarkAlreadyExists": "A carteira já está nos favoritos como {{name}}",
       "bookmarkNameRequired": "O nome do favorito é obrigatório",
+      "callBundleNotFound": "Transação não encontrada na sua carteira",
       "chainSwitch": "É necessário mudar de rede",
       "exchangeRateUpdateCanceled": "Atualização da cotação cancelada",
       "gasLimitIsTooLow": "Limite de gas muito baixo",

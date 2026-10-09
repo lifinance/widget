@@ -55,6 +55,7 @@
     "showLess": "Mostrar menos",
     "showMore": "Mostrar {{count}} más",
     "startBridging": "Iniciar puente",
+    "startNewSwap": "Iniciar nuevo swap",
     "startSwapping": "Iniciar swap",
     "swap": "Intercambiar",
     "swapReview": "Revisar swap",
@@ -175,6 +176,7 @@
   "error": {
     "message": {
       "allowanceRequired": "La cantidad a transferir de {{tokenSymbol}} supera tu límite de gasto actual. Aumenta el límite de gasto e inténtalo de nuevo.",
+      "callBundleNotFound": "Tu billetera no tiene registro de esta transacción. Si la aprobaste, aún puede completarse. Revisa el saldo de tu billetera antes de volver a intercambiar.",
       "insufficientFunds": "No tienes suficiente gas para cubrir la comisión de la transacción.",
       "rateLimitExceeded": "Se hicieron demasiadas solicitudes en poco tiempo. Espera un momento e inténtalo de nuevo, o ponte en contacto con soporte si el problema persiste.",
       "remainInYourWallet": "{{amount, numberExt}} {{tokenSymbol}} en {{chainName}} siguen en tu billetera.",
@@ -196,6 +198,7 @@
       "balanceIsTooLow": "El saldo es demasiado bajo",
       "bookmarkAlreadyExists": "La billetera ya está guardada como {{name}}",
       "bookmarkNameRequired": "El nombre es obligatorio",
+      "callBundleNotFound": "Transacción no encontrada en tu billetera",
       "chainSwitch": "Debes cambiar de cadena",
       "exchangeRateUpdateCanceled": "Actualización de la tasa de cambio cancelada",
       "gasLimitIsTooLow": "El límite de gas es demasiado bajo",

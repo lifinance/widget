@@ -55,6 +55,7 @@
     "showLess": "Pokaż mniej",
     "showMore": "Pokaż jeszcze {{count}}",
     "startBridging": "Rozpocznij przeniesienie",
+    "startNewSwap": "Rozpocznij nowy swap",
     "startSwapping": "Rozpocznij swap",
     "swap": "Wymień",
     "swapReview": "Sprawdź swap",
@@ -175,6 +176,7 @@
   "error": {
     "message": {
       "allowanceRequired": "Kwota transferu {{tokenSymbol}} przekracza obecnie zatwierdzoną kwotę. Zwiększ zatwierdzoną kwotę i spróbuj ponownie.",
+      "callBundleNotFound": "Twój portfel nie ma zapisu tej transakcji. Jeśli została zatwierdzona, nadal może się zakończyć. Sprawdź saldo portfela przed kolejnym swapem.",
       "insufficientFunds": "Masz za mało gazu, aby pokryć koszt transakcji.",
       "rateLimitExceeded": "W krótkim czasie wysłano zbyt wiele zapytań. Odczekaj chwilę i spróbuj ponownie lub skontaktuj się z supportem, jeśli problem nie zniknie.",
       "remainInYourWallet": "Twoje środki pozostają w portfelu: {{amount, numberExt}} {{tokenSymbol}} w sieci {{chainName}}.",
@@ -196,6 +198,7 @@
       "balanceIsTooLow": "Saldo jest za niskie",
       "bookmarkAlreadyExists": "Portfel jest już zapisany jako {{name}}",
       "bookmarkNameRequired": "Nazwa portfela jest wymagana",
+      "callBundleNotFound": "Nie znaleziono transakcji w Twoim portfelu",
       "chainSwitch": "Wymagane przełączenie sieci",
       "exchangeRateUpdateCanceled": "Anulowano aktualizację kursu wymiany",
       "gasLimitIsTooLow": "Limit gazu jest za niski",

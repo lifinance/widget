@@ -55,6 +55,7 @@
     "showLess": "Tampilkan lebih sedikit",
     "showMore": "Tampilkan {{count}} lagi",
     "startBridging": "Mulai bridge",
+    "startNewSwap": "Mulai swap baru",
     "startSwapping": "Mulai swap",
     "swap": "Swap",
     "swapReview": "Tinjau swap",
@@ -175,6 +176,7 @@
   "error": {
     "message": {
       "allowanceRequired": "Jumlah transfer untuk {{tokenSymbol}} melebihi batas penggunaan Anda saat ini. Naikkan batas penggunaan lalu coba lagi.",
+      "callBundleNotFound": "Dompet Anda tidak memiliki catatan transaksi ini. Jika sudah disetujui, transaksi masih dapat selesai. Periksa saldo dompet Anda sebelum melakukan swap lagi.",
       "insufficientFunds": "Anda tidak memiliki cukup gas untuk menutup biaya transaksi.",
       "rateLimitExceeded": "Terlalu banyak permintaan dalam waktu singkat. Tunggu sebentar lalu coba lagi, atau hubungi dukungan jika masalah berlanjut.",
       "remainInYourWallet": "{{amount, numberExt}} {{tokenSymbol}} di {{chainName}} tetap ada di dompet Anda.",
@@ -196,6 +198,7 @@
       "balanceIsTooLow": "Saldo terlalu rendah",
       "bookmarkAlreadyExists": "Dompet sudah di-bookmark sebagai {{name}}",
       "bookmarkNameRequired": "Nama bookmark wajib diisi",
+      "callBundleNotFound": "Transaksi tidak ditemukan di dompet Anda",
       "chainSwitch": "Perlu beralih chain",
       "exchangeRateUpdateCanceled": "Pembaruan nilai tukar dibatalkan",
       "gasLimitIsTooLow": "Batas gas terlalu rendah",

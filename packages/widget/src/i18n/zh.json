@@ -55,6 +55,7 @@
     "showLess": "收起",
     "showMore": "再显示 {{count}} 个",
     "startBridging": "开始跨链",
+    "startNewSwap": "开始新的兑换",
     "startSwapping": "开始兑换",
     "swap": "兑换",
     "swapReview": "预览兑换",
@@ -175,6 +176,7 @@
   "error": {
     "message": {
       "allowanceRequired": "{{tokenSymbol}} 的转账金额超过了当前授权额度。请提高授权额度后重试。",
+      "callBundleNotFound": "您的钱包中没有这笔交易的记录。如果您已确认，该交易仍可能完成。再次兑换前，请检查您的钱包余额。",
       "insufficientFunds": "您的 Gas 不足，无法支付此交易的费用。",
       "rateLimitExceeded": "短时间内请求过多。请稍候重试；如果问题仍然存在，请联系技术支持。",
       "remainInYourWallet": "{{chainName}} 上的 {{amount, numberExt}} {{tokenSymbol}} 仍在您的钱包中。",
@@ -196,6 +198,7 @@
       "balanceIsTooLow": "余额过低",
       "bookmarkAlreadyExists": "该钱包已收藏为 {{name}}",
       "bookmarkNameRequired": "请输入收藏名称",
+      "callBundleNotFound": "钱包中未找到该交易",
       "chainSwitch": "需要切换链",
       "exchangeRateUpdateCanceled": "汇率更新已取消",
       "gasLimitIsTooLow": "Gas 上限过低",

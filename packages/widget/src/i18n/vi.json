@@ -55,6 +55,7 @@
     "showLess": "Thu gọn",
     "showMore": "Hiển thị thêm {{count}}",
     "startBridging": "Bắt đầu chuyển qua cầu nối",
+    "startNewSwap": "Bắt đầu hoán đổi mới",
     "startSwapping": "Bắt đầu hoán đổi",
     "swap": "Hoán đổi",
     "swapReview": "Xem lại hoán đổi",
@@ -175,6 +176,7 @@
   "error": {
     "message": {
       "allowanceRequired": "Số lượng {{tokenSymbol}} cần chuyển vượt quá hạn mức phê duyệt hiện tại. Vui lòng tăng hạn mức phê duyệt và thử lại.",
+      "callBundleNotFound": "Ví của bạn không ghi nhận giao dịch này. Nếu bạn đã phê duyệt, giao dịch vẫn có thể hoàn tất. Hãy kiểm tra số dư ví trước khi hoán đổi lại.",
       "insufficientFunds": "Bạn không có đủ gas để trả chi phí giao dịch.",
       "rateLimitExceeded": "Có quá nhiều yêu cầu trong thời gian ngắn. Vui lòng chờ một lát rồi thử lại, hoặc liên hệ bộ phận hỗ trợ nếu sự cố vẫn tiếp diễn.",
       "remainInYourWallet": "{{amount, numberExt}} {{tokenSymbol}} trên {{chainName}} vẫn còn trong ví của bạn.",
@@ -196,6 +198,7 @@
       "balanceIsTooLow": "Số dư quá thấp",
       "bookmarkAlreadyExists": "Ví đã được lưu với tên {{name}}",
       "bookmarkNameRequired": "Cần nhập tên ví",
+      "callBundleNotFound": "Không tìm thấy giao dịch trong ví của bạn",
       "chainSwitch": "Cần chuyển chuỗi",
       "exchangeRateUpdateCanceled": "Đã hủy cập nhật tỷ giá",
       "gasLimitIsTooLow": "Giới hạn gas quá thấp",
