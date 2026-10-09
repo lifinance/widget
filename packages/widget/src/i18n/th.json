@@ -102,38 +102,51 @@
     },
     "routeIssue": {
       "lookForReasons": "",
-      "applySuggestion": "",
+      "useAmount": "",
+      "setSlippage": "",
+      "unaffordable": "",
       "amountTooLow": {
         "title": "",
         "description": "",
         "descriptionUsd": "",
         "descriptionEstimated": "",
-        "descriptionNoAmount": ""
+        "descriptionNoAmount": "",
+        "descriptionLocked": ""
       },
       "amountTooHigh": {
         "title": "",
         "description": "",
         "descriptionUsd": "",
-        "descriptionNoAmount": ""
+        "descriptionNoAmount": "",
+        "descriptionLocked": ""
       },
       "slippageTooTight": {
         "title": "",
         "description": "",
         "descriptionSuggested": "",
-        "descriptionNoAmount": ""
+        "descriptionNoAmount": "",
+        "descriptionHidden": ""
       },
       "slippageTooLoose": {
         "title": "",
         "description": "",
-        "descriptionNoAmount": ""
+        "descriptionNoAmount": "",
+        "descriptionHidden": ""
       },
       "destinationAccountNotReady": {
         "title": "",
-        "description": ""
+        "description": "",
+        "descriptionStellarUnfunded": "",
+        "descriptionStellarTrustline": "",
+        "descriptionStellarReserve": "",
+        "descriptionLighterAccount": "",
+        "descriptionSeiLink": "",
+        "descriptionSolAccountRent": ""
       },
       "recipientNotSupported": {
         "title": "",
         "description": "",
+        "descriptionNoAction": "",
         "action": ""
       },
       "gaslessNotAvailable": {
@@ -151,7 +164,9 @@
       "temporary": {
         "title": "",
         "description": "",
-        "action": ""
+        "descriptionGas": "",
+        "action": "",
+        "busy": ""
       },
       "pairNotSupported": {
         "title": "",

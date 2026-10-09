@@ -11,12 +11,15 @@ import {
   nextSlippage,
   reportedSlippage,
   roundSuggestion,
+  usdBuffer,
 } from './suggestions.js'
 import type { RouteIssue } from './types.js'
 
 export interface RouteIssueAction {
   label: string
   run: () => void
+  /** The answer it asks for is already on its way. */
+  disabled?: boolean
 }
 
 export interface RouteIssueCardContent {
@@ -42,10 +45,24 @@ export interface RouteIssueCardDeps {
   receiverRequired: boolean
   toAddress?: string
   sameEcosystem: boolean
+  /** The settings hide slippage, so a value set here could not be seen or undone. */
+  slippageHidden?: boolean
+  /** A quote for this request is already running. */
+  isFetching?: boolean
   applyAmount: (value: string) => void
   applySlippage: (value: string) => void
   clearReceiver: () => void
   retry: () => void
+}
+
+// The step each destination reason names, so the card can say what to do.
+const destinationSteps: Record<string, string> = {
+  stellarUnfunded: 'descriptionStellarUnfunded',
+  stellarTrustline: 'descriptionStellarTrustline',
+  stellarReserve: 'descriptionStellarReserve',
+  lighterAccount: 'descriptionLighterAccount',
+  seiLink: 'descriptionSeiLink',
+  solAccountRent: 'descriptionSolAccountRent',
 }
 
 export const buildRouteIssueCard = (
@@ -81,12 +98,17 @@ export const buildRouteIssueCard = (
     )
   }
 
+  // Moved clear of the bar as a reported figure is: landing on it exactly
+  // asked for an amount the tool could still refuse.
   const amountForUsd = (
     targetUsd: number,
     direction: 'raise' | 'lower' = 'raise'
   ): bigint | undefined =>
     toRawAmount(
-      priceToTokenAmount(targetUsd.toString(), token?.priceUSD),
+      priceToTokenAmount(
+        (targetUsd * usdBuffer[direction]).toString(),
+        token?.priceUSD
+      ),
       direction
     )
 
@@ -194,8 +216,26 @@ export const buildRouteIssueCard = (
     maxUsd: quotedUsd,
   }
 
+  // Clearing the receiver only leaves a valid request when both sides share
+  // an ecosystem; a cross-ecosystem transfer needs an explicit address.
+  const canClearReceiver =
+    Boolean(deps.toAddress) &&
+    !deps.receiverHidden &&
+    !deps.receiverRequired &&
+    deps.sameEcosystem
+
+  // A figure the user cannot apply is still worth reading, but the sentence
+  // must not ask for a change the app has locked.
+  const unaffordable =
+    amount !== undefined &&
+    deps.spendable !== undefined &&
+    amount > deps.spendable
+
   const description = ((): string => {
     if (issue.bucket === 'amountTooLow' || issue.bucket === 'amountTooHigh') {
+      if (deps.amountLocked) {
+        return t(`${base}.descriptionLocked` as any)
+      }
       if (!suggested) {
         return t(`${base}.descriptionNoAmount` as any)
       }
@@ -219,6 +259,13 @@ export const buildRouteIssueCard = (
         ? t(`${base}.descriptionEstimated` as any, values)
         : t(`${base}.description` as any, values)
     }
+    if (
+      (issue.bucket === 'slippageTooLoose' ||
+        issue.bucket === 'slippageTooTight') &&
+      deps.slippageHidden
+    ) {
+      return t(`${base}.descriptionHidden` as any)
+    }
     if (issue.bucket === 'slippageTooLoose') {
       return slippageTarget
         ? t(`${base}.description` as any, values)
@@ -232,37 +279,56 @@ export const buildRouteIssueCard = (
         ? t(`${base}.description` as any, values)
         : t(`${base}.descriptionSuggested` as any, values)
     }
+    if (issue.bucket === 'recipientNotSupported' && !canClearReceiver) {
+      return t(`${base}.descriptionNoAction` as any)
+    }
+    if (
+      issue.bucket === 'temporary' &&
+      issue.ruleId === 'gasCostsExceedLimit'
+    ) {
+      return t(`${base}.descriptionGas` as any)
+    }
+    if (issue.bucket === 'destinationAccountNotReady') {
+      const step = destinationSteps[issue.ruleId]
+      if (step) {
+        return t(`${base}.${step}` as any)
+      }
+    }
     return t(`${base}.description` as any)
   })()
 
-  const applySuggestion = t('info.routeIssue.applySuggestion')
+  const setSlippage = (): RouteIssueAction => ({
+    label: t('info.routeIssue.setSlippage', { slippage: slippageTarget }),
+    run: () => deps.applySlippage(slippageTarget),
+  })
 
   const action = ((): RouteIssueAction | undefined => {
     switch (issue.bucket) {
       case 'amountTooLow':
-      case 'amountTooHigh': {
+      case 'amountTooHigh':
         // Every other fix here withdraws when it cannot help. Raising past the
         // balance only swaps "no routes" for "insufficient funds", so the
         // figure stays on screen and the button does not.
-        const unaffordable =
-          amount !== undefined &&
-          deps.spendable !== undefined &&
-          amount > deps.spendable
         return !suggested || deps.amountLocked || unaffordable
           ? undefined
-          : { label: applySuggestion, run: () => deps.applyAmount(suggested) }
-      }
+          : {
+              label: t('info.routeIssue.useAmount', {
+                suggested: suggestedDisplay,
+                symbol: values.symbol,
+              }),
+              run: () => deps.applyAmount(suggested),
+            }
 
       // Lowering is always within range, but only helps while the user has a
       // setting above the cap; on a resolved auto value there is nothing to set.
       case 'slippageTooLoose': {
         const applied = Number(deps.slippage)
         const target = Number(slippageTarget)
-        return slippageTarget && target > 0 && target < applied
-          ? {
-              label: applySuggestion,
-              run: () => deps.applySlippage(slippageTarget),
-            }
+        return slippageTarget &&
+          !deps.slippageHidden &&
+          target > 0 &&
+          target < applied
+          ? setSlippage()
           : undefined
       }
 
@@ -274,21 +340,13 @@ export const buildRouteIssueCard = (
         const applied = Number(deps.slippage) || 0
         const target = Number(slippageTarget)
         const movesUp = target > applied && target <= maxRecommendedSlippage
-        return slippageTarget && movesUp
-          ? {
-              label: applySuggestion,
-              run: () => deps.applySlippage(slippageTarget),
-            }
+        return slippageTarget && movesUp && !deps.slippageHidden
+          ? setSlippage()
           : undefined
       }
 
-      // Clearing the receiver only leaves a valid request when both sides share
-      // an ecosystem; a cross-ecosystem transfer needs an explicit address.
       case 'recipientNotSupported':
-        return deps.toAddress &&
-          !deps.receiverHidden &&
-          !deps.receiverRequired &&
-          deps.sameEcosystem
+        return canClearReceiver
           ? {
               label: t(`${base}.action` as any),
               run: deps.clearReceiver,
@@ -296,20 +354,29 @@ export const buildRouteIssueCard = (
           : undefined
 
       case 'temporary':
-        return { label: t(`${base}.action` as any), run: deps.retry }
+        return deps.isFetching
+          ? { label: t(`${base}.busy` as any), run: deps.retry, disabled: true }
+          : { label: t(`${base}.action` as any), run: deps.retry }
 
       default:
         return undefined
     }
   })()
 
+  const note = ((): string | undefined => {
+    if (issue.bucket === 'temporary' && issue.evidence?.note) {
+      return wrapLongWords(issue.evidence.note)
+    }
+    if (suggested && unaffordable && !deps.amountLocked) {
+      return t('info.routeIssue.unaffordable')
+    }
+    return undefined
+  })()
+
   return {
     title: t(`${base}.title` as any),
     description,
-    note:
-      issue.bucket === 'temporary' && issue.evidence?.note
-        ? wrapLongWords(issue.evidence.note)
-        : undefined,
+    note,
     action,
   }
 }

@@ -90,7 +90,8 @@ describe('amount suggestions', () => {
       deps({ applyAmount })
     )
     card.action?.run()
-    expect(applyAmount).toHaveBeenCalledWith('1')
+    // The one-dollar floor, moved 2% clear of the bar and rounded up.
+    expect(applyAmount).toHaveBeenCalledWith('1.1')
     expect(card.description).toBe(
       'info.routeIssue.amountTooLow.descriptionEstimated'
     )
@@ -192,7 +193,8 @@ describe('amount suggestions', () => {
       deps({ applyAmount })
     )
     card.action?.run()
-    expect(applyAmount).toHaveBeenCalledWith('100')
+    // The $100 ceiling, moved 2% under the bar.
+    expect(applyAmount).toHaveBeenCalledWith('98')
     expect(card.description).toBe(
       'info.routeIssue.amountTooHigh.descriptionUsd'
     )
@@ -374,5 +376,144 @@ describe('other buckets', () => {
       deps()
     )
     expect(card.action).toBeUndefined()
+  })
+})
+
+describe('a card the user cannot act on', () => {
+  // The button already withdraws; the sentence must not ask for the change
+  // either, because the app has locked it.
+  it.each(['amountTooLow', 'amountTooHigh'] as const)(
+    'says the app set a locked %s',
+    (bucket) => {
+      const card = buildRouteIssueCard(
+        issue(bucket, 5_000_000n, { requiredFromAmount: 2_000_000n }),
+        deps({ amountLocked: true })
+      )
+      expect(card.description).toBe(
+        `info.routeIssue.${bucket}.descriptionLocked`
+      )
+      expect(card.action).toBeUndefined()
+    }
+  )
+
+  it.each([
+    ['a hidden receiver', { receiverHidden: true }],
+    ['a required receiver', { receiverRequired: true }],
+    ['another ecosystem', { sameEcosystem: false }],
+  ] as const)('asks for no address change with %s', (_label, override) => {
+    const card = buildRouteIssueCard(
+      issue('recipientNotSupported', 1n),
+      deps({ toAddress: '0xreceiver', ...override })
+    )
+    expect(card.description).toBe(
+      'info.routeIssue.recipientNotSupported.descriptionNoAction'
+    )
+    expect(card.action).toBeUndefined()
+  })
+
+  it('keeps the address advice where clearing it helps', () => {
+    const card = buildRouteIssueCard(
+      issue('recipientNotSupported', 1n),
+      deps({ toAddress: '0xreceiver' })
+    )
+    expect(card.description).toBe(
+      'info.routeIssue.recipientNotSupported.description'
+    )
+    expect(card.action?.label).toBe(
+      'info.routeIssue.recipientNotSupported.action'
+    )
+  })
+
+  // In limit mode the slippage row is hidden, so a value set from the card
+  // could be neither seen nor undone there.
+  it.each([
+    ['slippageTooTight', 0.02],
+    ['slippageTooLoose', 0.005],
+  ] as const)(
+    'offers no slippage change for %s when it is hidden',
+    (bucket, required) => {
+      const card = buildRouteIssueCard(
+        issue(bucket, 1n, { requiredSlippage: required }),
+        deps({ slippage: '1', slippageHidden: true })
+      )
+      expect(card.description).toBe(
+        `info.routeIssue.${bucket}.descriptionHidden`
+      )
+      expect(card.action).toBeUndefined()
+    }
+  )
+
+  it('says why the figure has no button when the wallet cannot send it', () => {
+    const card = buildRouteIssueCard(
+      issue('amountTooLow', 200_000n, { requiredFromAmount: 2_000_000n }),
+      deps({ spendable: 1_000_000n })
+    )
+    expect(card.action).toBeUndefined()
+    expect(card.note).toBe('info.routeIssue.unaffordable')
+  })
+})
+
+describe('copy for the exact cause', () => {
+  it('names gas costs rather than a busy provider', () => {
+    const card = buildRouteIssueCard(
+      { bucket: 'temporary', ruleId: 'gasCostsExceedLimit', fromAmount: 1n },
+      deps()
+    )
+    expect(card.description).toBe('info.routeIssue.temporary.descriptionGas')
+  })
+
+  it.each([
+    ['stellarUnfunded', 'descriptionStellarUnfunded'],
+    ['stellarTrustline', 'descriptionStellarTrustline'],
+    ['stellarReserve', 'descriptionStellarReserve'],
+    ['lighterAccount', 'descriptionLighterAccount'],
+    ['seiLink', 'descriptionSeiLink'],
+    ['solAccountRent', 'descriptionSolAccountRent'],
+    ['somethingNew', 'description'],
+  ])('names the step for %s', (ruleId, key) => {
+    const card = buildRouteIssueCard(
+      { bucket: 'destinationAccountNotReady', ruleId, fromAmount: 1n },
+      deps()
+    )
+    expect(card.description).toBe(
+      `info.routeIssue.destinationAccountNotReady.${key}`
+    )
+  })
+})
+
+describe('buttons', () => {
+  // "Apply suggestion" named no object, and the slippage one replaces Auto in
+  // the saved settings, so each label says what it sets.
+  it('names the amount it uses', () => {
+    const card = buildRouteIssueCard(
+      issue('amountTooLow', 200_000n, { requiredFromAmount: 2_000_000n }),
+      deps()
+    )
+    expect(card.action?.label).toBe('info.routeIssue.useAmount')
+  })
+
+  it('names the slippage it sets', () => {
+    const card = buildRouteIssueCard(
+      issue('slippageTooTight', 1n, { requiredSlippage: 0.008 }),
+      deps({ slippage: '0.5' })
+    )
+    expect(card.action?.label).toBe('info.routeIssue.setSlippage')
+  })
+
+  // A second press while the first quote runs changes nothing, so the button
+  // says it is already checking.
+  it('shows a retry already under way', () => {
+    const card = buildRouteIssueCard(
+      issue('temporary', 1n),
+      deps({ isFetching: true })
+    )
+    expect(card.action?.disabled).toBe(true)
+    expect(card.action?.label).toBe('info.routeIssue.temporary.busy')
+  })
+
+  it('offers a retry when nothing is running', () => {
+    const card = buildRouteIssueCard(issue('temporary', 1n), deps())
+    expect(card.action?.disabled).toBeFalsy()
+    expect(card.action?.label).toBe('info.routeIssue.temporary.action')
   })
 })

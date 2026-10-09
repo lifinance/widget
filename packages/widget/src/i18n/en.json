@@ -130,61 +130,76 @@
       "missingRouteRequiredAccount": "Connect your {{chainName}} wallet to proceed. {{address}}"
     },
     "routeIssue": {
-      "lookForReasons": "Here's what got in the way, and what might help.",
-      "applySuggestion": "Apply suggestion",
+      "lookForReasons": "Here's the main reason we found.",
+      "useAmount": "Use {{suggested}} {{symbol}}",
+      "setSlippage": "Set slippage to {{slippage}}%",
+      "unaffordable": "This is more than you can send from this wallet.",
       "amountTooLow": {
         "title": "Amount is too low",
-        "description": "This is under the smallest amount these routes will take. Try about {{suggested}} {{symbol}} — a little over the smallest minimum we saw.",
-        "descriptionUsd": "Routes for this pair need at least {{minUsd}} to work with, which is about {{suggested}} {{symbol}}.",
-        "descriptionEstimated": "This is under the smallest amount these routes will take. Try around {{suggested}} {{symbol}} and we'll look again.",
-        "descriptionNoAmount": "This is under the smallest amount these routes will take. Try a slightly larger amount and we'll look again."
+        "description": "This amount is below the minimum these routes accept. Try about {{suggested}} {{symbol}}, just above the lowest minimum we saw.",
+        "descriptionUsd": "These routes need at least {{minUsd}}. Try about {{suggested}} {{symbol}}.",
+        "descriptionEstimated": "This amount is below the minimum these routes accept. Try about {{suggested}} {{symbol}} and we'll check again.",
+        "descriptionNoAmount": "This amount is below the minimum these routes accept. Try a larger amount and we'll check again.",
+        "descriptionLocked": "This amount is set by the app, and it is below the minimum these routes accept."
       },
       "amountTooHigh": {
         "title": "Amount is too high",
-        "description": "That's more than these routes can move in one go. The highest limit we saw was about {{suggested}} {{symbol}}, so try that or less.",
-        "descriptionUsd": "That's more than these routes can move in one go. The most any of them reported is about {{maxUsd}}, which is around {{suggested}} {{symbol}}.",
-        "descriptionNoAmount": "That's above the largest amount these routes accept. Try a smaller amount and we'll check again."
+        "description": "This amount is above the maximum these routes accept. The highest limit we saw is about {{suggested}} {{symbol}}, so try that or less.",
+        "descriptionUsd": "This amount is above the maximum these routes accept. The highest limit we saw is about {{maxUsd}}. Try {{suggested}} {{symbol}} or less.",
+        "descriptionNoAmount": "This amount is above the maximum these routes accept. Try a smaller amount and we'll check again.",
+        "descriptionLocked": "This amount is set by the app, and it is above the maximum these routes accept."
       },
       "slippageTooTight": {
-        "title": "Slippage is too tight",
-        "description": "The routes we saw need at least {{slippage}}% slippage to go through, which is more than is currently applied.",
-        "descriptionSuggested": "The slippage currently applied is stricter than these routes can work with. Loosening it to {{slippage}}% should help.",
-        "descriptionNoAmount": "The slippage currently applied is stricter than the routes we saw can work with. Try loosening it a little."
+        "title": "Slippage is too low",
+        "description": "These routes need at least {{slippage}}% slippage, which is more than the slippage now applied.",
+        "descriptionSuggested": "The slippage now applied is lower than these routes accept. Setting it to {{slippage}}% should help.",
+        "descriptionNoAmount": "The slippage now applied is lower than these routes accept. Try a higher slippage.",
+        "descriptionHidden": "The slippage set for this order is lower than these routes accept."
       },
       "slippageTooLoose": {
         "title": "Slippage is too high",
-        "description": "The routes we saw cap slippage at {{slippage}}%. Lowering the slippage to that should help.",
-        "descriptionNoAmount": "The slippage currently applied is higher than the routes we saw accept. Try lowering it a little."
+        "description": "These routes accept at most {{slippage}}% slippage. Setting it to {{slippage}}% should help.",
+        "descriptionNoAmount": "The slippage now applied is higher than these routes accept. Try a lower slippage.",
+        "descriptionHidden": "The slippage set for this order is higher than these routes accept."
       },
       "destinationAccountNotReady": {
         "title": "The receiving account is not ready",
-        "description": "The destination account needs a little setup before it can accept this token. Once that is done, routes should show up here."
+        "description": "The receiving account must be set up before it can accept this token. After that, check again.",
+        "descriptionStellarUnfunded": "The receiving Stellar account is not active yet. Fund it with XLM first, or choose XLM as the token to receive.",
+        "descriptionStellarTrustline": "The receiving Stellar account has no trustline for this token. Open one in the receiving wallet, then check again.",
+        "descriptionStellarReserve": "The receiving Stellar account holds too little XLM for its reserve. Add XLM to it, then check again.",
+        "descriptionLighterAccount": "The receiving address has no Lighter account. Create one on Lighter, then check again.",
+        "descriptionSeiLink": "A wallet in this transfer is not linked to its SEI address. Link it at app.sei.io, then check again.",
+        "descriptionSolAccountRent": "A Solana wallet in this transfer needs more SOL to open a token account. Add some SOL, then check again."
       },
       "recipientNotSupported": {
         "title": "This recipient is not supported",
-        "description": "Routes for this pair can't deliver to a contract or to an address other than your own. Sending to the wallet you're paying from usually works.",
+        "description": "These routes can't deliver to a contract or to an address other than your own. Sending to the wallet you pay from usually works.",
+        "descriptionNoAction": "These routes can't deliver to this address. Try a different token or chain.",
         "action": "Send to my own address"
       },
       "gaslessNotAvailable": {
         "title": "Gasless is not available here",
-        "description": "The routes we saw for this pair can't cover the gas for you, so you'll need to pay it yourself this time."
+        "description": "These routes can't pay the gas for you on this transfer. Try a different token or chain."
       },
       "blockedBySettings": {
-        "title": "Blocked by this widget's settings",
-        "description": "This widget's settings block a step these routes need, such as a signature on the destination chain."
+        "title": "Not available in this app",
+        "description": "This app does not allow a step these routes need. Try a different token or chain."
       },
       "liquidity": {
-        "title": "Not enough liquidity",
-        "description": "There is not enough liquidity for an amount this size, so the price impact lands above what these routes allow. A smaller amount may work better."
+        "title": "Price impact is too high",
+        "description": "The price impact at this amount is higher than these routes allow. Try a different amount, token or chain."
       },
       "temporary": {
         "title": "Temporarily unavailable",
-        "description": "A provider is busy or down for maintenance right now. This usually sorts itself out within a few minutes.",
-        "action": "Try again"
+        "description": "A provider is busy or under maintenance. This usually clears within a few minutes.",
+        "descriptionGas": "Gas costs on these routes are above the allowed limit right now. Try again when gas costs are lower.",
+        "action": "Try again",
+        "busy": "Checking again…"
       },
       "pairNotSupported": {
         "title": "This pair is not supported",
-        "description": "None of the providers we asked can connect these two tokens right now. Picking a different token or chain should give you more to work with."
+        "description": "None of the providers we asked can connect these two tokens right now. Try a different token or chain."
       }
     },
     "title": {
