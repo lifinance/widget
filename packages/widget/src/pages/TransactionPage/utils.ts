@@ -163,6 +163,7 @@ export const getNewSwapFormValues = (
   const values: NewSwapFormValues = {
     fromChain: route.fromChainId,
     fromToken: route.fromToken.address,
+    // The quote's amount, not a step amount trimmed to the balance: the new quote checks it.
     fromAmount: formatTokenAmount(
       BigInt(route.fromAmount),
       route.fromToken.decimals
