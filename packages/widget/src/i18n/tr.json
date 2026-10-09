@@ -100,6 +100,79 @@
       "routeNotFound": "Muhtemel sebepler şunlar olabilir: Düşük likidite, seçilen miktarın çok düşük olması, gaz masrafının çok olması ya da seçilen kombinasyon için rota olmaması.",
       "missingRouteRequiredAccount": ""
     },
+    "routeIssue": {
+      "lookForReasons": "",
+      "useAmount": "",
+      "setSlippage": "",
+      "unaffordable": "",
+      "amountTooLow": {
+        "title": "",
+        "description": "",
+        "descriptionUsd": "",
+        "descriptionEstimated": "",
+        "descriptionNoAmount": "",
+        "descriptionLocked": ""
+      },
+      "amountTooHigh": {
+        "title": "",
+        "description": "",
+        "descriptionUsd": "",
+        "descriptionNoAmount": "",
+        "descriptionLocked": ""
+      },
+      "slippageTooTight": {
+        "title": "",
+        "description": "",
+        "descriptionSuggested": "",
+        "descriptionNoAmount": "",
+        "descriptionHidden": ""
+      },
+      "slippageTooLoose": {
+        "title": "",
+        "description": "",
+        "descriptionNoAmount": "",
+        "descriptionHidden": ""
+      },
+      "destinationAccountNotReady": {
+        "title": "",
+        "description": "",
+        "descriptionStellarUnfunded": "",
+        "descriptionStellarTrustline": "",
+        "descriptionStellarReserve": "",
+        "descriptionLighterAccount": "",
+        "descriptionSeiLink": "",
+        "descriptionSolAccountRent": ""
+      },
+      "recipientNotSupported": {
+        "title": "",
+        "description": "",
+        "descriptionNoAction": "",
+        "action": ""
+      },
+      "gaslessNotAvailable": {
+        "title": "",
+        "description": ""
+      },
+      "blockedBySettings": {
+        "title": "",
+        "description": ""
+      },
+      "liquidity": {
+        "title": "",
+        "description": ""
+      },
+      "temporary": {
+        "title": "",
+        "description": "",
+        "descriptionGas": "",
+        "action": "",
+        "busy": ""
+      },
+      "pairNotSupported": {
+        "title": "",
+        "description": ""
+      }
+    },
     "title": {
       "autoRefuel": "{{chainName}} ağında gaz al",
       "emptyTransactionHistory": "Yakın zamanda bir işlem yok",

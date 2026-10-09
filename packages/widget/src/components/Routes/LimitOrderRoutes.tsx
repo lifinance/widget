@@ -1,6 +1,7 @@
 import { Stack } from '@mui/material'
 import { useRoutes } from '../../hooks/useRoutes.js'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
+import { useWideVariant } from '../../hooks/useWideVariant.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import type { CardProps } from '../Card/Card.js'
@@ -11,18 +12,24 @@ import {
 } from '../RouteCard/RouteProviderCard.js'
 
 export const LimitOrderRoutes: React.FC<CardProps> = (props) => {
-  const { routes, isLoading, isFetching, isFetched } = useRoutes()
+  const { routes, issues, isLoading, isFetching, isFetched } = useRoutes()
   const [toAddress, selectedRouteId] = useFieldValues(
     'toAddress',
     'selectedRouteId'
   )
   const { setFieldValue } = useFieldActions()
+  const wideVariant = useWideVariant()
   const { requiredToAddress, unsupportedReceiverBlocking } =
     useToAddressRequirements()
 
   const currentRoute = routes?.[0]
 
-  if (!currentRoute && !isLoading && !isFetching && !isFetched) {
+  // Nothing of its own to show: the panel carries the card in the wide layout,
+  // and an empty Stack would still take its bottom margin.
+  if (
+    (!currentRoute && !isLoading && !isFetching && !isFetched) ||
+    (wideVariant && !currentRoute && !isLoading)
+  ) {
     return null
   }
 
@@ -47,7 +54,7 @@ export const LimitOrderRoutes: React.FC<CardProps> = (props) => {
           <RouteProviderCardSkeleton key={index} />
         ))
       ) : !currentRoute ? (
-        <RouteNotFoundCard />
+        <RouteNotFoundCard issues={issues} />
       ) : (
         routes?.map((route) => (
           <RouteProviderCard

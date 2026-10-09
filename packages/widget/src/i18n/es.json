@@ -100,6 +100,79 @@
       "routeNotFound": "Razones para eso: baja liquidez, cantidad seleccionada es demasiado baja, Los costos de gas son demasiado altos o no hay rutas para la combinación seleccionada.",
       "missingRouteRequiredAccount": ""
     },
+    "routeIssue": {
+      "lookForReasons": "",
+      "useAmount": "",
+      "setSlippage": "",
+      "unaffordable": "",
+      "amountTooLow": {
+        "title": "",
+        "description": "",
+        "descriptionUsd": "",
+        "descriptionEstimated": "",
+        "descriptionNoAmount": "",
+        "descriptionLocked": ""
+      },
+      "amountTooHigh": {
+        "title": "",
+        "description": "",
+        "descriptionUsd": "",
+        "descriptionNoAmount": "",
+        "descriptionLocked": ""
+      },
+      "slippageTooTight": {
+        "title": "",
+        "description": "",
+        "descriptionSuggested": "",
+        "descriptionNoAmount": "",
+        "descriptionHidden": ""
+      },
+      "slippageTooLoose": {
+        "title": "",
+        "description": "",
+        "descriptionNoAmount": "",
+        "descriptionHidden": ""
+      },
+      "destinationAccountNotReady": {
+        "title": "",
+        "description": "",
+        "descriptionStellarUnfunded": "",
+        "descriptionStellarTrustline": "",
+        "descriptionStellarReserve": "",
+        "descriptionLighterAccount": "",
+        "descriptionSeiLink": "",
+        "descriptionSolAccountRent": ""
+      },
+      "recipientNotSupported": {
+        "title": "",
+        "description": "",
+        "descriptionNoAction": "",
+        "action": ""
+      },
+      "gaslessNotAvailable": {
+        "title": "",
+        "description": ""
+      },
+      "blockedBySettings": {
+        "title": "",
+        "description": ""
+      },
+      "liquidity": {
+        "title": "",
+        "description": ""
+      },
+      "temporary": {
+        "title": "",
+        "description": "",
+        "descriptionGas": "",
+        "action": "",
+        "busy": ""
+      },
+      "pairNotSupported": {
+        "title": "",
+        "description": ""
+      }
+    },
     "title": {
       "autoRefuel": "Obtener gas {{chainName}}",
       "emptyTransactionHistory": "No hay transacciones recientes",

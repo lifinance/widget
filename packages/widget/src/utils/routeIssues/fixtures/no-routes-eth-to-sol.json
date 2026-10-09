@@ -1,0 +1,1266 @@
+{
+  "filteredOut": [
+    {
+      "overallPath": "1:ETH~1:WETH-1:WETH-relaydepository-1151111081099710:SOL",
+      "reason": "Bridge from ETH with fromToken value less than 1.2 USD"
+    },
+    {
+      "overallPath": "1:ETH~1:PLUME-1:PLUME-relaydepository-1151111081099710:SOL",
+      "reason": "Bridge from ETH with fromToken value less than 1.2 USD"
+    },
+    {
+      "overallPath": "1:ETH-relaydepository-1151111081099710:SOL",
+      "reason": "Bridge from ETH with fromToken value less than 1.2 USD"
+    },
+    {
+      "overallPath": "1:ETH~1:USDT-1:USDT-relaydepository-1151111081099710:SOL",
+      "reason": "Bridge from ETH with fromToken value less than 1.2 USD"
+    },
+    {
+      "overallPath": "1:ETH~1:APE-1:APE-relaydepository-1151111081099710:SOL",
+      "reason": "Bridge from ETH with fromToken value less than 1.2 USD"
+    },
+    {
+      "overallPath": "1:ETH~1:USDG-1:USDG-relaydepository-1151111081099710:SOL",
+      "reason": "Bridge from ETH with fromToken value less than 1.2 USD"
+    },
+    {
+      "overallPath": "1:ETH~1:DAI-1:DAI-relaydepository-1151111081099710:SOL",
+      "reason": "Bridge from ETH with fromToken value less than 1.2 USD"
+    },
+    {
+      "overallPath": "1:ETH~1:USDC-1:USDC-relaydepository-1151111081099710:SOL",
+      "reason": "Bridge from ETH with fromToken value less than 1.2 USD"
+    },
+    {
+      "overallPath": "1:ETH~1:USDe-1:USDe-relaydepository-1151111081099710:SOL",
+      "reason": "Bridge from ETH with fromToken value less than 1.2 USD"
+    },
+    {
+      "overallPath": "1:ETH~1:APE-1:APE-glacis-1151111081099710:APE-1151111081099710:APE~1151111081099710:SOL",
+      "reason": "Transferred amount (17748783) out of acceptable range (min: 1000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:Anon-1:Anon-glacis-1151111081099710:Anon-1151111081099710:Anon~1151111081099710:SOL",
+      "reason": "Transferred amount (6110722) out of acceptable range (min: 1000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:crypto-1:crypto-glacis-1151111081099710:crypto-1151111081099710:crypto~1151111081099710:SOL",
+      "reason": "Transferred amount (582502703) out of acceptable range (min: 1000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:CGPT-1:CGPT-glacis-1151111081099710:CGPT-1151111081099710:CGPT~1151111081099710:SOL",
+      "reason": "Transferred amount (120139478) out of acceptable range (min: 1000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:DEGEN-1:DEGEN-glacis-1151111081099710:DEGEN-1151111081099710:DEGEN~1151111081099710:SOL",
+      "reason": "Transferred amount (2115933678) out of acceptable range (min: 1000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:ENA-1:ENA-glacis-1151111081099710:ENA-1151111081099710:ENA~1151111081099710:SOL",
+      "reason": "Transferred amount (16511822) out of acceptable range (min: 1000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:LILY-1:LILY-glacis-1151111081099710:LILY-1151111081099710:LILY~1151111081099710:SOL",
+      "reason": "Transferred amount (4507368837) out of acceptable range (min: 1000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:ISLAND-1:ISLAND-glacis-1151111081099710:ISLAND-1151111081099710:ISLAND~1151111081099710:SOL",
+      "reason": "Transferred amount (7870089794) out of acceptable range (min: 1000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:Puff-1:Puff-glacis-1151111081099710:PUFF-1151111081099710:PUFF~1151111081099710:SOL",
+      "reason": "Transferred amount (268917242) out of acceptable range (min: 1000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:PENGU-1:PENGU-glacis-1151111081099710:PENGU-1151111081099710:PENGU~1151111081099710:SOL",
+      "reason": "Transferred amount (321426284) out of acceptable range (min: 1000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:PYUSD-1:PYUSD-glacis-1151111081099710:PYUSD-1151111081099710:PYUSD~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 1, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:REKT-1:REKT-glacis-1151111081099710:REKT-1151111081099710:REKT~1151111081099710:SOL",
+      "reason": "Transferred amount (23352518490223) out of acceptable range (min: 100000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:SKATE-1:SKATE-glacis-1151111081099710:SKATE-1151111081099710:SKATE~1151111081099710:SOL",
+      "reason": "Transferred amount (1374982907) out of acceptable range (min: 1000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:SWORLD-1:SWORLD-glacis-1151111081099710:SWORLD-1151111081099710:SWORLD~1151111081099710:SOL",
+      "reason": "Transferred amount (574535571539) out of acceptable range (min: 1000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:sUSDe-1:sUSDe-glacis-1151111081099710:sUSDe-1151111081099710:sUSDe~1151111081099710:SOL",
+      "reason": "Transferred amount (1959413) out of acceptable range (min: 1000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:SEI-1:SEI-glacis-1151111081099710:SEI-1151111081099710:SEI~1151111081099710:SOL",
+      "reason": "Transferred amount (53300561) out of acceptable range (min: 1000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:USDe-1:USDe-glacis-1151111081099710:USDe-1151111081099710:USDe~1151111081099710:SOL",
+      "reason": "Transferred amount (2438892) out of acceptable range (min: 1000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:TRUMP-1:TRUMP-glacis-1151111081099710:TRUMP-1151111081099710:TRUMP~1151111081099710:SOL",
+      "reason": "Transferred amount (353816) out of acceptable range (min: 1000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:USDY-1:USDY-glacis-1151111081099710:USDY-1151111081099710:USDY~1151111081099710:SOL",
+      "reason": "Transferred amount (2127551) out of acceptable range (min: 1000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:USDG-1:USDG-glacis-1151111081099710:USDG-1151111081099710:USDG~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 1, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:WAGMI-1:WAGMI-glacis-1151111081099710:WAGMI-1151111081099710:WAGMI~1151111081099710:SOL",
+      "reason": "Transferred amount (3384575629) out of acceptable range (min: 1000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:USDC-1:USDC-chainflip-1151111081099710:USDT-1151111081099710:USDT~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 20000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:USDC-1:USDC-chainflip-1151111081099710:USDC-1151111081099710:USDC~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 20000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:USDC-1:USDC-chainflip-1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 20000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:WBTC-1:WBTC-chainflip-1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 40000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:FLIP-1:FLIP-chainflip-1151111081099710:SOL",
+      "reason": "Transferred amount (6232323) out of acceptable range (min: 4000000000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:USDT-1:USDT-chainflip-1151111081099710:USDC-1151111081099710:USDC~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 20000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH-chainflip-1151111081099710:SOL",
+      "reason": "Transferred amount (1000) out of acceptable range (min: 10000000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:FLIP-1:FLIP-chainflip-1151111081099710:USDC-1151111081099710:USDC~1151111081099710:SOL",
+      "reason": "Transferred amount (6232323) out of acceptable range (min: 4000000000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH-chainflip-1151111081099710:USDC-1151111081099710:USDC~1151111081099710:SOL",
+      "reason": "Transferred amount (1000) out of acceptable range (min: 10000000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:USDT-1:USDT-chainflip-1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 20000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH-chainflip-1151111081099710:USDT-1151111081099710:USDT~1151111081099710:SOL",
+      "reason": "Transferred amount (1000) out of acceptable range (min: 10000000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:FLIP-1:FLIP-chainflip-1151111081099710:USDT-1151111081099710:USDT~1151111081099710:SOL",
+      "reason": "Transferred amount (6232323) out of acceptable range (min: 4000000000000000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:WBTC-1:WBTC-chainflip-1151111081099710:USDC-1151111081099710:USDC~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 40000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:WBTC-1:WBTC-chainflip-1151111081099710:USDT-1151111081099710:USDT~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 40000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:USDT-1:USDT-chainflip-1151111081099710:USDT-1151111081099710:USDT~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 20000000, max: Infinity)"
+    },
+    {
+      "overallPath": "1:ETH~1:WBTC-1:WBTC-garden-1151111081099710:CASH-1151111081099710:CASH~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 10000, max: 500000000)"
+    },
+    {
+      "overallPath": "1:ETH~1:WBTC-1:WBTC-garden-1151111081099710:cbBTC-1151111081099710:cbBTC~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 10000, max: 500000000)"
+    },
+    {
+      "overallPath": "1:ETH~1:USDC-1:USDC-garden-1151111081099710:USDC-1151111081099710:USDC~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 10000000, max: 450000000000)"
+    },
+    {
+      "overallPath": "1:ETH~1:cbBTC-1:cbBTC-garden-1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 10000, max: 500000000)"
+    },
+    {
+      "overallPath": "1:ETH~1:USDC-1:USDC-garden-1151111081099710:CASH-1151111081099710:CASH~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 10000000, max: 450000000000)"
+    },
+    {
+      "overallPath": "1:ETH~1:USDC-1:USDC-garden-1151111081099710:cbBTC-1151111081099710:cbBTC~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 10000000, max: 450000000000)"
+    },
+    {
+      "overallPath": "1:ETH~1:USDC-1:USDC-garden-1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 10000000, max: 450000000000)"
+    },
+    {
+      "overallPath": "1:ETH~1:cbBTC-1:cbBTC-garden-1151111081099710:CASH-1151111081099710:CASH~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 10000, max: 500000000)"
+    },
+    {
+      "overallPath": "1:ETH~1:cbBTC-1:cbBTC-garden-1151111081099710:cbBTC-1151111081099710:cbBTC~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 10000, max: 500000000)"
+    },
+    {
+      "overallPath": "1:ETH~1:USDT-1:USDT-garden-1151111081099710:CASH-1151111081099710:CASH~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 10000000, max: 450000000000)"
+    },
+    {
+      "overallPath": "1:ETH~1:USDT-1:USDT-garden-1151111081099710:cbBTC-1151111081099710:cbBTC~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 10000000, max: 450000000000)"
+    },
+    {
+      "overallPath": "1:ETH~1:USDT-1:USDT-garden-1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 10000000, max: 450000000000)"
+    },
+    {
+      "overallPath": "1:ETH~1:USDT-1:USDT-garden-1151111081099710:USDC-1151111081099710:USDC~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 10000000, max: 450000000000)"
+    },
+    {
+      "overallPath": "1:ETH~1:cbBTC-1:cbBTC-garden-1151111081099710:USDC-1151111081099710:USDC~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 10000, max: 500000000)"
+    },
+    {
+      "overallPath": "1:ETH~1:WBTC-1:WBTC-garden-1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 10000, max: 500000000)"
+    },
+    {
+      "overallPath": "1:ETH~1:WBTC-1:WBTC-garden-1151111081099710:USDC-1151111081099710:USDC~1151111081099710:SOL",
+      "reason": "Transferred amount (0) out of acceptable range (min: 10000, max: 500000000)"
+    },
+    {
+      "overallPath": "1:ETH~1:USDC-1:USDC-allbridge-1151111081099710:USDC-1151111081099710:USDC~1151111081099710:SOL",
+      "reason": "Tool allbridge is currently disabled for this action."
+    },
+    {
+      "overallPath": "1:ETH~1:USDC-1:USDC-allbridge-1151111081099710:USDT-1151111081099710:USDT~1151111081099710:SOL",
+      "reason": "Tool allbridge is currently disabled for this action."
+    },
+    {
+      "overallPath": "1:ETH~1:USDT-1:USDT-allbridge-1151111081099710:USDC-1151111081099710:USDC~1151111081099710:SOL",
+      "reason": "Tool allbridge is currently disabled for this action."
+    },
+    {
+      "overallPath": "1:ETH~1:USDT-1:USDT-allbridge-1151111081099710:USDT-1151111081099710:USDT~1151111081099710:SOL",
+      "reason": "Tool allbridge is currently disabled for this action."
+    },
+    {
+      "overallPath": "1:ETH~1:USDe-1:USDe-allbridge-1151111081099710:USDC-1151111081099710:USDC~1151111081099710:SOL",
+      "reason": "Tool allbridge is currently disabled for this action."
+    },
+    {
+      "overallPath": "1:ETH~1:USDe-1:USDe-allbridge-1151111081099710:USDT-1151111081099710:USDT~1151111081099710:SOL",
+      "reason": "Tool allbridge is currently disabled for this action."
+    }
+  ],
+  "failed": [
+    {
+      "overallPath": "1:ETH-smartDeposits-1151111081099710:SOL",
+      "subpaths": {
+        "1:ETH-smartDeposits-1151111081099710:SOL": [
+          {
+            "errorType": "NO_QUOTE",
+            "code": "NO_POSSIBLE_ROUTE",
+            "tool": "smartDeposits",
+            "message": "No route was found for this action (smartDeposits does not token 1-0x0000000000000000000000000000000000000000: Token is native)",
+            "durationMs": 0,
+            "action": {
+              "fromChainId": 1,
+              "fromAmount": "1000",
+              "fromToken": {
+                "address": "0x0000000000000000000000000000000000000000",
+                "chainId": 1,
+                "symbol": "ETH",
+                "decimals": 18,
+                "name": "ETH",
+                "coinKey": "ETH",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+                "priceUSD": "2437.63",
+                "tags": ["major_asset"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "toChainId": 1151111081099710,
+              "toToken": {
+                "address": "11111111111111111111111111111111",
+                "chainId": 1151111081099710,
+                "symbol": "SOL",
+                "decimals": 9,
+                "name": "SOL",
+                "coinKey": "SOL",
+                "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/5426.png",
+                "priceUSD": "101.50236589370638",
+                "tags": ["major_asset"],
+                "verificationStatus": "unverified",
+                "verificationStatusBreakdown": []
+              },
+              "slippage": 0.005,
+              "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "overallPath": "1:ETH-mayan-1151111081099710:SOL",
+      "subpaths": {
+        "1:ETH-mayan-1151111081099710:SOL": [
+          {
+            "errorType": "NO_QUOTE",
+            "code": "AMOUNT_TOO_LOW",
+            "tool": "mayan",
+            "message": "amount too small (min ~0.0004107 eth)",
+            "durationMs": 27,
+            "action": {
+              "fromChainId": 1,
+              "fromAmount": "1000",
+              "fromToken": {
+                "address": "0x0000000000000000000000000000000000000000",
+                "chainId": 1,
+                "symbol": "ETH",
+                "decimals": 18,
+                "name": "ETH",
+                "coinKey": "ETH",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+                "priceUSD": "2437.63",
+                "tags": ["major_asset"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "toChainId": 1151111081099710,
+              "toToken": {
+                "address": "11111111111111111111111111111111",
+                "chainId": 1151111081099710,
+                "symbol": "SOL",
+                "decimals": 9,
+                "name": "SOL",
+                "coinKey": "SOL",
+                "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/5426.png",
+                "priceUSD": "101.50236589370638",
+                "tags": ["major_asset"],
+                "verificationStatus": "unverified",
+                "verificationStatusBreakdown": []
+              },
+              "slippage": 0.005,
+              "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "overallPath": "1:ETH-mayanWH-1151111081099710:SOL",
+      "subpaths": {
+        "1:ETH-mayanWH-1151111081099710:SOL": [
+          {
+            "errorType": "NO_QUOTE",
+            "code": "NO_POSSIBLE_ROUTE",
+            "tool": "mayanWH",
+            "message": "route not found",
+            "durationMs": 29,
+            "action": {
+              "fromChainId": 1,
+              "fromAmount": "1000",
+              "fromToken": {
+                "address": "0x0000000000000000000000000000000000000000",
+                "chainId": 1,
+                "symbol": "ETH",
+                "decimals": 18,
+                "name": "ETH",
+                "coinKey": "ETH",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+                "priceUSD": "2437.63",
+                "tags": ["major_asset"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "toChainId": 1151111081099710,
+              "toToken": {
+                "address": "11111111111111111111111111111111",
+                "chainId": 1151111081099710,
+                "symbol": "SOL",
+                "decimals": 9,
+                "name": "SOL",
+                "coinKey": "SOL",
+                "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/5426.png",
+                "priceUSD": "101.50236589370638",
+                "tags": ["major_asset"],
+                "verificationStatus": "unverified",
+                "verificationStatusBreakdown": []
+              },
+              "slippage": 0.005,
+              "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "overallPath": "1:ETH-near-1151111081099710:SOL",
+      "subpaths": {
+        "1:ETH-near-1151111081099710:SOL": [
+          {
+            "errorType": "NO_QUOTE",
+            "code": "TOOL_SPECIFIC_ERROR",
+            "tool": "near",
+            "message": "Failed to get quote",
+            "durationMs": 40,
+            "action": {
+              "fromChainId": 1,
+              "fromAmount": "1000",
+              "fromToken": {
+                "address": "0x0000000000000000000000000000000000000000",
+                "chainId": 1,
+                "symbol": "ETH",
+                "decimals": 18,
+                "name": "ETH",
+                "coinKey": "ETH",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+                "priceUSD": "2437.63",
+                "tags": ["major_asset"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "toChainId": 1151111081099710,
+              "toToken": {
+                "address": "11111111111111111111111111111111",
+                "chainId": 1151111081099710,
+                "symbol": "SOL",
+                "decimals": 9,
+                "name": "SOL",
+                "coinKey": "SOL",
+                "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/5426.png",
+                "priceUSD": "101.50236589370638",
+                "tags": ["major_asset"],
+                "verificationStatus": "unverified",
+                "verificationStatusBreakdown": []
+              },
+              "slippage": 0.005,
+              "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "overallPath": "1:ETH~1:WETH-1:WETH-mayan-1151111081099710:SOL",
+      "subpaths": {
+        "1:WETH-mayan-1151111081099710:SOL": [
+          {
+            "errorType": "NO_QUOTE",
+            "code": "AMOUNT_TOO_LOW",
+            "tool": "mayan",
+            "message": "amount too small (min ~0.0004107 weth)",
+            "durationMs": 50,
+            "action": {
+              "fromChainId": 1,
+              "fromAmount": "1000",
+              "fromToken": {
+                "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+                "chainId": 1,
+                "symbol": "WETH",
+                "decimals": 18,
+                "name": "WETH",
+                "coinKey": "WETH",
+                "logoURI": "https://static.debank.com/image/eth_token/logo_url/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2/61844453e63cf81301f845d7864236f6.png",
+                "priceUSD": "2437.63",
+                "tags": [],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "toChainId": 1151111081099710,
+              "toToken": {
+                "address": "11111111111111111111111111111111",
+                "chainId": 1151111081099710,
+                "symbol": "SOL",
+                "decimals": 9,
+                "name": "SOL",
+                "coinKey": "SOL",
+                "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/5426.png",
+                "priceUSD": "101.50236589370638",
+                "tags": ["major_asset"],
+                "verificationStatus": "unverified",
+                "verificationStatusBreakdown": []
+              },
+              "slippage": 0.005,
+              "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "overallPath": "1:ETH~1:WETH-1:WETH-near-1151111081099710:SOL",
+      "subpaths": {
+        "1:WETH-near-1151111081099710:SOL": [
+          {
+            "errorType": "NO_QUOTE",
+            "code": "TOOL_SPECIFIC_ERROR",
+            "tool": "near",
+            "message": "Failed to get quote",
+            "durationMs": 57,
+            "action": {
+              "fromChainId": 1,
+              "fromAmount": "1000",
+              "fromToken": {
+                "address": "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+                "chainId": 1,
+                "symbol": "WETH",
+                "decimals": 18,
+                "name": "WETH",
+                "coinKey": "WETH",
+                "logoURI": "https://static.debank.com/image/eth_token/logo_url/0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2/61844453e63cf81301f845d7864236f6.png",
+                "priceUSD": "2437.63",
+                "tags": [],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "toChainId": 1151111081099710,
+              "toToken": {
+                "address": "11111111111111111111111111111111",
+                "chainId": 1151111081099710,
+                "symbol": "SOL",
+                "decimals": 9,
+                "name": "SOL",
+                "coinKey": "SOL",
+                "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/5426.png",
+                "priceUSD": "101.50236589370638",
+                "tags": ["major_asset"],
+                "verificationStatus": "unverified",
+                "verificationStatusBreakdown": []
+              },
+              "slippage": 0.005,
+              "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "overallPath": "1:ETH-layerswap-1151111081099710:SOL",
+      "subpaths": {
+        "1:ETH-layerswap-1151111081099710:SOL": [
+          {
+            "errorType": "NO_QUOTE",
+            "code": "NO_POSSIBLE_ROUTE",
+            "tool": "layerswap",
+            "message": "Route not found",
+            "durationMs": 129,
+            "action": {
+              "fromChainId": 1,
+              "fromAmount": "1000",
+              "fromToken": {
+                "address": "0x0000000000000000000000000000000000000000",
+                "chainId": 1,
+                "symbol": "ETH",
+                "decimals": 18,
+                "name": "ETH",
+                "coinKey": "ETH",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+                "priceUSD": "2437.63",
+                "tags": ["major_asset"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "toChainId": 1151111081099710,
+              "toToken": {
+                "address": "11111111111111111111111111111111",
+                "chainId": 1151111081099710,
+                "symbol": "SOL",
+                "decimals": 9,
+                "name": "SOL",
+                "coinKey": "SOL",
+                "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/5426.png",
+                "priceUSD": "101.50236589370638",
+                "tags": ["major_asset"],
+                "verificationStatus": "unverified",
+                "verificationStatusBreakdown": []
+              },
+              "slippage": 0.005,
+              "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "overallPath": "1:ETH-gasZipBridge-1151111081099710:SOL",
+      "subpaths": {
+        "1:ETH-gasZipBridge-1151111081099710:SOL": [
+          {
+            "errorType": "NO_QUOTE",
+            "code": "TOOL_SPECIFIC_ERROR",
+            "tool": "gasZipBridge",
+            "message": "The third party tool returned an error.",
+            "durationMs": 205,
+            "action": {
+              "fromChainId": 1,
+              "fromAmount": "1000",
+              "fromToken": {
+                "address": "0x0000000000000000000000000000000000000000",
+                "chainId": 1,
+                "symbol": "ETH",
+                "decimals": 18,
+                "name": "ETH",
+                "coinKey": "ETH",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+                "priceUSD": "2437.63",
+                "tags": ["major_asset"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "toChainId": 1151111081099710,
+              "toToken": {
+                "address": "11111111111111111111111111111111",
+                "chainId": 1151111081099710,
+                "symbol": "SOL",
+                "decimals": 9,
+                "name": "SOL",
+                "coinKey": "SOL",
+                "logoURI": "https://s2.coinmarketcap.com/static/img/coins/64x64/5426.png",
+                "priceUSD": "101.50236589370638",
+                "tags": ["major_asset"],
+                "verificationStatus": "unverified",
+                "verificationStatusBreakdown": []
+              },
+              "slippage": 0.005,
+              "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "overallPath": "1:ETH~1:USDC-1:USDC-mayanMCTP-1151111081099710:SOL",
+      "subpaths": {
+        "1:ETH~1:USDC": [
+          {
+            "errorType": "NO_QUOTE",
+            "code": "AMOUNT_TOO_LOW",
+            "tool": "sushiswap",
+            "message": "The initial amount is too low to transfer using this tool.",
+            "durationMs": 45,
+            "action": {
+              "fromChainId": 1,
+              "fromAmount": "1000",
+              "fromToken": {
+                "address": "0x0000000000000000000000000000000000000000",
+                "chainId": 1,
+                "symbol": "ETH",
+                "decimals": 18,
+                "name": "ETH",
+                "coinKey": "ETH",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+                "priceUSD": "2437.63",
+                "tags": ["major_asset"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "toChainId": 1,
+              "toToken": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "chainId": 1,
+                "symbol": "USDC",
+                "decimals": 6,
+                "name": "USD Coin",
+                "coinKey": "USDC",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png",
+                "priceUSD": "0.999660768",
+                "tags": ["stablecoin"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "slippage": 0.005,
+              "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+              "toAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+            }
+          },
+          {
+            "errorType": "NO_QUOTE",
+            "code": "INSUFFICIENT_LIQUIDITY",
+            "tool": "1inch",
+            "message": "The tool's liquidity is insufficient.",
+            "durationMs": 303,
+            "action": {
+              "fromChainId": 1,
+              "fromAmount": "1000",
+              "fromToken": {
+                "address": "0x0000000000000000000000000000000000000000",
+                "chainId": 1,
+                "symbol": "ETH",
+                "decimals": 18,
+                "name": "ETH",
+                "coinKey": "ETH",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+                "priceUSD": "2437.63",
+                "tags": ["major_asset"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "toChainId": 1,
+              "toToken": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "chainId": 1,
+                "symbol": "USDC",
+                "decimals": 6,
+                "name": "USD Coin",
+                "coinKey": "USDC",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png",
+                "priceUSD": "0.999660768",
+                "tags": ["stablecoin"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "slippage": 0.005,
+              "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+              "toAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+            }
+          },
+          {
+            "errorType": "NO_QUOTE",
+            "code": "TOOL_NOT_ALLOWED",
+            "tool": "fly",
+            "message": "Tool fly not applied.",
+            "durationMs": 0,
+            "action": {
+              "fromChainId": 1,
+              "fromAmount": "1000",
+              "fromToken": {
+                "address": "0x0000000000000000000000000000000000000000",
+                "chainId": 1,
+                "symbol": "ETH",
+                "decimals": 18,
+                "name": "ETH",
+                "coinKey": "ETH",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+                "priceUSD": "2437.63",
+                "tags": ["major_asset"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "toChainId": 1,
+              "toToken": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "chainId": 1,
+                "symbol": "USDC",
+                "decimals": 6,
+                "name": "USD Coin",
+                "coinKey": "USDC",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png",
+                "priceUSD": "0.999660768",
+                "tags": ["stablecoin"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "slippage": 0.005,
+              "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+              "toAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+            }
+          },
+          {
+            "errorType": "NO_QUOTE",
+            "code": "TOOL_NOT_ALLOWED",
+            "tool": "gluex",
+            "message": "Tool gluex is currently disabled for this action.",
+            "durationMs": 0,
+            "action": {
+              "fromChainId": 1,
+              "fromAmount": "1000",
+              "fromToken": {
+                "address": "0x0000000000000000000000000000000000000000",
+                "chainId": 1,
+                "symbol": "ETH",
+                "decimals": 18,
+                "name": "ETH",
+                "coinKey": "ETH",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+                "priceUSD": "2437.63",
+                "tags": ["major_asset"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "toChainId": 1,
+              "toToken": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "chainId": 1,
+                "symbol": "USDC",
+                "decimals": 6,
+                "name": "USD Coin",
+                "coinKey": "USDC",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png",
+                "priceUSD": "0.999660768",
+                "tags": ["stablecoin"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "slippage": 0.005,
+              "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+              "toAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+            }
+          },
+          {
+            "errorType": "NO_QUOTE",
+            "code": "TOOL_NOT_ALLOWED",
+            "tool": "openocean",
+            "message": "Tool openocean is currently disabled for this action.",
+            "durationMs": 0,
+            "action": {
+              "fromChainId": 1,
+              "fromAmount": "1000",
+              "fromToken": {
+                "address": "0x0000000000000000000000000000000000000000",
+                "chainId": 1,
+                "symbol": "ETH",
+                "decimals": 18,
+                "name": "ETH",
+                "coinKey": "ETH",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+                "priceUSD": "2437.63",
+                "tags": ["major_asset"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "toChainId": 1,
+              "toToken": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "chainId": 1,
+                "symbol": "USDC",
+                "decimals": 6,
+                "name": "USD Coin",
+                "coinKey": "USDC",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png",
+                "priceUSD": "0.999660768",
+                "tags": ["stablecoin"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "slippage": 0.005,
+              "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+              "toAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "overallPath": "1:ETH~1:USDC-1:USDC-mayanFastMCTP-1151111081099710:SOL",
+      "subpaths": {
+        "1:ETH~1:USDC": [
+          {
+            "errorType": "NO_QUOTE",
+            "code": "INSUFFICIENT_LIQUIDITY",
+            "tool": "1inch",
+            "message": "The tool's liquidity is insufficient.",
+            "durationMs": 303,
+            "action": {
+              "fromChainId": 1,
+              "fromAmount": "1000",
+              "fromToken": {
+                "address": "0x0000000000000000000000000000000000000000",
+                "chainId": 1,
+                "symbol": "ETH",
+                "decimals": 18,
+                "name": "ETH",
+                "coinKey": "ETH",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+                "priceUSD": "2437.63",
+                "tags": ["major_asset"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "toChainId": 1,
+              "toToken": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "chainId": 1,
+                "symbol": "USDC",
+                "decimals": 6,
+                "name": "USD Coin",
+                "coinKey": "USDC",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png",
+                "priceUSD": "0.999660768",
+                "tags": ["stablecoin"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "slippage": 0.005,
+              "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+              "toAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "overallPath": "1:ETH~1:USDC-1:USDC-mayan-1151111081099710:SOL",
+      "subpaths": {
+        "1:ETH~1:USDC": [
+          {
+            "errorType": "NO_QUOTE",
+            "code": "INSUFFICIENT_LIQUIDITY",
+            "tool": "1inch",
+            "message": "The tool's liquidity is insufficient.",
+            "durationMs": 303,
+            "action": {
+              "fromChainId": 1,
+              "fromAmount": "1000",
+              "fromToken": {
+                "address": "0x0000000000000000000000000000000000000000",
+                "chainId": 1,
+                "symbol": "ETH",
+                "decimals": 18,
+                "name": "ETH",
+                "coinKey": "ETH",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+                "priceUSD": "2437.63",
+                "tags": ["major_asset"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "toChainId": 1,
+              "toToken": {
+                "address": "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+                "chainId": 1,
+                "symbol": "USDC",
+                "decimals": 6,
+                "name": "USD Coin",
+                "coinKey": "USDC",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48/logo.png",
+                "priceUSD": "0.999660768",
+                "tags": ["stablecoin"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "slippage": 0.005,
+              "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+              "toAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "overallPath": "1:ETH~1:TLO-1:TLO-near-1151111081099710:SOL",
+      "subpaths": {
+        "1:ETH~1:TLO": [
+          {
+            "errorType": "NO_QUOTE",
+            "code": "RATE_LIMIT_EXCEEDED",
+            "tool": "1inch",
+            "message": "The tool has exceeded its rate limit.",
+            "durationMs": 302,
+            "action": {
+              "fromChainId": 1,
+              "fromAmount": "1000",
+              "fromToken": {
+                "address": "0x0000000000000000000000000000000000000000",
+                "chainId": 1,
+                "symbol": "ETH",
+                "decimals": 18,
+                "name": "ETH",
+                "coinKey": "ETH",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+                "priceUSD": "2437.63",
+                "tags": ["major_asset"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "toChainId": 1,
+              "toToken": {
+                "address": "0x0F38F1CE62776d4A0038Bc6caC66877a5687383B",
+                "chainId": 1,
+                "symbol": "TLO",
+                "decimals": 8,
+                "name": "TAU Lending Optimizer",
+                "priceUSD": "0.0000000001",
+                "tags": [],
+                "verificationStatus": "flagged",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "flagged",
+                    "providerResult": "deny"
+                  }
+                ]
+              },
+              "slippage": 0.005,
+              "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+              "toAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "overallPath": "1:ETH~1:hemiBTC-1:hemiBTC-near-1151111081099710:SOL",
+      "subpaths": {
+        "1:ETH~1:hemiBTC": [
+          {
+            "errorType": "NO_QUOTE",
+            "code": "RATE_LIMIT_EXCEEDED",
+            "tool": "1inch",
+            "message": "The tool has exceeded its rate limit.",
+            "durationMs": 288,
+            "action": {
+              "fromChainId": 1,
+              "fromAmount": "1000",
+              "fromToken": {
+                "address": "0x0000000000000000000000000000000000000000",
+                "chainId": 1,
+                "symbol": "ETH",
+                "decimals": 18,
+                "name": "ETH",
+                "coinKey": "ETH",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+                "priceUSD": "2437.63",
+                "tags": ["major_asset"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "toChainId": 1,
+              "toToken": {
+                "address": "0x06ea695B91700071B161A434fED42D1DcbAD9f00",
+                "chainId": 1,
+                "symbol": "hemiBTC",
+                "decimals": 8,
+                "name": "Hemi Bitcoin",
+                "coinKey": "hemiBTC",
+                "priceUSD": "78473.5755010218",
+                "tags": [],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "slippage": 0.005,
+              "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+              "toAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "overallPath": "1:ETH~1:TURBO-1:TURBO-near-1151111081099710:SOL",
+      "subpaths": {
+        "1:ETH~1:TURBO": [
+          {
+            "errorType": "NO_QUOTE",
+            "code": "RATE_LIMIT_EXCEEDED",
+            "tool": "1inch",
+            "message": "The tool has exceeded its rate limit.",
+            "durationMs": 328,
+            "action": {
+              "fromChainId": 1,
+              "fromAmount": "1000",
+              "fromToken": {
+                "address": "0x0000000000000000000000000000000000000000",
+                "chainId": 1,
+                "symbol": "ETH",
+                "decimals": 18,
+                "name": "ETH",
+                "coinKey": "ETH",
+                "logoURI": "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/ethereum/assets/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2/logo.png",
+                "priceUSD": "2437.63",
+                "tags": ["major_asset"],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "toChainId": 1,
+              "toToken": {
+                "address": "0xA35923162C49cF95e6BF26623385eb431ad920D3",
+                "chainId": 1,
+                "symbol": "TURBO",
+                "decimals": 18,
+                "name": "Turbo",
+                "logoURI": "https://static.debank.com/image/eth_token/logo_url/0xa35923162c49cf95e6bf26623385eb431ad920d3/f3b313e3df0cfea306fbcfb4bcc861c8.png",
+                "priceUSD": "0.0009332864421",
+                "tags": [],
+                "verificationStatus": "verified",
+                "verificationStatusBreakdown": [
+                  {
+                    "provider": "hypernative",
+                    "result": "verified",
+                    "providerResult": "accept"
+                  }
+                ]
+              },
+              "slippage": 0.005,
+              "fromAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE",
+              "toAddress": "0x1231DEB6f5749EF6cE6943a275A1D3E7486F4EaE"
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

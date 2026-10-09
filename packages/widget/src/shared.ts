@@ -188,6 +188,11 @@ export {
 export { getPriceImpact } from './utils/getPriceImpact.js'
 export { fitInputText } from './utils/input.js'
 export { navigationRoutes } from './utils/navigationRoutes.js'
+export type {
+  RouteIssue,
+  RouteIssueBucket,
+  RouteIssueEvidence,
+} from './utils/routeIssues/types.js'
 export { resolveStorageScopeKey } from './utils/scopeKeys.js'
 export { isHttpUrl, openInNewTab } from './utils/url.js'
 export { shortenAddress } from './utils/wallet.js'

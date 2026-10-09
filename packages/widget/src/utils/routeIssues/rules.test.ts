@@ -1,0 +1,915 @@
+import { parseUnits } from '@lifi/sdk'
+import { describe, expect, it } from 'vitest'
+import { classifyRouteIssues } from './classify.js'
+import type { ClassifyContext, RouteIssue } from './types.js'
+
+const context: ClassifyContext = {
+  fromAmount: 1000n,
+  fromChainId: 1,
+  fromTokenSymbol: 'ETH',
+  fromTokenDecimals: 18,
+  fromAddress: '0xsender',
+  toAddress: '0xreceiver',
+}
+
+// stringifyPath joins a swap with `~`; a leading `-` means the bridge leg is
+// still the user's own token, which is what lets a figure be trusted.
+const sameTokenPath = '1:ETH-chainflip-137:USDC'
+
+const fromReason = (
+  reason: string,
+  fromAmount = 1000n,
+  overallPath = sameTokenPath
+): RouteIssue[] =>
+  classifyRouteIssues(
+    { filteredOut: [{ overallPath, reason }], failed: [] },
+    { ...context, fromAmount }
+  )
+
+describe('transferRange rule', () => {
+  it('reports amountTooLow when the amount is under the minimum', () => {
+    const [issue] = fromReason(
+      'Transferred amount (1000000) out of acceptable range (min: 2000000, max: Infinity)',
+      1000000n
+    )
+    expect(issue.bucket).toBe('amountTooLow')
+    expect(issue.ruleId).toBe('transferRange')
+    expect(issue.evidence?.direction).toBe('raise')
+    expect(issue.evidence?.requiredFromAmount).toBe(2000000n)
+  })
+
+  it('reports amountTooHigh when the amount is over the maximum', () => {
+    const [issue] = fromReason(
+      'Transferred amount (9000000) out of acceptable range (min: 100, max: 5000000)',
+      9000000n
+    )
+    expect(issue.bucket).toBe('amountTooHigh')
+    expect(issue.evidence?.direction).toBe('lower')
+    expect(issue.evidence?.requiredFromAmount).toBe(5000000n)
+  })
+
+  it('keeps full precision on an 18-decimal amount', () => {
+    const [issue] = fromReason(
+      'Transferred amount (1000000000000000001) out of acceptable range (min: 2000000000000000003, max: Infinity)',
+      1000000000000000001n
+    )
+    expect(issue.evidence?.requiredFromAmount).toBe(2000000000000000003n)
+  })
+
+  // The backend reports the pair in the bridge leg's own token. When that is
+  // not the user's token the figure is meaningless, so the card gets the
+  // bucket and no figure.
+  it('emits no figure when the amounts are in a converted leg token', () => {
+    const [issue] = fromReason(
+      'Transferred amount (574535571539) out of acceptable range (min: 1000000000000, max: Infinity)',
+      1000n
+    )
+    expect(issue.bucket).toBe('amountTooLow')
+    expect(issue.evidence?.requiredFromAmount).toBeUndefined()
+  })
+
+  it('emits no figure when the path swaps before it bridges', () => {
+    const [issue] = fromReason(
+      'Transferred amount (1000) out of acceptable range (min: 5000, max: Infinity)',
+      1000n,
+      '1:ETH~1:APE-1:APE-glacis-137:APE'
+    )
+    expect(issue.bucket).toBe('amountTooLow')
+    expect(issue.evidence?.requiredFromAmount).toBeUndefined()
+  })
+
+  it('emits no figure when a raw amount collides across tokens', () => {
+    const [issue] = fromReason(
+      'Transferred amount (1000) out of acceptable range (min: 10000000, max: Infinity)',
+      1000n,
+      '1:ETH~1:USDC-1:USDC-stargate-137:USDC'
+    )
+    expect(issue.evidence?.requiredFromAmount).toBeUndefined()
+  })
+
+  it('still reports amountTooHigh without a figure in a leg token', () => {
+    const [issue] = fromReason(
+      'Transferred amount (9000000) out of acceptable range (min: 100, max: 5000000)',
+      1000n
+    )
+    expect(issue.bucket).toBe('amountTooHigh')
+    expect(issue.evidence?.requiredFromAmount).toBeUndefined()
+  })
+
+  it('emits nothing when the amount is inside the range', () => {
+    expect(
+      fromReason(
+        'Transferred amount (300) out of acceptable range (min: 100, max: 5000)',
+        300n
+      )
+    ).toEqual([])
+  })
+
+  // Seen live from the deployed API. This used to emit nothing, so an amount
+  // the backend had refused reached the user as the generic sentence.
+  it('reads limits written in scientific notation', () => {
+    expect(
+      fromReason(
+        'Transferred amount (1e21) out of acceptable range (min: 2e21, max: Infinity)'
+      ).map((issue) => issue.bucket)
+    ).toEqual(['amountTooLow'])
+  })
+
+  it('emits nothing when a captured number is not a number at all', () => {
+    expect(
+      fromReason(
+        'Transferred amount (lots) out of acceptable range (min: some, max: Infinity)'
+      )
+    ).toEqual([])
+  })
+
+  it('keeps the gentlest requirement when several minimums collapse', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: sameTokenPath,
+            reason:
+              'Transferred amount (100) out of acceptable range (min: 900, max: Infinity)',
+          },
+          {
+            overallPath: '1:ETH-across-137:USDC',
+            reason:
+              'Transferred amount (100) out of acceptable range (min: 300, max: Infinity)',
+          },
+        ],
+        failed: [],
+      },
+      { ...context, fromAmount: 100n }
+    )
+    expect(issues).toHaveLength(1)
+    expect(issues[0].evidence?.requiredFromAmount).toBe(300n)
+  })
+})
+
+describe('a matched rule keeps its bucket without a figure', () => {
+  it('still reports slippageTooTight when the value is not a fraction', () => {
+    const [issue] = fromReason(
+      'Path requires a slippage of 1.5 but 0.005 is applied'
+    )
+    expect(issue.bucket).toBe('slippageTooTight')
+    expect(issue.evidence?.requiredSlippage).toBeUndefined()
+  })
+
+  it('still reports temporary when the note spans several lines', () => {
+    const [issue] = fromReason(
+      'Tool relay is currently disabled for this action. Under maintenance.\nBack at 14:00 UTC.'
+    )
+    expect(issue.bucket).toBe('temporary')
+  })
+})
+
+const bucketFor = (reason: string): string | undefined =>
+  fromReason(reason)[0]?.bucket
+
+describe('pinned reason fragments', () => {
+  it.each([
+    [
+      'gaslessMinTradeSize',
+      'Gasless: the trade is worth 0.12 USD, below the gasless minimum of 5 USD on chain 1',
+      'amountTooLow',
+    ],
+    [
+      'fromTokenValueFloor',
+      'Bridge from ETH with fromToken value less than 100 USD',
+      'amountTooLow',
+    ],
+    [
+      'integratorMinDestination',
+      'Min destination amount too low for integrator (min: 10): jumper.exchange',
+      'amountTooLow',
+    ],
+    [
+      'gaslessFeeExceedsInput',
+      'GASLESS_FEE_EXCEEDS_INPUT: the gasless relay fee cannot be charged for this request — fee exceeds input',
+      'amountTooLow',
+    ],
+    [
+      'btcCanaryCap',
+      'BTC smart deposits amount exceeds the per-intent canary cap of 100000 sats',
+      'amountTooHigh',
+    ],
+    [
+      'slippageTooTight',
+      'Path requires a slippage of 0.03 but 0.005 is applied',
+      'slippageTooTight',
+    ],
+    [
+      'priceImpact',
+      'Price impact of 12.5% is higher than the max allowed 10%',
+      'liquidity',
+    ],
+    [
+      'stellarUnfunded',
+      'Stellar receiver account is not funded',
+      'destinationAccountNotReady',
+    ],
+    [
+      'stellarTrustline',
+      'Receiver GA123 does not have a trustline open for USDC',
+      'destinationAccountNotReady',
+    ],
+    [
+      'stellarReserve',
+      'Receiver must keep 1.5 XLM as its account reserve',
+      'destinationAccountNotReady',
+    ],
+    [
+      'lighterAccount',
+      'No Lighter account registered for receiver address 0xabc',
+      'destinationAccountNotReady',
+    ],
+    [
+      'seiLink',
+      'Address 0xabc not linked to the original SEI address, see https://app.sei.io',
+      'destinationAccountNotReady',
+    ],
+    [
+      'solAccountRent',
+      'SOL balance insufficient to cover temporary token account creation',
+      'destinationAccountNotReady',
+    ],
+    [
+      'contractRecipient',
+      'EVM contract destination addresses are not currently supported by mayanMCTP',
+      'recipientNotSupported',
+    ],
+    [
+      'differentRecipient',
+      'Destination address different from source address is not supported',
+      'recipientNotSupported',
+    ],
+    [
+      'multistepDifferentAddress',
+      'Multistep transactions with different sending/receiving addresses are not supported',
+      'recipientNotSupported',
+    ],
+    [
+      'gaslessDeniedTool',
+      'relay is denied for gasless requests on chain 1',
+      'gaslessNotAvailable',
+    ],
+    [
+      'gaslessNativeFee',
+      'relay charges a native-token fee on top of the transferred amount',
+      'gaslessNotAvailable',
+    ],
+    [
+      'gaslessDelegation',
+      '0xabc is an undelegated EOA and chain 137 cannot delegate it',
+      'gaslessNotAvailable',
+    ],
+    [
+      'gaslessDelegation',
+      'The request carries no fromAddress, so the account type cannot be determined',
+      'gaslessNotAvailable',
+    ],
+    [
+      'gaslessDelegation',
+      'Chain 1151111081099710 is not an EVM chain, and gasless execution relies on EIP-7702 delegation',
+      'gaslessNotAvailable',
+    ],
+    [
+      'gaslessDelegation',
+      'The code at 0xabc could not be read, so it is not known whether a relayer can execute',
+      'gaslessNotAvailable',
+    ],
+    [
+      'gaslessDelegation',
+      '0xabc delegates to 0xdef, which is not a delegate we relay for',
+      'gaslessNotAvailable',
+    ],
+    [
+      'gaslessDelegation',
+      '0xabc is a contract account on chain 1, which gasless execution does not support',
+      'gaslessNotAvailable',
+    ],
+    [
+      'stellarReserve',
+      'Receiver GA123 holds 0.5 XLM but needs 1.5 XLM',
+      'destinationAccountNotReady',
+    ],
+    [
+      'destinationSignature',
+      'Path requires a signature on the destination chain, but the request did not allow it',
+      'blockedBySettings',
+    ],
+    [
+      'stablecoinPreset',
+      'Token USDX is not a stablecoin but preset requires stablecoin-only paths',
+      'blockedBySettings',
+    ],
+    [
+      'executionType',
+      'Route does not match requested type transaction',
+      'blockedBySettings',
+    ],
+    [
+      'toolDisabled',
+      'Tool relay is currently disabled for this action. Relay is under maintenance until 14:00 UTC.',
+      'temporary',
+    ],
+    [
+      'routeTimingTimeout',
+      'The route estimation did not complete before the route timing strategy stopped waiting for results',
+      'temporary',
+    ],
+    ['podOverloaded', 'Pod is currently overloaded.', 'temporary'],
+    [
+      'tronSameChain',
+      'Same-chain operations on Tron are not yet supported',
+      'pairNotSupported',
+    ],
+    [
+      'solWrap',
+      'wSOL/SOL wrap/unwrap operations are not supported',
+      'pairNotSupported',
+    ],
+    [
+      'rwaBlocked',
+      'Path contains RWA token(s) and integrator policy blocks RWA',
+      'pairNotSupported',
+    ],
+  ])('%s maps to its bucket', (_id, reason, bucket) => {
+    expect(bucketFor(reason)).toBe(bucket)
+  })
+
+  it('extracts the required slippage as a fraction', () => {
+    const [issue] = fromReason(
+      'Path requires a slippage of 0.03 but 0.005 is applied'
+    )
+    expect(issue.evidence?.requiredSlippage).toBe(0.03)
+  })
+
+  it('extracts the public note appended to a disabled tool', () => {
+    const [issue] = fromReason(
+      'Tool relay is currently disabled for this action. Relay is under maintenance until 14:00 UTC.'
+    )
+    expect(issue.evidence?.note).toBe(
+      'Relay is under maintenance until 14:00 UTC.'
+    )
+  })
+
+  // A path overwrite with no published note is operator routing config, not a
+  // reason the user can do anything with.
+  it('never surfaces a disabled tool carrying no note', () => {
+    expect(
+      fromReason('Tool relay is currently disabled for this action.')
+    ).toEqual([])
+  })
+
+  // temporary always offers a retry, and a path overwrite returns the same
+  // entry on the next quote — so this stays suppressed.
+  it('never surfaces a tool that was not applied', () => {
+    expect(fromReason('Tool relay not applied.')).toEqual([])
+  })
+
+  // Nothing trims a reason before it is matched, so the anchors have to allow
+  // the whitespace a backend may pad it with.
+  it.each(['Tool relay not applied.\n', '  Tool relay not applied. '])(
+    'suppresses a padded not-applied reason',
+    (reason) => {
+      expect(fromReason(reason)).toEqual([])
+    }
+  )
+
+  // Reported in review: unanchored, the greedy `.+` claimed any reason ending
+  // in "not applied." and dropped what the rest of it said.
+  it('suppresses only the whole not-applied reason', () => {
+    expect(
+      fromReason(
+        'Tool relay not applied. Transferred amount (100) out of acceptable range (min: 900, max: Infinity)'
+      )[0]?.bucket
+    ).toBe('amountTooLow')
+  })
+
+  it('leaves a disabled tool its published note', () => {
+    const [issue] = fromReason(
+      'Tool relay is currently disabled for this action. Relay is under maintenance, fallback not applied.'
+    )
+    expect(issue.bucket).toBe('temporary')
+    expect(issue.evidence?.note).toBe(
+      'Relay is under maintenance, fallback not applied.'
+    )
+  })
+
+  // 2 USD buys 1000 raw units, so 5 USD needs 2500.
+  it('scales the request amount by the gasless USD ratio', () => {
+    const [issue] = fromReason(
+      'Gasless: the trade is worth 2 USD, below the gasless minimum of 5 USD on chain 1',
+      1000n
+    )
+    expect(issue.evidence?.requiredFromAmount).toBe(2500n)
+    expect(issue.evidence?.minUsd).toBe(5)
+  })
+
+  it('reports a USD floor with no current value as minUsd', () => {
+    const [issue] = fromReason(
+      'Bridge from ETH with fromToken value less than 100 USD'
+    )
+    expect(issue.evidence?.minUsd).toBe(100)
+    expect(issue.evidence?.requiredFromAmount).toBeUndefined()
+  })
+})
+
+describe('wording the backend may vary', () => {
+  // The fragment the backend guarantees is the floor; the worth beside it is
+  // a bonus that only adds a figure.
+  it('reads a gasless minimum stated without the trade worth', () => {
+    const [issue] = fromReason('Below the gasless minimum of 5 USD on chain 1')
+    expect(issue?.bucket).toBe('amountTooLow')
+    expect(issue?.evidence?.minUsd).toBe(5)
+  })
+
+  it('reads a slippage requirement stated in percent', () => {
+    const [issue] = fromReason(
+      'Path requires a slippage of 3% but 0.5% is applied'
+    )
+    expect(issue?.bucket).toBe('slippageTooTight')
+    expect(issue?.evidence?.requiredSlippage).toBe(0.03)
+  })
+})
+
+describe('a contract refusal that names its receiver', () => {
+  // Across names the contract it refused. Its own handler is no address the
+  // user chose, so "Send to my own address" would change nothing.
+  it('drops one naming an address the route chose', () => {
+    expect(
+      fromReason(
+        'Across does not send WETH to EOAs (receiver: 0x742d35Cc6634C0532925a3b844Bc454e4438f44e)'
+      )
+    ).toEqual([])
+  })
+
+  it('drops one naming a receiver the user did not choose', () => {
+    expect(
+      fromReason(
+        'Across does not send ETH to contracts (receiver: ReceiverAcrossV4)'
+      )
+    ).toEqual([])
+  })
+
+  it.each([
+    'Across does not send WETH to EOAs (receiver: 0xReceiver)',
+    'Across does not send ETH to contracts (receiver 0xreceiver)',
+    'Kiln does not support contract receivers on destination chain (receiver: 0xRECEIVER, chainId: 137)',
+  ])('keeps one naming the receiver the user chose: %s', (reason) => {
+    expect(fromReason(reason)[0]?.bucket).toBe('recipientNotSupported')
+  })
+})
+
+describe('suppressed reasons', () => {
+  it.each([
+    'Path filtered due to low historical volume',
+    'Could not find bridge definition for someTool',
+    'Deposit-address bridges only support single-step routes',
+    'Positive price impact too high for blue chip route',
+    'Price impact filtering returned with an error',
+  ])('never surfaces %s', (reason) => {
+    expect(fromReason(reason)).toEqual([])
+  })
+
+  it('never surfaces TOOL_NOT_ALLOWED', () => {
+    const result = classifyRouteIssues(
+      {
+        filteredOut: [],
+        failed: [
+          {
+            overallPath: 'p',
+            subpaths: {
+              s: [
+                {
+                  errorType: 'NO_QUOTE',
+                  code: 'TOOL_NOT_ALLOWED',
+                  tool: 'someDex',
+                  message:
+                    'The tool in this quote is not allowed by LI.FI contracts.',
+                  action: {} as never,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      context
+    )
+    expect(result).toEqual([])
+  })
+})
+
+describe('tool error codes', () => {
+  const fromCode = (code: string): RouteIssue[] =>
+    classifyRouteIssues(
+      {
+        filteredOut: [],
+        failed: [
+          {
+            overallPath: 'p',
+            subpaths: {
+              s: [
+                {
+                  errorType: 'NO_QUOTE',
+                  code,
+                  tool: 'someTool',
+                  message: 'default message',
+                  action: {} as never,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      context
+    )
+
+  it.each([
+    ['AMOUNT_TOO_LOW', 'amountTooLow'],
+    ['FEES_HIGHER_THAN_AMOUNT', 'amountTooLow'],
+    ['AMOUNT_TOO_HIGH', 'amountTooHigh'],
+    ['CANNOT_GUARANTEE_MIN_AMOUNT', 'slippageTooTight'],
+    ['DIFFERENT_RECIPIENT_NOT_SUPPORTED', 'recipientNotSupported'],
+    ['INSUFFICIENT_LIQUIDITY', 'liquidity'],
+    ['PRICE_IMPACT_TOO_HIGH', 'liquidity'],
+    ['RATE_LIMIT_EXCEEDED', 'temporary'],
+    ['TOOL_TIMEOUT', 'temporary'],
+    ['RPC_ERROR', 'temporary'],
+    ['NO_POSSIBLE_ROUTE', 'pairNotSupported'],
+  ])('%s maps to %s', (code, bucket) => {
+    expect(fromCode(code)[0]?.bucket).toBe(bucket)
+  })
+})
+
+// Both were observed together in captured payloads: bridges disagree on range.
+describe('a code refined by its own prose', () => {
+  // Reported case: 1 USDC on Arbitrum to uBTC on Hyperliquid. The code names no
+  // figure, so the card fell back to $1 and told a user holding $1 to bump to $1.
+  const hyperliquidMinimum = classifyRouteIssues(
+    {
+      filteredOut: [],
+      failed: [
+        {
+          overallPath:
+            '42161:USDC~42161:USDC-42161:USDC-relaydepository-1337:USDC-1337:USDC~1337:uBTC',
+          subpaths: {
+            '1337:USDC~1337:uBTC': [
+              {
+                errorType: 'NO_QUOTE',
+                code: 'AMOUNT_TOO_LOW',
+                tool: 'hyperliquidSpotProtocol',
+                message:
+                  'The fromAmount is lower than min spot order size (10)',
+                action: {} as never,
+              },
+            ],
+          },
+        },
+      ],
+    },
+    context
+  )
+
+  it('reads the minimum the code omitted', () => {
+    expect(hyperliquidMinimum[0]?.bucket).toBe('amountTooLow')
+    expect(hyperliquidMinimum[0]?.evidence?.minUsd).toBe(10)
+  })
+
+  it('still lets the code decide the bucket when the prose disagrees', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [],
+        failed: [
+          {
+            overallPath: 'p',
+            subpaths: {
+              s: [
+                {
+                  errorType: 'NO_QUOTE',
+                  code: 'INSUFFICIENT_LIQUIDITY',
+                  tool: 'someTool',
+                  message: 'Pod is currently overloaded.',
+                  action: {} as never,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      context
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual(['liquidity'])
+  })
+})
+
+describe('contradictions', () => {
+  const rangeReason = (amount: string, min: string, max: string) => ({
+    overallPath: sameTokenPath,
+    reason: `Transferred amount (${amount}) out of acceptable range (min: ${min}, max: ${max})`,
+  })
+
+  it('never shows too low and too high at once', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          rangeReason('1000', '5000', 'Infinity'),
+          rangeReason('9000000', '1', '500'),
+        ],
+        failed: [],
+      },
+      context
+    )
+    const buckets = issues.map((issue) => issue.bucket)
+    expect(buckets).toContain('amountTooLow')
+    expect(buckets).not.toContain('amountTooHigh')
+  })
+
+  it('keeps whichever side carries a real figure', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          // Leg token, so no figure survives the guard.
+          {
+            overallPath: '1:ETH~1:APE-1:APE-glacis-137:APE',
+            reason: rangeReason('50', '900', 'Infinity').reason,
+          },
+          rangeReason('1000', '1', '500'),
+        ],
+        failed: [],
+      },
+      context
+    )
+    expect(issues[0].bucket).toBe('amountTooHigh')
+    expect(issues[0].evidence?.requiredFromAmount).toBe(500n)
+  })
+
+  const noPossibleRoute = {
+    overallPath: sameTokenPath,
+    subpaths: {
+      s: [
+        {
+          errorType: 'NO_QUOTE' as const,
+          code: 'NO_POSSIBLE_ROUTE',
+          tool: 'someTool',
+          message: 'No route was found for this action.',
+          action: {} as never,
+        },
+      ],
+    },
+  }
+
+  const podOverloaded = {
+    overallPath: sameTokenPath,
+    reason: 'Pod is currently overloaded.',
+  }
+
+  // NO_POSSIBLE_ROUTE is per tool, so beside a reason about the request it is
+  // untrue: the pair works, this request does not.
+  it('drops "pair not supported" when the request itself is the reason', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [rangeReason('1000', '2000', 'Infinity')],
+        failed: [noPossibleRoute],
+      },
+      context
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual(['amountTooLow'])
+  })
+
+  // Reported: eco was the only bridge allowed and refused every path, while one
+  // sub-swap was rate limited. "Try again" was shown, and retrying never helped.
+  it('leads with "pair not supported" over a busy tool', () => {
+    const issues = classifyRouteIssues(
+      { filteredOut: [podOverloaded], failed: [noPossibleRoute] },
+      context
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual([
+      'pairNotSupported',
+      'temporary',
+    ])
+  })
+
+  it('leads with the busy tool when nothing else explains the failure', () => {
+    const issues = classifyRouteIssues(
+      { filteredOut: [podOverloaded], failed: [] },
+      context
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual(['temporary'])
+  })
+
+  it('keeps "pair not supported" when it is the only thing we know', () => {
+    const alone = classifyRouteIssues(
+      { filteredOut: [], failed: [noPossibleRoute] },
+      context
+    )
+    expect(alone.map((issue) => issue.bucket)).toEqual(['pairNotSupported'])
+  })
+})
+
+// Reported in QA from the private tab, where Houdini answers in its own words.
+describe('a range stated beside the amount', () => {
+  const houdini = 'Amount 5 is out of Houdini bounds (min 26.25, max 594000)'
+  const units = (value: string): bigint => parseUnits(value, 18)
+
+  it('reads an amount under the minimum as too low, with the minimum', () => {
+    const [issue] = fromReason(houdini, units('5'))
+    expect(issue.bucket).toBe('amountTooLow')
+    expect(issue.evidence?.requiredFromAmount).toBe(units('26.25'))
+  })
+
+  it('reads an amount over the maximum as too high, with the maximum', () => {
+    const [issue] = fromReason(
+      'Amount 600000 is out of Houdini bounds (min 26.25, max 594000)',
+      units('600000')
+    )
+    expect(issue.bucket).toBe('amountTooHigh')
+    expect(issue.evidence?.requiredFromAmount).toBe(units('594000'))
+  })
+
+  // The stated amount is not the user's, so its unit is unknown: the direction
+  // still holds, but a figure could be in any token.
+  it('gives no figure when the stated amount is not the user amount', () => {
+    const [issue] = fromReason(houdini, units('7'))
+    expect(issue.bucket).toBe('amountTooLow')
+    expect(issue.evidence?.requiredFromAmount).toBeUndefined()
+  })
+
+  it('says nothing when the amount sits inside the bounds', () => {
+    expect(
+      fromReason(
+        'Amount 30 is out of Houdini bounds (min 26.25, max 594000)',
+        units('30')
+      )
+    ).toEqual([])
+  })
+
+  it('says nothing when there is no send amount to compare', () => {
+    expect(fromReason(houdini, 0n)).toEqual([])
+  })
+})
+
+// The backend's own wording here is "too low or too high": it does not say
+// which bound was crossed, so only the amount can settle it. Two rules split by
+// direction meant the first one always won and could invert the advice.
+describe('a declared range', () => {
+  const range =
+    'The amount is too low or too high. The minimum is 2 and the maximum is 5'
+
+  it('reads a send above the maximum as too high', () => {
+    const [issue] = fromReason(range, 9n)
+    expect(issue.bucket).toBe('amountTooHigh')
+    expect(issue.evidence?.requiredFromAmount).toBe(5n)
+  })
+
+  it('reads a send below the minimum as too low', () => {
+    const [issue] = fromReason(range, 1n)
+    expect(issue.bucket).toBe('amountTooLow')
+    expect(issue.evidence?.requiredFromAmount).toBe(2n)
+  })
+
+  it('says nothing when the send sits inside the range', () => {
+    expect(fromReason(range, 3n)).toEqual([])
+  })
+
+  // Receive-driven quotes classify with no send amount, and `0n` is below every
+  // minimum — which made every range read as too low and, through
+  // resolveAmountConflict, deleted a genuine too-high from the same payload.
+  it('says nothing when there is no send amount to compare', () => {
+    expect(fromReason(range, 0n)).toEqual([])
+  })
+
+  // The bounds are the leg's own token, so a converted leg cannot settle the
+  // direction — and guessing it moves the amount the wrong way.
+  it('says nothing when the bounds are in another token', () => {
+    expect(
+      fromReason(range, 9n, '1:ETH~1:USDC-1:USDC-stargate-137:USDC')
+    ).toEqual([])
+  })
+})
+
+describe('ranking', () => {
+  // Reported twice: a slippage reason was the only one carrying a figure, so it
+  // led — while the bridges had refused the amount outright and loosening
+  // slippage could not have helped. The bucket order decides, not the figure.
+  it('keeps the blocking bucket ahead of one that merely carries a figure', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: sameTokenPath,
+            reason: 'Path requires a slippage of 0.005 but 0.001 is applied',
+          },
+        ],
+        failed: [
+          {
+            overallPath: sameTokenPath,
+            subpaths: {
+              s: [
+                {
+                  errorType: 'NO_QUOTE',
+                  code: 'AMOUNT_TOO_LOW',
+                  tool: 'someTool',
+                  message: 'The initial amount is too low.',
+                  action: {} as never,
+                },
+              ],
+            },
+          },
+        ],
+      },
+      context
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual([
+      'amountTooLow',
+      'slippageTooTight',
+    ])
+  })
+
+  // Reported in review: with a receiver the user chose, every path refused it
+  // and one price-impact entry sat beside them — and the card advised a smaller
+  // amount, hiding the one fix that works. The bucket only survives for a
+  // receiver the user set, so it is never the noise it once was here.
+  it('ranks a refused receiver ahead of liquidity', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: sameTokenPath,
+            reason:
+              'Destination address different from source address is not supported',
+          },
+          {
+            overallPath: sameTokenPath,
+            reason: 'Pod is currently overloaded.',
+          },
+          {
+            overallPath: sameTokenPath,
+            reason: 'Price impact of 12.5% is higher than the max allowed 10%',
+          },
+        ],
+        failed: [],
+      },
+      context
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual([
+      'recipientNotSupported',
+      'liquidity',
+      'temporary',
+    ])
+  })
+
+  // The card describes a receiver the user chose; its fix is "send to your own
+  // address", which is already true when none is set or it matches the sender.
+  it.each([
+    ['no receiver', { toAddress: undefined }],
+    ['the sender', { toAddress: '0xSENDER' }],
+  ])('drops the receiver reason when it is %s', (_name, override) => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: sameTokenPath,
+            reason:
+              'Destination address different from source address is not supported',
+          },
+          {
+            overallPath: sameTokenPath,
+            reason: 'Pod is currently overloaded.',
+          },
+        ],
+        failed: [],
+      },
+      { ...context, ...override }
+    )
+    expect(issues.map((issue) => issue.bucket)).toEqual(['temporary'])
+  })
+
+  it('puts the most actionable bucket first', () => {
+    const issues = classifyRouteIssues(
+      {
+        filteredOut: [
+          {
+            overallPath: 'a',
+            reason: 'Same-chain operations on Tron are not yet supported',
+          },
+          { overallPath: 'b', reason: 'Pod is currently overloaded.' },
+          {
+            overallPath: 'c',
+            reason:
+              'Transferred amount (100) out of acceptable range (min: 500, max: Infinity)',
+          },
+        ],
+        failed: [],
+      },
+      context
+    )
+    // pairNotSupported is dropped beside a real reason, see 'contradictions'.
+    expect(issues.map((issue) => issue.bucket)).toEqual([
+      'amountTooLow',
+      'temporary',
+    ])
+  })
+})
