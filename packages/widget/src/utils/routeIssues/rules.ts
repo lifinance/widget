@@ -7,13 +7,12 @@ import type {
   RouteIssueRule,
 } from './types.js'
 
-// A Record so a bucket missing from the order is a type error. The ticket's
-// order, bar the two notes below.
+// A Record so a bucket missing from the order is a type error.
 export const bucketRank: Record<RouteIssueBucket, number> = {
   amountTooLow: 0,
   amountTooHigh: 1,
   slippageTooTight: 2,
-  // Not in the ticket: a bridge's slippage cap, beside the floor it mirrors.
+  // A bridge's slippage cap, beside the floor it mirrors.
   slippageTooLoose: 3,
   destinationAccountNotReady: 4,
   recipientNotSupported: 5,
@@ -21,8 +20,7 @@ export const bucketRank: Record<RouteIssueBucket, number> = {
   blockedBySettings: 7,
   liquidity: 8,
   pairNotSupported: 9,
-  // The one departure: the ticket puts temporary ahead of pairNotSupported.
-  // "Try again" is the only reason that offers the user nothing to change, and
+  // Last: "Try again" is the only reason that offers the user nothing to change, and
   // one busy tool is no answer while another says the route cannot be built at
   // all — an eco-only quote said "try again" every time, and a retry never
   // helped. It leads only when nothing else survived, where a retry is the
@@ -333,6 +331,39 @@ export const routeIssueRules: RouteIssueRule[] = [
     /Amount too high, max available is \$([\d.]+)/i,
     (match) => ({ direction: 'lower', maxUsd: Number.parseFloat(match[1]) })
   ),
+  // The same for the partner prose below, captured live: each names its reason
+  // outright beside a suppressed code or the catch-all. A capacity cap is in the
+  // leg's own token, which the message does not name, so it carries no figure.
+  fragmentRule(
+    'toolAmountFloor',
+    'amountTooLow',
+    /^Amount is below the minimum/
+  ),
+  fragmentRule(
+    'toolAmountCeiling',
+    'amountTooHigh',
+    /^(?:Amount exceeds the maximum|Amount is greater than max amount|Quote amount exceeds the maximum)|does not have enough capacity for this amount/
+  ),
+  fragmentRule(
+    'toolMinUsd',
+    'amountTooLow',
+    /minimum swap amount is \$(\d[\d,]*(?:\.\d+)?)/,
+    (match) => {
+      const minUsd = Number.parseFloat(match[1].replace(/,/g, ''))
+      return minUsd > 0 ? { minUsd } : {}
+    }
+  ),
+  fragmentRule(
+    'toolSlippageFloor',
+    'slippageTooTight',
+    /^Slippage is too low$/
+  ),
+  // Seen only on sends far beyond any pool: the quote loses too much value.
+  fragmentRule(
+    'quoteValueDeviation',
+    'liquidity',
+    /quote value deviation exceeds threshold/
+  ),
 
   fragmentRule(
     'fromTokenValueFloor',
@@ -440,13 +471,14 @@ export const routeIssueRules: RouteIssueRule[] = [
 
   // The mirror of the rules above: a bridge that caps slippage rather than
   // demanding one. `requiredSlippage` is the boundary either way, so the card
-  // reads the bucket to know which side of it the user has to move to.
+  // reads the bucket to know which side of it the user has to move to. mayan
+  // states the cap as a fraction, symbiosis in percent.
   fragmentRule(
     'slippageCeiling',
     'slippageTooLoose',
-    /Slippage is too high\. Max slippage is ([\d.]+)/,
+    /Slippage is too high(?:\. Max slippage is ([\d.]+)|: [\d.]+%\. Max: ([\d.]+)%)/,
     (match) => {
-      const allowed = Number(match[1])
+      const allowed = match[1] ? Number(match[1]) : Number(match[2]) / 100
       return allowed > 0 && allowed < 1 ? { requiredSlippage: allowed } : {}
     }
   ),
@@ -579,10 +611,10 @@ export const routeIssueRules: RouteIssueRule[] = [
     /is currently disabled for this action\.\s*([\s\S]*)$/,
     operatorNote
   ),
-  // The ticket buckets this as temporary, but temporary always offers a retry
-  // and this is operator routing config: the next quote returns the same entry.
-  // Its sibling `toolDisabled` drops a note-less overwrite for the same reason,
-  // and the string appears in none of the 76 collected payloads.
+  // Only ever the message of a suppressed TOOL_NOT_ALLOWED error. It is
+  // operator routing config, so the next quote returns the same entry and the
+  // retry that temporary offers would never help. Its sibling `toolDisabled`
+  // drops a note-less overwrite for the same reason.
   // Anchored, and placed after `toolDisabled`: the greedy `.+` otherwise claims
   // any reason that merely ends in "not applied.", including a disabled tool's
   // published note and an amount reason stated after it.

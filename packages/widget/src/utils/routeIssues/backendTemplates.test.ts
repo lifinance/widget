@@ -126,6 +126,67 @@ describe('templates scouted from the backend', () => {
     expect(issue?.evidence?.requiredSlippage).toBe(expected)
   })
 
+  // symbiosis states the same cap in percent, under the suppressed
+  // TOOL_SPECIFIC_ERROR, so its prose is all that names it.
+  it('reads a slippage cap stated in percent', () => {
+    const [issue] = fromFailure(
+      'TOOL_SPECIFIC_ERROR',
+      'Slippage is too high: 30%. Max: 10%'
+    )
+    expect(issue?.bucket).toBe('slippageTooLoose')
+    expect(issue?.evidence?.requiredSlippage).toBe(0.1)
+  })
+
+  // Partner prose captured live. Each one names the reason outright, while the
+  // code beside it is either suppressed or the catch-all.
+  it.each([
+    ['TOOL_SPECIFIC_ERROR', 'Amount is below the minimum', 'amountTooLow'],
+    ['TOOL_SPECIFIC_ERROR', 'Amount exceeds the maximum', 'amountTooHigh'],
+    [
+      'TOOL_SPECIFIC_ERROR',
+      'Amount is greater than max amount.',
+      'amountTooHigh',
+    ],
+    [
+      'TOOL_SPECIFIC_ERROR',
+      'Quote amount exceeds the maximum for this pair',
+      'amountTooHigh',
+    ],
+    [
+      'NO_POSSIBLE_ROUTE',
+      'cctp does not have enough capacity for this amount. max per swap: 1000102.320468407',
+      'amountTooHigh',
+    ],
+    ['TOOL_SPECIFIC_ERROR', 'Slippage is too low', 'slippageTooTight'],
+    [
+      'TOOL_SPECIFIC_ERROR',
+      'Bitget error: quote value deviation exceeds threshold',
+      'liquidity',
+    ],
+  ])('buckets %s "%s"', (code, message, bucket) => {
+    const [issue] = fromFailure(code, message)
+    expect(issue?.bucket).toBe(bucket)
+  })
+
+  // The cap is in the leg's own token, and the message does not say which one:
+  // 1,000,102 on a USDC leg and 9,856 on a SOL leg. Only the direction is safe.
+  it('reads no figure from a capacity cap', () => {
+    const [issue] = fromFailure(
+      'NO_POSSIBLE_ROUTE',
+      'cctp does not have enough capacity for this amount. max per swap: 1000102.320468407'
+    )
+    expect(issue?.evidence?.requiredFromAmount).toBeUndefined()
+  })
+
+  it('reads a dollar floor with a thousands separator', () => {
+    const [issue] = fromFailure(
+      'TOOL_SPECIFIC_ERROR',
+      'Temporary swap limits: minimum swap amount is $1,000'
+    )
+    expect(issue?.bucket).toBe('amountTooLow')
+    expect(issue?.evidence?.minUsd).toBe(1000)
+  })
+
   // The figure is in sats, and nothing in the message says so. Reading it as
   // BTC would be off by 1e8, so this reason must stay figure-free.
   it('never reads a sats cap as an amount', () => {
