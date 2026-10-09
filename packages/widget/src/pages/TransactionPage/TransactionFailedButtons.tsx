@@ -44,7 +44,7 @@ export const TransactionFailedButtons: React.FC<
   const { mode, hiddenUI, disabledUI, requiredUI } = useWidgetConfig()
   const swapOnly = useSwapOnly()
   const { setFieldValue, getFieldValues } = useFieldActions()
-  const { setSelectedBookmark } = useBookmarkActions()
+  const { setSelectedBookmark, getSelectedBookmark } = useBookmarkActions()
 
   const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null)
   const confirmToAddressSheetRef = useRef<BottomSheetBase>(null)
@@ -76,6 +76,7 @@ export const TransactionFailedButtons: React.FC<
       keepReceiver,
       receiverRequired: requiredUI?.toAddress,
     })
+    const receiver = keepReceiver ? formReceiver : values.toAddress
     // This page clears the amounts of a failed route on unmount, so fill after it.
     navigate({ to: navigationRoutes.home, replace: true }).then(() => {
       for (const fieldName of Object.keys(values) as (keyof typeof values)[]) {
@@ -85,7 +86,9 @@ export const TransactionFailedButtons: React.FC<
         })
       }
       // A bookmark name from an earlier receiver must not label this one.
-      if (!keepReceiver) {
+      if (
+        getSelectedBookmark()?.address.toLowerCase() !== receiver?.toLowerCase()
+      ) {
         setSelectedBookmark()
       }
     })

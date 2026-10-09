@@ -403,6 +403,24 @@ describe('Start a new swap and the transaction page cleanup', () => {
     expect(bookmarks.selected).toBeUndefined()
   })
 
+  it('should keep the bookmark that labels the same receiver', async () => {
+    await render(RouteExecutionStatus.Failed, {}, routeToSolana)
+    await waitFor(() => !!newSwapButton() && !!bookmarks.select)
+    const solana = {
+      name: 'Solana',
+      address: SOLANA_RECEIVER,
+      chainType: 'SVM',
+    } as Bookmark
+    bookmarks.select?.(solana)
+
+    newSwapButton()!.click()
+
+    await waitFor(() => !!container.querySelector('#home'))
+    await sleep(300)
+    expect(field('toAddress')).toBe(SOLANA_RECEIVER)
+    expect(bookmarks.selected).toEqual(solana)
+  })
+
   it('should keep a required receiver that is the sender', async () => {
     await render(RouteExecutionStatus.Failed, {
       requiredUI: { toAddress: true },
