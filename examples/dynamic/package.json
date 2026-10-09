@@ -19,7 +19,7 @@
     "@dynamic-labs/solana": "5.9.6",
     "@dynamic-labs/solana-core": "5.9.6",
     "@dynamic-labs/wagmi-connector": "5.9.6",
-    "@lifi/sdk": "^4.11.0",
+    "@lifi/sdk": "^4.12.0",
     "@lifi/wallet-management": "4.3.1",
     "@lifi/widget": "4.8.0",
     "@lifi/widget-provider-ethereum": "4.1.6",
