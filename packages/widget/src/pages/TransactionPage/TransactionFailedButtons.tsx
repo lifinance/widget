@@ -79,20 +79,27 @@ export const TransactionFailedButtons: React.FC<
     const receiver = keepReceiver ? formReceiver : values.toAddress
     // Fill after navigate resolves: this page's unmount cleanup has run by then,
     // as TransactionFailedButtons.test.tsx checks.
-    navigate({ to: navigationRoutes.home, replace: true }).then(() => {
-      for (const fieldName of Object.keys(values) as (keyof typeof values)[]) {
-        setFieldValue(fieldName, values[fieldName], {
-          isDirty: true,
-          isTouched: true,
-        })
-      }
-      // A bookmark name from an earlier receiver must not label this one.
-      if (
-        getSelectedBookmark()?.address.toLowerCase() !== receiver?.toLowerCase()
-      ) {
-        setSelectedBookmark()
-      }
-    })
+    navigate({ to: navigationRoutes.home, replace: true })
+      .then(() => {
+        for (const fieldName of Object.keys(
+          values
+        ) as (keyof typeof values)[]) {
+          setFieldValue(fieldName, values[fieldName], {
+            isDirty: true,
+            isTouched: true,
+          })
+        }
+        // A bookmark name from an earlier receiver must not label this one.
+        if (
+          getSelectedBookmark()?.address.toLowerCase() !==
+          receiver?.toLowerCase()
+        ) {
+          setSelectedBookmark()
+        }
+      })
+      .catch(() => {
+        // A host form listener or the bookmark storage threw; keep it handled.
+      })
     deleteRoute()
   }
 
