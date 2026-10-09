@@ -98,8 +98,8 @@ export const TransactionFailedButtons: React.FC<
           setSelectedBookmark()
         }
       })
-      .catch(() => {
-        // A host form listener or the bookmark storage threw; keep it handled.
+      .catch((error) => {
+        console.warn('Filling the new swap failed.', error)
       })
     deleteRoute()
   }
