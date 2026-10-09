@@ -153,7 +153,12 @@ export const TransactionFailedButtons: React.FC<
         </Box>
         {showStartNewSwap ? (
           <Box sx={{ flex: 1 }}>
-            <Button variant="contained" onClick={handleStartNewSwap} fullWidth>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleStartNewSwap}
+              fullWidth
+            >
               {t('button.startNewSwap')}
             </Button>
           </Box>
