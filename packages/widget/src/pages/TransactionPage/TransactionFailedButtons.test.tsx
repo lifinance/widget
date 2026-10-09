@@ -379,7 +379,6 @@ describe('Start a new swap and the transaction page cleanup', () => {
   it('should fill the form for a route that had already failed', async () => {
     await render(RouteExecutionStatus.Failed)
     await waitFor(() => !!newSwapButton())
-    await sleep(PAST_PACING)
 
     newSwapButton()!.click()
 
