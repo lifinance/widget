@@ -372,6 +372,16 @@ describe('getNewSwapFormValues', () => {
     expect(getNewSwapFormValues(route(toOther)).toAddress).toBe(RECEIVER)
   })
 
+  it('should keep a required receiver that is the sender', () => {
+    const values = getNewSwapFormValues(
+      route(step(1, 8453, failedExecution())),
+      {
+        receiverRequired: true,
+      }
+    )
+    expect(values.toAddress).toBe(SENDER)
+  })
+
   it('should leave the receiver out when the integrator keeps it', () => {
     const toOther = step(1, 8453, failedExecution(), RECEIVER)
     const values = getNewSwapFormValues(route(toOther), { keepReceiver: true })

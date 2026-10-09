@@ -41,7 +41,7 @@ export const TransactionFailedButtons: React.FC<
   const emitter = useWidgetEvents()
   const navigateBack = useNavigateBack()
   const navigate = useNavigate()
-  const { mode, hiddenUI, disabledUI } = useWidgetConfig()
+  const { mode, hiddenUI, disabledUI, requiredUI } = useWidgetConfig()
   const swapOnly = useSwapOnly()
   const { setFieldValue, getFieldValues } = useFieldActions()
   const { setSelectedBookmark } = useBookmarkActions()
@@ -72,7 +72,10 @@ export const TransactionFailedButtons: React.FC<
     const keepReceiver = Boolean(
       (disabledUI?.toAddress || hiddenUI?.toAddress) && formReceiver
     )
-    const values = getNewSwapFormValues(route, { keepReceiver })
+    const values = getNewSwapFormValues(route, {
+      keepReceiver,
+      receiverRequired: requiredUI?.toAddress,
+    })
     // This page clears the amounts of a failed route on unmount, so fill after it.
     navigate({ to: navigationRoutes.home, replace: true }).then(() => {
       for (const fieldName of Object.keys(values) as (keyof typeof values)[]) {

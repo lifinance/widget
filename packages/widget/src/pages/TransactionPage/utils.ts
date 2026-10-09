@@ -154,7 +154,10 @@ interface NewSwapFormValues {
 
 export const getNewSwapFormValues = (
   route: RouteExtended,
-  { keepReceiver = false }: { keepReceiver?: boolean } = {}
+  {
+    keepReceiver = false,
+    receiverRequired = false,
+  }: { keepReceiver?: boolean; receiverRequired?: boolean } = {}
 ): NewSwapFormValues => {
   const receiver = route.toAddress
   const values: NewSwapFormValues = {
@@ -168,8 +171,11 @@ export const getNewSwapFormValues = (
     toToken: route.toToken.address,
   }
   if (!keepReceiver) {
+    // A required receiver stays, also when it is the sender.
     values.toAddress =
-      receiver && receiver.toLowerCase() !== route.fromAddress?.toLowerCase()
+      receiver &&
+      (receiverRequired ||
+        receiver.toLowerCase() !== route.fromAddress?.toLowerCase())
         ? receiver
         : ''
   }

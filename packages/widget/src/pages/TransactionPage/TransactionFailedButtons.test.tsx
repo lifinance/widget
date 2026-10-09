@@ -403,6 +403,19 @@ describe('Start a new swap and the transaction page cleanup', () => {
     expect(bookmarks.selected).toBeUndefined()
   })
 
+  it('should keep a required receiver that is the sender', async () => {
+    await render(RouteExecutionStatus.Failed, {
+      requiredUI: { toAddress: true },
+    })
+    await waitFor(() => !!newSwapButton())
+
+    newSwapButton()!.click()
+
+    await waitFor(() => !!container.querySelector('#home'))
+    await sleep(300)
+    expect(field('toAddress')).toBe(SENDER)
+  })
+
   for (const config of [
     { hiddenUI: { toAddress: true } },
     { disabledUI: { toAddress: true } },
