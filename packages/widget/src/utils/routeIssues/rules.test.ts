@@ -265,6 +265,36 @@ describe('pinned reason fragments', () => {
       'gaslessNotAvailable',
     ],
     [
+      'gaslessDelegation',
+      'The request carries no fromAddress, so the account type cannot be determined',
+      'gaslessNotAvailable',
+    ],
+    [
+      'gaslessDelegation',
+      'Chain 1151111081099710 is not an EVM chain, and gasless execution relies on EIP-7702 delegation',
+      'gaslessNotAvailable',
+    ],
+    [
+      'gaslessDelegation',
+      'The code at 0xabc could not be read, so it is not known whether a relayer can execute',
+      'gaslessNotAvailable',
+    ],
+    [
+      'gaslessDelegation',
+      '0xabc delegates to 0xdef, which is not a delegate we relay for',
+      'gaslessNotAvailable',
+    ],
+    [
+      'gaslessDelegation',
+      '0xabc is a contract account on chain 1, which gasless execution does not support',
+      'gaslessNotAvailable',
+    ],
+    [
+      'stellarReserve',
+      'Receiver GA123 holds 0.5 XLM but needs 1.5 XLM',
+      'destinationAccountNotReady',
+    ],
+    [
       'destinationSignature',
       'Path requires a signature on the destination chain, but the request did not allow it',
       'blockedBySettings',
@@ -384,6 +414,52 @@ describe('pinned reason fragments', () => {
     )
     expect(issue.evidence?.minUsd).toBe(100)
     expect(issue.evidence?.requiredFromAmount).toBeUndefined()
+  })
+})
+
+describe('wording the backend may vary', () => {
+  // The fragment the backend guarantees is the floor; the worth beside it is
+  // a bonus that only adds a figure.
+  it('reads a gasless minimum stated without the trade worth', () => {
+    const [issue] = fromReason('Below the gasless minimum of 5 USD on chain 1')
+    expect(issue?.bucket).toBe('amountTooLow')
+    expect(issue?.evidence?.minUsd).toBe(5)
+  })
+
+  it('reads a slippage requirement stated in percent', () => {
+    const [issue] = fromReason(
+      'Path requires a slippage of 3% but 0.5% is applied'
+    )
+    expect(issue?.bucket).toBe('slippageTooTight')
+    expect(issue?.evidence?.requiredSlippage).toBe(0.03)
+  })
+})
+
+describe('a contract refusal that names its receiver', () => {
+  // Across names the contract it refused. Its own handler is no address the
+  // user chose, so "Send to my own address" would change nothing.
+  it('drops one naming an address the route chose', () => {
+    expect(
+      fromReason(
+        'Across does not send WETH to EOAs (receiver: 0x742d35Cc6634C0532925a3b844Bc454e4438f44e)'
+      )
+    ).toEqual([])
+  })
+
+  it('drops one naming a receiver the user did not choose', () => {
+    expect(
+      fromReason(
+        'Across does not send ETH to contracts (receiver: ReceiverAcrossV4)'
+      )
+    ).toEqual([])
+  })
+
+  it.each([
+    'Across does not send WETH to EOAs (receiver: 0xReceiver)',
+    'Across does not send ETH to contracts (receiver 0xreceiver)',
+    'Kiln does not support contract receivers on destination chain (receiver: 0xRECEIVER, chainId: 137)',
+  ])('keeps one naming the receiver the user chose: %s', (reason) => {
+    expect(fromReason(reason)[0]?.bucket).toBe('recipientNotSupported')
   })
 })
 
