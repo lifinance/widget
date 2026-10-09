@@ -361,12 +361,12 @@ describe('getNewSwapFormValues', () => {
   })
 
   it('should keep a required receiver that is the sender', () => {
-    const values = getNewSwapFormValues(
-      route(step(1, 8453, failedExecution())),
-      {
-        receiverRequired: true,
-      }
-    )
+    // A route to the sender has no top-level receiver.
+    const toSender = {
+      ...route(step(1, 8453, failedExecution())),
+      toAddress: undefined,
+    }
+    const values = getNewSwapFormValues(toSender, { receiverRequired: true })
     expect(values.toAddress).toBe(SENDER)
   })
 

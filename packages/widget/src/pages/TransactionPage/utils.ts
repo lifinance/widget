@@ -159,7 +159,7 @@ export const getNewSwapFormValues = (
     receiverRequired = false,
   }: { keepReceiver?: boolean; receiverRequired?: boolean } = {}
 ): NewSwapFormValues => {
-  const receiver = route.toAddress
+  const receiver = route.toAddress || route.fromAddress
   const values: NewSwapFormValues = {
     fromChain: route.fromChainId,
     fromToken: route.fromToken.address,

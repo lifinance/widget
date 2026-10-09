@@ -426,9 +426,12 @@ describe('Start a new swap and the transaction page cleanup', () => {
   })
 
   it('should keep a required receiver that is the sender', async () => {
-    await render(RouteExecutionStatus.Failed, {
-      requiredUI: { toAddress: true },
-    })
+    // A route to the sender has no top-level receiver.
+    await render(
+      RouteExecutionStatus.Failed,
+      { requiredUI: { toAddress: true } },
+      { ...route, toAddress: undefined }
+    )
     await waitFor(() => !!newSwapButton())
 
     newSwapButton()!.click()
