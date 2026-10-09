@@ -283,6 +283,7 @@ const deleteButton = () =>
     (button) => button.textContent === 'button.delete'
   )
 
+// The mocks leave only the failed-route buttons on the page.
 const buttonTexts = () =>
   [...container.querySelectorAll('button')].map((button) => button.textContent)
 
