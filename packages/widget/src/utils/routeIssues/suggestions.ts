@@ -8,6 +8,9 @@ export const fallbackSlippage = 0.5
 
 const bufferPercent = { raise: 102n, lower: 98n }
 
+/** The same margin for a figure converted from dollars. */
+export const usdBuffer = { raise: 1.02, lower: 0.98 }
+
 const decimalPattern = /^(\d+)(?:\.(\d*))?(?:e([+-]?\d+))?$/i
 
 /**

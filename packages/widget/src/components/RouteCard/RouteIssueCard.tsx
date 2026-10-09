@@ -27,6 +27,7 @@ export const RouteIssueCard: React.FC<{
           <Button
             variant="contained"
             onClick={action.run}
+            disabled={action.disabled}
             fullWidth
             sx={{ mt: 1.5, height: 40, fontSize: 14 }}
           >
