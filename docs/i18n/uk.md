@@ -70,7 +70,7 @@ Read [TRANSLATING.md](../../TRANSLATING.md) first.
 | 53 | on-ramp / buy with card | Купити карткою / Купити криптовалюту (Do not show the term 'on-ramp' to users.) | Онрамп |
 | 54 | leaderboard | Таблиця лідерів (Keep the current form.) | Лідерборд |
 | 55 | perks | привілеї ('Пільги' means social benefits, for example for pensioners.) | перки; пільги |
-| 56 | earn (the product page where users earn yield) | Заробіток (page name); заробляйте (verb), e.g. 'Заробляйте до {{apy}} APY' (Use 'Заробляйте XP' for 'Earn XP'.) | Прибуток |
+| 56 | earn (the product page where users earn yield) | Пасивний дохід (page name, as the OKX UA menu uses); заробляйте (verb), e.g. 'Заробляйте до {{apy}} APY' (Use 'Заробляйте XP' for 'Earn XP'. As a page name, 'Заробіток' reads as 'wages'. In sentences, write 'розділ «Пасивний дохід»', not 'Jumper Earn'.) | Заробіток (as a page name), Прибуток |
 | 57 | trigger price (limit orders) | ціна спрацьовування (Rabby uk uses 'Спрацьовування' for the Trigger tab.) | тригерна ціна; ціна тригера |
 | 58 | expiry / expires (orders) | термін дії / 'Спливає через {{time}}' (Use 'Термін дії минув' for 'Expired'.) | експірація |
 

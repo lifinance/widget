@@ -25,6 +25,9 @@ The person or the AI agent that changes an English text also translates it, in t
 4. Write as a native speaker who uses crypto apps every day. Do not translate word by word.
    - If crypto users of a language use the English word, keep the English word. The glossary tells you which words to keep.
    - Use the same word for the same concept in all texts of a locale. Read the existing texts of the locale near your key. If an existing text uses another word than the glossary, follow the glossary.
+   - A nav label or a tab that names a product section (for example Earn) is a name, not a verb. Use the name that the big exchanges (Binance, OKX, Bybit) show in their nav in that language. Wallet texts are often literal translations, so do not use them as the only source.
+   - For such a section name, a locale with a Latin script keeps the English name if the exchanges keep it. A locale with its own script writes the name in that script. The glossary gives the name.
+   - Brand names stay in English in all locales (rule 7). Examples: Jumper Pass, Perps, RWA.
 5. When a text inserts another key with `$t(...)`, make the inserted text fit the sentence.
 6. Run the test. Fix every key that it names.
 7. Read each new text again as a user of that locale. Fix text that sounds literal.
