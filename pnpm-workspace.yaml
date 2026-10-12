@@ -101,6 +101,34 @@ overrides:
   "@walletconnect/ethereum-provider@<2.23.10": ">=2.23.10"
   # @walletconnect/logger 3.0.x pins pino 10.0.0 exactly; the fix is 10.1.1.
   "pino@<10.1.1": ">=10.1.1"
+  # Forced major. tronweb 6.2.2 and 6.5.1 pin google-protobuf 3.21.4 exactly; no
+  # tronweb release fixes it. A TRX and a TRC-20 round trip give the same bytes on 4.x.
+  "google-protobuf@<4.0.3": "^4.0.3"
+  # Forced major. @metamask/utils (^9.0.1) and @metamask/sdk 0.33.1 (^8.3.2,
+  # deprecated) call only uuid.v4() and validate(). uuid 12 and later have no
+  # require() export, so 11 is the highest major they can load.
+  "uuid@<11.1.1": "^11.1.1"
+  # Forced major. Dynamic 5.9.6 (and 5.10.0) pins i18next 23.4.6. It calls only
+  # createInstance().use().init(), which i18next 26 keeps.
+  "i18next@<26.3.4": "^26.3.4"
+  # Forced major. @dynamic-labs-wallet/forward-mpc-shared imports
+  # "@noble/ciphers/aes"; 2.x removed that path, so 1.x is the highest usable major.
+  "@noble/ciphers@<1.0.0": "^1.3.0"
+  # Forced major. Privy (react-auth, js-sdk-core) still declares jose ^4 and uses
+  # importJWK, CompactEncrypt and decodeJwt, which jose 6 keeps. Examples only.
+  "jose@<6.2.5": "^6.2.5"
+  # Forced major. @remix-run/node 2.17.5 declares undici ^6 and loads it only from
+  # installGlobals(), which the Remix example does not call.
+  "undici@<8.10.2": "^8.10.2"
+  # Forced major. Nuxt (nitropack, unstorage) accepts ioredis 5; the advisory is in
+  # the Cluster client, and this repo uses no Redis. Example only.
+  "ioredis@<6.0.0": "^6.0.0"
+  # Forced major. simple-git 3.36.0 (Nuxt devtools) depends on argv-parser 1.x;
+  # 2.0.1 keeps the vulnerabilityCheck(tokens, env) API.
+  "@simple-git/argv-parser@<2.0.1": "^2.0.1"
+  # Forced major (unflagged copy). @solana/web3.js (^4.3.0) loads only
+  # jayson/lib/client/browser. jayson 5 drops stream-json and uuid 8. Needs Node 20+.
+  "jayson@<5.0.0": "^5.0.0"
 allowBuilds:
   "@opensea/seaport-js": false
   "@parcel/watcher": false
