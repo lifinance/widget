@@ -90,9 +90,11 @@ overrides:
   "validator@<13.15.26": ">=13.15.26"
   # WalletConnect family: these packages release together and must move together.
   # 2.23.9 (pinned by @tronweb3/walletconnect-tron 4.0.3), 2.23.7
-  # (@reown/appkit-controllers 1.8.24), 2.23.0 (@creit.tech/stellar-wallets-kit) and
-  # 2.21.x (examples) are all inside advisories fixed in 2.23.10. This replaces the
-  # old "@reown/appkit>@walletconnect/universal-provider" rule.
+  # (@reown/appkit-controllers 1.8.24), 2.23.2 (Dynamic), 2.23.0
+  # (@creit.tech/stellar-wallets-kit), 2.22.4 (Privy) and 2.21.x (examples) are all
+  # inside advisories fixed in 2.23.10. They resolve to 2.25.0, the copy other
+  # parents already pin exactly, so the family stays on one version. This replaces
+  # the old "@reown/appkit>@walletconnect/universal-provider" rule.
   "@walletconnect/core@<2.23.10": ">=2.23.10"
   "@walletconnect/sign-client@<2.23.10": ">=2.23.10"
   "@walletconnect/utils@<2.23.10": ">=2.23.10"
@@ -118,7 +120,9 @@ overrides:
   # importJWK, CompactEncrypt and decodeJwt, which jose 6 keeps. Examples only.
   "jose@<6.2.5": "^6.2.5"
   # Forced major. @remix-run/node 2.17.5 declares undici ^6 and loads it only from
-  # installGlobals(), which the Remix example does not call.
+  # installGlobals({ nativeFetch: true }). remix-serve passes future.v3_singleFetch,
+  # which the Remix example does not set. undici 8 has no File export, so setting
+  # v3_singleFetch would need this override to be revisited.
   "undici@<8.10.2": "^8.10.2"
   # Forced major. Nuxt (nitropack, unstorage) accepts ioredis 5; the advisory is in
   # the Cluster client, and this repo uses no Redis. Example only.
