@@ -84,6 +84,7 @@ overrides:
   "ws@>=7.0.0 <8.0.0": ">=7.5.12"
   "ws@>=8.0.0": ">=8.21.1"
   esbuild: ">=0.25.0"
+  "es-toolkit@1": ">=1.52.0"
 allowBuilds:
   "@opensea/seaport-js": false
   "@parcel/watcher": false
