@@ -69,7 +69,7 @@ Read [TRANSLATING.md](../../TRANSLATING.md) first.
 | 53 | on-ramp / buy with card | 用银行卡购买 (For a general buy action, write 购买加密货币.) | 入口匝道 |
 | 54 | leaderboard | 排行榜 (Use 排行榜 for the page name.) | 领导板 |
 | 55 | perks | 福利 (Use 福利 for Jumper perks, for example “领取福利”.) | 额外津贴 |
-| 56 | earn (the product page where users earn yield) | 赚取 (Use 赚取 for the page name and in sentences, for example “赚取最高 10% APY”.) | 赚钱 |
+| 56 | earn (the product page where users earn yield) | 赚币 (Use 赚币 for the page name, as OKX and HTX do. In sentences use 赚取, for example “赚取最高 10% APY” and “赚取 XP”. Binance, Bitget and Bybit use 理财, which reads as a CeFi product.) | 赚取 (as the page name), 赚钱 |
 | 57 | trigger price (limit orders) | 触发价格 (Use this label for the price that starts a limit order.) | 扳机价格 |
 | 58 | expiry / expires (orders) | 到期时间 / 已过期 (For expires in, write {{duration}} 后到期.) | 期满 |
 
@@ -99,7 +99,7 @@ These terms are in use in the current texts. Use them for the same concepts.
 | exposure (earn filter) | 敞口 (Uniswap uses 敞口.) |
 | filled / partially filled (orders) | 已成交 / 部分成交 (Uniswap, Rabby, and MetaMask use 已成交.) |
 | gasless | 免 Gas (Route tag = 免 Gas; fee label Gasless service = 免 Gas 服务.) |
-| Jumper Earn / Jumper Portfolio (page names in sentences) | Jumper 赚取页面 / Jumper 投资组合 (Matches the nav labels 赚取 and 投资组合 (terms 44 and 56). Jumper Pass, Jumper Perps, Jumper Scan, and Jumper RWA stay in English.) |
+| Jumper Earn / Jumper Portfolio (page names in sentences) | Jumper 赚币页面 / Jumper 投资组合 (Matches the nav labels 赚币 and 投资组合 (terms 44 and 56). Jumper Pass, Jumper Perps, Jumper Scan, and Jumper RWA stay in English.) |
 | Level / Level {{n}} (Jumper Pass) | 等级 / {{n}} 级 (Label = 等级; with a number = {{n}} 级, so progressTo + levelWithValue reads 正在升级至 5 级.) |
 | link (an exchange account) | 绑定 (Link your exchange account = 绑定您的交易所账户. Matches zh-B link wallet = 绑定钱包.) |
 | link wallet (SEI EVM) | 绑定钱包 (Link is not Connect. Do not use 关联钱包 (avoid form of term 20).) |

@@ -70,7 +70,7 @@ Read [TRANSLATING.md](../../TRANSLATING.md) first.
 | 53 | on-ramp / buy with card | Acheter par carte ; section : 'Acheter des cryptos' (Use 'Acheter' on the button and keep 'onramp' out of labels.) | rampe d’accès, onramp (dans un libellé) |
 | 54 | leaderboard | Classement (Use 'Classement' for the XP leaderboard.) | Tableau des leaders |
 | 55 | perks | avantages (m. pl.) (Translate the feature as a common noun. Keep 'Perks' only in a fixed brand name.) | perks, bonus |
-| 56 | earn (the product page where users earn yield) | Gagner (onglet) ; verbe : 'gagner' (Most French wallets translate the Earn tab. Uniswap FR is the exception and keeps 'Earn'.) | Earn, Mériter |
+| 56 | earn (the product page where users earn yield) | Earn (onglet et nom du produit) ; verbe dans les phrases : 'gagner', par ex. 'Gagnez jusqu’à 5 % d’APY' (Binance, OKX, Bybit, Bitget, KuCoin and Uniswap FR keep 'Earn' in the nav. As a tab, 'Gagner' reads as 'win'. French platforms use 'Investir' for buying assets, not for yield.) | Gagner (as a tab), Investir, Mériter |
 | 57 | trigger price (limit orders) | prix de déclenchement (Use it for the price that starts a limit order.) | prix gâchette, prix déclencheur |
 | 58 | expiry / expires (orders) | expiration (f.) ; 'Expire dans {{time}}' ; 'Expiré' (Use 'Expire dans' for a countdown and 'Expiré' for the final status.) | échéance, péremption |
 

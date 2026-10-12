@@ -70,7 +70,7 @@ Read [TRANSLATING.md](../../TRANSLATING.md) first.
 | 53 | on-ramp / buy with card | ซื้อด้วยบัตร (Example: “ซื้อคริปโตด้วยบัตร”.) | ออนแรมป์ |
 | 54 | leaderboard | ตารางอันดับ (Use ตารางอันดับ for the page name.) | กระดานผู้นำ |
 | 55 | perks | สิทธิพิเศษ (Use สิทธิพิเศษ for Jumper perks.) | ผลประโยชน์ข้างเคียง |
-| 56 | earn (the product page where users earn yield) | สร้างรายได้ (Use this form for the page name.) | หาเงิน |
+| 56 | earn (the product page where users earn yield) | สร้างรายได้ (Use this form for the page name. In sentences, write หน้าสร้างรายได้ของ Jumper, not Jumper Earn.) | หาเงิน |
 | 57 | trigger price (limit orders) | ราคา Trigger (Keep Trigger in Latin letters, as in other order terms.) | ราคาไก |
 | 58 | expiry / expires (orders) | หมดอายุ / หมดอายุแล้ว (For expires in, write หมดอายุใน {{duration}}.) | สิ้นสุดอายุ |
 

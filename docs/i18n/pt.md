@@ -69,7 +69,7 @@ Read [TRANSLATING.md](../../TRANSLATING.md) first.
 | 53 | on-ramp / buy with card | 'Comprar com cartão'; 'Comprar cripto' (Name the action, because users do not know the word 'on-ramp'.) | rampa de entrada; on-ramp |
 | 54 | leaderboard | Tabela de classificação (Use 'Tabela de classificação', as MetaMask and the current Jumper file do.) | Placar de líderes; Leaderboard |
 | 55 | perks | benefícios (Use 'benefícios', because the current 'vantagem' reads as 'advantage'.) | vantagem; regalias |
-| 56 | earn (the product page where users earn yield) | Earn (page and product name); verb in sentences: 'ganhar' (Keep 'Earn' as the page name and use 'ganhar' only inside sentences.) | Ganhe (as the page title); Ganhos |
+| 56 | earn (the product page where users earn yield) | Earn (page and product name); verb in sentences: 'ganhar' (Keep 'Earn' as the page name. OKX, Bybit, Gate, Binance ('Binance Earn'), Foxbit and Uniswap pt-BR keep 'Earn'. Use 'ganhar' only inside sentences.) | Ganhe (as the page title); Ganhos |
 | 57 | trigger price (limit orders) | preço de disparo (Use 'preço de disparo', as MetaMask does for orders.) | preço gatilho; preço de ativação |
 | 58 | expiry / expires (orders) | validade; 'Expira em {{duration}}'; 'Ordem expirada' (Use 'validade' for the label and 'Expira em' for the countdown, as Uniswap does.) | vencimento; caducidade |
 

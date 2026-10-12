@@ -70,7 +70,7 @@ Read [TRANSLATING.md](../../TRANSLATING.md) first.
 | 53 | on-ramp / buy with card | カードで購入 (For a general buy action, write 暗号資産を購入.) | オンランプ |
 | 54 | leaderboard | リーダーボード (Keep the final long vowel mark.) | 指導者掲示板 |
 | 55 | perks | 特典 (Use 特典 for Jumper perks.) | パークス |
-| 56 | earn (the product page where users earn yield) | Earn (Sources split three ways: Earn, 収益化, 稼ぐ. Keep Earn as the page name. In sentences, use 獲得, for example 「最大 10% APY を獲得」.) | 儲ける |
+| 56 | earn (the product page where users earn yield) | 資産運用 (Use 資産運用 for the page name, as Bybit ja and OKX Wallet ja do. Write the page name in Japanese, not as a Latin 'Earn'. In sentences, use 獲得, for example 「最大 10% APY を獲得」.) | Earn (as the page name), 儲ける, 稼ぐ |
 | 57 | trigger price (limit orders) | トリガー価格 (Use this label for the price that starts a limit order.) | 引き金価格 |
 | 58 | expiry / expires (orders) | 有効期限 / 期限切れ (Use 有効期限 for the label and 期限切れ for the expired status. For expires in, write {{duration}} 後に期限切れ.) | 満期 |
 
@@ -93,14 +93,14 @@ These terms are in use in the current texts. Use them for the same concepts.
 | level / rank | レベル / 順位 (Short form in the navbar: Lv.) |
 | lockup period | ロックアップ期間 (Short label: ロックアップ.) |
 | market (Earn) | マーケット (For example すべてのマーケット, 関連マーケット. Use 市場価格 for market price (label and table column) and 予測市場 for prediction markets.) |
-| opportunity (Earn) | 運用先 (For example この運用先, Earn の新しい運用先. Do not use 機会.) |
+| opportunity (Earn) | 運用先 (For example この運用先, 新しい運用先. Do not use 機会.) |
 | Perps | 無期限先物 (Keep the product name Jumper Perps in English.) |
 | position | ポジション (Your positions = 保有ポジション. Manage your position = ポジションを管理.) |
 | Review / Confirm (buttons) | 確認 / 確定 (Review opens a check step (変換内容を確認). Confirm commits the action (確定). Same split as the widget run A.) |
 | Simple / Advanced (exchange modes) | シンプル / アドバンスド (Tab labels.) |
 | Something went wrong (title) | 何らかのエラーが発生しました (Matches the widget run A (error.title.unknown).) |
 | Sort by / Sort | 並べ替え順 / 並べ替え (Two different labels so that they do not collide.) |
-| Start Earning (CTA) | Earn を開始 (Matches スワップを開始 and ブリッジを開始 in the widget.) |
+| Start Earning (CTA) | 運用を開始 (Matches スワップを開始 and ブリッジを開始 in the widget, and the page name 資産運用 (term 56).) |
 | trade (one execution of an order) | 取引 (取引 means a trade, not a transaction. The Trade tab label is トレード.) |
 | Try again / Retry (button) | 再試行 (In sentences, write もう一度お試しください。) |
 | unlock (perks), unlocked | 解放 / 解放済み (Use for perks and Pass rewards. For achievements, use 実績を解除.) |

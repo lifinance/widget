@@ -70,7 +70,7 @@ Read [TRANSLATING.md](../../TRANSLATING.md) first.
 | 53 | on-ramp / buy with card | Mit Karte kaufen; Bereich: 'Krypto kaufen' (The current widget shows the English 'Buy'. Translate it.) | On-Ramp, Auffahrt, 'Buy' |
 | 54 | leaderboard | Rangliste (Use 'Rangliste' because Jumper also shows a 'Rang' (rank).) | Anführertafel, Leaderboard |
 | 55 | perks | Vorteile (Translate the feature as a common noun. Keep 'Perks' only in a fixed brand name.) | Perks, Vergünstigungen |
-| 56 | earn (the product page where users earn yield) | Verdienen (Tab); Verb: 'verdienen' (Most German wallets translate the Earn tab, so use 'Verdienen'.) | Erwerben, Earn |
+| 56 | earn (the product page where users earn yield) | Earn (Tab und Produktname); Verb in Sätzen: 'verdienen' (Bitget DE and Crypto.com DE show 'Earn' in the nav; OKX, Bybit EU and Bitpanda use 'OKX Earn', 'Bybit Earn' and 'Bitpanda Earn'. As a tab, 'Verdienen' reads as 'earn a salary'.) | Verdienen (as a tab), Erwerben |
 | 57 | trigger price (limit orders) | Auslösepreis (Use it for the price that starts a limit order.) | Triggerpreis, Abzugspreis |
 | 58 | expiry / expires (orders) | Ablauf; 'Läuft ab in {{time}}'; 'Abgelaufen' (Use 'Läuft ab in' for a countdown and 'Abgelaufen' for the final status.) | Verfall, Erlöschen |
 
@@ -107,7 +107,7 @@ These terms are in use in the current texts. Use them for the same concepts.
 | gasless | gasfrei (Route tag 'Gasfrei', fee label 'Gasfrei-Service'.) |
 | idle (tokens, assets) | ungenutzt ('deine ungenutzten Token', 'ungenutzte USDC'.) |
 | insufficient gas / insufficient funds (titles) | Nicht genug Gas / Nicht genug Guthaben (Not 'Unzureichendes …'.) |
-| Jumper Earn (product name in notifications) | „Verdienen“ auf Jumper (Not kept as a brand, because term 56 avoids 'Earn'. Product names in the product menu (Jumper Perps, Jumper Scan, Jumper RWA) stay in English.) |
+| Jumper Earn (product name in notifications) | Jumper Earn (Kept as the product name, because term 56 uses 'Earn'. Same as Jumper Perps, Jumper Scan and Jumper RWA.) |
 | lockup / lock-up period | Sperrfrist (Label, tooltip and position card.) |
 | malicious (token) | bösartig ('Bösartiger Token erkannt', 'als bösartig markiert'.) |
 | market (Earn) | Markt (Plural: Märkte) ('Alle Märkte', 'Ähnliche Märkte'.) |

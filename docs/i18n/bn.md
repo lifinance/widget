@@ -70,7 +70,7 @@ Read [TRANSLATING.md](../../TRANSLATING.md) first.
 | 53 | on-ramp / buy with card | কার্ড দিয়ে কিনুন / ক্রিপ্টো কিনুন (Do not show the term 'on-ramp' to users.) | অন-র‍্যাম্প |
 | 54 | leaderboard | লিডারবোর্ড (Keep the loanword.) | নেতৃত্ব তালিকা |
 | 55 | perks | সুবিধা ('সুবিধা' is the everyday Bengali word for benefits. Bengali users do not say 'perks'.) | পার্কস |
-| 56 | earn (the product page where users earn yield) | Earn (page name, Latin script); আয় করুন (verb), e.g. '{{apy}} পর্যন্ত APY আয় করুন' (KuCoin bn uses the formal 'উপার্জন'. Bitget Wallet bn keeps 'Earn' in Latin script as a product name.) | উপার্জন |
+| 56 | earn (the product page where users earn yield) | আয় করুন (page name and verb, as the MEXC bn header uses), e.g. '{{apy}} পর্যন্ত APY আয় করুন' (Write the page name in Bengali script, not as a Latin 'Earn'. KuCoin bn uses the formal 'উপার্জন'.) | উপার্জন, Earn (as the page name) |
 | 57 | trigger price (limit orders) | ট্রিগার প্রাইস (Keep the loanword.) | উদ্দীপক মূল্য |
 | 58 | expiry / expires (orders) | মেয়াদ / '{{time}} পরে মেয়াদ শেষ হবে' (Use 'মেয়াদ শেষ' for 'Expired'.) | সমাপ্তি |
 
@@ -109,7 +109,7 @@ These terms are in use in the current texts. Use them for the same concepts.
 | funds | ফান্ড ('আপনার ফান্ড হারিয়ে যাবে', 'ফান্ড উইথড্র করার সময়'. Balance stays 'ব্যালেন্স' (term 45).) |
 | idle (tokens, assets) | অব্যবহৃত ('আপনার অব্যবহৃত টোকেন'. Not 'অলস' (lazy).) |
 | invalid | সঠিক নয় ('ওয়ালেট ঠিকানা বা ডোমেইন নাম সঠিক নয়'. Not 'অবৈধ' (illegal).) |
-| Jumper Earn (product name in notifications) | Jumper Earn (Kept in Latin script, as term 56 keeps the page name 'Earn'.) |
+| Jumper Earn (product name in notifications) | Jumper-এর 'আয় করুন' পেজ (Matches the page name in term 56. Hindi uses the same pattern: Jumper के 'कमाएं' पेज.) |
 | left / remaining (time, count) | বাকি ('{{count}} দিন বাকি', '({{remaining}} বার বাকি)'. Term 26 avoids 'বাকি' only for the pending status, which stays 'পেন্ডিং'.) |
 | level / rank / tier | লেভেল / র‍্যাঙ্ক / টিয়ার ('লেভেল {{level, number}}', 'সর্বোচ্চ টিয়ার'.) |
 | lockup / lock-up period | লক-আপ / লক-আপ সময়কাল (Label, tooltip and position card.) |
@@ -119,7 +119,7 @@ These terms are in use in the current texts. Use them for the same concepts.
 | message (to sign) | মেসেজ ('একটি মেসেজে স্বাক্ষর করুন'.) |
 | network cost | নেটওয়ার্ক ফি (Same label as network fee (term 8).) |
 | notification | নোটিফিকেশন ('{{count}}টি অপঠিত নোটিফিকেশন'.) |
-| opportunity (Earn) | সুযোগ ('এই সুযোগে বর্তমানে ডিপোজিট বন্ধ আছে', 'নতুন Earn সুযোগ: …'.) |
+| opportunity (Earn) | সুযোগ ('এই সুযোগে বর্তমানে ডিপোজিট বন্ধ আছে', 'আয়ের নতুন সুযোগ: …'.) |
 | order (limit or scheduled) | অর্ডার ('অর্ডার বাতিল করুন', 'অর্ডার রাখুন', 'শিডিউলড অর্ডার' (term 37).) |
 | Pass / Jumper Pass | Pass / Jumper Pass (Product name, kept in Latin script. 'পাস' also means passing an exam.) |
 | paused (order status, session) | পজ করা হয়েছে (Resume button is 'আবার চালু করুন', so it differs from Continue ('চালিয়ে যান').) |

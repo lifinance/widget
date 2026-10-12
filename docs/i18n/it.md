@@ -70,7 +70,7 @@ Read [TRANSLATING.md](../../TRANSLATING.md) first.
 | 53 | on-ramp / buy with card | Acquista con carta ; sezione: 'Acquista crypto' (Use 'Acquista' on the button.) | rampa, on-ramp (in un'etichetta) |
 | 54 | leaderboard | Classifica (Use 'Classifica' for the XP leaderboard.) | Tabella dei leader, Leaderboard |
 | 55 | perks | vantaggi (m. pl.) (Translate the feature as a common noun. Keep 'Perks' only in a fixed brand name.) | perks, benefit |
-| 56 | earn (the product page where users earn yield) | Earn (nome della pagina) ; verbo: 'guadagnare' (Keep 'Earn' as the page name, as OKX Wallet IT does, and translate the verb in sentences.) | Guadagna (come nome della pagina) |
+| 56 | earn (the product page where users earn yield) | Earn (nome della pagina) ; verbo: 'guadagnare' (Keep 'Earn' as the page name, as OKX, Bitget, Bybit EU, HTX and Crypto.com do in Italian, and translate the verb in sentences.) | Guadagna (come nome della pagina) |
 | 57 | trigger price (limit orders) | prezzo di attivazione (Use it for the price that starts a limit order.) | prezzo trigger, prezzo grilletto |
 | 58 | expiry / expires (orders) | scadenza (f.) ; 'Scade tra {{time}}' ; 'Scaduto' (Use 'Scade tra' for a countdown and 'Scaduto' for the final status.) | spirazione, termine |
 
