@@ -122,76 +122,76 @@
       "missingRouteRequiredAccount": "Hubungkan dompet {{chainName}} Anda untuk melanjutkan. {{address}}"
     },
     "routeIssue": {
-      "lookForReasons": "",
-      "useAmount": "",
-      "setSlippage": "",
-      "unaffordable": "",
+      "lookForReasons": "Berikut alasan utama yang kami temukan.",
+      "useAmount": "Gunakan {{suggested}} {{symbol}}",
+      "setSlippage": "Atur slippage ke {{slippage}}%",
+      "unaffordable": "Jumlah ini melebihi yang dapat dikirim dari dompet ini.",
       "amountTooLow": {
-        "title": "",
-        "description": "",
-        "descriptionUsd": "",
-        "descriptionEstimated": "",
-        "descriptionNoAmount": "",
-        "descriptionLocked": ""
+        "title": "Jumlah terlalu rendah",
+        "description": "Jumlah ini di bawah batas minimum rute ini. Coba sekitar {{suggested}} {{symbol}}, sedikit di atas minimum terendah yang kami temukan.",
+        "descriptionUsd": "Rute ini memerlukan minimal {{minUsd}}. Coba sekitar {{suggested}} {{symbol}}.",
+        "descriptionEstimated": "Jumlah ini di bawah batas minimum rute ini. Coba sekitar {{suggested}} {{symbol}} dan kami akan memeriksa lagi.",
+        "descriptionNoAmount": "Jumlah ini di bawah batas minimum rute ini. Coba jumlah yang lebih besar dan kami akan memeriksa lagi.",
+        "descriptionLocked": "Jumlah ini ditetapkan oleh aplikasi dan berada di bawah batas minimum rute ini."
       },
       "amountTooHigh": {
-        "title": "",
-        "description": "",
-        "descriptionUsd": "",
-        "descriptionNoAmount": "",
-        "descriptionLocked": ""
+        "title": "Jumlah terlalu tinggi",
+        "description": "Jumlah ini melebihi batas maksimum rute ini. Batas tertinggi yang kami temukan sekitar {{suggested}} {{symbol}}, jadi coba jumlah itu atau kurang.",
+        "descriptionUsd": "Jumlah ini melebihi batas maksimum rute ini. Batas tertinggi yang kami temukan sekitar {{maxUsd}}. Coba {{suggested}} {{symbol}} atau kurang.",
+        "descriptionNoAmount": "Jumlah ini melebihi batas maksimum rute ini. Coba jumlah yang lebih kecil dan kami akan memeriksa lagi.",
+        "descriptionLocked": "Jumlah ini ditetapkan oleh aplikasi dan melebihi batas maksimum rute ini."
       },
       "slippageTooTight": {
-        "title": "",
-        "description": "",
-        "descriptionSuggested": "",
-        "descriptionNoAmount": "",
-        "descriptionHidden": ""
+        "title": "Slippage terlalu rendah",
+        "description": "Rute ini memerlukan slippage minimal {{slippage}}%, lebih tinggi dari slippage saat ini.",
+        "descriptionSuggested": "Slippage saat ini lebih rendah dari batas minimum rute ini. Mengaturnya ke {{slippage}}% seharusnya dapat membantu.",
+        "descriptionNoAmount": "Slippage saat ini lebih rendah dari batas minimum rute ini. Coba slippage yang lebih tinggi.",
+        "descriptionHidden": "Slippage yang ditetapkan untuk order ini lebih rendah dari batas minimum rute ini."
       },
       "slippageTooLoose": {
-        "title": "",
-        "description": "",
-        "descriptionNoAmount": "",
-        "descriptionHidden": ""
+        "title": "Slippage terlalu tinggi",
+        "description": "Rute ini hanya menerima slippage hingga {{slippage}}%. Mengaturnya ke {{slippage}}% seharusnya dapat membantu.",
+        "descriptionNoAmount": "Slippage saat ini lebih tinggi dari batas maksimum rute ini. Coba slippage yang lebih rendah.",
+        "descriptionHidden": "Slippage yang ditetapkan untuk order ini lebih tinggi dari batas maksimum rute ini."
       },
       "destinationAccountNotReady": {
-        "title": "",
-        "description": "",
-        "descriptionStellarUnfunded": "",
-        "descriptionStellarTrustline": "",
-        "descriptionStellarReserve": "",
-        "descriptionLighterAccount": "",
-        "descriptionSeiLink": "",
-        "descriptionSolAccountRent": ""
+        "title": "Akun penerima belum siap",
+        "description": "Akun penerima harus disiapkan agar dapat menerima token ini. Setelah itu, periksa lagi.",
+        "descriptionStellarUnfunded": "Akun Stellar penerima belum aktif. Isi akun dengan XLM terlebih dahulu, atau pilih XLM sebagai token yang diterima.",
+        "descriptionStellarTrustline": "Akun Stellar penerima belum memiliki trustline untuk token ini. Buat trustline di dompet penerima, lalu periksa lagi.",
+        "descriptionStellarReserve": "Akun Stellar penerima tidak memiliki cukup XLM untuk cadangannya. Tambahkan XLM ke akun tersebut, lalu periksa lagi.",
+        "descriptionLighterAccount": "Alamat penerima belum memiliki akun Lighter. Buat akun di Lighter, lalu periksa lagi.",
+        "descriptionSeiLink": "Salah satu dompet dalam transfer ini belum ditautkan ke alamat SEI-nya. Tautkan di app.sei.io, lalu periksa lagi.",
+        "descriptionSolAccountRent": "Salah satu dompet Solana di transfer ini perlu SOL tambahan untuk membuat akun token. Tambahkan sedikit SOL, lalu periksa lagi."
       },
       "recipientNotSupported": {
-        "title": "",
-        "description": "",
-        "descriptionNoAction": "",
-        "action": ""
+        "title": "Penerima ini tidak didukung",
+        "description": "Rute ini tidak dapat mengirim ke smart contract atau alamat selain milik Anda. Mengirim ke dompet yang Anda gunakan untuk membayar biasanya berhasil.",
+        "descriptionNoAction": "Rute ini tidak dapat mengirim ke alamat ini. Coba token atau chain lain.",
+        "action": "Kirim ke alamat sendiri"
       },
       "gaslessNotAvailable": {
-        "title": "",
-        "description": ""
+        "title": "Layanan tanpa gas tidak tersedia",
+        "description": "Rute ini tidak dapat menanggung gas untuk Anda pada transfer ini. Coba token atau chain lain."
       },
       "blockedBySettings": {
-        "title": "",
-        "description": ""
+        "title": "Tidak tersedia di aplikasi ini",
+        "description": "Aplikasi ini tidak mengizinkan langkah yang diperlukan rute ini. Coba token atau chain lain."
       },
       "liquidity": {
-        "title": "",
-        "description": ""
+        "title": "Dampak harga terlalu tinggi",
+        "description": "Dampak harga pada jumlah ini melebihi batas yang diizinkan rute ini. Coba jumlah, token, atau chain lain."
       },
       "temporary": {
-        "title": "",
-        "description": "",
-        "descriptionGas": "",
-        "action": "",
-        "busy": ""
+        "title": "Sementara tidak tersedia",
+        "description": "Salah satu penyedia sedang sibuk atau dalam pemeliharaan. Biasanya ini teratasi dalam beberapa menit.",
+        "descriptionGas": "Biaya gas pada rute ini sedang melebihi batas yang diizinkan. Coba lagi saat biaya gas lebih rendah.",
+        "action": "Coba lagi",
+        "busy": "Memeriksa lagi…"
       },
       "pairNotSupported": {
-        "title": "",
-        "description": ""
+        "title": "Pasangan token ini tidak didukung",
+        "description": "Saat ini, tidak satu pun penyedia yang kami periksa dapat menghubungkan kedua token ini. Coba token atau chain lain."
       }
     },
     "title": {

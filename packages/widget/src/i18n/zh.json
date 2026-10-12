@@ -122,76 +122,76 @@
       "missingRouteRequiredAccount": "请连接您的 {{chainName}} 钱包以继续。{{address}}"
     },
     "routeIssue": {
-      "lookForReasons": "",
-      "useAmount": "",
-      "setSlippage": "",
-      "unaffordable": "",
+      "lookForReasons": "主要原因如下：",
+      "useAmount": "使用 {{suggested}} {{symbol}}",
+      "setSlippage": "将滑点设为 {{slippage}}%",
+      "unaffordable": "此钱包余额不足，无法发送该金额。",
       "amountTooLow": {
-        "title": "",
-        "description": "",
-        "descriptionUsd": "",
-        "descriptionEstimated": "",
-        "descriptionNoAmount": "",
-        "descriptionLocked": ""
+        "title": "金额过低",
+        "description": "当前金额低于这些路由的最低限额。建议改为约 {{suggested}} {{symbol}}，略高于已知的最低限额。",
+        "descriptionUsd": "这些路由至少需要 {{minUsd}}。建议改为约 {{suggested}} {{symbol}}。",
+        "descriptionEstimated": "当前金额低于这些路由的最低限额。建议改为约 {{suggested}} {{symbol}}，我们会重新查询。",
+        "descriptionNoAmount": "当前金额低于这些路由的最低限额。请输入更高的金额，我们会重新查询。",
+        "descriptionLocked": "当前金额由应用设定，低于这些路由的最低限额。"
       },
       "amountTooHigh": {
-        "title": "",
-        "description": "",
-        "descriptionUsd": "",
-        "descriptionNoAmount": "",
-        "descriptionLocked": ""
+        "title": "金额过高",
+        "description": "当前金额超出这些路由的最高限额。已知最高限额约为 {{suggested}} {{symbol}}，建议改为该金额或更低。",
+        "descriptionUsd": "当前金额超出这些路由的最高限额。已知最高限额约为 {{maxUsd}}。建议改为 {{suggested}} {{symbol}} 或更低。",
+        "descriptionNoAmount": "当前金额超出这些路由的最高限额。请输入更低的金额，我们会重新查询。",
+        "descriptionLocked": "当前金额由应用设定，超出这些路由的最高限额。"
       },
       "slippageTooTight": {
-        "title": "",
-        "description": "",
-        "descriptionSuggested": "",
-        "descriptionNoAmount": "",
-        "descriptionHidden": ""
+        "title": "滑点过低",
+        "description": "这些路由至少需要 {{slippage}}% 的滑点，高于当前滑点。",
+        "descriptionSuggested": "当前滑点低于这些路由的要求。将滑点设为 {{slippage}}% 应可解决此问题。",
+        "descriptionNoAmount": "当前滑点低于这些路由的要求。请调高滑点。",
+        "descriptionHidden": "此订单设置的滑点低于这些路由的要求。"
       },
       "slippageTooLoose": {
-        "title": "",
-        "description": "",
-        "descriptionNoAmount": "",
-        "descriptionHidden": ""
+        "title": "滑点过高",
+        "description": "这些路由最多允许 {{slippage}}% 的滑点。将滑点设为 {{slippage}}% 应可解决此问题。",
+        "descriptionNoAmount": "当前滑点超出这些路由允许的上限。请调低滑点。",
+        "descriptionHidden": "此订单设置的滑点超出这些路由允许的上限。"
       },
       "destinationAccountNotReady": {
-        "title": "",
-        "description": "",
-        "descriptionStellarUnfunded": "",
-        "descriptionStellarTrustline": "",
-        "descriptionStellarReserve": "",
-        "descriptionLighterAccount": "",
-        "descriptionSeiLink": "",
-        "descriptionSolAccountRent": ""
+        "title": "接收账户尚未就绪",
+        "description": "接收账户需先完成设置，才能接收此代币。完成后请重新查询。",
+        "descriptionStellarUnfunded": "Stellar 接收账户尚未激活。请先向该账户转入 XLM，或选择 XLM 作为接收代币。",
+        "descriptionStellarTrustline": "Stellar 接收账户尚未为此代币建立信任线。请在接收钱包中建立信任线，然后重新查询。",
+        "descriptionStellarReserve": "Stellar 接收账户中的 XLM 不足以满足最低储备要求。请向该账户转入 XLM，然后重新查询。",
+        "descriptionLighterAccount": "接收地址没有 Lighter 账户。请在 Lighter 上创建账户，然后重新查询。",
+        "descriptionSeiLink": "本次交易中的某个钱包尚未绑定其 SEI 地址。请在 app.sei.io 完成绑定，然后重新查询。",
+        "descriptionSolAccountRent": "本次交易中的某个 Solana 钱包 SOL 不足，无法创建代币账户。请转入一些 SOL，然后重新查询。"
       },
       "recipientNotSupported": {
-        "title": "",
-        "description": "",
-        "descriptionNoAction": "",
-        "action": ""
+        "title": "不支持此接收地址",
+        "description": "这些路由无法发送至合约地址或非本人地址。改为发送至付款钱包通常即可。",
+        "descriptionNoAction": "这些路由无法发送至此地址。请尝试其他代币或链。",
+        "action": "发送至我的地址"
       },
       "gaslessNotAvailable": {
-        "title": "",
-        "description": ""
+        "title": "免 Gas 不可用",
+        "description": "这些路由无法为本次交易代付 Gas。请尝试其他代币或链。"
       },
       "blockedBySettings": {
-        "title": "",
-        "description": ""
+        "title": "此应用中不可用",
+        "description": "此应用不允许这些路由所需的某个步骤。请尝试其他代币或链。"
       },
       "liquidity": {
-        "title": "",
-        "description": ""
+        "title": "价格影响过高",
+        "description": "按当前金额计算，价格影响超出这些路由允许的上限。请尝试其他金额、代币或链。"
       },
       "temporary": {
-        "title": "",
-        "description": "",
-        "descriptionGas": "",
-        "action": "",
-        "busy": ""
+        "title": "暂时不可用",
+        "description": "某个服务商繁忙或正在维护。通常几分钟内即可恢复。",
+        "descriptionGas": "这些路由当前的 Gas 费超出允许上限。请在 Gas 费降低后重试。",
+        "action": "重试",
+        "busy": "正在重新查询…"
       },
       "pairNotSupported": {
-        "title": "",
-        "description": ""
+        "title": "不支持此交易对",
+        "description": "已查询的服务商目前均无法为这两种代币提供路由。请尝试其他代币或链。"
       }
     },
     "title": {

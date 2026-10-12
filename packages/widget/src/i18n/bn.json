@@ -122,76 +122,76 @@
       "missingRouteRequiredAccount": "এগিয়ে যেতে আপনার {{chainName}} ওয়ালেট কানেক্ট করুন। {{address}}"
     },
     "routeIssue": {
-      "lookForReasons": "",
-      "useAmount": "",
-      "setSlippage": "",
-      "unaffordable": "",
+      "lookForReasons": "আমরা যে মূল কারণটি পেয়েছি, তা নিচে দেওয়া হলো।",
+      "useAmount": "{{suggested}} {{symbol}} ব্যবহার করুন",
+      "setSlippage": "স্লিপেজ {{slippage}}% সেট করুন",
+      "unaffordable": "এই ওয়ালেট থেকে আপনি এত পরিমাণ পাঠাতে পারবেন না।",
       "amountTooLow": {
-        "title": "",
-        "description": "",
-        "descriptionUsd": "",
-        "descriptionEstimated": "",
-        "descriptionNoAmount": "",
-        "descriptionLocked": ""
+        "title": "পরিমাণ খুব কম",
+        "description": "পরিমাণটি এই রুটগুলোর ন্যূনতম সীমার চেয়ে কম। প্রায় {{suggested}} {{symbol}} দিয়ে চেষ্টা করুন, যা আমাদের দেখা সবচেয়ে কম ন্যূনতম সীমার সামান্য বেশি।",
+        "descriptionUsd": "এই রুটগুলোর জন্য কমপক্ষে {{minUsd}} প্রয়োজন। প্রায় {{suggested}} {{symbol}} দিয়ে চেষ্টা করুন।",
+        "descriptionEstimated": "পরিমাণটি এই রুটগুলোর ন্যূনতম সীমার চেয়ে কম। প্রায় {{suggested}} {{symbol}} দিয়ে চেষ্টা করুন, আমরা আবার চেক করব।",
+        "descriptionNoAmount": "পরিমাণটি এই রুটগুলোর ন্যূনতম সীমার চেয়ে কম। আরও বেশি পরিমাণ দিয়ে চেষ্টা করুন, আমরা আবার চেক করব।",
+        "descriptionLocked": "এই পরিমাণ অ্যাপ নির্ধারণ করে দিয়েছে, এবং এটি এই রুটগুলোর ন্যূনতম সীমার চেয়ে কম।"
       },
       "amountTooHigh": {
-        "title": "",
-        "description": "",
-        "descriptionUsd": "",
-        "descriptionNoAmount": "",
-        "descriptionLocked": ""
+        "title": "পরিমাণ খুব বেশি",
+        "description": "পরিমাণটি এই রুটগুলোর সর্বোচ্চ সীমার চেয়ে বেশি। আমাদের দেখা সবচেয়ে বড় সীমা প্রায় {{suggested}} {{symbol}}, তাই এই পরিমাণ বা এর চেয়ে কম দিয়ে চেষ্টা করুন।",
+        "descriptionUsd": "পরিমাণটি এই রুটগুলোর সর্বোচ্চ সীমার চেয়ে বেশি। আমাদের দেখা সবচেয়ে বড় সীমা প্রায় {{maxUsd}}। {{suggested}} {{symbol}} বা এর চেয়ে কম দিয়ে চেষ্টা করুন।",
+        "descriptionNoAmount": "পরিমাণটি এই রুটগুলোর সর্বোচ্চ সীমার চেয়ে বেশি। আরও কম পরিমাণ দিয়ে চেষ্টা করুন, আমরা আবার চেক করব।",
+        "descriptionLocked": "এই পরিমাণ অ্যাপ নির্ধারণ করে দিয়েছে, এবং এটি এই রুটগুলোর সর্বোচ্চ সীমার চেয়ে বেশি।"
       },
       "slippageTooTight": {
-        "title": "",
-        "description": "",
-        "descriptionSuggested": "",
-        "descriptionNoAmount": "",
-        "descriptionHidden": ""
+        "title": "স্লিপেজ খুব কম",
+        "description": "এই রুটগুলোর জন্য কমপক্ষে {{slippage}}% স্লিপেজ প্রয়োজন, যা বর্তমান স্লিপেজের চেয়ে বেশি।",
+        "descriptionSuggested": "বর্তমান স্লিপেজ এই রুটগুলোর ন্যূনতম সীমার চেয়ে কম। স্লিপেজ {{slippage}}% সেট করলে কাজ হওয়ার কথা।",
+        "descriptionNoAmount": "বর্তমান স্লিপেজ এই রুটগুলোর ন্যূনতম সীমার চেয়ে কম। আরও বেশি স্লিপেজ দিয়ে চেষ্টা করুন।",
+        "descriptionHidden": "এই অর্ডারের জন্য সেট করা স্লিপেজ এই রুটগুলোর ন্যূনতম সীমার চেয়ে কম।"
       },
       "slippageTooLoose": {
-        "title": "",
-        "description": "",
-        "descriptionNoAmount": "",
-        "descriptionHidden": ""
+        "title": "স্লিপেজ খুব বেশি",
+        "description": "এই রুটগুলোতে স্লিপেজ সর্বোচ্চ {{slippage}}% হতে পারে। স্লিপেজ {{slippage}}% সেট করলে কাজ হওয়ার কথা।",
+        "descriptionNoAmount": "বর্তমান স্লিপেজ এই রুটগুলোর সর্বোচ্চ সীমার চেয়ে বেশি। আরও কম স্লিপেজ দিয়ে চেষ্টা করুন।",
+        "descriptionHidden": "এই অর্ডারের জন্য সেট করা স্লিপেজ এই রুটগুলোর সর্বোচ্চ সীমার চেয়ে বেশি।"
       },
       "destinationAccountNotReady": {
-        "title": "",
-        "description": "",
-        "descriptionStellarUnfunded": "",
-        "descriptionStellarTrustline": "",
-        "descriptionStellarReserve": "",
-        "descriptionLighterAccount": "",
-        "descriptionSeiLink": "",
-        "descriptionSolAccountRent": ""
+        "title": "প্রাপকের অ্যাকাউন্ট প্রস্তুত নয়",
+        "description": "এই টোকেন গ্রহণ করার আগে প্রাপকের অ্যাকাউন্ট সেট আপ করতে হবে। তারপর আবার চেক করুন।",
+        "descriptionStellarUnfunded": "প্রাপকের Stellar অ্যাকাউন্ট এখনো সক্রিয় নয়। প্রথমে এতে XLM পাঠান, অথবা গ্রহণ করার টোকেন হিসেবে XLM বেছে নিন।",
+        "descriptionStellarTrustline": "প্রাপকের Stellar অ্যাকাউন্টে এই টোকেনের জন্য কোনো ট্রাস্টলাইন নেই। প্রাপকের ওয়ালেটে একটি ট্রাস্টলাইন খুলুন, তারপর আবার চেক করুন।",
+        "descriptionStellarReserve": "রিজার্ভের জন্য প্রাপকের Stellar অ্যাকাউন্টে যথেষ্ট XLM নেই। এতে XLM যোগ করুন, তারপর আবার চেক করুন।",
+        "descriptionLighterAccount": "প্রাপকের ঠিকানায় কোনো Lighter অ্যাকাউন্ট নেই। Lighter-এ একটি অ্যাকাউন্ট তৈরি করুন, তারপর আবার চেক করুন।",
+        "descriptionSeiLink": "এই ট্রান্সফারের একটি ওয়ালেট তার SEI ঠিকানার সাথে লিংক করা নেই। app.sei.io-তে গিয়ে লিংক করুন, তারপর আবার চেক করুন।",
+        "descriptionSolAccountRent": "টোকেন অ্যাকাউন্ট খোলার জন্য এই ট্রান্সফারের একটি Solana ওয়ালেটে আরও SOL প্রয়োজন। কিছু SOL যোগ করুন, তারপর আবার চেক করুন।"
       },
       "recipientNotSupported": {
-        "title": "",
-        "description": "",
-        "descriptionNoAction": "",
-        "action": ""
+        "title": "এই প্রাপক সমর্থিত নয়",
+        "description": "এই রুটগুলো কোনো কন্ট্রাক্টে বা আপনার নিজের ঠিকানা ছাড়া অন্য কোনো ঠিকানায় পাঠাতে পারে না। যে ওয়ালেট থেকে পেমেন্ট করছেন, সেখানে পাঠালে সাধারণত কাজ হয়।",
+        "descriptionNoAction": "এই রুটগুলো এই ঠিকানায় পাঠাতে পারে না। অন্য একটি টোকেন বা চেইন দিয়ে চেষ্টা করুন।",
+        "action": "আমার নিজের ঠিকানায় পাঠান"
       },
       "gaslessNotAvailable": {
-        "title": "",
-        "description": ""
+        "title": "এখানে গ্যাসলেস উপলব্ধ নয়",
+        "description": "এই ট্রান্সফারে এই রুটগুলো আপনার হয়ে গ্যাস দিতে পারে না। অন্য একটি টোকেন বা চেইন দিয়ে চেষ্টা করুন।"
       },
       "blockedBySettings": {
-        "title": "",
-        "description": ""
+        "title": "এই অ্যাপে উপলব্ধ নয়",
+        "description": "এই অ্যাপ এই রুটগুলোর জন্য প্রয়োজনীয় একটি ধাপের অনুমতি দেয় না। অন্য একটি টোকেন বা চেইন দিয়ে চেষ্টা করুন।"
       },
       "liquidity": {
-        "title": "",
-        "description": ""
+        "title": "প্রাইস ইমপ্যাক্ট খুব বেশি",
+        "description": "এই পরিমাণে প্রাইস ইমপ্যাক্ট এই রুটগুলোর সর্বোচ্চ সীমার চেয়ে বেশি। অন্য একটি পরিমাণ, টোকেন বা চেইন দিয়ে চেষ্টা করুন।"
       },
       "temporary": {
-        "title": "",
-        "description": "",
-        "descriptionGas": "",
-        "action": "",
-        "busy": ""
+        "title": "সাময়িকভাবে উপলব্ধ নয়",
+        "description": "একটি প্রোভাইডার ব্যস্ত অথবা রক্ষণাবেক্ষণে আছে। সাধারণত কয়েক মিনিটের মধ্যে এটি ঠিক হয়ে যায়।",
+        "descriptionGas": "এই মুহূর্তে এই রুটগুলোর গ্যাস ফি সর্বোচ্চ সীমার চেয়ে বেশি। গ্যাস ফি কমলে আবার চেষ্টা করুন।",
+        "action": "আবার চেষ্টা করুন",
+        "busy": "আবার চেক করা হচ্ছে…"
       },
       "pairNotSupported": {
-        "title": "",
-        "description": ""
+        "title": "এই টোকেন পেয়ার সমর্থিত নয়",
+        "description": "আমরা যেসব প্রোভাইডারের কাছে খোঁজ নিয়েছি, তাদের কেউই এখন এই দুটি টোকেনের মধ্যে রুট দিতে পারছে না। অন্য একটি টোকেন বা চেইন দিয়ে চেষ্টা করুন।"
       }
     },
     "title": {
