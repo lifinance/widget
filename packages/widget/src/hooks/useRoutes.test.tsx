@@ -35,7 +35,7 @@ vi.mock('@lifi/wallet-management', () => ({
   useAccount: () => ({ account: mocks.account }),
 }))
 vi.mock('@lifi/widget-provider', () => ({
-  useChainTypeFromAddress: () => ({ getChainTypeFromAddress: () => 'EVM' }),
+  useAddressForChain: () => ({ isAddressForChain: () => true }),
   useEthereumContext: () => ({ disableMessageSigning: false }),
 }))
 vi.mock('../providers/SDKClientProvider.js', () => ({
@@ -179,7 +179,7 @@ const emittedRoutes = (): unknown[] =>
 beforeEach(() => {
   vi.clearAllMocks()
   latest = undefined
-  mocks.config = { mode: 'default', keyPrefix: 'test' }
+  mocks.config = { mode: 'default', storageScopeKey: 'test' }
   mocks.account = { address: '0xfrom' }
   mocks.fields = {
     fromChain: 1,
