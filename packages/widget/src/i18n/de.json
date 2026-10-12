@@ -122,76 +122,76 @@
       "missingRouteRequiredAccount": "Verbinde deine {{chainName}}-Wallet, um fortzufahren. {{address}}"
     },
     "routeIssue": {
-      "lookForReasons": "",
-      "useAmount": "",
-      "setSlippage": "",
-      "unaffordable": "",
+      "lookForReasons": "Das ist der Hauptgrund, den wir gefunden haben.",
+      "useAmount": "{{suggested}} {{symbol}} verwenden",
+      "setSlippage": "Slippage auf {{slippage}} % setzen",
+      "unaffordable": "Das ist mehr, als du von dieser Wallet senden kannst.",
       "amountTooLow": {
-        "title": "",
-        "description": "",
-        "descriptionUsd": "",
-        "descriptionEstimated": "",
-        "descriptionNoAmount": "",
-        "descriptionLocked": ""
+        "title": "Betrag zu niedrig",
+        "description": "Dieser Betrag liegt unter dem Mindestbetrag dieser Routen. Versuche es mit etwa {{suggested}} {{symbol}}, knapp über dem niedrigsten gefundenen Mindestbetrag.",
+        "descriptionUsd": "Diese Routen benötigen mindestens {{minUsd}}. Versuche es mit etwa {{suggested}} {{symbol}}.",
+        "descriptionEstimated": "Dieser Betrag liegt unter dem Mindestbetrag dieser Routen. Versuche es mit etwa {{suggested}} {{symbol}}, dann prüfen wir erneut.",
+        "descriptionNoAmount": "Dieser Betrag liegt unter dem Mindestbetrag dieser Routen. Versuche es mit einem höheren Betrag, dann prüfen wir erneut.",
+        "descriptionLocked": "Dieser Betrag ist von der App festgelegt und liegt unter dem Mindestbetrag dieser Routen."
       },
       "amountTooHigh": {
-        "title": "",
-        "description": "",
-        "descriptionUsd": "",
-        "descriptionNoAmount": "",
-        "descriptionLocked": ""
+        "title": "Betrag zu hoch",
+        "description": "Dieser Betrag liegt über dem Maximalbetrag dieser Routen. Das höchste gefundene Limit liegt bei etwa {{suggested}} {{symbol}}. Versuche es damit oder mit weniger.",
+        "descriptionUsd": "Dieser Betrag liegt über dem Maximalbetrag dieser Routen. Das höchste gefundene Limit liegt bei etwa {{maxUsd}}. Versuche es mit {{suggested}} {{symbol}} oder weniger.",
+        "descriptionNoAmount": "Dieser Betrag liegt über dem Maximalbetrag dieser Routen. Versuche es mit einem niedrigeren Betrag, dann prüfen wir erneut.",
+        "descriptionLocked": "Dieser Betrag ist von der App festgelegt und liegt über dem Maximalbetrag dieser Routen."
       },
       "slippageTooTight": {
-        "title": "",
-        "description": "",
-        "descriptionSuggested": "",
-        "descriptionNoAmount": "",
-        "descriptionHidden": ""
+        "title": "Slippage zu niedrig",
+        "description": "Diese Routen benötigen mindestens {{slippage}} % Slippage. Das ist mehr als die aktuell eingestellte Slippage.",
+        "descriptionSuggested": "Die aktuell eingestellte Slippage ist für diese Routen zu niedrig. Mit {{slippage}} % sollte es funktionieren.",
+        "descriptionNoAmount": "Die aktuell eingestellte Slippage ist für diese Routen zu niedrig. Versuche es mit einer höheren Slippage.",
+        "descriptionHidden": "Die vorgegebene Slippage ist für diese Routen zu niedrig."
       },
       "slippageTooLoose": {
-        "title": "",
-        "description": "",
-        "descriptionNoAmount": "",
-        "descriptionHidden": ""
+        "title": "Slippage zu hoch",
+        "description": "Diese Routen erlauben höchstens {{slippage}} % Slippage. Mit {{slippage}} % sollte es funktionieren.",
+        "descriptionNoAmount": "Die aktuell eingestellte Slippage ist für diese Routen zu hoch. Versuche es mit einer niedrigeren Slippage.",
+        "descriptionHidden": "Die vorgegebene Slippage ist für diese Routen zu hoch."
       },
       "destinationAccountNotReady": {
-        "title": "",
-        "description": "",
-        "descriptionStellarUnfunded": "",
-        "descriptionStellarTrustline": "",
-        "descriptionStellarReserve": "",
-        "descriptionLighterAccount": "",
-        "descriptionSeiLink": "",
-        "descriptionSolAccountRent": ""
+        "title": "Empfängerkonto nicht bereit",
+        "description": "Das Empfängerkonto muss eingerichtet sein, bevor es diesen Token empfangen kann. Versuche es danach erneut.",
+        "descriptionStellarUnfunded": "Das Stellar-Empfängerkonto ist noch nicht aktiv. Lade es zuerst mit XLM auf oder wähle XLM als Ziel-Token.",
+        "descriptionStellarTrustline": "Das Stellar-Empfängerkonto hat keine Trustline für diesen Token. Richte eine in der Empfänger-Wallet ein und versuche es dann erneut.",
+        "descriptionStellarReserve": "Das Stellar-Empfängerkonto hat zu wenig XLM für seine Reserve. Füge XLM hinzu und versuche es dann erneut.",
+        "descriptionLighterAccount": "Die Empfängeradresse hat kein Lighter-Konto. Erstelle eines bei Lighter und versuche es dann erneut.",
+        "descriptionSeiLink": "Eine Wallet in diesem Transfer ist nicht mit ihrer SEI-Adresse verknüpft. Verknüpfe sie auf app.sei.io und versuche es dann erneut.",
+        "descriptionSolAccountRent": "Eine Solana-Wallet in diesem Transfer braucht mehr SOL, um ein Token-Konto anzulegen. Füge etwas SOL hinzu und versuche es dann erneut."
       },
       "recipientNotSupported": {
-        "title": "",
-        "description": "",
-        "descriptionNoAction": "",
-        "action": ""
+        "title": "Empfänger nicht unterstützt",
+        "description": "Diese Routen können nicht an einen Contract oder an eine fremde Adresse senden. Als Empfänger funktioniert meist die Wallet, mit der du bezahlst.",
+        "descriptionNoAction": "Diese Routen können nicht an diese Adresse senden. Wähle einen anderen Token oder eine andere Chain.",
+        "action": "An eigene Adresse senden"
       },
       "gaslessNotAvailable": {
-        "title": "",
-        "description": ""
+        "title": "Gasfreier Transfer nicht verfügbar",
+        "description": "Diese Routen können das Gas für diesen Transfer nicht für dich übernehmen. Wähle einen anderen Token oder eine andere Chain."
       },
       "blockedBySettings": {
-        "title": "",
-        "description": ""
+        "title": "In dieser App nicht verfügbar",
+        "description": "Diese Routen benötigen einen Schritt, den diese App nicht erlaubt. Wähle einen anderen Token oder eine andere Chain."
       },
       "liquidity": {
-        "title": "",
-        "description": ""
+        "title": "Preisauswirkung zu hoch",
+        "description": "Bei diesem Betrag ist die Preisauswirkung höher, als diese Routen zulassen. Wähle einen anderen Betrag, Token oder eine andere Chain."
       },
       "temporary": {
-        "title": "",
-        "description": "",
-        "descriptionGas": "",
-        "action": "",
-        "busy": ""
+        "title": "Vorübergehend nicht verfügbar",
+        "description": "Ein Anbieter ist ausgelastet oder wird gewartet. Das ist meist nach wenigen Minuten behoben.",
+        "descriptionGas": "Die Netzwerkgebühren dieser Routen liegen gerade über dem zulässigen Limit. Versuche es erneut, wenn sie gesunken sind.",
+        "action": "Erneut versuchen",
+        "busy": "Wird erneut geprüft…"
       },
       "pairNotSupported": {
-        "title": "",
-        "description": ""
+        "title": "Token-Paar nicht unterstützt",
+        "description": "Keiner der angefragten Anbieter kann diese beiden Token gerade verbinden. Wähle einen anderen Token oder eine andere Chain."
       }
     },
     "title": {
