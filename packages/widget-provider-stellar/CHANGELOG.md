@@ -1,5 +1,17 @@
 # @lifi/widget-provider-stellar
 
+## 4.2.5
+
+### Patch Changes
+
+- [#909](https://github.com/lifinance/widget/pull/909) [`ba24a56`](https://github.com/lifinance/widget/commit/ba24a564b803b4960bf22529d1cb72bb2d35ecbd) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.12.1. `fetchTxErrorDetails` now checks the transaction hash and the chain ID before it sends a request to Tenderly.
+
+- [#909](https://github.com/lifinance/widget/pull/909) [`ba24a56`](https://github.com/lifinance/widget/commit/ba24a564b803b4960bf22529d1cb72bb2d35ecbd) Thanks [@chybisov](https://github.com/chybisov)! - Update the LI.FI SDK providers to latest: `@lifi/sdk-provider-bitcoin` 4.1.2, `@lifi/sdk-provider-ethereum` 4.2.9, `@lifi/sdk-provider-solana` 4.3.6, `@lifi/sdk-provider-stellar` 4.3.10, `@lifi/sdk-provider-sui` 4.2.10, `@lifi/sdk-provider-tron` 4.1.9 and `@lifi/sdk-provider-zcash` 4.0.2. The Solana provider now confirms a Jito bundle by the signatures of its transactions, not by the `sendBundle` answer.
+
+- [#909](https://github.com/lifinance/widget/pull/909) [`ba24a56`](https://github.com/lifinance/widget/commit/ba24a564b803b4960bf22529d1cb72bb2d35ecbd) Thanks [@chybisov](https://github.com/chybisov)! - Update `@creit.tech/stellar-wallets-kit` to 2.7.1.
+- Updated dependencies [[`ba24a56`](https://github.com/lifinance/widget/commit/ba24a564b803b4960bf22529d1cb72bb2d35ecbd)]:
+  - @lifi/widget-provider@4.6.2
+
 ## 4.2.4
 
 ### Patch Changes

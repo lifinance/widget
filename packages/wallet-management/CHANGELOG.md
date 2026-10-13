@@ -1,5 +1,17 @@
 # @lifi/wallet-management
 
+## 4.3.4
+
+### Patch Changes
+
+- [#909](https://github.com/lifinance/widget/pull/909) [`ba24a56`](https://github.com/lifinance/widget/commit/ba24a564b803b4960bf22529d1cb72bb2d35ecbd) Thanks [@chybisov](https://github.com/chybisov)! - Update `i18next` to 26.4.4.
+
+- [#909](https://github.com/lifinance/widget/pull/909) [`ba24a56`](https://github.com/lifinance/widget/commit/ba24a564b803b4960bf22529d1cb72bb2d35ecbd) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.12.1. `fetchTxErrorDetails` now checks the transaction hash and the chain ID before it sends a request to Tenderly.
+
+- [#909](https://github.com/lifinance/widget/pull/909) [`ba24a56`](https://github.com/lifinance/widget/commit/ba24a564b803b4960bf22529d1cb72bb2d35ecbd) Thanks [@chybisov](https://github.com/chybisov)! - Update `@mui/material`, `@mui/system` and `@mui/icons-material` to 9.5.0.
+- Updated dependencies [[`ba24a56`](https://github.com/lifinance/widget/commit/ba24a564b803b4960bf22529d1cb72bb2d35ecbd)]:
+  - @lifi/widget-provider@4.6.2
+
 ## 4.3.3
 
 ### Patch Changes
