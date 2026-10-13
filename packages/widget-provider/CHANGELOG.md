@@ -1,5 +1,11 @@
 # @lifi/widget-provider
 
+## 4.6.2
+
+### Patch Changes
+
+- [#909](https://github.com/lifinance/widget/pull/909) [`ba24a56`](https://github.com/lifinance/widget/commit/ba24a564b803b4960bf22529d1cb72bb2d35ecbd) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.12.1. `fetchTxErrorDetails` now checks the transaction hash and the chain ID before it sends a request to Tenderly.
+
 ## 4.6.1
 
 ### Patch Changes
