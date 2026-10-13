@@ -31,8 +31,8 @@ overrides:
   # Held at 0.26.0. 0.28.0 regressed for us; an override (not just the specifier)
   # is what stops the next `pnpm update --latest` from silently taking it again.
   vite-plugin-node-polyfills: "0.26.0"
-  # GHSA-f88m-g3jw-g9cj — libvips flaws; next@15 still resolves 0.34.x.
-  sharp: ">=0.35.0"
+  # GHSA-wq5f-xc86-pv6w (librsvg) affects sharp <0.35.5. @dynamic-labs/iconic 5.10.0 pins 0.35.4.
+  "sharp@<0.35.5": ">=0.35.5"
   # wagmi pins 1.4.0 and valtio pins 1.2.0, while react-i18next and @tanstack/react-store
   # need ^1.6.0. One override keeps a single copy.
   use-sync-external-store: "1.7.0"

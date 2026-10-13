@@ -172,7 +172,7 @@ overrides:
   bs58: '>=4.0.1'
   preact: '>=10.29.1'
   vite-plugin-node-polyfills: 0.26.0
-  sharp: '>=0.35.0'
+  sharp@<0.35.5: '>=0.35.5'
   use-sync-external-store: 1.7.0
   utf-8-validate: 6.0.6
   zod: '>=4.4.3'
