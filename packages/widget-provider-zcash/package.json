@@ -37,8 +37,8 @@
     "zec"
   ],
   "dependencies": {
-    "@lifi/sdk": "^4.12.0",
-    "@lifi/sdk-provider-zcash": "^4.0.1",
+    "@lifi/sdk": "^4.12.1",
+    "@lifi/sdk-provider-zcash": "^4.0.2",
     "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {
@@ -49,6 +49,6 @@
     "madge": "^8.0.0",
     "react": "^19.3.0",
     "typescript": "^7.0.2",
-    "vitest": "^5.0.1"
+    "vitest": "^5.0.4"
   }
 }

@@ -13,7 +13,7 @@
     "@sveltejs/vite-plugin-svelte": "^7.3.1",
     "@tsconfig/svelte": "^5.0.8",
     "@types/events": "^3.0.3",
-    "@types/node": "^26.6.4",
+    "@types/node": "^26.6.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "svelte": "^5.57.2",
@@ -21,11 +21,11 @@
     "svelte-preprocess": "^6.0.5",
     "tslib": "^2.8.1",
     "typescript": "^6.0.3",
-    "vite": "^8.3.3",
+    "vite": "^8.3.4",
     "vite-plugin-node-polyfills": "^0.26.0"
   },
   "dependencies": {
-    "@lifi/widget": "4.8.0",
+    "@lifi/widget": "4.10.1",
     "react": "^19.3.0",
     "react-dom": "^19.3.0"
   }

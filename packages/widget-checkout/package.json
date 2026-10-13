@@ -50,17 +50,17 @@
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^4.12.0",
+    "@lifi/sdk": "^4.12.1",
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget": "workspace:*",
     "@lifi/widget-provider": "workspace:*",
     "@lifi/widget-provider-mesh": "workspace:*",
-    "@mui/icons-material": "^9.4.0",
-    "@mui/material": "^9.4.0",
-    "@mui/system": "^9.4.0",
-    "@tanstack/react-router": "^1.170.41",
-    "i18next": "^26.4.2",
-    "motion": "^14.0.0",
+    "@mui/icons-material": "^9.5.0",
+    "@mui/material": "^9.5.0",
+    "@mui/system": "^9.5.0",
+    "@tanstack/react-router": "^1.170.42",
+    "i18next": "^26.4.4",
+    "motion": "^14.1.0",
     "qrcode.react": "^4.2.0",
     "react-i18next": "^17.0.16",
     "zustand": "^5.0.15"
@@ -68,13 +68,13 @@
   "devDependencies": {
     "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
-    "@types/node": "^26.6.4",
-    "happy-dom": "^20.14.5",
+    "@types/node": "^26.6.5",
+    "happy-dom": "^21.0.1",
     "madge": "^8.0.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
     "typescript": "^7.0.2",
-    "vitest": "^5.0.3"
+    "vitest": "^5.0.4"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0",

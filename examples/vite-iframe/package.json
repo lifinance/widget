@@ -14,7 +14,7 @@
     "@bigmi/react": "^0.9.5",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@lifi/sdk": "^4.12.0",
+    "@lifi/sdk": "^4.12.1",
     "@lifi/wallet-management": "workspace:*",
     "@lifi/widget-light": "workspace:*",
     "@lifi/widget-provider": "workspace:*",
@@ -22,9 +22,9 @@
     "@lifi/widget-provider-ethereum": "workspace:*",
     "@lifi/widget-provider-solana": "workspace:*",
     "@lifi/widget-provider-sui": "workspace:*",
-    "@mui/material": "^9.4.0",
+    "@mui/material": "^9.5.0",
     "@mysten/dapp-kit-react": "^2.1.39",
-    "@tanstack/react-query": "^5.104.1",
+    "@tanstack/react-query": "^5.104.2",
     "@wagmi/connectors": "^8.2.0",
     "bs58": ">=4.0.1",
     "react": "^19.3.0",
@@ -33,12 +33,12 @@
     "wagmi": "^3.7.7"
   },
   "devDependencies": {
-    "@types/node": "^26.6.4",
+    "@types/node": "^26.6.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
     "typescript": "^7.0.2",
-    "vite": "^8.3.3",
+    "vite": "^8.3.4",
     "vite-plugin-node-polyfills": "^0.26.0"
   }
 }
