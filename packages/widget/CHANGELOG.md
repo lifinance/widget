@@ -1,5 +1,126 @@
 # @lifi/widget
 
+## 4.10.2
+
+### Patch Changes
+
+- [#909](https://github.com/lifinance/widget/pull/909) [`ba24a56`](https://github.com/lifinance/widget/commit/ba24a564b803b4960bf22529d1cb72bb2d35ecbd) Thanks [@chybisov](https://github.com/chybisov)! - Update `i18next` to 26.4.4.
+
+- [#909](https://github.com/lifinance/widget/pull/909) [`ba24a56`](https://github.com/lifinance/widget/commit/ba24a564b803b4960bf22529d1cb72bb2d35ecbd) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.12.1. `fetchTxErrorDetails` now checks the transaction hash and the chain ID before it sends a request to Tenderly.
+
+- [#909](https://github.com/lifinance/widget/pull/909) [`ba24a56`](https://github.com/lifinance/widget/commit/ba24a564b803b4960bf22529d1cb72bb2d35ecbd) Thanks [@chybisov](https://github.com/chybisov)! - Update `motion` to 14.1.0.
+
+- [#909](https://github.com/lifinance/widget/pull/909) [`ba24a56`](https://github.com/lifinance/widget/commit/ba24a564b803b4960bf22529d1cb72bb2d35ecbd) Thanks [@chybisov](https://github.com/chybisov)! - Update `@mui/material`, `@mui/system` and `@mui/icons-material` to 9.5.0.
+
+- [#909](https://github.com/lifinance/widget/pull/909) [`ba24a56`](https://github.com/lifinance/widget/commit/ba24a564b803b4960bf22529d1cb72bb2d35ecbd) Thanks [@chybisov](https://github.com/chybisov)! - Update `@tanstack/react-router` to 1.170.42.
+
+- [#909](https://github.com/lifinance/widget/pull/909) [`ba24a56`](https://github.com/lifinance/widget/commit/ba24a564b803b4960bf22529d1cb72bb2d35ecbd) Thanks [@chybisov](https://github.com/chybisov)! - Update `@tanstack/react-virtual` to 3.14.17.
+- Updated dependencies [[`ba24a56`](https://github.com/lifinance/widget/commit/ba24a564b803b4960bf22529d1cb72bb2d35ecbd), [`ba24a56`](https://github.com/lifinance/widget/commit/ba24a564b803b4960bf22529d1cb72bb2d35ecbd), [`ba24a56`](https://github.com/lifinance/widget/commit/ba24a564b803b4960bf22529d1cb72bb2d35ecbd)]:
+  - @lifi/wallet-management@4.3.4
+  - @lifi/widget-provider@4.6.2
+
+## 4.10.1
+
+### Patch Changes
+
+- [#902](https://github.com/lifinance/widget/pull/902) [`8919674`](https://github.com/lifinance/widget/commit/89196746514ebb457139195aaed08a2ae8c38ed3) Thanks [@chybisov](https://github.com/chybisov)! - Complete the translations for all 16 languages and remove 52 unused i18n keys (most of them under `checkout.*` and `main.step*`). If you override a removed key in `languageResources`, delete that override.
+
+- [#903](https://github.com/lifinance/widget/pull/903) [`4458495`](https://github.com/lifinance/widget/commit/4458495061371d770ba48ff856cb0feecf0c6357) Thanks [@chybisov](https://github.com/chybisov)! - After a wallet rejects a batched swap and the page reloads, the failed route shows why it cannot continue. When the wallet has no record of a batched transaction, the failed route offers "Delete" and "Start a new swap". It does not offer "Try again", because "Try again" waits for the same transaction again. "Start a new swap" fills the form with the same swap. If the widget cannot start the same swap again, the failed route offers only "Delete".
+
+- [#903](https://github.com/lifinance/widget/pull/903) [`4458495`](https://github.com/lifinance/widget/commit/4458495061371d770ba48ff856cb0feecf0c6357) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.12.0 and the LI.FI SDK providers to latest: `@lifi/sdk-provider-bitcoin` 4.1.1, `@lifi/sdk-provider-ethereum` 4.2.8, `@lifi/sdk-provider-solana` 4.3.5, `@lifi/sdk-provider-stellar` 4.3.9, `@lifi/sdk-provider-sui` 4.2.9, `@lifi/sdk-provider-tron` 4.1.8 and `@lifi/sdk-provider-zcash` 4.0.1. After a user rejects a batched swap in MetaMask, "Try again" asks for a new signature again.
+- Updated dependencies [[`8919674`](https://github.com/lifinance/widget/commit/89196746514ebb457139195aaed08a2ae8c38ed3), [`4458495`](https://github.com/lifinance/widget/commit/4458495061371d770ba48ff856cb0feecf0c6357)]:
+  - @lifi/wallet-management@4.3.3
+  - @lifi/widget-provider@4.6.1
+
+## 4.10.0
+
+### Minor Changes
+
+- [#899](https://github.com/lifinance/widget/pull/899) [`7cff29f`](https://github.com/lifinance/widget/commit/7cff29ff627f162c0adb95f3f9fcb008101ba95b) Thanks [@chybisov](https://github.com/chybisov)! - The token details card shows a Status line with the token's verification icon from the list and what its Hypernative verdict means.
+
+## 4.9.0
+
+### Minor Changes
+
+- [#884](https://github.com/lifinance/widget/pull/884) [`97e59c5`](https://github.com/lifinance/widget/commit/97e59c58c719805198e030a14fbe72fabde010c8) Thanks [@chybisov](https://github.com/chybisov)! - ZEC is a destination-only chain. It never appears as a source chain or source token, and a `fromChain` of ZEC from the widget config or the URL is ignored. A ZEC receiver must be a transparent Zcash address (`t1…` or `t3…`) or a unified address (`u1…`) with an Orchard receiver; Sapling, TEX and other unified addresses get a message that names the accepted formats. The address inputs take up to 512 characters, so a unified address fits.
+  
+  Receivers are now checked against the destination chain, not only its chain type, so a Bitcoin address no longer passes as a ZEC receiver. A connected Bitcoin wallet is never filled in, offered, seeded or priced as a ZEC receiver, and a BTC → ZEC route asks for a receiver. Bookmarks of other ecosystems still save as before, and a Zcash bookmark shows the Zcash icon. The reverse and swap controls stay hidden while the destination chain is not allowed as a source by `chains.from`, so they never select a source chain the config excludes.
+  
+  `@lifi/widget-provider` exports `useAddressForChain`, which returns `isAddressForChain(address, chain)`, and the `ChainRef` and `IsAddressForChain` types. Every package that depends on the SDK requires the release whose `isAddress` accepts a chain ID, so a consumer keeps a single `@lifi/sdk`. The widget now passes the chain ID to each provider's `isAddress`, so upgrade the `@lifi/widget-provider-*` packages together with `@lifi/widget`: an older `@lifi/widget-provider-bitcoin` refuses every Bitcoin receiver and hides Bitcoin balances. `name` and `version` exported from `@lifi/widget` stay the widget's own now that `@lifi/sdk` exports the same names.
+
+- [#884](https://github.com/lifinance/widget/pull/884) [`97e59c5`](https://github.com/lifinance/widget/commit/97e59c58c719805198e030a14fbe72fabde010c8) Thanks [@chybisov](https://github.com/chybisov)! - New package `@lifi/widget-provider-zcash`. Add `ZcashProvider()` to `providers` to offer ZEC as a destination; without it the widget shows no ZEC, because no ZEC receiver could be validated. With external wallet management the widget ignores `providers`, so render the component that `ZcashProvider()` returns around the widget, next to the other ecosystem providers. `@lifi/widget-provider` exports `ZcashContext` and `useZcashContext`, asks the provider that serves a chain for receiver checks, and recognises a Zcash address without a chain, so a Zcash bookmark keeps the Zcash icon.
+
+### Patch Changes
+
+- [#884](https://github.com/lifinance/widget/pull/884) [`97e59c5`](https://github.com/lifinance/widget/commit/97e59c58c719805198e030a14fbe72fabde010c8) Thanks [@chybisov](https://github.com/chybisov)! - A token pick that moves the destination chain, for example from "All networks", now resets a receiver the new chain cannot take, as the chain select already does.
+
+- [#896](https://github.com/lifinance/widget/pull/896) [`10d954a`](https://github.com/lifinance/widget/commit/10d954aaa9d4cc125c08045c0dd872d2549ec753) Thanks [@chybisov](https://github.com/chybisov)! - Update `react-i18next` to 17.0.16.
+
+- [#896](https://github.com/lifinance/widget/pull/896) [`10d954a`](https://github.com/lifinance/widget/commit/10d954aaa9d4cc125c08045c0dd872d2549ec753) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.11.0. A resumed route no longer signs a second transaction while the first one may still land.
+
+- [#896](https://github.com/lifinance/widget/pull/896) [`10d954a`](https://github.com/lifinance/widget/commit/10d954aaa9d4cc125c08045c0dd872d2549ec753) Thanks [@chybisov](https://github.com/chybisov)! - Update `motion` to 14.0.0.
+
+- [#896](https://github.com/lifinance/widget/pull/896) [`10d954a`](https://github.com/lifinance/widget/commit/10d954aaa9d4cc125c08045c0dd872d2549ec753) Thanks [@chybisov](https://github.com/chybisov)! - Update `@tanstack/react-router` to 1.170.41.
+- Updated dependencies [[`10d954a`](https://github.com/lifinance/widget/commit/10d954aaa9d4cc125c08045c0dd872d2549ec753), [`10d954a`](https://github.com/lifinance/widget/commit/10d954aaa9d4cc125c08045c0dd872d2549ec753), [`97e59c5`](https://github.com/lifinance/widget/commit/97e59c58c719805198e030a14fbe72fabde010c8), [`97e59c5`](https://github.com/lifinance/widget/commit/97e59c58c719805198e030a14fbe72fabde010c8)]:
+  - @lifi/wallet-management@4.3.2
+  - @lifi/widget-provider@4.6.0
+
+## 4.8.0
+
+### Minor Changes
+
+- [#891](https://github.com/lifinance/widget/pull/891) [`0b3811c`](https://github.com/lifinance/widget/commit/0b3811ce2492b385219659632fd157b3b4923c57) Thanks [@chybisov](https://github.com/chybisov)! - Split `keyPrefix` into `storageScopeKey` and `queryScopeKey`, and publish shared
+  query options at `@lifi/widget/queries`.
+  
+  `keyPrefix` did two unrelated jobs: it named the widget's persisted stores in
+  `localStorage`, which belong to one widget instance, and it prefixed every
+  react-query key, which scopes data inside the host's `QueryClient`. One field
+  cannot have both granularities, so a host app and the widget could never share
+  server data such as chains and tools.
+  
+  - `storageScopeKey` namespaces persisted state — bookmarks, pinned tokens,
+    recent tokens, chain order and route history, the stores `keyPrefix` named.
+    Store names are unchanged, so moving a value from `keyPrefix` to
+    `storageScopeKey` keeps every user's saved data. Settings keep their one
+    shared name. It also scopes the widget's other queries.
+  - `queryScopeKey` scopes the chains and tools queries. Instances and a host app
+    that pass the same value share those entries.
+  - `keyPrefix` is deprecated and stays the fallback for both: nothing changes for
+    an integration that keeps using it. With neither set, the query scope defaults
+    to `'li.fi'`.
+  
+  `@lifi/widget/queries` exports `getChainsQueryOptions` and
+  `getToolsQueryOptions` (plus their key builders), following wagmi's
+  `@wagmi/core/query` convention: keys are `['chains', { apiUrl, chainTypes,
+  scopeKey }]` and `['tools', { apiUrl, scopeKey }]`, the `queryFn` reads its
+  parameters from the key, and caller behaviour (`staleTime`, `select`, …) goes in
+  `query` and never into the key. The subpath depends only on `@lifi/sdk` at
+  runtime, so a host can import it without loading the widget.
+  
+  The widget's chains and tools queries now use these factories. Their cache
+  entries hold the raw response; tools are narrowed per widget with `select`.
+  The widget's internal query keys are not public API, but an integration that
+  invalidated them by reconstructing the old `${keyPrefix}-widget-chains` string
+  must switch to `getChainsQueryKey` / `getToolsQueryKey`.
+  
+  `@lifi/widget-checkout` names its bookmarks store from the same storage scope,
+  and `@lifi/widget-light` accepts `storageScopeKey`.
+
+### Patch Changes
+
+- [#891](https://github.com/lifinance/widget/pull/891) [`0b3811c`](https://github.com/lifinance/widget/commit/0b3811ce2492b385219659632fd157b3b4923c57) Thanks [@chybisov](https://github.com/chybisov)! - The token list and the token search request up to 1100 tokens per chain (was 1000), with the same parameters in both requests.
+
+- [#891](https://github.com/lifinance/widget/pull/891) [`0b3811c`](https://github.com/lifinance/widget/commit/0b3811ce2492b385219659632fd157b3b4923c57) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.10.0 and the chain providers together: `@lifi/sdk-provider-bitcoin` 4.0.15, `@lifi/sdk-provider-ethereum` 4.2.4, `@lifi/sdk-provider-solana` 4.3.1, `@lifi/sdk-provider-stellar` 4.3.5, `@lifi/sdk-provider-sui` 4.2.5 and `@lifi/sdk-provider-tron` 4.1.5. Concurrent `getChains` and `getTokens` calls from clients on different API bases no longer share one response, and a caller that aborts a shared request no longer fails the others. `WidgetConfig.sdkConfig.rpcUrls` also accepts per-role lists (`{ read, write, bundle }`); the Solana provider sends transactions and Jito bundles through them. A rejected Solana signature shows as `SignatureRejected` instead of `UnknownError`.
+- Updated dependencies [[`0b3811c`](https://github.com/lifinance/widget/commit/0b3811ce2492b385219659632fd157b3b4923c57)]:
+  - @lifi/wallet-management@4.3.1
+  - @lifi/widget-provider@4.5.1
+
+## 4.7.1
+
+### Patch Changes
+
+- [#886](https://github.com/lifinance/widget/pull/886) [`8fa79be`](https://github.com/lifinance/widget/commit/8fa79be46522c18979b48ad328d3d7d6db7d298c) Thanks [@chybisov](https://github.com/chybisov)! - Only open or link explorer URLs that use `http:` or `https:`, and open explorer tabs with `noopener,noreferrer`.
+
 ## 4.7.0
 
 ### Minor Changes

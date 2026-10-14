@@ -51,19 +51,22 @@
     ]
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.14",
+    "@biomejs/biome": "^2.5.15",
     "@changesets/changelog-github": "^1.0.1",
     "@changesets/cli": "^3.0.3",
     "@commitlint/cli": "^21.2.3",
     "@commitlint/config-conventional": "^21.2.3",
-    "@types/node": "^26.6.2",
+    "@size-limit/esbuild": "^14.2.0",
+    "@size-limit/file": "^14.2.0",
+    "@types/node": "^26.6.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
-    "fs-extra": "^11.4.0",
+    "fs-extra": "^11.4.1",
     "husky": "^9.1.7",
-    "knip": "^6.37.0",
-    "lint-staged": "^17.5.1",
-    "tsdown": "^0.23.0",
+    "knip": "^6.41.0",
+    "lint-staged": "^17.6.0",
+    "size-limit": "^14.2.0",
+    "tsdown": "^0.23.1",
     "typescript": "^7.0.2"
   },
   "optionalDependencies": {
@@ -75,5 +78,5 @@
     "ioredis": "^6.0.0",
     "ws": ">=8.21.1"
   },
-  "packageManager": "pnpm@12.5.1+sha512.e3f305bc784a2bc89f5ad3b6138889470fae8d2af5f36b61216ec91c2c3d64089775f9de38aac331044ea40f245cb0d5666392dfdf65824e1907ef6a2c62de5f"
+  "packageManager": "pnpm@12.11.2+sha512.25a51652a196785af5f28bda6dfe8dc582ebefa4ac1d180221ce1390231c5fb76637822ea4b6e4633ce74acdcb0a77f725af11bad38177fdeddaee818a955cb9"
 }

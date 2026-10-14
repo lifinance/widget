@@ -14,7 +14,7 @@ export const useGasRecommendation = (
   fromToken?: string
 ): UseQueryResult<Awaited<ReturnType<typeof getGasRecommendation>> | null> => {
   const { chains } = useAvailableChains()
-  const { keyPrefix, hiddenUI } = useWidgetConfig()
+  const { storageScopeKey, hiddenUI } = useWidgetConfig()
   const sdkClient = useSDKClient()
 
   const checkRecommendationLiFuel =
@@ -28,7 +28,7 @@ export const useGasRecommendation = (
 
   return useQuery({
     queryKey: [
-      getQueryKey('gas-recommendation', keyPrefix),
+      getQueryKey('gas-recommendation', storageScopeKey),
       toChainId,
       fromChain,
       fromToken,

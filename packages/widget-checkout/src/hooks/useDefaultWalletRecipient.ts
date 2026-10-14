@@ -1,6 +1,7 @@
 'use client'
 import { useAccount } from '@lifi/wallet-management'
 import { useChain, useWidgetConfig } from '@lifi/widget/shared'
+import { useAddressForChain } from '@lifi/widget-provider'
 import { useEffect, useRef } from 'react'
 import { useCheckoutFlowStore } from '../stores/useCheckoutFlowStore.js'
 import { useResolvedCheckoutRecipient } from './useResolvedCheckoutRecipient.js'
@@ -18,6 +19,7 @@ export function useDefaultWalletRecipient(): void {
   const { isUserSettable, isUserSet, setUserRecipient } =
     useResolvedCheckoutRecipient()
   const { accounts } = useAccount()
+  const { isAddressForChain } = useAddressForChain()
   const seededRef = useRef(false)
 
   useEffect(() => {
@@ -32,7 +34,9 @@ export function useDefaultWalletRecipient(): void {
     }
     const match = accounts.find(
       (a) =>
-        a.isConnected && a.address && a.chainType === destinationChain.chainType
+        a.isConnected &&
+        a.address &&
+        isAddressForChain(a.address, destinationChain)
     )
     if (match?.address) {
       seededRef.current = true
@@ -48,5 +52,6 @@ export function useDefaultWalletRecipient(): void {
     destinationChain,
     accounts,
     setUserRecipient,
+    isAddressForChain,
   ])
 }

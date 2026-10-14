@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { getTokenKey } from '../../stores/recentTokens/utils.js'
+import type { TokenAmount } from '../../types/token.js'
 import { isHoistableNative } from '../../utils/tokenList.js'
 import { createBandResolver } from '../../utils/tokenListBands.js'
 import { RecentTokensHeader } from './RecentTokensHeader.js'
@@ -53,12 +54,8 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
   const tokenDetailsSheetRef = useRef<TokenDetailsSheetBase>(null)
 
   const onShowTokenDetails = useCallback(
-    (tokenAddress: string, noContractAddress: boolean, chainId: number) => {
-      tokenDetailsSheetRef.current?.open(
-        tokenAddress,
-        noContractAddress,
-        chainId
-      )
+    (token: TokenAmount, noContractAddress: boolean) => {
+      tokenDetailsSheetRef.current?.open(token, noContractAddress)
     },
     []
   )

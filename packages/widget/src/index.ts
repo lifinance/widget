@@ -8,13 +8,14 @@ export * from './components/ContractComponent/NFT/NFTBase.js'
 export * from './components/ContractComponent/NFT/types.js'
 export * from './components/Skeleton/WidgetSkeleton.js'
 export { defaultMaxHeight } from './config/constants.js'
-export * from './config/version.js'
+export { name, version } from './config/version.js'
 export { useWidgetChains } from './hooks/useWidgetChains.js'
 export {
   useWidgetEvents,
   type WidgetEventEmitter,
   widgetEvents,
 } from './hooks/useWidgetEvents.js'
+export * from './queries/index.js'
 export * from './stores/bookmarks/types.js'
 export * from './stores/form/types.js'
 export { useFieldActions } from './stores/form/useFieldActions.js'

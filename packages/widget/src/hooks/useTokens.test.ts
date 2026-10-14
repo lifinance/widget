@@ -1,5 +1,6 @@
 import { ChainId, ChainType, type TokenExtended } from '@lifi/sdk'
 import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { getQueryKey } from '../utils/queries.js'
 import { useTokens } from './useTokens.js'
 
 const mocks = vi.hoisted(() => ({
@@ -68,6 +69,12 @@ const searchQueryOptions = () =>
   mocks.useQuery.mock.calls
     .map(([options]) => options)
     .find((options) => String(options.queryKey[0]).includes('tokens-search'))
+
+/** The options of the main list query, picked by its exact key. */
+const listQueryOptions = () =>
+  mocks.useQuery.mock.calls
+    .map(([options]) => options)
+    .find((options) => options.queryKey[0] === getQueryKey('tokens'))
 
 /** Renders the hook and runs the search query's fetcher. */
 const runSearch = async (
@@ -228,5 +235,57 @@ describe('useTokens search', () => {
 
       expect(searchQueryOptions().enabled).toBe(false)
     })
+  })
+})
+
+describe('useTokens request parameters', () => {
+  const listParams = {
+    orderBy: 'volumeUSD24H',
+    extended: true,
+    limit: 1100,
+    minPriceUSD: 0.000001,
+  }
+
+  beforeEach(() => {
+    vi.clearAllMocks()
+    mocks.useQuery.mockReturnValue({ data: undefined, isLoading: false })
+    mocks.getTokens.mockResolvedValue({ tokens: {} })
+    mocks.getToken.mockResolvedValue(undefined)
+    mocks.getChainTypeFromTokenAddress.mockReturnValue(undefined)
+  })
+
+  it('requests the main list with the list parameters', async () => {
+    useTokens('to')
+    const options = listQueryOptions()
+    await options.queryFn({
+      queryKey: options.queryKey,
+      signal: new AbortController().signal,
+    })
+
+    expect(mocks.getTokens).toHaveBeenCalledWith(
+      sdkClient,
+      {
+        ...listParams,
+        chainTypes: [
+          ChainType.EVM,
+          ChainType.SVM,
+          ChainType.UTXO,
+          ChainType.MVM,
+          ChainType.TVM,
+          ChainType.STL,
+        ],
+      },
+      expect.anything()
+    )
+  })
+
+  it('searches with the same list parameters', async () => {
+    await runSearch('laptop', baseChainId)
+
+    expect(mocks.getTokens).toHaveBeenCalledWith(
+      sdkClient,
+      expect.objectContaining({ ...listParams, search: 'laptop' }),
+      expect.anything()
+    )
   })
 })

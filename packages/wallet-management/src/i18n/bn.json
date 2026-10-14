@@ -1,23 +1,22 @@
 {
   "title": {
-    "connectWallet": "ওয়ালেট সংযুক্ত করুন",
-    "connecting": "",
-    "selectWallet": "",
-    "selectWalletWithChain": "",
-    "selectEcosystem": "",
-    "waitingForWallet": "",
-    "availableWalletsNotFound": ""
+    "connecting": "কানেক্ট করা হচ্ছে",
+    "selectWallet": "একটি ওয়ালেট নির্বাচন করুন",
+    "selectWalletWithChain": "{{chainLabel}} ওয়ালেট নির্বাচন করুন",
+    "selectEcosystem": "একটি ইকোসিস্টেম নির্বাচন করুন",
+    "waitingForWallet": "{{walletName}}-এর অপেক্ষায়",
+    "availableWalletsNotFound": "কোনো উপলব্ধ ওয়ালেট পাওয়া যায়নি"
   },
   "message": {
-    "connecting": "",
-    "multipleEcosystems": "",
-    "availableWalletsNotFound": ""
+    "connecting": "আপনার ওয়ালেট পপআপে কানেক্ট বাটনে ক্লিক করুন। ওয়ালেট দেখতে পাচ্ছেন না? ব্রাউজারের অন্য উইন্ডোগুলো দেখুন।",
+    "multipleEcosystems": "{{walletName}} একাধিক চেইন ইকোসিস্টেম সমর্থন করে। কোনটিতে কানেক্ট করবেন, তা নির্বাচন করুন।",
+    "availableWalletsNotFound": "কোনো সামঞ্জস্যপূর্ণ ওয়ালেট এক্সটেনশন পাওয়া যায়নি। একটি সমর্থিত ওয়ালেট ইনস্টল করে পেজটি রিফ্রেশ করুন। আগেই ইনস্টল করা থাকলে নিশ্চিত করুন যে এটি চালু ও সামঞ্জস্যপূর্ণ, অথবা সাপোর্টে যোগাযোগ করুন।"
   },
   "tags": {
-    "connected": "",
-    "multichain": "",
-    "installed": "",
-    "qrCode": "",
-    "getStarted": ""
+    "connected": "কানেক্ট করা",
+    "multichain": "মাল্টি-চেইন",
+    "installed": "ইনস্টল করা",
+    "qrCode": "QR কোড",
+    "getStarted": "শুরু করুন"
   }
 }

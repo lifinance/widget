@@ -114,6 +114,7 @@ export { TransactionDoneButtons } from './pages/TransactionPage/TransactionDoneB
 export {
   calculateValueLossPercentage,
   getTokenValueLossThreshold,
+  isCallBundleNotFound,
 } from './pages/TransactionPage/utils.js'
 
 // ── providers ────────────────────────────────────────────────────────────────
@@ -188,5 +189,6 @@ export {
 export { getPriceImpact } from './utils/getPriceImpact.js'
 export { fitInputText } from './utils/input.js'
 export { navigationRoutes } from './utils/navigationRoutes.js'
+export { resolveStorageScopeKey } from './utils/scopeKeys.js'
 export { isHttpUrl, openInNewTab } from './utils/url.js'
 export { shortenAddress } from './utils/wallet.js'

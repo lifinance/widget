@@ -26,6 +26,8 @@ jobs:
       contents: read
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
       - name: Check code
@@ -51,6 +53,9 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          # changesets/action v2.1.2 pushes through the GitHub API (push-with-git-cli
+          # defaults to false), so git does not need the persisted token.
+          persist-credentials: false
           # Fetch full history so Changesets can generate changelogs.
           fetch-depth: 0
       - name: Install dependencies
@@ -84,6 +89,9 @@ jobs:
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          # changesets/action v2.1.2 pushes through the GitHub API (push-with-git-cli
+          # defaults to false), so git does not need the persisted token.
+          persist-credentials: false
           fetch-depth: 0
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
@@ -153,6 +161,7 @@ jobs:
       - name: Checkout PR head
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
 

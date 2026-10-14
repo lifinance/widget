@@ -1,5 +1,6 @@
 import type { JSX, Ref } from 'react'
 import { useImperativeHandle, useRef, useState } from 'react'
+import type { TokenAmount } from '../../types/token.js'
 import { BottomSheet } from '../BottomSheet/BottomSheet.js'
 import type { BottomSheetBase } from '../BottomSheet/types.js'
 import { TokenDetailsSheetContent } from './TokenDetailsSheetContent.js'
@@ -11,20 +12,16 @@ export const TokenDetailsSheet = ({
   ref?: Ref<TokenDetailsSheetBase>
 }): JSX.Element => {
   const bottomSheetRef = useRef<BottomSheetBase>(null)
-  const [tokenAddress, setTokenAddress] = useState<string | undefined>(
-    undefined
-  )
-  const [chainId, setChainId] = useState<number | undefined>(undefined)
+  const [listToken, setListToken] = useState<TokenAmount | undefined>(undefined)
   const [withoutContractAddress, setWithoutContractAddress] = useState(false)
 
   useImperativeHandle(
     ref,
     () => ({
       isOpen: () => bottomSheetRef.current?.isOpen(),
-      open: (address: string, noContractAddress: boolean, chainId: number) => {
-        setTokenAddress(address)
+      open: (token: TokenAmount, noContractAddress: boolean) => {
+        setListToken(token)
         setWithoutContractAddress(noContractAddress)
-        setChainId(chainId)
         bottomSheetRef.current?.open()
       },
       close: () => {
@@ -38,9 +35,8 @@ export const TokenDetailsSheet = ({
     <BottomSheet ref={bottomSheetRef} keepMounted>
       <TokenDetailsSheetContent
         onClose={() => bottomSheetRef.current?.close()}
-        tokenAddress={tokenAddress}
+        listToken={listToken}
         withoutContractAddress={withoutContractAddress}
-        chainId={chainId}
       />
     </BottomSheet>
   )

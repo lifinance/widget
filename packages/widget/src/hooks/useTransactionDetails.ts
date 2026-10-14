@@ -19,12 +19,12 @@ export const useTransactionDetails = (
 } => {
   const { account, accounts } = useAccount()
   const queryClient = useQueryClient()
-  const { keyPrefix } = useWidgetConfig()
+  const { storageScopeKey } = useWidgetConfig()
   const sdkClient = useSDKClient()
 
   const transactionHistoryQueryKey = useMemo(
-    () => getQueryKey('transaction-history', keyPrefix),
-    [keyPrefix]
+    () => getQueryKey('transaction-history', storageScopeKey),
+    [storageScopeKey]
   )
 
   const { data, isLoading } = useQuery({

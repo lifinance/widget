@@ -32,7 +32,7 @@ export const useGasSufficiency = (
   const { account: EVMAccount, accounts } = useAccount({
     chainType: ChainType.EVM,
   })
-  const { keyPrefix, hiddenUI } = useWidgetConfig()
+  const { storageScopeKey, hiddenUI } = useWidgetConfig()
   const sdkClient = useSDKClient()
 
   const { relevantAccounts, relevantAccountsQueryKey } = useMemo(() => {
@@ -67,7 +67,7 @@ export const useGasSufficiency = (
 
   const { data: insufficientGas, isLoading } = useQuery<GasSufficiency[]>({
     queryKey: [
-      getQueryKey('gas-sufficiency-check', keyPrefix),
+      getQueryKey('gas-sufficiency-check', storageScopeKey),
       relevantAccountsQueryKey,
       route?.id,
       isContractAddress,

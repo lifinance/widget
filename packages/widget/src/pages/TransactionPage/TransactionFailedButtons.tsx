@@ -1,22 +1,30 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { Box, Button } from '@mui/material'
+import { useNavigate } from '@tanstack/react-router'
 import { useRef } from 'react'
 import { useTranslation } from 'react-i18next'
 import type { BottomSheetBase } from '../../components/BottomSheet/types.js'
 import { useAddressActivity } from '../../hooks/useAddressActivity.js'
 import { useNavigateBack } from '../../hooks/useNavigateBack.js'
+import { useSwapOnly } from '../../hooks/useSwapOnly.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
+import { useBookmarkActions } from '../../stores/bookmarks/useBookmarkActions.js'
+import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { WidgetEvent } from '../../types/events.js'
 import { getAccumulatedFeeCostsBreakdown } from '../../utils/fees.js'
+import { navigationRoutes } from '../../utils/navigationRoutes.js'
 import { ConfirmToAddressSheet } from './ConfirmToAddressSheet.js'
 import { StartTransactionButton } from './StartTransactionButton.js'
 import { TokenValueBottomSheet } from './TokenValueBottomSheet.js'
 import type { RetryGate } from './utils.js'
 import {
   calculateValueLossPercentage,
+  canStartNewSwap,
+  getNewSwapFormValues,
   getRetryGates,
   getTokenValueLossThreshold,
+  isCallBundleNotFound,
   openNextGate,
 } from './utils.js'
 
@@ -32,7 +40,11 @@ export const TransactionFailedButtons: React.FC<
   const { t } = useTranslation()
   const emitter = useWidgetEvents()
   const navigateBack = useNavigateBack()
-  const { mode, hiddenUI } = useWidgetConfig()
+  const navigate = useNavigate()
+  const { mode, hiddenUI, disabledUI, requiredUI } = useWidgetConfig()
+  const swapOnly = useSwapOnly()
+  const { setFieldValue, getFieldValues } = useFieldActions()
+  const { setSelectedBookmark, getSelectedBookmark } = useBookmarkActions()
 
   const tokenValueBottomSheetRef = useRef<BottomSheetBase>(null)
   const confirmToAddressSheetRef = useRef<BottomSheetBase>(null)
@@ -46,6 +58,49 @@ export const TransactionFailedButtons: React.FC<
 
   const handleRemoveRoute = () => {
     navigateBack()
+    deleteRoute()
+  }
+
+  const callBundleNotFound = isCallBundleNotFound(route)
+  const showStartNewSwap =
+    callBundleNotFound && canStartNewSwap({ route, mode, swapOnly })
+  // Try again would only wait for the same bundle again.
+  const showRetry = !callBundleNotFound
+
+  // Home, not back: after a reload, the route is opened from Activities.
+  const handleStartNewSwap = () => {
+    // An empty hidden or locked field still needs the route's receiver.
+    const [formReceiver] = getFieldValues('toAddress')
+    const keepReceiver = Boolean(
+      (disabledUI?.toAddress || hiddenUI?.toAddress) && formReceiver
+    )
+    const values = getNewSwapFormValues(route, {
+      keepReceiver,
+      receiverRequired: requiredUI?.toAddress,
+    })
+    const fieldNames = Object.keys(values) as (keyof typeof values)[]
+    const receiver = keepReceiver ? formReceiver : values.toAddress
+    // Fill after navigate resolves: this page's unmount cleanup has run by then,
+    // as TransactionFailedButtons.test.tsx checks.
+    navigate({ to: navigationRoutes.home, replace: true })
+      .then(() => {
+        for (const fieldName of fieldNames) {
+          setFieldValue(fieldName, values[fieldName], {
+            isDirty: true,
+            isTouched: true,
+          })
+        }
+        // A bookmark name from an earlier receiver must not label this one.
+        if (
+          getSelectedBookmark()?.address.toLowerCase() !==
+          receiver?.toLowerCase()
+        ) {
+          setSelectedBookmark()
+        }
+      })
+      .catch((error) => {
+        console.warn('Filling the new swap failed.', error)
+      })
     deleteRoute()
   }
 
@@ -112,14 +167,28 @@ export const TransactionFailedButtons: React.FC<
             {t('button.delete')}
           </Button>
         </Box>
-        <Box sx={{ flex: 1 }}>
-          <StartTransactionButton
-            text={t('button.tryAgain')}
-            onClick={handleRetryClick}
-            route={route}
-            loading={isLoadingAddressActivity}
-          />
-        </Box>
+        {showStartNewSwap ? (
+          <Box sx={{ flex: 1 }}>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleStartNewSwap}
+              fullWidth
+            >
+              {t('button.startNewSwap')}
+            </Button>
+          </Box>
+        ) : null}
+        {showRetry ? (
+          <Box sx={{ flex: 1 }}>
+            <StartTransactionButton
+              text={t('button.tryAgain')}
+              onClick={handleRetryClick}
+              route={route}
+              loading={isLoadingAddressActivity}
+            />
+          </Box>
+        ) : null}
       </Box>
       {mode !== 'custom' ? (
         <TokenValueBottomSheet

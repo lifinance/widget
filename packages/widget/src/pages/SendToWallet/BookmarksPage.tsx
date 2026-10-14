@@ -34,7 +34,7 @@ export const BookmarksPage = (): JSX.Element => {
   const listParentRef = useRef<HTMLUListElement | null>(null)
   const buttonRef = useRef<HTMLDivElement | null>(null)
   const { bookmarks } = useBookmarks()
-  const { requiredToChainType } = useToAddressRequirements()
+  const { isValidReceiver } = useToAddressRequirements()
   const { addBookmark, removeBookmark, setSelectedBookmark } =
     useBookmarkActions()
   const navigate = useNavigate()
@@ -70,59 +70,49 @@ export const BookmarksPage = (): JSX.Element => {
         disablePadding
         sx={{ paddingTop: 1.5 }}
       >
-        {bookmarks.map((bookmark) => (
-          <ListItem key={bookmark.address} sx={{ position: 'relative' }}>
-            <ListItemButton
-              onClick={() => handleBookmarkSelected(bookmark)}
-              disabled={
-                requiredToChainType &&
-                requiredToChainType !== bookmark.chainType
-              }
-            >
-              <ListItemAvatar>
-                <AccountAvatar
-                  chainId={defaultChainIdsByType[bookmark.chainType]}
+        {bookmarks.map((bookmark) => {
+          const disabled = !isValidReceiver(bookmark.address)
+          const chainId =
+            bookmark.chainId ?? defaultChainIdsByType[bookmark.chainType]
+          return (
+            <ListItem key={bookmark.address} sx={{ position: 'relative' }}>
+              <ListItemButton
+                onClick={() => handleBookmarkSelected(bookmark)}
+                disabled={disabled}
+              >
+                <ListItemAvatar>
+                  <AccountAvatar chainId={chainId} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={bookmark.name}
+                  secondary={shortenAddress(bookmark.address)}
                 />
-              </ListItemAvatar>
-              <ListItemText
-                primary={bookmark.name}
-                secondary={shortenAddress(bookmark.address)}
+              </ListItemButton>
+              <ContextMenu
+                disabled={disabled}
+                items={[
+                  {
+                    icon: <ContentCopyRounded />,
+                    label: t('button.copyAddress'),
+                    onClick: () =>
+                      navigator.clipboard.writeText(bookmark.address),
+                  },
+                  {
+                    icon: <OpenInNewRounded />,
+                    label: t('button.viewOnExplorer'),
+                    onClick: () =>
+                      openInNewTab(getAddressLink(bookmark.address, chainId)),
+                  },
+                  {
+                    icon: <DeleteOutline />,
+                    label: t('button.delete'),
+                    onClick: () => removeBookmark(bookmark.address),
+                  },
+                ]}
               />
-            </ListItemButton>
-            <ContextMenu
-              disabled={
-                !!(
-                  requiredToChainType &&
-                  requiredToChainType !== bookmark.chainType
-                )
-              }
-              items={[
-                {
-                  icon: <ContentCopyRounded />,
-                  label: t('button.copyAddress'),
-                  onClick: () =>
-                    navigator.clipboard.writeText(bookmark.address),
-                },
-                {
-                  icon: <OpenInNewRounded />,
-                  label: t('button.viewOnExplorer'),
-                  onClick: () =>
-                    openInNewTab(
-                      getAddressLink(
-                        bookmark.address,
-                        defaultChainIdsByType[bookmark.chainType]
-                      )
-                    ),
-                },
-                {
-                  icon: <DeleteOutline />,
-                  label: t('button.delete'),
-                  onClick: () => removeBookmark(bookmark.address),
-                },
-              ]}
-            />
-          </ListItem>
-        ))}
+            </ListItem>
+          )
+        })}
         {!bookmarks.length && (
           <EmptyListIndicator
             icon={<TurnedIn />}

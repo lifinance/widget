@@ -1,23 +1,22 @@
 {
   "title": {
-    "connectWallet": "वॉलेट से जुड़ें?",
-    "connecting": "",
-    "selectWallet": "",
-    "selectWalletWithChain": "",
-    "selectEcosystem": "",
-    "waitingForWallet": "",
-    "availableWalletsNotFound": ""
+    "connecting": "कनेक्ट हो रहा है",
+    "selectWallet": "वॉलेट चुनें",
+    "selectWalletWithChain": "{{chainLabel}} वॉलेट चुनें",
+    "selectEcosystem": "इकोसिस्टम चुनें",
+    "waitingForWallet": "{{walletName}} का इंतज़ार है",
+    "availableWalletsNotFound": "कोई उपलब्ध वॉलेट नहीं मिला"
   },
   "message": {
-    "connecting": "",
-    "multipleEcosystems": "",
-    "availableWalletsNotFound": ""
+    "connecting": "अपने वॉलेट पॉपअप में 'कनेक्ट' पर क्लिक करें। आपका वॉलेट नहीं दिख रहा? अपनी दूसरी ब्राउज़र विंडो चेक करें।",
+    "multipleEcosystems": "{{walletName}} कई चेन इकोसिस्टम सपोर्ट करता है। चुनें कि किससे कनेक्ट करना है।",
+    "availableWalletsNotFound": "कोई कम्पैटिबल वॉलेट एक्सटेंशन नहीं मिला। कृपया कोई सपोर्टेड वॉलेट इंस्टॉल करें और पेज रिफ़्रेश करें। अगर वॉलेट पहले से इंस्टॉल है, तो पक्का करें कि वह चालू और कम्पैटिबल है, या सपोर्ट से संपर्क करें।"
   },
   "tags": {
-    "connected": "",
-    "multichain": "",
-    "installed": "",
-    "qrCode": "",
-    "getStarted": ""
+    "connected": "कनेक्टेड",
+    "multichain": "मल्टी-चेन",
+    "installed": "इंस्टॉल्ड",
+    "qrCode": "QR कोड",
+    "getStarted": "शुरू करें"
   }
 }

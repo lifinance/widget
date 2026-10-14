@@ -88,6 +88,11 @@ function nodePolyfillsResolved(): Plugin[] {
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), nodePolyfillsResolved()],
+  // pnpm resolves wagmi through separate peer instances; one bundled copy keeps
+  // WagmiProvider's context visible to every wagmi hook.
+  resolve: {
+    dedupe: ['wagmi', '@wagmi/core', 'viem'],
+  },
   server: {
     port: 3000,
     open: true,

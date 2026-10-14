@@ -11,31 +11,17 @@ packages:
 # so the rationale has to live here, above the key:
 #   - wagmi 3.7.7 carries @wagmi/core 3.6.5, which drops the viem tempo/zones import.
 #     Kept so a gate cannot hold the tree below that line; these have since aged out.
-#   - The 2026-09-10 dependency bump took React 19.3.0, Vite 8.3.0 and the Solana
-#     and Mesh wallet SDKs deliberately while they were still inside the age window.
-#   - '@biomejs/cli-*' and the other platform binaries are added by pnpm itself to
-#     match the package that pulls them; none is pinned here right now.
+#   - When pnpm adds an entry on install, it is a version that was still inside the age
+#     window. Remove it once it ages out or is no longer resolved.
 minimumReleaseAgeExclude:
   - '@bigmi/*'
   - '@lifi/*'
   - wagmi@3.7.7
   - '@wagmi/core@3.6.5'
   - '@wagmi/connectors@8.2.0'
-  - '@creit.tech/stellar-wallets-kit@2.6.0'
-  - react@19.3.0
-  - react-dom@19.3.0
-  - '@types/react@19.3.0'
-  - '@types/react-dom@19.3.0'
-  - vite@8.3.0
-  - '@solana/wallet-adapter-base@0.9.28'
-  - '@solana/wallet-adapter-react@0.15.40'
-  - '@solana/wallet-standard-features@1.5.0'
-  - '@meshconnect/web-link-sdk@3.13.0'
-  - scheduler@0.28.0
 overrides:
   "@react-native-async-storage/async-storage": ">=2.2.0"
   "@reown/appkit": ">=1.8.20"
-  "@reown/appkit>@walletconnect/universal-provider": ">=2.23.9"
   "@msgpack/msgpack": ">=3.1.3"
   abitype: ">=1.2.4"
   axios: "^1.20.0"
@@ -45,14 +31,47 @@ overrides:
   # Held at 0.26.0. 0.28.0 regressed for us; an override (not just the specifier)
   # is what stops the next `pnpm update --latest` from silently taking it again.
   vite-plugin-node-polyfills: "0.26.0"
-  # GHSA-f88m-g3jw-g9cj — libvips flaws; next@15 still resolves 0.34.x.
-  sharp: ">=0.35.0"
-  use-sync-external-store: "1.4.0"
+  # GHSA-wq5f-xc86-pv6w (librsvg) affects sharp <0.35.5. @dynamic-labs/iconic 5.10.0 pins 0.35.4.
+  "sharp@<0.35.5": ">=0.35.5"
+  # wagmi pins 1.4.0 and valtio pins 1.2.0, while react-i18next and @tanstack/react-store
+  # need ^1.6.0. One override keeps a single copy.
+  use-sync-external-store: "1.7.0"
   utf-8-validate: "6.0.6"
   zod: ">=4.4.3"
   "ws@>=7.0.0 <8.0.0": ">=7.5.12"
   "ws@>=8.0.0": ">=8.21.1"
   esbuild: ">=0.25.0"
+  "es-toolkit@1": ">=1.52.0"
+  # Security (Aikido), 2026-10-12: each selector covers only the affected range.
+  # tronweb pins 13.15.23.
+  "validator@<13.15.26": ">=13.15.26"
+  # WalletConnect packages move together. They resolve to 2.26.0, which widget-playground pins.
+  "@walletconnect/core@<2.23.10": ">=2.23.10"
+  "@walletconnect/sign-client@<2.23.10": ">=2.23.10"
+  "@walletconnect/utils@<2.23.10": ">=2.23.10"
+  "@walletconnect/types@<2.23.10": ">=2.23.10"
+  "@walletconnect/universal-provider@<2.23.10": ">=2.23.10"
+  "@walletconnect/ethereum-provider@<2.23.10": ">=2.23.10"
+  # @walletconnect/logger 3.0.x pins 10.0.0.
+  "pino@<10.1.1": ">=10.1.1"
+  # Forced major. tronweb pins 3.21.4, and no tronweb release fixes it.
+  "google-protobuf@<4.0.3": "^4.0.3"
+  # Forced major. MetaMask calls only v4() and validate(). uuid 12+ has no require() export.
+  "uuid@<11.1.1": "^11.1.1"
+  # Forced major. Dynamic pins 23.4.6 and calls only createInstance().use().init().
+  "i18next@<26.3.4": "^26.3.4"
+  # Forced major. Dynamic imports @noble/ciphers/aes, which 2.x removed.
+  "@noble/ciphers@<1.0.0": "^1.3.0"
+  # Forced major. Privy examples use only APIs that jose 6 keeps.
+  "jose@<6.2.5": "^6.2.5"
+  # Forced major. Remix example. undici 8 has no File export: recheck if it sets v3_singleFetch.
+  "undici@<8.10.2": "^8.10.2"
+  # Forced major. Nuxt example only. This repo uses no Redis.
+  "ioredis@<6.0.0": "^6.0.0"
+  # Forced major. simple-git 3.36.0 (Nuxt devtools) declares ^1.1.0. 2.0.1 keeps vulnerabilityCheck().
+  "@simple-git/argv-parser@<2.0.1": "^2.0.1"
+  # Forced major. Drops stream-json. @solana/web3.js loads only the browser client. Node 20+.
+  "jayson@<5.0.0": "^5.0.0"
 allowBuilds:
   "@opensea/seaport-js": false
   "@parcel/watcher": false

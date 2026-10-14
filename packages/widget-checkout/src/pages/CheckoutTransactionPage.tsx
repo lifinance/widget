@@ -14,6 +14,7 @@ import {
   getSourceTxHash,
   getTokenValueLossThreshold,
   hasEnumFlag,
+  isCallBundleNotFound,
   navigationRoutes,
   PageContainer,
   RouteExecutionStatus,
@@ -324,6 +325,10 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
     deleteRoute()
   }
 
+  const showRetry = !(
+    status === RouteExecutionStatus.Failed && isCallBundleNotFound(route)
+  )
+
   const getButtonText = (): string => {
     switch (status) {
       case RouteExecutionStatus.Idle:
@@ -393,13 +398,19 @@ export const CheckoutTransactionPage = (): JSX.Element | null => {
                 display: 'flex',
               }}
             >
-              <StartTransactionButton
-                text={getButtonText()}
-                onClick={handleStartClick}
-                route={route}
-                loading={routeRefreshing || isLoadingAddressActivity}
-              />
-              {status === RouteExecutionStatus.Failed ? (
+              {showRetry ? (
+                <StartTransactionButton
+                  text={getButtonText()}
+                  onClick={handleStartClick}
+                  route={route}
+                  loading={routeRefreshing || isLoadingAddressActivity}
+                />
+              ) : (
+                <Button onClick={handleRemoveRoute} fullWidth>
+                  {t('button.delete')}
+                </Button>
+              )}
+              {status === RouteExecutionStatus.Failed && showRetry ? (
                 <Tooltip
                   title={t('button.clearTransaction')}
                   placement="bottom-end"

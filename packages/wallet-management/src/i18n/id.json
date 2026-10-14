@@ -1,23 +1,22 @@
 {
   "title": {
-    "connectWallet": "Hubungkan dompet",
-    "connecting": "Menyambungkan",
-    "selectWallet": "",
-    "selectWalletWithChain": "",
-    "selectEcosystem": "",
-    "waitingForWallet": "Meunggu untuk {{walletName}}",
+    "connecting": "Menghubungkan",
+    "selectWallet": "Pilih dompet",
+    "selectWalletWithChain": "Pilih dompet {{chainLabel}}",
+    "selectEcosystem": "Pilih ekosistem",
+    "waitingForWallet": "Menunggu {{walletName}}",
     "availableWalletsNotFound": "Dompet yang tersedia tidak ditemukan"
   },
   "message": {
-    "connecting": "Klik hubungkan pada popup dompet Anda. Tidak melihat dompet Anda? Periksa jendela peramban Anda yang lain.",
-    "multipleEcosystems": "",
-    "availableWalletsNotFound": "Tidak terdeteksi ekstensi dompet yang kompatibel. Harap pasang dompet yang didukung dan segarkan halaman. Jika sudah terpasang, pastikan dompet tersebut diaktifkan dan kompatibel, atau hubungi dukungan."
+    "connecting": "Klik Hubungkan di popup dompet Anda. Dompet tidak muncul? Periksa jendela browser Anda yang lain.",
+    "multipleEcosystems": "{{walletName}} mendukung beberapa ekosistem chain. Pilih ekosistem yang ingin dihubungkan.",
+    "availableWalletsNotFound": "Tidak ada ekstensi dompet kompatibel yang terdeteksi. Silakan pasang dompet yang didukung lalu muat ulang halaman. Jika sudah terpasang, pastikan dompet aktif dan kompatibel, atau hubungi dukungan."
   },
   "tags": {
-    "connected": "",
-    "multichain": "",
-    "installed": "",
-    "qrCode": "",
-    "getStarted": ""
+    "connected": "Terhubung",
+    "multichain": "Multi-chain",
+    "installed": "Terpasang",
+    "qrCode": "Kode QR",
+    "getStarted": "Mulai"
   }
 }

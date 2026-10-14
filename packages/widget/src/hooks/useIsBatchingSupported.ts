@@ -13,7 +13,7 @@ export function useIsBatchingSupported(
   isBatchingSupported: boolean | undefined
   isBatchingSupportedLoading: boolean
 } {
-  const { keyPrefix } = useWidgetConfig()
+  const { storageScopeKey } = useWidgetConfig()
   const sdkClient = useSDKClient()
   const { isBatchingSupported } = useEthereumContext()
 
@@ -22,7 +22,7 @@ export function useIsBatchingSupported(
   )
   const { data, isLoading } = useQuery({
     queryKey: [
-      getQueryKey('isBatchingSupported', keyPrefix),
+      getQueryKey('isBatchingSupported', storageScopeKey),
       chain?.id,
       address,
     ],

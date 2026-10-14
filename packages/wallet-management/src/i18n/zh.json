@@ -1,23 +1,22 @@
 {
   "title": {
-    "connectWallet": "关联钱包",
     "connecting": "正在连接",
-    "selectWallet": "",
-    "selectWalletWithChain": "",
-    "selectEcosystem": "",
-    "waitingForWallet": "等待 {{walletName}} 连接",
-    "availableWalletsNotFound": "找不到可用的钱包"
+    "selectWallet": "选择钱包",
+    "selectWalletWithChain": "选择 {{chainLabel}} 钱包",
+    "selectEcosystem": "选择生态",
+    "waitingForWallet": "正在等待 {{walletName}}",
+    "availableWalletsNotFound": "未找到可用的钱包"
   },
   "message": {
-    "connecting": "在弹出来的钱包列表中点击连接。没看到你的钱包？ 看看浏览器的其他窗口。",
-    "multipleEcosystems": "",
-    "availableWalletsNotFound": "未检测到兼容的钱包，请安装一个可用的钱包并刷新本页面。如果已经安装过了，请确保钱包已经启用并兼容本页面，或者联系客户支持。"
+    "connecting": "请在钱包弹窗中点击连接。没有看到钱包？请检查其他浏览器窗口。",
+    "multipleEcosystems": "{{walletName}} 支持多个链生态。请选择要连接的生态。",
+    "availableWalletsNotFound": "未检测到兼容的钱包扩展。请安装受支持的钱包并刷新页面。如果已安装，请确保它已启用且兼容，或联系技术支持。"
   },
   "tags": {
-    "connected": "",
-    "multichain": "",
-    "installed": "",
-    "qrCode": "",
-    "getStarted": ""
+    "connected": "已连接",
+    "multichain": "多链",
+    "installed": "已安装",
+    "qrCode": "二维码",
+    "getStarted": "开始使用"
   }
 }

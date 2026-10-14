@@ -80,7 +80,10 @@ export function ChainOrderStoreProvider({
 
         // Initialize the isAllNetworks with true if the tab is shown,
         // there is no config chain value and no url chain value
-        const urlValues = getDefaultValuesFromQueryString({ buildUrl })
+        const urlValues = getDefaultValuesFromQueryString({
+          buildUrl,
+          chains: chainsConfig,
+        })
         const urlChainValue =
           key === 'from' ? urlValues.fromChain : urlValues.toChain
         const configChainValue =

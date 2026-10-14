@@ -1,23 +1,22 @@
 {
   "title": {
-    "connectWallet": "",
-    "connecting": "",
-    "selectWallet": "",
-    "selectWalletWithChain": "",
-    "selectEcosystem": "",
-    "waitingForWallet": "",
-    "availableWalletsNotFound": ""
+    "connecting": "Łączenie",
+    "selectWallet": "Wybierz portfel",
+    "selectWalletWithChain": "Wybierz portfel {{chainLabel}}",
+    "selectEcosystem": "Wybierz ekosystem",
+    "waitingForWallet": "Oczekiwanie na {{walletName}}",
+    "availableWalletsNotFound": "Nie znaleziono dostępnych portfeli"
   },
   "message": {
-    "connecting": "",
-    "multipleEcosystems": "",
-    "availableWalletsNotFound": ""
+    "connecting": "Kliknij „Połącz” w okienku portfela. Nie widzisz portfela? Sprawdź inne okna przeglądarki.",
+    "multipleEcosystems": "{{walletName}} obsługuje kilka ekosystemów blockchain. Wybierz, z którym chcesz się połączyć.",
+    "availableWalletsNotFound": "Nie wykryto zgodnych rozszerzeń portfela. Zainstaluj obsługiwany portfel i odśwież stronę. Jeśli portfel jest już zainstalowany, upewnij się, że jest włączony i zgodny, lub skontaktuj się z supportem."
   },
   "tags": {
-    "connected": "",
-    "multichain": "",
-    "installed": "",
-    "qrCode": "",
-    "getStarted": ""
+    "connected": "Połączony",
+    "multichain": "Wielołańcuchowy",
+    "installed": "Zainstalowany",
+    "qrCode": "Kod QR",
+    "getStarted": "Rozpocznij"
   }
 }

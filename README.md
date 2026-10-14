@@ -3,7 +3,6 @@
 [![license](https://img.shields.io/github/license/lifinance/widget)](/LICENSE)
 [![npm latest package](https://img.shields.io/npm/v/@lifi/widget/latest.svg)](https://www.npmjs.com/package/@lifi/widget)
 [![npm downloads](https://img.shields.io/npm/dm/@lifi/widget.svg)](https://www.npmjs.com/package/@lifi/widget)
-[![Crowdin](https://badges.crowdin.net/lifi-widget/localized.svg)](https://crowdin.com/project/lifi-widget)
 [![Follow on Twitter](https://img.shields.io/twitter/follow/lifiprotocol.svg?label=follow+LI.FI)](https://twitter.com/lifiprotocol)
 
 </div>
@@ -16,7 +15,7 @@
 
 [**LI.FI Widget**](https://docs.li.fi/widget/overview) features include:
 
-- **Provider-based architecture** - Modular blockchain support with separate packages for Ethereum, Bitcoin, Solana, Sui, Tron, and Stellar
+- **Provider-based architecture** - Modular blockchain support with separate packages for Ethereum, Bitcoin, Solana, Sui, Tron, and Stellar, plus Zcash as a destination
 - All ecosystems, chains, bridges, exchanges, and solvers that [LI.FI](https://docs.li.fi/introduction/chains) supports
 - Embeddable variants - compact, wide, and drawer
 - Options to allow or deny certain chains, tokens, bridges, and exchanges
@@ -179,6 +178,26 @@ npm install @lifi/widget-provider-stellar
 yarn add @lifi/widget-provider-stellar
 ```
 
+**Zcash (destination only):**
+
+**pnpm:**
+
+```sh
+pnpm add @lifi/widget-provider-zcash
+```
+
+**npm:**
+
+```sh
+npm install @lifi/widget-provider-zcash
+```
+
+**yarn:**
+
+```sh
+yarn add @lifi/widget-provider-zcash
+```
+
 **Note:** You only need to install the provider packages for the blockchains you want to support. Each provider package includes its required peer dependencies.
 
 ### LI.FI Wallet Management
@@ -225,7 +244,7 @@ npm install @lifi/widget-light
 yarn add @lifi/widget-light
 ```
 
-Ecosystem handlers are available as subpath imports (`@lifi/widget-light/ethereum`, `@lifi/widget-light/solana`, `@lifi/widget-light/bitcoin`, `@lifi/widget-light/sui`, `@lifi/widget-light/tron`) — install the corresponding peer dependencies only for the chains you need. See the [widget-light integration guide](/packages/widget-embedded/README.md) for full setup instructions.
+Ecosystem handlers are available as subpath imports (`@lifi/widget-light/ethereum`, `@lifi/widget-light/solana`, `@lifi/widget-light/bitcoin`, `@lifi/widget-light/sui`, `@lifi/widget-light/tron`) — install the corresponding peer dependencies only for the chains you need. Zcash is not available in widget-light yet. See the [widget-light integration guide](/packages/widget-embedded/README.md) for full setup instructions.
 
 ## Architecture
 
@@ -239,6 +258,7 @@ The LI.FI Widget uses a **provider-based architecture** that allows you to selec
 - **`@lifi/widget-provider-sui`** - Sui support (requires [@mysten/dapp-kit-react](https://sdk.mystenlabs.com/dapp-kit))
 - **`@lifi/widget-provider-tron`** - Tron support (requires [@tronweb3/tronwallet-adapter-react-hooks](https://github.com/tronweb3/tronwallet-adapter))
 - **`@lifi/widget-provider-stellar`** - Stellar support (bundles [Stellar Wallets Kit](https://github.com/Creit-Tech/Stellar-Wallets-Kit); no extra install)
+- **`@lifi/widget-provider-zcash`** - Zcash as a destination chain: validates transparent (`t1`/`t3`) receivers and unified (`u1`) receivers that carry an Orchard receiver; no wallet connection and no extra install. Without it the widget offers no ZEC
 - **`@lifi/wallet-management`** - Wallet management UI components
 - **`@lifi/widget-light`** - Lightweight iframe-based integration ([docs](https://docs.li.fi/widget/widget-light-overview))
 
@@ -275,7 +295,7 @@ export const WidgetPage = () => {
 };
 ```
 
-**Multi-chain example** (Ethereum, Solana, Bitcoin, Sui, Tron, and Stellar):
+**Multi-chain example** (Ethereum, Solana, Bitcoin, Sui, Tron, and Stellar, plus Zcash as a destination):
 
 ```tsx
 import { LiFiWidget, WidgetConfig } from '@lifi/widget';
@@ -285,12 +305,14 @@ import { SolanaProvider } from '@lifi/widget-provider-solana';
 import { StellarProvider } from '@lifi/widget-provider-stellar';
 import { SuiProvider } from '@lifi/widget-provider-sui';
 import { TronProvider } from '@lifi/widget-provider-tron';
+import { ZcashProvider } from '@lifi/widget-provider-zcash';
 
 const widgetConfig: WidgetConfig = {
   providers: [
     EthereumProvider(),
     SolanaProvider(),
     BitcoinProvider(),
+    ZcashProvider(),
     SuiProvider(),
     TronProvider(),
     StellarProvider(),
@@ -322,13 +344,9 @@ Visit our [playground](https://playground.li.fi) to see how you can customize yo
 
 Please visit [LI.FI Widget Documentation](https://docs.li.fi/widget/install-widget).
 
-## Contributing Translations
+## Translations
 
-We appreciate your interest in helping translate our project!
-
-If you'd like to contribute translations, please visit our Crowdin project page at [Crowdin LI.FI Widget](https://crowdin.com/project/lifi-widget). Register on Crowdin and you can start translating the project into your preferred language. Your contributions will help make our project accessible to a wider audience around the world.
-
-Thank you for your support!
+The widget has 17 languages. The person or the AI agent that changes an English text in `en.json` also translates it into the 16 other languages, in the same PR. To fix a translation, open a PR that changes the locale file. Follow [TRANSLATING.md](./TRANSLATING.md).
 
 ## Changelog
 

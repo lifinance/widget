@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 /** Smallest gap between UI updates, in milliseconds. */
-const DISPLAY_INTERVAL = 1200
+export const DISPLAY_INTERVAL = 1200
 
 /**
  * Returns `live`, but changes it at most once every {@link DISPLAY_INTERVAL}

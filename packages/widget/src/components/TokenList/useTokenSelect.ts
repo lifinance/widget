@@ -1,5 +1,7 @@
 import { useCallback } from 'react'
+import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useToAddressAutoPopulate } from '../../hooks/useToAddressAutoPopulate.js'
+import { useToAddressReset } from '../../hooks/useToAddressReset.js'
 import { useWidgetEvents } from '../../hooks/useWidgetEvents.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
@@ -20,6 +22,8 @@ export const useTokenSelect = (
   const emitter = useWidgetEvents()
   const { setFieldValue, getFieldValues } = useFieldActions()
   const autoPopulateToAddress = useToAddressAutoPopulate()
+  const { tryResetToAddress } = useToAddressReset()
+  const { getChainById } = useAvailableChains()
   const [setChain, setIsAllNetworks] = useChainOrderStore((state) => [
     state.setChain,
     state.setIsAllNetworks,
@@ -29,6 +33,7 @@ export const useTokenSelect = (
 
   return useCallback(
     (tokenAddress: string, chainId?: number) => {
+      const [toChainIdBefore] = getFieldValues('toChain')
       setFieldValue(tokenKey, tokenAddress, { isDirty: true, isTouched: true })
       const selectedChainId =
         chainId ?? getFieldValues(FormKeyHelper.getChainKey(formType))[0]
@@ -93,6 +98,14 @@ export const useTokenSelect = (
         setChain(selectedChainId, oppositeFormType)
       }
 
+      // A token from "All networks" moves the destination without the chain select,
+      // which resets a receiver the new chain cannot take.
+      const [toChainId] = getFieldValues('toChain')
+      const toChain = getChainById(toChainId)
+      if (toChainId !== toChainIdBefore && toChain) {
+        tryResetToAddress(toChain)
+      }
+
       // Automatically populate toAddress field if bridging across ecosystems and compatible wallet is connected
       autoPopulateToAddress({
         formType,
@@ -118,6 +131,8 @@ export const useTokenSelect = (
     },
     [
       autoPopulateToAddress,
+      tryResetToAddress,
+      getChainById,
       disabledUI,
       emitter,
       formType,

@@ -1,23 +1,22 @@
 {
   "title": {
-    "connectWallet": "เชื่อมต่อ กระเป๋า",
-    "connecting": "",
-    "selectWallet": "",
-    "selectWalletWithChain": "",
-    "selectEcosystem": "",
-    "waitingForWallet": "",
-    "availableWalletsNotFound": ""
+    "connecting": "กำลังเชื่อมต่อ",
+    "selectWallet": "เลือก Wallet",
+    "selectWalletWithChain": "เลือก Wallet {{chainLabel}}",
+    "selectEcosystem": "เลือกระบบนิเวศ",
+    "waitingForWallet": "กำลังรอ {{walletName}}",
+    "availableWalletsNotFound": "ไม่พบ Wallet ที่ใช้งานได้"
   },
   "message": {
-    "connecting": "",
-    "multipleEcosystems": "",
-    "availableWalletsNotFound": ""
+    "connecting": "คลิกเชื่อมต่อในป๊อปอัปของ Wallet หากไม่เห็น Wallet ของคุณ โปรดตรวจสอบหน้าต่างเบราว์เซอร์อื่น",
+    "multipleEcosystems": "{{walletName}} รองรับเชนหลายระบบนิเวศ โปรดเลือกระบบนิเวศที่ต้องการเชื่อมต่อ",
+    "availableWalletsNotFound": "ไม่พบส่วนขยาย Wallet ที่รองรับ โปรดติดตั้ง Wallet ที่รองรับแล้วรีเฟรชหน้านี้ หากติดตั้งแล้ว โปรดตรวจสอบว่าเปิดใช้งานอยู่และรองรับ หรือติดต่อฝ่ายสนับสนุน"
   },
   "tags": {
-    "connected": "",
-    "multichain": "",
-    "installed": "",
-    "qrCode": "",
-    "getStarted": ""
+    "connected": "เชื่อมต่อแล้ว",
+    "multichain": "หลายเชน",
+    "installed": "ติดตั้งแล้ว",
+    "qrCode": "QR Code",
+    "getStarted": "เริ่มต้นใช้งาน"
   }
 }

@@ -18,11 +18,15 @@ export const useTokenSearch = (
   isLoading: boolean
 } => {
   const queryClient = useQueryClient()
-  const { tokens: configTokens, keyPrefix } = useWidgetConfig()
+  const { tokens: configTokens, storageScopeKey } = useWidgetConfig()
   const sdkClient = useSDKClient()
 
   const { data, isLoading } = useQuery({
-    queryKey: [getQueryKey('token-search', keyPrefix), chainId, tokenQuery],
+    queryKey: [
+      getQueryKey('token-search', storageScopeKey),
+      chainId,
+      tokenQuery,
+    ],
     queryFn: async ({ queryKey: [, chainId, tokenQuery], signal }) => {
       const token = await getToken(
         sdkClient,
@@ -52,7 +56,7 @@ export const useTokenSearch = (
 
         // Add token to main tokens cache
         queryClient.setQueriesData<TokensByChain>(
-          { queryKey: [getQueryKey('tokens', keyPrefix)] },
+          { queryKey: [getQueryKey('tokens', storageScopeKey)] },
           (data) => {
             if (!data) {
               return data

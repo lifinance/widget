@@ -1,5 +1,6 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
+import { useAddressForChain } from '@lifi/widget-provider'
 import { useMemo } from 'react'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
@@ -28,8 +29,17 @@ export const useGasRefuel = (): {
   const fromChain = getChainById(fromChainId)
 
   const { account: toAccount } = useAccount({ chainType: toChain?.chainType })
+  const { isAddressForChain } = useAddressForChain()
 
-  const effectiveToAddress = toAddress || toAccount?.address
+  // A shared chain type is not a shared format: a Bitcoin account cannot receive on ZEC.
+  const toAccountAddress =
+    toAccount?.address &&
+    toChain &&
+    isAddressForChain(toAccount.address, toChain)
+      ? toAccount.address
+      : undefined
+
+  const effectiveToAddress = toAddress || toAccountAddress
 
   const { isContractAddress: isToContractAddress } = useIsContractAddress(
     effectiveToAddress,

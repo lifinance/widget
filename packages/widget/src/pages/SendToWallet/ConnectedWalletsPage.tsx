@@ -27,7 +27,7 @@ export const ConnectedWalletsPage = (): JSX.Element => {
   const { t } = useTranslation()
   const { accounts } = useAccount()
   const { setSelectedBookmark } = useBookmarkActions()
-  const { requiredToChainType } = useToAddressRequirements()
+  const { isValidReceiver } = useToAddressRequirements()
   const navigate = useNavigate()
   const { setFieldValue } = useFieldActions()
   const { getAddressLink } = useExplorer()
@@ -91,15 +91,13 @@ export const ConnectedWalletsPage = (): JSX.Element => {
                 ]
               : []),
           ]
+          const disabled = !isValidReceiver(account.address)
 
           return (
             <ListItem key={account.address} sx={{ position: 'relative' }}>
               <ListItemButton
                 onClick={() => handleWalletSelected(account)}
-                disabled={
-                  requiredToChainType &&
-                  requiredToChainType !== account.chainType
-                }
+                disabled={disabled}
               >
                 <ListItemAvatar>
                   <AccountAvatar chainId={account.chainId} account={account} />
@@ -109,15 +107,7 @@ export const ConnectedWalletsPage = (): JSX.Element => {
                   secondary={walletAddress}
                 />
               </ListItemButton>
-              <ContextMenu
-                items={menuItems}
-                disabled={
-                  !!(
-                    requiredToChainType &&
-                    requiredToChainType !== account.chainType
-                  )
-                }
-              />
+              <ContextMenu items={menuItems} disabled={disabled} />
             </ListItem>
           )
         })}

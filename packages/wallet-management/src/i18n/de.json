@@ -1,23 +1,22 @@
 {
   "title": {
-    "connectWallet": "Wallet verbinden",
-    "connecting": "",
-    "selectWallet": "",
-    "selectWalletWithChain": "",
-    "selectEcosystem": "",
-    "waitingForWallet": "",
-    "availableWalletsNotFound": ""
+    "connecting": "Verbindung wird hergestellt",
+    "selectWallet": "Wallet auswählen",
+    "selectWalletWithChain": "{{chainLabel}}-Wallet auswählen",
+    "selectEcosystem": "Ökosystem auswählen",
+    "waitingForWallet": "Warten auf {{walletName}}",
+    "availableWalletsNotFound": "Keine verfügbaren Wallets gefunden"
   },
   "message": {
-    "connecting": "",
-    "multipleEcosystems": "",
-    "availableWalletsNotFound": ""
+    "connecting": "Klicke im Pop-up deiner Wallet auf „Verbinden“. Du siehst deine Wallet nicht? Prüfe deine anderen Browserfenster.",
+    "multipleEcosystems": "{{walletName}} unterstützt mehrere Chain-Ökosysteme. Wähle aus, mit welchem du dich verbinden möchtest.",
+    "availableWalletsNotFound": "Keine kompatiblen Wallet-Erweiterungen gefunden. Bitte installiere eine unterstützte Wallet und lade die Seite neu. Falls sie bereits installiert ist, stelle sicher, dass sie aktiviert und kompatibel ist, oder kontaktiere den Support."
   },
   "tags": {
-    "connected": "",
-    "multichain": "",
-    "installed": "",
-    "qrCode": "",
-    "getStarted": ""
+    "connected": "Verbunden",
+    "multichain": "Multichain",
+    "installed": "Installiert",
+    "qrCode": "QR-Code",
+    "getStarted": "Loslegen"
   }
 }

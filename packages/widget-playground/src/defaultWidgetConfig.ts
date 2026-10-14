@@ -6,6 +6,7 @@ import { SolanaProvider } from '@lifi/widget-provider-solana'
 import { StellarProvider } from '@lifi/widget-provider-stellar'
 import { SuiProvider } from '@lifi/widget-provider-sui'
 import { TronProvider } from '@lifi/widget-provider-tron'
+import { ZcashProvider } from '@lifi/widget-provider-zcash'
 import { withFloatingDrawer } from './providers/PlaygroundThemeProvider/floatingDrawer.js'
 import { DEFAULT_VIEWPORT_BACKGROUND } from './utils/themeEdit.js'
 
@@ -48,6 +49,7 @@ export const widgetBaseConfig: WidgetConfig = {
     SolanaProvider(),
     StellarProvider(),
     BitcoinProvider(),
+    ZcashProvider(),
     TronProvider({
       walletConnect: import.meta.env?.VITE_TVM_WALLET_CONNECT
         ? {

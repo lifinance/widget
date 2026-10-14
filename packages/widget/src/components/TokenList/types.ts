@@ -38,11 +38,7 @@ interface TokenListItemBaseProps {
 
 export interface TokenListItemProps extends TokenListItemBaseProps {
   token: TokenAmount
-  onShowTokenDetails: (
-    tokenAddress: string,
-    noContractAddress: boolean,
-    chainId: number
-  ) => void
+  onShowTokenDetails: (token: TokenAmount, noContractAddress: boolean) => void
   chain?: ExtendedChain
   /** Resolved for every row, unlike `chain`, which the list passes only in all-networks mode. */
   chainName?: string
@@ -53,11 +49,7 @@ export interface TokenListItemProps extends TokenListItemBaseProps {
 }
 
 export interface TokenListItemButtonProps {
-  onShowTokenDetails: (
-    tokenAddress: string,
-    noContractAddress: boolean,
-    chainId: number
-  ) => void
+  onShowTokenDetails: (token: TokenAmount, noContractAddress: boolean) => void
   onClick?(tokenAddress: string, chainId?: number): void
   token: TokenAmount
   chain?: ExtendedChain
@@ -73,6 +65,6 @@ export interface TokenListItemAvatarProps {
 
 export interface TokenDetailsSheetBase {
   isOpen(): void
-  open(address: string, noContractAddress: boolean, chainId: number): void
+  open(token: TokenAmount, noContractAddress: boolean): void
   close(): void
 }

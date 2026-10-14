@@ -1,23 +1,22 @@
 {
   "title": {
-    "connectWallet": "Conectar carteira",
     "connecting": "Conectando",
-    "selectWallet": "Selecione uma carteira",
+    "selectWallet": "Selecionar carteira",
     "selectWalletWithChain": "Selecionar carteira {{chainLabel}}",
-    "selectEcosystem": "Selecione um ecossistema",
-    "waitingForWallet": "Aguardando por {{walletName}}",
-    "availableWalletsNotFound": "Não foram encontradas carteiras disponíveis"
+    "selectEcosystem": "Selecionar ecossistema",
+    "waitingForWallet": "Aguardando {{walletName}}",
+    "availableWalletsNotFound": "Nenhuma carteira disponível encontrada"
   },
   "message": {
-    "connecting": "Clique em conectar na janela da sua carteira. Não vê sua carteira? Verifique outras janelas do seu navegador.",
-    "multipleEcosystems": "{{walletName}} suporta múltiplos ecossistemas. Selecione qual ecossistema você gostaria de se conectar.",
-    "availableWalletsNotFound": "Nenhuma extensão de carteira compatível encontrada. Por favor, instale uma carteira suportada e atualize a página. Se já estiver instalado, certifique-se de que esteja ativada e compatível ou entre em contato com o suporte."
+    "connecting": "Clique em Conectar no pop-up da sua carteira. Não está vendo sua carteira? Verifique as outras janelas do navegador.",
+    "multipleEcosystems": "{{walletName}} é compatível com vários ecossistemas de redes. Selecione qual você quer conectar.",
+    "availableWalletsNotFound": "Nenhuma extensão de carteira compatível foi detectada. Instale uma carteira suportada e atualize a página. Se ela já estiver instalada, verifique se está ativada e é compatível, ou entre em contato com o suporte."
   },
   "tags": {
-    "connected": "Conectado",
-    "multichain": "Multicadeia",
-    "installed": "Instalado",
-    "qrCode": "Código QR",
-    "getStarted": "Comece Agora"
+    "connected": "Conectada",
+    "multichain": "Multichain",
+    "installed": "Instalada",
+    "qrCode": "QR Code",
+    "getStarted": "Começar"
   }
 }

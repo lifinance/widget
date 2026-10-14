@@ -3,6 +3,7 @@ import {
   BookmarkStoreProvider,
   I18nProvider,
   QueryClientProvider,
+  resolveStorageScopeKey,
   SDKClientProvider,
   SettingsStoreProvider,
   WalletProvider,
@@ -68,7 +69,9 @@ const CheckoutAppShell: React.FC<CheckoutAppShellProps> = ({
               <SDKClientProvider>
                 <CheckoutSdkBridge>
                   <WalletProvider providers={widgetConfig.providers ?? []}>
-                    <BookmarkStoreProvider namePrefix={widgetConfig.keyPrefix}>
+                    <BookmarkStoreProvider
+                      namePrefix={resolveStorageScopeKey(widgetConfig)}
+                    >
                       <PendingCheckoutPersistenceBridge>
                         <OnRampProviderRegistry
                           widgetConfig={effectiveWidgetConfig}

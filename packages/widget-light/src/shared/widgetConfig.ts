@@ -401,7 +401,10 @@ export interface WidgetLightConfig {
 
   // -- URL / storage --
   buildUrl?: boolean
+  /** @deprecated Use `storageScopeKey`. Still honoured as its fallback. */
   keyPrefix?: string
+  /** Namespaces the widget's persisted state. Falls back to `keyPrefix`. */
+  storageScopeKey?: string
 
   // -- Allow/deny lists --
   bridges?: WidgetAllowDeny<string>
