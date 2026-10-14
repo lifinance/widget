@@ -162,10 +162,17 @@ export const ReceiveAmountCard: React.FC<ReceiveCardProps> = (
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: effect must run on value change
   useLayoutEffect(() => {
-    if (amountRef.current) {
-      fitInputText(maxInputFontSize, minInputFontSize, amountRef.current)
+    const element = amountRef.current
+    if (!element) {
+      return
     }
-  }, [mainDisplay])
+    const resizeAmount = () =>
+      fitInputText(maxInputFontSize, minInputFontSize, element)
+    resizeAmount()
+    const observer = new ResizeObserver(resizeAmount)
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [mainDisplay, showSkeleton])
 
   return (
     <ReceiveAmountCardLayout
