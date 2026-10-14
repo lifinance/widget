@@ -191,11 +191,13 @@
       "transactionNotSent": "La transaction n’a pas été envoyée.",
       "transactionSimulationFailed": "La transaction n’a pas pu être exécutée en simulation.",
       "unknown": "Veuillez réessayer ou contacter le support.",
-      "walletChangedDuringExecution": "L’adresse du wallet qui a demandé la cotation ne correspond pas à celle qui tente de signer la transaction. Veuillez utiliser la même adresse de wallet pendant toute l’exécution de la transaction."
+      "walletChangedDuringExecution": "L’adresse du wallet qui a demandé la cotation ne correspond pas à celle qui tente de signer la transaction. Veuillez utiliser la même adresse de wallet pendant toute l’exécution de la transaction.",
+      "balanceReadFailed": "Le solde de votre wallet n’a pas pu être vérifié. Veuillez réessayer."
     },
     "title": {
       "allowanceRequired": "Plafond de dépenses insuffisant",
       "balanceIsTooLow": "Le solde est trop bas",
+      "balanceReadFailed": "Impossible de lire le solde du wallet",
       "bookmarkAlreadyExists": "Ce wallet est déjà dans vos favoris sous le nom {{name}}",
       "bookmarkNameRequired": "Le nom du favori est requis",
       "callBundleNotFound": "Transaction introuvable dans votre wallet",

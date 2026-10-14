@@ -191,11 +191,13 @@
       "transactionNotSent": "A transação não foi enviada.",
       "transactionSimulationFailed": "Não foi possível executar a transação na simulação.",
       "unknown": "Tente novamente ou entre em contato com o suporte.",
-      "walletChangedDuringExecution": "O endereço da carteira que solicitou a cotação não corresponde ao endereço da carteira que está tentando assinar a transação. Use o mesmo endereço de carteira durante toda a execução da transação."
+      "walletChangedDuringExecution": "O endereço da carteira que solicitou a cotação não corresponde ao endereço da carteira que está tentando assinar a transação. Use o mesmo endereço de carteira durante toda a execução da transação.",
+      "balanceReadFailed": "Não foi possível verificar o saldo da sua carteira. Tente novamente."
     },
     "title": {
       "allowanceRequired": "Limite de gastos insuficiente",
       "balanceIsTooLow": "Saldo muito baixo",
+      "balanceReadFailed": "Não foi possível consultar o saldo da carteira",
       "bookmarkAlreadyExists": "A carteira já está nos favoritos como {{name}}",
       "bookmarkNameRequired": "O nome do favorito é obrigatório",
       "callBundleNotFound": "Transação não encontrada na sua carteira",

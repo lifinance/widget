@@ -175,6 +175,7 @@
   },
   "error": {
     "message": {
+      "balanceReadFailed": "Your wallet balance could not be checked. Please try again.",
       "allowanceRequired": "Transfer amount for {{tokenSymbol}} exceeds your current allowance. Please increase your allowance and try again.",
       "callBundleNotFound": "Your wallet has no record of this transaction. If you approved it, it can still complete. Check your wallet balance before you swap again.",
       "insufficientFunds": "You don't have enough gas to cover the cost of the transaction.",
@@ -196,6 +197,7 @@
     "title": {
       "allowanceRequired": "Insufficient allowance",
       "balanceIsTooLow": "The balance is too low",
+      "balanceReadFailed": "Could not read wallet balance",
       "bookmarkAlreadyExists": "Wallet is already bookmarked as {{name}}",
       "bookmarkNameRequired": "Bookmark name is required",
       "callBundleNotFound": "Transaction not found in your wallet",
