@@ -191,11 +191,13 @@
       "transactionNotSent": "Transaksi tidak terkirim.",
       "transactionSimulationFailed": "Transaksi tidak dapat dieksekusi dalam simulasi.",
       "unknown": "Silakan coba lagi atau hubungi dukungan.",
-      "walletChangedDuringExecution": "Alamat dompet yang meminta kuotasi tidak cocok dengan alamat dompet yang mencoba menandatangani transaksi. Pastikan Anda menggunakan alamat dompet yang sama selama seluruh proses transaksi."
+      "walletChangedDuringExecution": "Alamat dompet yang meminta kuotasi tidak cocok dengan alamat dompet yang mencoba menandatangani transaksi. Pastikan Anda menggunakan alamat dompet yang sama selama seluruh proses transaksi.",
+      "balanceReadFailed": "Saldo dompet Anda tidak dapat diperiksa. Silakan coba lagi."
     },
     "title": {
       "allowanceRequired": "Batas penggunaan tidak mencukupi",
       "balanceIsTooLow": "Saldo terlalu rendah",
+      "balanceReadFailed": "Saldo dompet tidak dapat dibaca",
       "bookmarkAlreadyExists": "Dompet sudah di-bookmark sebagai {{name}}",
       "bookmarkNameRequired": "Nama bookmark wajib diisi",
       "callBundleNotFound": "Transaksi tidak ditemukan di dompet Anda",
