@@ -22,9 +22,9 @@ const buildActionsFromTxHistory = (tx: FullStatusData): ExecutionAction[] => {
   const actionStatus: ExecutionActionStatus =
     tx.status === 'DONE' ? 'DONE' : 'FAILED'
   const substatus: Substatus =
-    actionStatus === 'FAILED' ? 'UNKNOWN_ERROR' : 'COMPLETED'
+    tx.substatus ?? (actionStatus === 'FAILED' ? 'UNKNOWN_ERROR' : 'COMPLETED')
 
-  if (sending.chainId === receiving.chainId) {
+  if (sending.chainId === receiving.chainId && tx.substatus !== 'REFUNDED') {
     return [
       {
         type: 'SWAP', // operations on same chain will be swaps
@@ -34,7 +34,7 @@ const buildActionsFromTxHistory = (tx: FullStatusData): ExecutionAction[] => {
         txHash: sending.txHash,
         txLink: sending.txLink,
         substatus,
-        substatusMessage: '',
+        substatusMessage: tx.substatusMessage ?? '',
       },
     ]
   }
@@ -53,7 +53,7 @@ const buildActionsFromTxHistory = (tx: FullStatusData): ExecutionAction[] => {
       message: '',
       status: actionStatus,
       substatus,
-      substatusMessage: '',
+      substatusMessage: tx.substatusMessage ?? '',
       chainId: receiving.chainId,
       txHash: receiving.txHash,
       txLink: receiving.txLink,
