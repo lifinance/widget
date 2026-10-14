@@ -121,6 +121,79 @@
       "routeNotFound": "Nguyên nhân có thể là: thanh khoản thấp, số lượng đã chọn quá thấp, chi phí gas quá cao hoặc không có lộ trình cho tổ hợp token và chuỗi đã chọn.",
       "missingRouteRequiredAccount": "Kết nối ví {{chainName}} của bạn để tiếp tục. {{address}}"
     },
+    "routeIssue": {
+      "lookForReasons": "Đây là nguyên nhân chính chúng tôi tìm thấy.",
+      "useAmount": "Dùng {{suggested}} {{symbol}}",
+      "setSlippage": "Đặt trượt giá {{slippage}}%",
+      "unaffordable": "Số lượng này vượt quá mức bạn có thể gửi từ ví này.",
+      "amountTooLow": {
+        "title": "Số lượng quá thấp",
+        "description": "Số lượng này thấp hơn mức tối thiểu của các lộ trình này. Hãy thử khoảng {{suggested}} {{symbol}}, nhỉnh hơn mức tối thiểu thấp nhất chúng tôi ghi nhận.",
+        "descriptionUsd": "Các lộ trình này cần ít nhất {{minUsd}}. Hãy thử khoảng {{suggested}} {{symbol}}.",
+        "descriptionEstimated": "Số lượng này thấp hơn mức tối thiểu của các lộ trình này. Hãy thử khoảng {{suggested}} {{symbol}} để chúng tôi kiểm tra lại.",
+        "descriptionNoAmount": "Số lượng này thấp hơn mức tối thiểu của các lộ trình này. Hãy thử số lượng lớn hơn để chúng tôi kiểm tra lại.",
+        "descriptionLocked": "Số lượng này do ứng dụng đặt sẵn và thấp hơn mức tối thiểu của các lộ trình này."
+      },
+      "amountTooHigh": {
+        "title": "Số lượng quá cao",
+        "description": "Số lượng này cao hơn mức tối đa của các lộ trình này. Giới hạn cao nhất chúng tôi ghi nhận là khoảng {{suggested}} {{symbol}}, nên hãy thử mức này hoặc ít hơn.",
+        "descriptionUsd": "Số lượng này cao hơn mức tối đa của các lộ trình này. Giới hạn cao nhất chúng tôi ghi nhận là khoảng {{maxUsd}}. Hãy thử {{suggested}} {{symbol}} hoặc ít hơn.",
+        "descriptionNoAmount": "Số lượng này cao hơn mức tối đa của các lộ trình này. Hãy thử số lượng nhỏ hơn để chúng tôi kiểm tra lại.",
+        "descriptionLocked": "Số lượng này do ứng dụng đặt sẵn và cao hơn mức tối đa của các lộ trình này."
+      },
+      "slippageTooTight": {
+        "title": "Trượt giá quá thấp",
+        "description": "Các lộ trình này cần trượt giá ít nhất {{slippage}}%, cao hơn mức trượt giá đang áp dụng.",
+        "descriptionSuggested": "Mức trượt giá đang áp dụng thấp hơn mức các lộ trình này chấp nhận. Đặt thành {{slippage}}% sẽ giúp khắc phục.",
+        "descriptionNoAmount": "Mức trượt giá đang áp dụng thấp hơn mức các lộ trình này chấp nhận. Hãy thử mức trượt giá cao hơn.",
+        "descriptionHidden": "Mức trượt giá đặt cho lệnh này thấp hơn mức các lộ trình này chấp nhận."
+      },
+      "slippageTooLoose": {
+        "title": "Trượt giá quá cao",
+        "description": "Các lộ trình này chỉ chấp nhận trượt giá tối đa {{slippage}}%. Đặt thành {{slippage}}% sẽ giúp khắc phục.",
+        "descriptionNoAmount": "Mức trượt giá đang áp dụng cao hơn mức các lộ trình này chấp nhận. Hãy thử mức trượt giá thấp hơn.",
+        "descriptionHidden": "Mức trượt giá đặt cho lệnh này cao hơn mức các lộ trình này chấp nhận."
+      },
+      "destinationAccountNotReady": {
+        "title": "Tài khoản người nhận chưa sẵn sàng",
+        "description": "Tài khoản người nhận cần được thiết lập trước khi có thể nhận token này. Sau đó, hãy kiểm tra lại.",
+        "descriptionStellarUnfunded": "Tài khoản Stellar của người nhận chưa được kích hoạt. Hãy nạp XLM vào tài khoản này trước, hoặc chọn XLM làm token nhận.",
+        "descriptionStellarTrustline": "Tài khoản Stellar của người nhận chưa có trustline cho token này. Hãy tạo trustline trong ví người nhận, rồi kiểm tra lại.",
+        "descriptionStellarReserve": "Tài khoản Stellar của người nhận không đủ XLM cho mức dự trữ bắt buộc. Hãy nạp thêm XLM, rồi kiểm tra lại.",
+        "descriptionLighterAccount": "Địa chỉ người nhận chưa có tài khoản Lighter. Hãy tạo tài khoản trên Lighter, rồi kiểm tra lại.",
+        "descriptionSeiLink": "Một ví trong giao dịch này chưa liên kết với địa chỉ SEI tương ứng. Hãy liên kết tại app.sei.io, rồi kiểm tra lại.",
+        "descriptionSolAccountRent": "Một ví Solana trong giao dịch này cần thêm SOL để mở tài khoản token. Hãy nạp thêm một ít SOL, rồi kiểm tra lại."
+      },
+      "recipientNotSupported": {
+        "title": "Không hỗ trợ người nhận này",
+        "description": "Các lộ trình này không thể chuyển đến hợp đồng hoặc địa chỉ không phải của bạn. Gửi về chính ví bạn dùng để thanh toán thường sẽ thành công.",
+        "descriptionNoAction": "Các lộ trình này không thể chuyển đến địa chỉ này. Hãy thử token hoặc chuỗi khác.",
+        "action": "Gửi đến địa chỉ của tôi"
+      },
+      "gaslessNotAvailable": {
+        "title": "Không hỗ trợ giao dịch không cần gas",
+        "description": "Các lộ trình này không thể trả phí gas thay bạn cho giao dịch này. Hãy thử token hoặc chuỗi khác."
+      },
+      "blockedBySettings": {
+        "title": "Không khả dụng trong ứng dụng này",
+        "description": "Ứng dụng này không cho phép một bước cần thiết của các lộ trình này. Hãy thử token hoặc chuỗi khác."
+      },
+      "liquidity": {
+        "title": "Tác động giá quá cao",
+        "description": "Tác động giá với số lượng này cao hơn mức các lộ trình này cho phép. Hãy thử số lượng, token hoặc chuỗi khác."
+      },
+      "temporary": {
+        "title": "Tạm thời không khả dụng",
+        "description": "Một nhà cung cấp đang quá tải hoặc bảo trì. Tình trạng này thường hết trong vài phút.",
+        "descriptionGas": "Chi phí gas của các lộ trình này hiện vượt quá giới hạn cho phép. Hãy thử lại khi chi phí gas thấp hơn.",
+        "action": "Thử lại",
+        "busy": "Đang kiểm tra lại…"
+      },
+      "pairNotSupported": {
+        "title": "Không hỗ trợ cặp token này",
+        "description": "Hiện không nhà cung cấp nào chúng tôi đã kiểm tra có thể kết nối hai token này. Hãy thử token hoặc chuỗi khác."
+      }
+    },
     "title": {
       "autoRefuel": "Nhận gas trên {{chainName}}",
       "emptyTransactionHistory": "Chưa có giao dịch gần đây",

@@ -11,6 +11,11 @@ import type { SettingsProps, SettingsState, SettingsToolType } from './types.js'
 import { SettingsToolTypes } from './types.js'
 import { getStateValues } from './utils/getStateValues.js'
 
+// The band useSettingMonitor badges outside of, shared so a widening here
+// cannot silently diverge from what the UI warns about.
+export const minRecommendedSlippage = 0.1
+export const maxRecommendedSlippage = 1
+
 export const defaultSlippage = undefined
 
 export const defaultConfigurableSettings: Pick<

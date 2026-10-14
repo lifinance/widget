@@ -121,6 +121,79 @@
       "routeNotFound": "I motivi possono essere: liquidità bassa, importo selezionato troppo basso, costi del gas troppo alti oppure nessun percorso per la combinazione selezionata.",
       "missingRouteRequiredAccount": "Connetti il tuo wallet {{chainName}} per procedere. {{address}}"
     },
+    "routeIssue": {
+      "lookForReasons": "Ecco il motivo principale che abbiamo trovato.",
+      "useAmount": "Usa {{suggested}} {{symbol}}",
+      "setSlippage": "Imposta slippage a {{slippage}}%",
+      "unaffordable": "È più di quanto puoi inviare da questo wallet.",
+      "amountTooLow": {
+        "title": "Importo troppo basso",
+        "description": "Questo importo è sotto il minimo accettato da questi percorsi. Prova con circa {{suggested}} {{symbol}}, poco sopra il minimo più basso che abbiamo rilevato.",
+        "descriptionUsd": "Questi percorsi richiedono almeno {{minUsd}}. Prova con circa {{suggested}} {{symbol}}.",
+        "descriptionEstimated": "Questo importo è sotto il minimo accettato da questi percorsi. Prova con circa {{suggested}} {{symbol}} e ricontrolliamo.",
+        "descriptionNoAmount": "Questo importo è sotto il minimo accettato da questi percorsi. Prova con un importo più alto e ricontrolliamo.",
+        "descriptionLocked": "Questo importo è impostato dall'app ed è sotto il minimo accettato da questi percorsi."
+      },
+      "amountTooHigh": {
+        "title": "Importo troppo alto",
+        "description": "Questo importo supera il massimo accettato da questi percorsi. Il limite più alto che abbiamo rilevato è di circa {{suggested}} {{symbol}}, quindi prova con questo importo o meno.",
+        "descriptionUsd": "Questo importo supera il massimo accettato da questi percorsi. Il limite più alto che abbiamo rilevato è di circa {{maxUsd}}. Prova con {{suggested}} {{symbol}} o meno.",
+        "descriptionNoAmount": "Questo importo supera il massimo accettato da questi percorsi. Prova con un importo più basso e ricontrolliamo.",
+        "descriptionLocked": "Questo importo è impostato dall'app e supera il massimo accettato da questi percorsi."
+      },
+      "slippageTooTight": {
+        "title": "Slippage troppo basso",
+        "description": "Questi percorsi richiedono uno slippage di almeno {{slippage}}%, più alto di quello attuale.",
+        "descriptionSuggested": "Lo slippage attuale è sotto il minimo accettato da questi percorsi. Prova a impostarlo a {{slippage}}%.",
+        "descriptionNoAmount": "Lo slippage attuale è sotto il minimo accettato da questi percorsi. Prova con uno slippage più alto.",
+        "descriptionHidden": "Lo slippage impostato per questo ordine è sotto il minimo accettato da questi percorsi."
+      },
+      "slippageTooLoose": {
+        "title": "Slippage troppo alto",
+        "description": "Questi percorsi accettano uno slippage massimo di {{slippage}}%. Prova a impostarlo a {{slippage}}%.",
+        "descriptionNoAmount": "Lo slippage attuale supera il massimo accettato da questi percorsi. Prova con uno slippage più basso.",
+        "descriptionHidden": "Lo slippage impostato per questo ordine supera il massimo accettato da questi percorsi."
+      },
+      "destinationAccountNotReady": {
+        "title": "L'account del destinatario non è pronto",
+        "description": "L'account del destinatario deve essere configurato prima di poter ricevere questo token. Poi riprova.",
+        "descriptionStellarUnfunded": "L'account Stellar del destinatario non è ancora attivo. Prima invia XLM a questo account oppure scegli XLM come token da ricevere.",
+        "descriptionStellarTrustline": "L'account Stellar del destinatario non ha una trustline per questo token. Aggiungila nel wallet del destinatario, poi riprova.",
+        "descriptionStellarReserve": "L'account Stellar del destinatario non ha abbastanza XLM per la riserva. Aggiungi XLM all'account, poi riprova.",
+        "descriptionLighterAccount": "L'indirizzo del destinatario non ha un account Lighter. Creane uno su Lighter, poi riprova.",
+        "descriptionSeiLink": "Un wallet coinvolto in questo trasferimento non è associato al suo indirizzo SEI. Associalo su app.sei.io, poi riprova.",
+        "descriptionSolAccountRent": "Un wallet Solana coinvolto in questo trasferimento non ha abbastanza SOL per aprire un account di token. Aggiungi un po' di SOL, poi riprova."
+      },
+      "recipientNotSupported": {
+        "title": "Destinatario non supportato",
+        "description": "Questi percorsi non possono inviare a un contratto o a un indirizzo diverso dal tuo. Di solito funziona se invii al wallet da cui paghi.",
+        "descriptionNoAction": "Questi percorsi non possono inviare a questo indirizzo. Prova a cambiare token o chain.",
+        "action": "Invia al mio indirizzo"
+      },
+      "gaslessNotAvailable": {
+        "title": "Servizio senza gas non disponibile",
+        "description": "Per questo trasferimento, questi percorsi non possono pagare il gas al posto tuo. Prova a cambiare token o chain."
+      },
+      "blockedBySettings": {
+        "title": "Non disponibile in questa app",
+        "description": "Questa app non consente un passaggio necessario a questi percorsi. Prova a cambiare token o chain."
+      },
+      "liquidity": {
+        "title": "Impatto sul prezzo troppo alto",
+        "description": "Con questo importo, l'impatto sul prezzo supera il limite consentito da questi percorsi. Prova a cambiare importo, token o chain."
+      },
+      "temporary": {
+        "title": "Temporaneamente non disponibile",
+        "description": "Un provider è sovraccarico o in manutenzione. Di solito si risolve in pochi minuti.",
+        "descriptionGas": "Al momento i costi del gas su questi percorsi superano il limite consentito. Riprova quando i costi del gas saranno più bassi.",
+        "action": "Riprova",
+        "busy": "Verifica in corso…"
+      },
+      "pairNotSupported": {
+        "title": "Coppia non supportata",
+        "description": "Al momento nessuno dei provider consultati offre un percorso tra questi due token. Prova a cambiare token o chain."
+      }
+    },
     "title": {
       "autoRefuel": "Ottieni gas su {{chainName}}",
       "emptyTransactionHistory": "Nessuna transazione recente",

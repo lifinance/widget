@@ -24,6 +24,7 @@ export const CheckoutRoutesPage = (): JSX.Element => {
   const emitter = useWidgetEvents()
   const {
     routes,
+    issues,
     isLoading,
     isFetching,
     dataUpdatedAt,
@@ -81,7 +82,7 @@ export const CheckoutRoutesPage = (): JSX.Element => {
       sx={{ flex: 1 }}
     >
       {routeNotFound ? (
-        <CheckoutRouteNotFound />
+        <CheckoutRouteNotFound issues={issues} />
       ) : isLoading && !routes?.length ? (
         Array.from({ length: 3 }).map((_, index) => (
           <RouteCardSkeleton key={index} />
