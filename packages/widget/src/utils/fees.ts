@@ -7,6 +7,15 @@ export interface FeesBreakdown {
   token: Token
 }
 
+// LI.FI fee/gas amounts are integer wei strings. Parsing through Number and
+// toFixed(0) throws for any value >= 1e21 (toFixed switches to exponential
+// notation, which BigInt() rejects) and silently loses precision above
+// Number.MAX_SAFE_INTEGER for smaller values. Parse the string directly.
+export const parseAmountToBigInt = (amount: string): bigint => {
+  const [whole] = String(amount).split('.')
+  return whole ? BigInt(whole) : 0n
+}
+
 export const getAccumulatedFeeCostsBreakdown = (
   route: RouteExtended,
   included: boolean = false
@@ -114,7 +123,7 @@ const getStepFeeCostsBreakdown = (
 
   const { amount, amountUSD } = feeCosts.reduce(
     (acc, feeCost) => {
-      const feeAmount = BigInt(Number(feeCost.amount).toFixed(0) || 0)
+      const feeAmount = parseAmountToBigInt(feeCost.amount)
       const amountUSD = formatTokenPrice(
         feeAmount,
         feeCost.token.priceUSD,
