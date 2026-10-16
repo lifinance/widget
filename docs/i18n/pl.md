@@ -121,7 +121,7 @@ These terms are in use in the current texts. Use them for the same concepts.
 | Start swapping / Start bridging (execute button on the review page) | Rozpocznij swap / Rozpocznij przeniesienie (An action button, so not the marketing CTA 'Zacznij wymieniać'.) |
 | support (team) | support (m.) ; menu item: 'Pomoc' (Follows the reviewed pilot ('zgłoszenie do supportu'). Sentences say 'skontaktuj się z naszym supportem'.) |
 | tabs (navigation tabs) | zakładki ; 'Przypięte zakładki' |
-| task (part of a mission) | zadanie (n.) ; 'Zadanie: {{type}}' (A task is a step inside a mission (misja, term 42). Use a colon frame because {{type}} is a raw English enum value.) |
+| task (part of a mission) | zadanie (n.) ; 'Zadanie: {{type}}' (A task is a step inside a mission (misja, term 42). Use a colon frame, because {{type}} is a task type label (missions.tasks.types) in the nominative: 'Zadanie: wpłata'.) |
 | this operation (feature not supported) | ta funkcja (Avoids 'operacja', which the glossary avoids for 'transaction'.) |
 | top up (send the missing deposit amount) | Dopłać (Used on the incomplete deposit screens.) |
 | Trade (navbar tab in the A/B test) | Handel (The Exchange tab label stays 'Wymiana'. The portfolio transaction type 'Trade' uses 'Swap'.) |

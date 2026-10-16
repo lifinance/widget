@@ -146,7 +146,7 @@ These terms are in use in the current texts. Use them for the same concepts.
 | Start swapping / Start bridging (execute button after review) | Bắt đầu hoán đổi / Bắt đầu chuyển qua cầu nối (Refuel mode also uses 'Start bridging'. Never 'đi cầu' (glossary term 1).) |
 | subscribe (newsletter) | Đăng ký (Correct sense here. Term 23 avoids 'Đăng ký' only for a wallet signature.) |
 | supplied / borrowed (lending position) | Đã cung cấp / Đã vay (Position card headers.) |
-| task (step inside a mission) | yêu cầu (Follows term 42: 'Yêu cầu tùy chọn', 'Đã hoàn tất yêu cầu', 'Yêu cầu {{type}}'.) |
+| task (step inside a mission) | yêu cầu (Follows term 42: 'Yêu cầu tùy chọn', 'Đã hoàn tất yêu cầu', 'Yêu cầu: {{type}}'.) |
 | theme (light/dark) | Giao diện ('Chế độ sáng không khả dụng với giao diện này'.) |
 | token spending approval / revoke | 'Phê duyệt chi tiêu {{tokenSymbol}}' / 'Thu hồi quyền chi tiêu {{tokenSymbol}}' (Term 22; revoke = 'Thu hồi' (vi-B).) |
 | top up | Nạp thêm (Button and 'Nạp thêm để hoàn tất lệnh mua'.) |
