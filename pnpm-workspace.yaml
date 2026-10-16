@@ -9,16 +9,38 @@ packages:
 #
 # pnpm rewrites this sequence on install and drops comments placed between the items,
 # so the rationale has to live here, above the key:
-#   - wagmi 3.7.7 carries @wagmi/core 3.6.5, which drops the viem tempo/zones import.
-#     Kept so a gate cannot hold the tree below that line; these have since aged out.
-#   - When pnpm adds an entry on install, it is a version that was still inside the age
-#     window. Remove it once it ages out or is no longer resolved.
+#   - An exact-version entry is a version that was still inside the age window when it
+#     was bumped. Remove it once it ages out or is no longer resolved.
 minimumReleaseAgeExclude:
   - '@bigmi/*'
   - '@lifi/*'
-  - wagmi@3.7.7
-  - '@wagmi/core@3.6.5'
-  - '@wagmi/connectors@8.2.0'
+  - "@meshconnect/node-api@2.0.29"
+  - "@meshconnect/web-link-sdk@3.15.0"
+  - "@next/env@16.4.2"
+  - "@next/swc-darwin-arm64@16.4.2"
+  - "@next/swc-darwin-x64@16.4.2"
+  - "@next/swc-linux-arm64-gnu@16.4.2"
+  - "@next/swc-linux-arm64-musl@16.4.2"
+  - "@next/swc-linux-x64-gnu@16.4.2"
+  - "@next/swc-linux-x64-musl@16.4.2"
+  - "@next/swc-win32-arm64-msvc@16.4.2"
+  - "@next/swc-win32-x64-msvc@16.4.2"
+  - "@privy-io/api-base@1.12.0"
+  - "@privy-io/are-addresses-equal@0.0.16"
+  - "@privy-io/js-sdk-core@0.78.4"
+  - "@privy-io/react-auth@3.49.1"
+  - "@tanstack/react-virtual@3.14.21"
+  - "@tanstack/virtual-core@3.19.6"
+  - "@vitest/mocker@5.0.5"
+  - "@vitest/spy@5.0.5"
+  - framer-motion@14.3.0
+  - happy-dom@21.0.3
+  - i18next@26.4.7
+  - motion-dom@14.3.0
+  - motion@14.3.0
+  - next@16.4.2
+  - react-i18next@17.0.19
+  - vitest@5.0.5
 overrides:
   "@react-native-async-storage/async-storage": ">=2.2.0"
   "@reown/appkit": ">=1.8.20"
