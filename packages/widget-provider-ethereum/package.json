@@ -39,7 +39,7 @@
   ],
   "dependencies": {
     "@lifi/sdk": "^4.12.1",
-    "@lifi/sdk-provider-ethereum": "^4.2.9",
+    "@lifi/sdk-provider-ethereum": "^4.2.11",
     "@lifi/widget-provider": "workspace:*",
     "viem": ">=2.52.0"
   },
@@ -51,7 +51,7 @@
   "devDependencies": {
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
-    "react": "^19.3.0",
+    "react": "^19.3.1",
     "typescript": "^7.0.2"
   }
 }

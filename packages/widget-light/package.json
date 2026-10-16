@@ -57,12 +57,12 @@
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "typescript": "^7.0.2",
-    "vitest": "^5.0.4"
+    "vitest": "^5.0.5"
   },
   "peerDependencies": {
     "@bigmi/client": "^0.10.5",
     "@bigmi/react": "^0.9.5",
-    "@mysten/dapp-kit-react": "^2.1.39",
+    "@mysten/dapp-kit-react": "^2.1.40",
     "@wagmi/core": "^3.6.5",
     "@wallet-standard/base": "^1.1.1",
     "react": ">=19",

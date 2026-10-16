@@ -53,8 +53,8 @@
     "csstype": "^3.2.3",
     "lodash.isequal": "^4.5.0",
     "microdiff": "^1.6.0",
-    "react": "^19.3.0",
-    "react-dom": "^19.3.0",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
     "viem": ">=2.52.0",
     "wagmi": "^3.7.7",
     "zustand": "^5.0.15"
@@ -66,7 +66,7 @@
     "@types/react-dom": "^19.3.0",
     "madge": "^8.0.0",
     "typescript": "^7.0.2",
-    "vitest": "^5.0.4"
+    "vitest": "^5.0.5"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0"
