@@ -1,5 +1,4 @@
 ---
-"@lifi/widget-light": patch
 "@lifi/widget-provider-sui": patch
 ---
 
