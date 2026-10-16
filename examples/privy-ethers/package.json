@@ -18,7 +18,7 @@
     "@mui/material": "^9.5.0",
     "@privy-io/react-auth": "^3.49.1",
     "@privy-io/wagmi": "^4.0.19",
-    "@solana-program/memo": "^0.15.0",
+    "@solana-program/memo": "^0.16.0",
     "@solana/wallet-adapter-base": "^0.9.28",
     "@solana/wallet-adapter-react": "^0.15.40",
     "@solana/web3.js": "^1.99.0",
