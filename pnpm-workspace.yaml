@@ -9,16 +9,21 @@ packages:
 #
 # pnpm rewrites this sequence on install and drops comments placed between the items,
 # so the rationale has to live here, above the key:
-#   - wagmi 3.7.7 carries @wagmi/core 3.6.5, which drops the viem tempo/zones import.
-#     Kept so a gate cannot hold the tree below that line; these have since aged out.
-#   - When pnpm adds an entry on install, it is a version that was still inside the age
-#     window. Remove it once it ages out or is no longer resolved.
+#   - An exact-version entry is a version that was still inside the age window when it
+#     was bumped. Remove it once it ages out or is no longer resolved.
 minimumReleaseAgeExclude:
   - '@bigmi/*'
   - '@lifi/*'
-  - wagmi@3.7.7
-  - '@wagmi/core@3.6.5'
-  - '@wagmi/connectors@8.2.0'
+  - "@commitlint/cli@21.2.4"
+  - "@commitlint/config-conventional@21.2.4"
+  - "@commitlint/ensure@21.2.4"
+  - "@commitlint/lint@21.2.4"
+  - "@commitlint/load@21.2.4"
+  - "@commitlint/rules@21.2.4"
+  - framer-motion@14.4.0
+  - knip@6.42.0
+  - motion-dom@14.4.0
+  - motion@14.4.0
 overrides:
   "@react-native-async-storage/async-storage": ">=2.2.0"
   "@reown/appkit": ">=1.8.20"
@@ -68,8 +73,6 @@ overrides:
   "undici@<8.10.2": "^8.10.2"
   # Forced major. Nuxt example only. This repo uses no Redis.
   "ioredis@<6.0.0": "^6.0.0"
-  # Forced major. simple-git 3.36.0 (Nuxt devtools) declares ^1.1.0. 2.0.1 keeps vulnerabilityCheck().
-  "@simple-git/argv-parser@<2.0.1": "^2.0.1"
   # Forced major. Drops stream-json. @solana/web3.js loads only the browser client. Node 20+.
   "jayson@<5.0.0": "^5.0.0"
 allowBuilds:
