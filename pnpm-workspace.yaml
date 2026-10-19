@@ -14,23 +14,16 @@ packages:
 minimumReleaseAgeExclude:
   - '@bigmi/*'
   - '@lifi/*'
-  - "@next/env@16.4.2"
-  - "@next/swc-darwin-arm64@16.4.2"
-  - "@next/swc-darwin-x64@16.4.2"
-  - "@next/swc-linux-arm64-gnu@16.4.2"
-  - "@next/swc-linux-arm64-musl@16.4.2"
-  - "@next/swc-linux-x64-gnu@16.4.2"
-  - "@next/swc-linux-x64-musl@16.4.2"
-  - "@next/swc-win32-arm64-msvc@16.4.2"
-  - "@next/swc-win32-x64-msvc@16.4.2"
-  - "@tanstack/react-virtual@3.14.21"
-  - "@tanstack/virtual-core@3.19.6"
-  - happy-dom@21.0.3
-  - i18next@26.4.7
-  - next@16.4.2
-  - react-i18next@17.0.19
-  - "@solana-program/memo@0.16.0"
-  - permissionless@0.5.0
+  - "@commitlint/cli@21.2.4"
+  - "@commitlint/config-conventional@21.2.4"
+  - "@commitlint/ensure@21.2.4"
+  - "@commitlint/lint@21.2.4"
+  - "@commitlint/load@21.2.4"
+  - "@commitlint/rules@21.2.4"
+  - framer-motion@14.4.0
+  - knip@6.42.0
+  - motion-dom@14.4.0
+  - motion@14.4.0
 overrides:
   "@react-native-async-storage/async-storage": ">=2.2.0"
   "@reown/appkit": ">=1.8.20"
@@ -80,8 +73,6 @@ overrides:
   "undici@<8.10.2": "^8.10.2"
   # Forced major. Nuxt example only. This repo uses no Redis.
   "ioredis@<6.0.0": "^6.0.0"
-  # Forced major. simple-git 3.36.0 (Nuxt devtools) declares ^1.1.0. 2.0.1 keeps vulnerabilityCheck().
-  "@simple-git/argv-parser@<2.0.1": "^2.0.1"
   # Forced major. Drops stream-json. @solana/web3.js loads only the browser client. Node 20+.
   "jayson@<5.0.0": "^5.0.0"
 allowBuilds:

@@ -24,7 +24,7 @@
     "@lifi/widget-provider-sui": "workspace:*",
     "@mui/material": "^9.5.0",
     "@mysten/dapp-kit-react": "^2.1.40",
-    "@tanstack/react-query": "^5.104.3",
+    "@tanstack/react-query": "^5.104.4",
     "@wagmi/connectors": "^8.2.0",
     "bs58": ">=4.0.1",
     "react": "^19.3.1",
