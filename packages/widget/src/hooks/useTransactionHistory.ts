@@ -14,6 +14,7 @@ import type {
 import { getSourceTxHash } from '../stores/routes/utils.js'
 import { buildRouteFromTxHistory } from '../utils/converters.js'
 import { getQueryKey } from '../utils/queries.js'
+import { useAvailableChains } from './useAvailableChains.js'
 import { useTools } from './useTools.js'
 
 export const useTransactionHistory = (): {
@@ -25,6 +26,7 @@ export const useTransactionHistory = (): {
   const { storageScopeKey } = useWidgetConfig()
   const sdkClient = useSDKClient()
   const { tools } = useTools()
+  const { getChainById } = useAvailableChains()
 
   const { data: routeExecutions, isLoading } = useQueries({
     queries: accounts.map((account) => ({
@@ -77,7 +79,8 @@ export const useTransactionHistory = (): {
         (transaction) => {
           const routeExecution = buildRouteFromTxHistory(
             transaction as FullStatusData,
-            tools
+            tools,
+            getChainById(transaction.sending.chainId)
           )
           return routeExecution ? [routeExecution] : []
         }
