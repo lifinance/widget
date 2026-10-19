@@ -1,6 +1,7 @@
 import type {
   ExecutionAction,
   ExecutionActionStatus,
+  ExtendedChain,
   ExtendedTransactionInfo,
   FeeCost,
   FullStatusData,
@@ -9,7 +10,7 @@ import type {
   ToolsResponse,
 } from '@lifi/sdk'
 import type { RouteExecution } from '../stores/routes/types.js'
-import { formatTokenPrice } from './format.js'
+import { formatTokenPrice, parseAmountToBigInt } from './format.js'
 
 const buildActionsFromTxHistory = (tx: FullStatusData): ExecutionAction[] => {
   const sending = tx.sending as ExtendedTransactionInfo
@@ -63,9 +64,56 @@ const buildActionsFromTxHistory = (tx: FullStatusData): ExecutionAction[] => {
   return actions
 }
 
+const isValidFeeCost = (feeCost: FeeCost): boolean =>
+  Boolean(feeCost.token) && parseAmountToBigInt(feeCost.amount) > 0n
+
+const buildFeeCostsFromTxHistory = (
+  tx: FullStatusData,
+  fromChain?: ExtendedChain
+): FeeCost[] | undefined => {
+  const feeCosts = tx.feeCosts?.filter(isValidFeeCost)
+  if (feeCosts?.some((feeCost) => feeCost.included === false)) {
+    return feeCosts
+  }
+
+  // These chains report value in native decimals, so it holds the sent amount
+  if (fromChain?.nonStandardNativeDecimals) {
+    return
+  }
+
+  const sending = tx.sending as ExtendedTransactionInfo
+  const sendingValue = parseAmountToBigInt(sending.value)
+  const sendingFeeAmount =
+    sending.gasToken.address === sending.token?.address && sending.amount
+      ? sendingValue - parseAmountToBigInt(sending.amount)
+      : sendingValue
+
+  if (sendingFeeAmount <= 0n) {
+    return
+  }
+
+  return [
+    {
+      amount: sendingFeeAmount.toString(),
+      amountUSD: formatTokenPrice(
+        sendingFeeAmount,
+        sending.gasToken.priceUSD,
+        sending.gasToken.decimals
+      ).toFixed(2),
+      token: sending.gasToken,
+      included: false,
+      // Not used
+      description: '',
+      name: '',
+      percentage: '',
+    },
+  ]
+}
+
 export const buildRouteFromTxHistory = (
   tx: FullStatusData,
-  tools?: ToolsResponse
+  tools?: ToolsResponse,
+  fromChain?: ExtendedChain
 ): RouteExecution | undefined => {
   const sending = tx.sending as ExtendedTransactionInfo
   const receiving = tx.receiving as ExtendedTransactionInfo
@@ -103,34 +151,7 @@ export const buildRouteFromTxHistory = (
     amount: BigInt(receiving.amount ?? 0),
   }
 
-  const sendingValue = sending.value ? BigInt(sending.value) : 0n
-  const sendingFeeAmount =
-    sending.gasToken.address === sending.token.address && sending.amount
-      ? sendingValue - BigInt(sending.amount)
-      : sendingValue
-  const sendingFeeAmountUsd =
-    sending.gasToken.priceUSD && sendingFeeAmount
-      ? formatTokenPrice(
-          sendingFeeAmount,
-          sending.gasToken.priceUSD,
-          sending.gasToken.decimals
-        )
-      : 0
-
-  const feeCosts: FeeCost[] | undefined = sendingFeeAmount
-    ? [
-        {
-          amount: sendingFeeAmount.toString(),
-          amountUSD: sendingFeeAmountUsd.toFixed(2),
-          token: sending.gasToken,
-          included: false,
-          // Not used
-          description: '',
-          name: '',
-          percentage: '',
-        },
-      ]
-    : undefined
+  const feeCosts = buildFeeCostsFromTxHistory(tx, fromChain)
 
   const routeExecution: RouteExecution = {
     status: 1,

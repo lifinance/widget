@@ -6,6 +6,7 @@ import { ContractComponent } from '../../components/ContractComponent/ContractCo
 import { PageContainer } from '../../components/PageContainer.js'
 import { TransactionCard } from '../../components/TransactionCard/TransactionCard.js'
 import { internalExplorerUrl } from '../../config/constants.js'
+import { useAvailableChains } from '../../hooks/useAvailableChains.js'
 import { useExplorer } from '../../hooks/useExplorer.js'
 import { useHeader } from '../../hooks/useHeader.js'
 import { useTools } from '../../hooks/useTools.js'
@@ -27,6 +28,7 @@ export const TransactionDetailsPage: React.FC = () => {
     useWidgetConfig()
   const { search }: any = useLocation()
   const { tools } = useTools()
+  const { getChainById } = useAvailableChains()
   const { getTransactionLink } = useExplorer()
   const storedRouteExecution = useRouteExecutionStore((store) =>
     search?.routeId ? store.routes[search.routeId] : undefined
@@ -49,9 +51,13 @@ export const TransactionDetailsPage: React.FC = () => {
       return
     }
     if (transaction) {
-      return buildRouteFromTxHistory(transaction as FullStatusData, tools)
+      return buildRouteFromTxHistory(
+        transaction as FullStatusData,
+        tools,
+        getChainById(transaction.sending.chainId)
+      )
     }
-  }, [isLoading, storedRouteExecution, tools, transaction])
+  }, [getChainById, isLoading, storedRouteExecution, tools, transaction])
 
   useEffect(() => {
     if (!isLoading && !routeExecution) {

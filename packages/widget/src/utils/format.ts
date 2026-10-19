@@ -112,6 +112,37 @@ export function formatInputAmount(
   return `${integer || (fraction ? '0' : '')}${fraction ? `.${fraction}` : ''}`
 }
 
+/** Matches a plain decimal number, i.e. no exponent and no other characters. */
+const plainDecimalRegExp = /^-?\d+(?:\.\d+)?$/
+
+/**
+ * Convert an amount string denominated in a token's smallest unit to a bigint.
+ *
+ * Never route these amounts through `Number`: values above `Number.MAX_SAFE_INTEGER`
+ * lose precision, and from 1e21 upwards `Number#toFixed` returns exponential
+ * notation, which `BigInt` rejects outright.
+ *
+ * A smallest unit is indivisible, so a fractional amount carries no meaning. Should a
+ * provider report one anyway, the fraction is truncated textually — discarding nothing
+ * real, and without letting `BigInt` throw on it.
+ * @param amount amount in the token's smallest unit.
+ * @returns the amount as a bigint, or 0n when it is missing or not a plain decimal.
+ */
+export function parseAmountToBigInt(amount?: string): bigint {
+  const trimmedAmount = amount?.trim()
+  if (!trimmedAmount) {
+    return 0n
+  }
+  if (!plainDecimalRegExp.test(trimmedAmount)) {
+    // Falling back to 0n keeps the widget rendering, but it under-reports gas and
+    // fee totals — surface it rather than letting a bad amount vanish silently
+    console.warn('Unparseable token amount:', amount)
+    return 0n
+  }
+  // Smallest units are indivisible, so drop any fractional part
+  return BigInt(trimmedAmount.split('.')[0])
+}
+
 export function formatTokenPrice(
   amount?: string | bigint,
   price?: string,
