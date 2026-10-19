@@ -1,5 +1,13 @@
 # @lifi/widget-provider-sui
 
+## 4.1.10
+
+### Patch Changes
+
+- [#912](https://github.com/lifinance/widget/pull/912) [`24bcfd3`](https://github.com/lifinance/widget/commit/24bcfd318c48bf105244f644b5b86ec1cba43f6c) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk-provider-sui` to 4.2.11.
+
+- [#912](https://github.com/lifinance/widget/pull/912) [`24bcfd3`](https://github.com/lifinance/widget/commit/24bcfd318c48bf105244f644b5b86ec1cba43f6c) Thanks [@chybisov](https://github.com/chybisov)! - Update `@mysten/sui` to 2.36.0 and raise the `@mysten/dapp-kit-react` peer floor to 2.1.40.
+
 ## 4.1.9
 
 ### Patch Changes

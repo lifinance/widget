@@ -1,5 +1,11 @@
 # @lifi/wallet-management
 
+## 4.3.5
+
+### Patch Changes
+
+- [#912](https://github.com/lifinance/widget/pull/912) [`24bcfd3`](https://github.com/lifinance/widget/commit/24bcfd318c48bf105244f644b5b86ec1cba43f6c) Thanks [@chybisov](https://github.com/chybisov)! - Update `i18next` to 26.5.2 and `react-i18next` to 17.1.0.
+
 ## 4.3.4
 
 ### Patch Changes

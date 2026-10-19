@@ -1,5 +1,11 @@
 # @lifi/widget-provider-ethereum
 
+## 4.1.10
+
+### Patch Changes
+
+- [#912](https://github.com/lifinance/widget/pull/912) [`24bcfd3`](https://github.com/lifinance/widget/commit/24bcfd318c48bf105244f644b5b86ec1cba43f6c) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk-provider-ethereum` to 4.2.11. It keeps one wallet poll per call bundle with `viem` 2.57.5 and later, and it raises its `viem` range to `^2.57.7`.
+
 ## 4.1.9
 
 ### Patch Changes
