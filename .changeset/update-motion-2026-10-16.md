@@ -3,4 +3,4 @@
 "@lifi/widget-checkout": patch
 ---
 
-Update `motion` to 14.3.0.
+Update `motion` to 14.4.0.

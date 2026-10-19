@@ -3,4 +3,4 @@
 "@lifi/widget-checkout": patch
 ---
 
-Update `@tanstack/react-router` to 1.170.44.
+Update `@tanstack/react-router` to 1.170.45.

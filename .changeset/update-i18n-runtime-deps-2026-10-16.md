@@ -4,4 +4,4 @@
 "@lifi/widget-checkout": patch
 ---
 
-Update `i18next` to 26.4.7 and `react-i18next` to 17.0.19.
+Update `i18next` to 26.5.2 and `react-i18next` to 17.1.0.
