@@ -1,27 +1,25 @@
-import { describe, expect, it, vi } from 'vitest'
+import { parseUnits } from 'viem'
+import { beforeEach, describe, expect, it, vi } from 'vitest'
 import { parseInputAmount } from './parseInputAmount.js'
 
 vi.mock('viem', async (importOriginal) => {
   const viem = await importOriginal<typeof import('viem')>()
-  return {
-    ...viem,
-    // Simulate viem 2.55.4+, which throws on values that are not decimal numbers
-    parseUnits: (value: string, decimals: number) => {
-      if (!/^-?\d*\.?\d+$|^-?\d+\.$/.test(value)) {
-        throw new Error(`Value \`${value}\` is not a valid decimal number.`)
-      }
-      return viem.parseUnits(value, decimals)
-    },
-  }
+  return { ...viem, parseUnits: vi.fn(viem.parseUnits) }
 })
 
 describe('parseInputAmount', () => {
+  beforeEach(() => {
+    vi.mocked(parseUnits).mockClear()
+  })
+
   it('should return 0n for an empty amount', () => {
     expect(parseInputAmount('', 18)).toBe(0n)
     expect(parseInputAmount('   ', 18)).toBe(0n)
     expect(parseInputAmount('-', 18)).toBe(0n)
     expect(parseInputAmount('.', 18)).toBe(0n)
     expect(parseInputAmount('-.', 18)).toBe(0n)
+    // viem 2.55.4+ throws on these values, so they must not reach parseUnits
+    expect(parseUnits).not.toHaveBeenCalled()
   })
 
   it('should parse decimal amounts', () => {
