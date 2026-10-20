@@ -13,7 +13,6 @@ import {
 import { useAccount } from '@lifi/wallet-management'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { useCallback, useMemo } from 'react'
-import { parseUnits } from 'viem'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
 import { useIntermediateRoutesStore } from '../stores/routes/useIntermediateRoutesStore.js'
@@ -23,6 +22,7 @@ import { useSettings } from '../stores/settings/useSettings.js'
 import { WidgetEvent } from '../types/events.js'
 import type { TokensByChain } from '../types/token.js'
 import { getChainTypeFromAddress } from '../utils/chainType.js'
+import { parseInputAmount } from '../utils/parseInputAmount.js'
 import { getQueryKey } from '../utils/queries.js'
 import { updateTokenInCache } from '../utils/token.js'
 import { useChain } from './useChain.js'
@@ -241,8 +241,11 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
         ],
         signal,
       }) => {
-        const fromAmount = parseUnits(fromTokenAmount, fromToken!.decimals)
-        const toAmount = parseUnits(toTokenAmount, toToken!.decimals)
+        const fromAmount = parseInputAmount(
+          fromTokenAmount,
+          fromToken!.decimals
+        )
+        const toAmount = parseInputAmount(toTokenAmount, toToken!.decimals)
         const formattedSlippage = slippage
           ? Number.parseFloat(slippage) / 100
           : defaultSlippage
