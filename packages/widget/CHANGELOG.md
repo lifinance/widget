@@ -1,5 +1,21 @@
 # @lifi/widget
 
+## 4.10.3
+
+### Patch Changes
+
+- [#913](https://github.com/lifinance/widget/pull/913) [`897829d`](https://github.com/lifinance/widget/commit/897829d9652ea422ce25a9d4a266f509615180f4) Thanks [@chybisov](https://github.com/chybisov)! - Show the correct provider fee on the transaction details page. Native sends on Solana, Sui, Stellar and some EVM routes no longer show the sent amount as a negative fee. Non-included fees from the transfer data now show.
+
+- [#912](https://github.com/lifinance/widget/pull/912) [`24bcfd3`](https://github.com/lifinance/widget/commit/24bcfd318c48bf105244f644b5b86ec1cba43f6c) Thanks [@chybisov](https://github.com/chybisov)! - Update `i18next` to 26.5.2 and `react-i18next` to 17.1.0.
+
+- [#912](https://github.com/lifinance/widget/pull/912) [`24bcfd3`](https://github.com/lifinance/widget/commit/24bcfd318c48bf105244f644b5b86ec1cba43f6c) Thanks [@chybisov](https://github.com/chybisov)! - Update `motion` to 14.4.0.
+
+- [#912](https://github.com/lifinance/widget/pull/912) [`24bcfd3`](https://github.com/lifinance/widget/commit/24bcfd318c48bf105244f644b5b86ec1cba43f6c) Thanks [@chybisov](https://github.com/chybisov)! - Update `@tanstack/react-router` to 1.170.45.
+
+- [#912](https://github.com/lifinance/widget/pull/912) [`24bcfd3`](https://github.com/lifinance/widget/commit/24bcfd318c48bf105244f644b5b86ec1cba43f6c) Thanks [@chybisov](https://github.com/chybisov)! - Update `@tanstack/react-virtual` to 3.14.21.
+- Updated dependencies [[`24bcfd3`](https://github.com/lifinance/widget/commit/24bcfd318c48bf105244f644b5b86ec1cba43f6c)]:
+  - @lifi/wallet-management@4.3.5
+
 ## 4.10.2
 
 ### Patch Changes

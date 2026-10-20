@@ -1,5 +1,19 @@
 # @lifi/widget-checkout
 
+## 4.0.10
+
+### Patch Changes
+
+- [#912](https://github.com/lifinance/widget/pull/912) [`24bcfd3`](https://github.com/lifinance/widget/commit/24bcfd318c48bf105244f644b5b86ec1cba43f6c) Thanks [@chybisov](https://github.com/chybisov)! - Update `i18next` to 26.5.2 and `react-i18next` to 17.1.0.
+
+- [#912](https://github.com/lifinance/widget/pull/912) [`24bcfd3`](https://github.com/lifinance/widget/commit/24bcfd318c48bf105244f644b5b86ec1cba43f6c) Thanks [@chybisov](https://github.com/chybisov)! - Update `motion` to 14.4.0.
+
+- [#912](https://github.com/lifinance/widget/pull/912) [`24bcfd3`](https://github.com/lifinance/widget/commit/24bcfd318c48bf105244f644b5b86ec1cba43f6c) Thanks [@chybisov](https://github.com/chybisov)! - Update `@tanstack/react-router` to 1.170.45.
+- Updated dependencies [[`897829d`](https://github.com/lifinance/widget/commit/897829d9652ea422ce25a9d4a266f509615180f4), [`24bcfd3`](https://github.com/lifinance/widget/commit/24bcfd318c48bf105244f644b5b86ec1cba43f6c), [`24bcfd3`](https://github.com/lifinance/widget/commit/24bcfd318c48bf105244f644b5b86ec1cba43f6c), [`24bcfd3`](https://github.com/lifinance/widget/commit/24bcfd318c48bf105244f644b5b86ec1cba43f6c), [`24bcfd3`](https://github.com/lifinance/widget/commit/24bcfd318c48bf105244f644b5b86ec1cba43f6c), [`24bcfd3`](https://github.com/lifinance/widget/commit/24bcfd318c48bf105244f644b5b86ec1cba43f6c)]:
+  - @lifi/widget@4.10.3
+  - @lifi/wallet-management@4.3.5
+  - @lifi/widget-provider-mesh@4.0.8
+
 ## 4.0.9
 
 ### Patch Changes
