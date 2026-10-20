@@ -241,8 +241,12 @@ export const useRoutes = ({ observableRoute }: RoutesProps = {}) => {
         ],
         signal,
       }) => {
-        const fromAmount = parseUnits(fromTokenAmount, fromToken!.decimals)
-        const toAmount = parseUnits(toTokenAmount, toToken!.decimals)
+        const fromAmount = fromTokenAmount
+          ? parseUnits(fromTokenAmount, fromToken!.decimals)
+          : 0n
+        const toAmount = toTokenAmount
+          ? parseUnits(toTokenAmount, toToken!.decimals)
+          : 0n
         const formattedSlippage = slippage
           ? Number.parseFloat(slippage) / 100
           : defaultSlippage

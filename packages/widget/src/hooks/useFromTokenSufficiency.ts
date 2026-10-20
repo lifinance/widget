@@ -46,7 +46,9 @@ export const useFromTokenSufficiency = (route?: RouteExtended) => {
       if (!accountAddress || !token) {
         return
       }
-      const parsedFromAmount = parseUnits(fromAmount, token.decimals)
+      const parsedFromAmount = fromAmount
+        ? parseUnits(fromAmount, token.decimals)
+        : 0n
       let currentTokenBalance = token.amount ?? 0n
 
       if (!route || isRouteDone(route)) {
