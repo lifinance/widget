@@ -18,7 +18,7 @@
     "release:version": "lerna version --no-changelog --no-push --no-git-tag-version --no-private",
     "release:build": "pnpm -r --parallel release:build",
     "release:publish:build": "pnpm release:build && pnpm -r --parallel build:prerelease",
-    "release:publish": "pnpm release:publish:build && pnpm -r publish --access public --no-git-checks --tag latest && pnpm release:clean",
+    "release:publish": "pnpm release:publish:build && pnpm -r publish --access public --no-git-checks --tag latest-v3 && pnpm release:clean",
     "release:publish:alpha": "pnpm release:publish:build && pnpm -r publish --access public --no-git-checks --tag alpha && pnpm release:clean",
     "release:publish:beta": "pnpm release:publish:build && pnpm -r publish --access public --no-git-checks --tag beta && pnpm release:clean",
     "release:clean": "pnpm -r --parallel --filter './packages/**' --filter '!*-playground-*' --filter '!*-embedded' exec sh -c \"node ../../scripts/postrelease.js && rm -rf *.md\"",
