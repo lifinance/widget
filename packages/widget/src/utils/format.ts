@@ -1,4 +1,20 @@
-import { formatUnits } from 'viem'
+import { formatUnits, parseUnits } from 'viem'
+
+/**
+ * Parse an amount string from the form to the smallest token unit.
+ * An empty amount (or a lone minus sign) parses to 0n.
+ * viem 2.55.4+ throws on these values, older versions returned 0n.
+ * @param amount amount to parse.
+ * @param decimals token decimals.
+ * @returns parsed amount.
+ */
+export function parseInputAmount(amount: string, decimals: number) {
+  const value = amount.trim()
+  if (!value || value === '-') {
+    return 0n
+  }
+  return parseUnits(value, decimals)
+}
 
 /**
  * Format token amount to at least 6 decimals.

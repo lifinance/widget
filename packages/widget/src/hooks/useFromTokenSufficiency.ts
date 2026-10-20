@@ -1,10 +1,10 @@
 import type { RouteExtended } from '@lifi/sdk'
 import { useAccount } from '@lifi/wallet-management'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
-import { parseUnits } from 'viem'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../stores/form/useFieldValues.js'
 import { isRouteDone } from '../stores/routes/utils.js'
+import { parseInputAmount } from '../utils/format.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useTokenAddressBalance } from './useTokenAddressBalance.js'
 import { getTokenBalancesWithRetry } from './useTokenBalance.js'
@@ -46,12 +46,10 @@ export const useFromTokenSufficiency = (route?: RouteExtended) => {
       if (!accountAddress || !token) {
         return
       }
-      const parsedFromAmount = fromAmount
-        ? parseUnits(fromAmount, token.decimals)
-        : 0n
       let currentTokenBalance = token.amount ?? 0n
 
       if (!route || isRouteDone(route)) {
+        const parsedFromAmount = parseInputAmount(fromAmount, token.decimals)
         const insufficientFunds = currentTokenBalance < parsedFromAmount
         return insufficientFunds
       }
