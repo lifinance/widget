@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.40.13](https://github.com/lifinance/widget/compare/v3.40.12...v3.40.13) (2026-10-20)
+
+
+### Bug Fixes
+
+* handle empty amounts before parseUnits for viem 2.55.4+ ([#915](https://github.com/lifinance/widget/issues/915)) ([9200a01](https://github.com/lifinance/widget/commit/9200a01c5fd35b1d832e9b5adc86ff736622e85e))
+
 ### [3.40.12](https://github.com/lifinance/widget/compare/v3.40.11...v3.40.12) (2026-03-12)
 
 ### [3.40.11](https://github.com/lifinance/widget/compare/v3.40.10...v3.40.11) (2026-02-27)
