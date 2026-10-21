@@ -121,6 +121,79 @@
       "routeNotFound": "Bunun nedenleri şunlar olabilir: düşük likidite, seçilen tutarın çok düşük olması, gas ücretlerinin çok yüksek olması veya seçilen kombinasyon için rota bulunmaması.",
       "missingRouteRequiredAccount": "Devam etmek için {{chainName}} cüzdanınızı bağlayın. {{address}}"
     },
+    "routeIssue": {
+      "lookForReasons": "Bulduğumuz ana neden şu:",
+      "useAmount": "{{suggested}} {{symbol}} kullan",
+      "setSlippage": "Kaymayı %{{slippage}} yap",
+      "unaffordable": "Bu cüzdandan gönderebileceğiniz tutarı aşıyor.",
+      "amountTooLow": {
+        "title": "Tutar çok düşük",
+        "description": "Tutar, bu rotaların kabul ettiği minimumun altında. Yaklaşık {{suggested}} {{symbol}} deneyin; bu, gördüğümüz en düşük minimumun hemen üzerinde.",
+        "descriptionUsd": "Bu rotalar için en az {{minUsd}} gerekiyor. Yaklaşık {{suggested}} {{symbol}} deneyin.",
+        "descriptionEstimated": "Tutar, bu rotaların kabul ettiği minimumun altında. Yaklaşık {{suggested}} {{symbol}} deneyin, tekrar kontrol ederiz.",
+        "descriptionNoAmount": "Tutar, bu rotaların kabul ettiği minimumun altında. Daha yüksek bir tutar deneyin, tekrar kontrol ederiz.",
+        "descriptionLocked": "Bu tutar uygulama tarafından belirlenmiş ve bu rotaların kabul ettiği minimumun altında."
+      },
+      "amountTooHigh": {
+        "title": "Tutar çok yüksek",
+        "description": "Tutar, bu rotaların kabul ettiği maksimumun üzerinde. Gördüğümüz en yüksek sınır yaklaşık {{suggested}} {{symbol}}; bu tutarı veya daha azını deneyin.",
+        "descriptionUsd": "Tutar, bu rotaların kabul ettiği maksimumun üzerinde. Gördüğümüz en yüksek sınır yaklaşık {{maxUsd}}. {{suggested}} {{symbol}} veya daha azını deneyin.",
+        "descriptionNoAmount": "Tutar, bu rotaların kabul ettiği maksimumun üzerinde. Daha düşük bir tutar deneyin, tekrar kontrol ederiz.",
+        "descriptionLocked": "Bu tutar uygulama tarafından belirlenmiş ve bu rotaların kabul ettiği maksimumun üzerinde."
+      },
+      "slippageTooTight": {
+        "title": "Kayma çok düşük",
+        "description": "Bu rotalar en az %{{slippage}} kayma gerektiriyor. Bu değer, şu an uygulanan kaymadan yüksek.",
+        "descriptionSuggested": "Şu an uygulanan kayma, bu rotaların kabul ettiğinden düşük. Kaymayı %{{slippage}} olarak ayarlamak sorunu çözebilir.",
+        "descriptionNoAmount": "Şu an uygulanan kayma, bu rotaların kabul ettiğinden düşük. Daha yüksek bir kayma deneyin.",
+        "descriptionHidden": "Bu işlem için belirlenen kayma, bu rotaların kabul ettiğinden düşük."
+      },
+      "slippageTooLoose": {
+        "title": "Kayma çok yüksek",
+        "description": "Bu rotalar en fazla %{{slippage}} kayma kabul ediyor. Kaymayı %{{slippage}} olarak ayarlamak sorunu çözebilir.",
+        "descriptionNoAmount": "Şu an uygulanan kayma, bu rotaların kabul ettiğinden yüksek. Daha düşük bir kayma deneyin.",
+        "descriptionHidden": "Bu işlem için belirlenen kayma, bu rotaların kabul ettiğinden yüksek."
+      },
+      "destinationAccountNotReady": {
+        "title": "Alıcı hesap hazır değil",
+        "description": "Alıcı hesabın bu token'ı alabilmesi için önce kurulması gerekiyor. Ardından tekrar kontrol edin.",
+        "descriptionStellarUnfunded": "Alıcı Stellar hesabı henüz aktif değil. Önce hesaba XLM gönderin veya alınacak token olarak XLM seçin.",
+        "descriptionStellarTrustline": "Alıcı Stellar hesabında bu token için trustline yok. Alıcı cüzdanda bir trustline açın, ardından tekrar kontrol edin.",
+        "descriptionStellarReserve": "Alıcı Stellar hesabında rezervi karşılayacak kadar XLM yok. Hesaba XLM ekleyin, ardından tekrar kontrol edin.",
+        "descriptionLighterAccount": "Alıcı adresine ait bir Lighter hesabı yok. Lighter'da bir hesap oluşturun, ardından tekrar kontrol edin.",
+        "descriptionSeiLink": "Bu transferdeki bir cüzdan, SEI adresine bağlı değil. Cüzdanı app.sei.io üzerinden bağlayın, ardından tekrar kontrol edin.",
+        "descriptionSolAccountRent": "Bu transferdeki bir Solana cüzdanının token hesabı açabilmesi için daha fazla SOL gerekiyor. Biraz SOL ekleyin, ardından tekrar kontrol edin."
+      },
+      "recipientNotSupported": {
+        "title": "Bu alıcı desteklenmiyor",
+        "description": "Bu rotalar bir kontrata veya size ait olmayan bir adrese gönderim yapamıyor. Ödeme yaptığınız cüzdana göndermek genellikle işe yarar.",
+        "descriptionNoAction": "Bu rotalar bu adrese gönderim yapamıyor. Farklı bir token veya zincir deneyin.",
+        "action": "Kendi adresime gönder"
+      },
+      "gaslessNotAvailable": {
+        "title": "Gas ücretsiz işlem kullanılamıyor",
+        "description": "Bu rotalar, bu transferde gas'ı sizin yerinize karşılayamıyor. Farklı bir token veya zincir deneyin."
+      },
+      "blockedBySettings": {
+        "title": "Bu uygulamada kullanılamıyor",
+        "description": "Bu uygulama, bu rotaların gerektirdiği bir adıma izin vermiyor. Farklı bir token veya zincir deneyin."
+      },
+      "liquidity": {
+        "title": "Fiyat etkisi çok yüksek",
+        "description": "Bu tutardaki fiyat etkisi, bu rotaların izin verdiğinden yüksek. Farklı bir tutar, token veya zincir deneyin."
+      },
+      "temporary": {
+        "title": "Geçici olarak kullanılamıyor",
+        "description": "Bir sağlayıcı meşgul veya bakımda. Bu durum genellikle birkaç dakika içinde düzelir.",
+        "descriptionGas": "Bu rotalardaki gas ücretleri şu anda izin verilen sınırın üzerinde. Gas ücretleri düştüğünde tekrar deneyin.",
+        "action": "Tekrar dene",
+        "busy": "Kontrol ediliyor…"
+      },
+      "pairNotSupported": {
+        "title": "Bu parite desteklenmiyor",
+        "description": "Sorguladığımız sağlayıcıların hiçbiri şu anda bu iki token arasında rota sunamıyor. Farklı bir token veya zincir deneyin."
+      }
+    },
     "title": {
       "autoRefuel": "{{chainName}} ağında gas al",
       "emptyTransactionHistory": "Yakın zamanda işlem yok",

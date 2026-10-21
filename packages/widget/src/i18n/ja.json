@@ -121,6 +121,79 @@
       "routeNotFound": "流動性が低い、選択した数量が少なすぎる、ガス代が高すぎる、または選択した組み合わせに対応するルートがない、などの原因が考えられます。",
       "missingRouteRequiredAccount": "続行するには {{chainName}} ウォレットを接続してください。{{address}}"
     },
+    "routeIssue": {
+      "lookForReasons": "主な原因は次のとおりです。",
+      "useAmount": "{{suggested}} {{symbol}} を使用",
+      "setSlippage": "スリッページを {{slippage}}% に設定",
+      "unaffordable": "このウォレットから送金できる数量を超えています。",
+      "amountTooLow": {
+        "title": "数量が少なすぎます",
+        "description": "この数量は対象ルートの下限を下回っています。確認できた最も低い下限をわずかに上回る、約 {{suggested}} {{symbol}} でお試しください。",
+        "descriptionUsd": "対象ルートには {{minUsd}} 以上が必要です。約 {{suggested}} {{symbol}} でお試しください。",
+        "descriptionEstimated": "この数量は対象ルートの下限を下回っています。約 {{suggested}} {{symbol}} に変更すると、ルートを再確認します。",
+        "descriptionNoAmount": "この数量は対象ルートの下限を下回っています。数量を増やすと、ルートを再確認します。",
+        "descriptionLocked": "この数量はアプリで設定されており、対象ルートの下限を下回っています。"
+      },
+      "amountTooHigh": {
+        "title": "数量が多すぎます",
+        "description": "この数量は対象ルートの上限を超えています。確認できた最も高い上限は約 {{suggested}} {{symbol}} のため、それ以下でお試しください。",
+        "descriptionUsd": "この数量は対象ルートの上限を超えています。確認できた最も高い上限は約 {{maxUsd}} です。{{suggested}} {{symbol}} 以下でお試しください。",
+        "descriptionNoAmount": "この数量は対象ルートの上限を超えています。数量を減らすと、ルートを再確認します。",
+        "descriptionLocked": "この数量はアプリで設定されており、対象ルートの上限を超えています。"
+      },
+      "slippageTooTight": {
+        "title": "スリッページが低すぎます",
+        "description": "対象ルートには、現在の設定より高い {{slippage}}% 以上のスリッページが必要です。",
+        "descriptionSuggested": "現在のスリッページは対象ルートの下限を下回っています。{{slippage}}% に設定すると解決する見込みです。",
+        "descriptionNoAmount": "現在のスリッページは対象ルートの下限を下回っています。スリッページを上げてお試しください。",
+        "descriptionHidden": "この注文に設定されたスリッページは、対象ルートの下限を下回っています。"
+      },
+      "slippageTooLoose": {
+        "title": "スリッページが高すぎます",
+        "description": "対象ルートのスリッページ上限は {{slippage}}% です。{{slippage}}% に設定すると解決する見込みです。",
+        "descriptionNoAmount": "現在のスリッページは対象ルートの上限を超えています。スリッページを下げてお試しください。",
+        "descriptionHidden": "この注文に設定されたスリッページは、対象ルートの上限を超えています。"
+      },
+      "destinationAccountNotReady": {
+        "title": "受取アカウントの準備ができていません",
+        "description": "このトークンを受け取るには、受取アカウントの設定が必要です。設定してから、再確認してください。",
+        "descriptionStellarUnfunded": "受取側の Stellar アカウントはまだ有効化されていません。先に XLM を送金するか、受け取るトークンとして XLM を選択してください。",
+        "descriptionStellarTrustline": "受取側の Stellar アカウントに、このトークンのトラストラインがありません。受取側のウォレットでトラストラインを追加してから、再確認してください。",
+        "descriptionStellarReserve": "受取側の Stellar アカウントの XLM が、必要な最低残高（リザーブ）に足りません。XLM を追加してから、再確認してください。",
+        "descriptionLighterAccount": "受取アドレスに Lighter アカウントがありません。Lighter でアカウントを作成してから、再確認してください。",
+        "descriptionSeiLink": "この送金で使うウォレットが、SEI アドレスにリンクされていません。app.sei.io でリンクしてから、再確認してください。",
+        "descriptionSolAccountRent": "この送金で使う Solana ウォレットに、トークンアカウントの作成に必要な SOL が足りません。SOL を追加してから、再確認してください。"
+      },
+      "recipientNotSupported": {
+        "title": "この受取人には対応していません",
+        "description": "対象ルートでは、コントラクトや自分以外のアドレスには送金できません。支払いに使うウォレット宛てなら、通常は送金できます。",
+        "descriptionNoAction": "対象ルートでは、このアドレスには送金できません。別のトークンまたはチェーンをお試しください。",
+        "action": "自分のアドレスに送金"
+      },
+      "gaslessNotAvailable": {
+        "title": "この送金ではガスレスを利用できません",
+        "description": "対象ルートでは、この送金のガス代を代わりに支払えません。別のトークンまたはチェーンをお試しください。"
+      },
+      "blockedBySettings": {
+        "title": "このアプリでは利用できません",
+        "description": "対象ルートに必要なステップが、このアプリでは許可されていません。別のトークンまたはチェーンをお試しください。"
+      },
+      "liquidity": {
+        "title": "プライスインパクトが大きすぎます",
+        "description": "この数量では、プライスインパクトが対象ルートの上限を超えます。別の数量、トークン、またはチェーンをお試しください。"
+      },
+      "temporary": {
+        "title": "一時的に利用できません",
+        "description": "プロバイダーが混雑しているか、メンテナンス中です。通常は数分で解消されます。",
+        "descriptionGas": "現在、対象ルートのガス代が許容上限を超えています。ガス代が下がってから、もう一度お試しください。",
+        "action": "再試行",
+        "busy": "再確認中…"
+      },
+      "pairNotSupported": {
+        "title": "このペアには対応していません",
+        "description": "現在、確認したどのプロバイダーも、この 2 つのトークン間のルートを提供できません。別のトークンまたはチェーンをお試しください。"
+      }
+    },
     "title": {
       "autoRefuel": "{{chainName}} のガスを補充",
       "emptyTransactionHistory": "最近のトランザクションはありません",

@@ -27,6 +27,7 @@ export const RoutesExpanded: React.NamedExoticComponent<RoutesExpandedProps> =
 
     const {
       routes,
+      issues,
       isLoading,
       isFetching,
       isFetched,
@@ -89,8 +90,10 @@ export const RoutesExpanded: React.NamedExoticComponent<RoutesExpandedProps> =
       >
         <RoutesContent
           routes={routesRef.current}
+          issues={issues}
           isFetching={isFetching}
           isLoading={isLoading}
+          isFetched={isFetched}
           dataUpdatedAt={dataUpdatedAt}
           refetchTime={refetchTime}
           fromChain={fromChain}

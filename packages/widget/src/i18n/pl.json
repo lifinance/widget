@@ -121,6 +121,79 @@
       "routeNotFound": "Możliwe przyczyny: niska płynność, zbyt mała kwota, zbyt wysokie koszty gazu lub brak tras dla wybranej kombinacji.",
       "missingRouteRequiredAccount": "Połącz portfel {{chainName}}, aby kontynuować. {{address}}"
     },
+    "routeIssue": {
+      "lookForReasons": "Oto główna przyczyna, którą znaleźliśmy.",
+      "useAmount": "Użyj {{suggested}} {{symbol}}",
+      "setSlippage": "Ustaw poślizg na {{slippage}}%",
+      "unaffordable": "To więcej, niż możesz wysłać z tego portfela.",
+      "amountTooLow": {
+        "title": "Za niska kwota",
+        "description": "Ta kwota jest poniżej minimum akceptowanego przez te trasy. Spróbuj ok. {{suggested}} {{symbol}} – to tuż powyżej najniższego znalezionego minimum.",
+        "descriptionUsd": "Te trasy wymagają co najmniej {{minUsd}}. Spróbuj ok. {{suggested}} {{symbol}}.",
+        "descriptionEstimated": "Ta kwota jest poniżej minimum akceptowanego przez te trasy. Spróbuj ok. {{suggested}} {{symbol}}, a sprawdzimy ponownie.",
+        "descriptionNoAmount": "Ta kwota jest poniżej minimum akceptowanego przez te trasy. Wpisz wyższą kwotę, a sprawdzimy ponownie.",
+        "descriptionLocked": "Kwota ustawiona przez aplikację jest poniżej minimum akceptowanego przez te trasy."
+      },
+      "amountTooHigh": {
+        "title": "Za wysoka kwota",
+        "description": "Ta kwota jest powyżej maksimum akceptowanego przez te trasy. Najwyższy znaleziony limit to ok. {{suggested}} {{symbol}}, więc spróbuj tej lub mniejszej kwoty.",
+        "descriptionUsd": "Ta kwota jest powyżej maksimum akceptowanego przez te trasy. Najwyższy znaleziony limit to ok. {{maxUsd}}. Spróbuj {{suggested}} {{symbol}} lub mniej.",
+        "descriptionNoAmount": "Ta kwota jest powyżej maksimum akceptowanego przez te trasy. Wpisz niższą kwotę, a sprawdzimy ponownie.",
+        "descriptionLocked": "Kwota ustawiona przez aplikację jest powyżej maksimum akceptowanego przez te trasy."
+      },
+      "slippageTooTight": {
+        "title": "Za niski poślizg",
+        "description": "Te trasy wymagają poślizgu co najmniej {{slippage}}%, a obecny poślizg jest niższy.",
+        "descriptionSuggested": "Obecny poślizg jest za niski dla tych tras. Zmiana na {{slippage}}% powinna pomóc.",
+        "descriptionNoAmount": "Obecny poślizg jest za niski dla tych tras. Spróbuj zwiększyć poślizg.",
+        "descriptionHidden": "Ustawiony poślizg jest za niski dla tych tras."
+      },
+      "slippageTooLoose": {
+        "title": "Za wysoki poślizg",
+        "description": "Te trasy akceptują poślizg najwyżej {{slippage}}%. Zmiana na {{slippage}}% powinna pomóc.",
+        "descriptionNoAmount": "Obecny poślizg jest za wysoki dla tych tras. Spróbuj zmniejszyć poślizg.",
+        "descriptionHidden": "Ustawiony poślizg jest za wysoki dla tych tras."
+      },
+      "destinationAccountNotReady": {
+        "title": "Konto odbiorcy nie jest gotowe",
+        "description": "Konto odbiorcy trzeba najpierw skonfigurować, aby mogło przyjąć ten token. Następnie sprawdź ponownie.",
+        "descriptionStellarUnfunded": "Konto Stellar odbiorcy nie jest jeszcze aktywne. Najpierw wpłać na nie XLM lub wybierz XLM jako token docelowy.",
+        "descriptionStellarTrustline": "Konto Stellar odbiorcy nie ma trustline dla tego tokena. Dodaj trustline w portfelu odbiorcy, a potem sprawdź ponownie.",
+        "descriptionStellarReserve": "Konto Stellar odbiorcy ma za mało XLM na wymaganą rezerwę. Dodaj do niego XLM, a potem sprawdź ponownie.",
+        "descriptionLighterAccount": "Adres odbiorcy nie ma konta Lighter. Załóż je w Lighter, a potem sprawdź ponownie.",
+        "descriptionSeiLink": "Portfel w tym transferze nie jest powiązany ze swoim adresem SEI. Powiąż go na app.sei.io, a potem sprawdź ponownie.",
+        "descriptionSolAccountRent": "Portfel Solana w tym transferze potrzebuje więcej SOL, aby otworzyć konto tokena. Dodaj trochę SOL, a potem sprawdź ponownie."
+      },
+      "recipientNotSupported": {
+        "title": "Nieobsługiwany odbiorca",
+        "description": "Te trasy nie mogą dostarczyć środków do kontraktu ani na adres inny niż Twój. Wysłanie ich do portfela, z którego płacisz, zwykle się udaje.",
+        "descriptionNoAction": "Te trasy nie mogą dostarczyć środków na ten adres. Spróbuj innego tokena lub innej sieci.",
+        "action": "Wyślij na mój adres"
+      },
+      "gaslessNotAvailable": {
+        "title": "Opcja bez gazu jest tu niedostępna",
+        "description": "Przy tym transferze te trasy nie mogą pokryć gazu za Ciebie. Spróbuj innego tokena lub innej sieci."
+      },
+      "blockedBySettings": {
+        "title": "Niedostępne w tej aplikacji",
+        "description": "Ta aplikacja nie pozwala na krok, którego wymagają te trasy. Spróbuj innego tokena lub innej sieci."
+      },
+      "liquidity": {
+        "title": "Za duży wpływ na cenę",
+        "description": "Przy tej kwocie wpływ na cenę jest większy, niż dopuszczają te trasy. Spróbuj zmienić kwotę, token lub sieć."
+      },
+      "temporary": {
+        "title": "Tymczasowo niedostępne",
+        "description": "Jeden z dostawców jest przeciążony lub ma przerwę techniczną. Zwykle problem znika w ciągu kilku minut.",
+        "descriptionGas": "Koszty gazu na tych trasach przekraczają obecnie dozwolony limit. Spróbuj ponownie, gdy koszty gazu spadną.",
+        "action": "Spróbuj ponownie",
+        "busy": "Sprawdzamy ponownie…"
+      },
+      "pairNotSupported": {
+        "title": "Nieobsługiwana para tokenów",
+        "description": "Żaden ze sprawdzonych dostawców nie obsługuje teraz tej pary tokenów. Spróbuj innego tokena lub innej sieci."
+      }
+    },
     "title": {
       "autoRefuel": "Uzyskaj gaz w sieci {{chainName}}",
       "emptyTransactionHistory": "Brak ostatnich transakcji",

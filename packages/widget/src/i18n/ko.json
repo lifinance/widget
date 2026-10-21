@@ -121,6 +121,79 @@
       "routeNotFound": "유동성이 부족하거나, 선택한 금액이 너무 적거나, 가스비가 너무 높거나, 선택한 조합에 맞는 경로가 없기 때문일 수 있습니다.",
       "missingRouteRequiredAccount": "계속하려면 {{chainName}} 지갑을 연결하세요. {{address}}"
     },
+    "routeIssue": {
+      "lookForReasons": "확인된 주요 원인은 다음과 같습니다.",
+      "useAmount": "{{suggested}} {{symbol}} 사용",
+      "setSlippage": "슬리피지 {{slippage}}%로 설정",
+      "unaffordable": "이 지갑에서 보낼 수 있는 금액보다 많습니다.",
+      "amountTooLow": {
+        "title": "금액이 너무 적습니다",
+        "description": "이 금액은 해당 경로가 허용하는 최소 금액보다 적습니다. 확인된 가장 낮은 한도를 조금 넘는 약 {{suggested}} {{symbol}}(으)로 시도해 보세요.",
+        "descriptionUsd": "해당 경로의 최소 금액은 {{minUsd}}입니다. 약 {{suggested}} {{symbol}}(으)로 시도해 보세요.",
+        "descriptionEstimated": "이 금액은 해당 경로가 허용하는 최소 금액보다 적습니다. 약 {{suggested}} {{symbol}}(으)로 시도하면 다시 확인합니다.",
+        "descriptionNoAmount": "이 금액은 해당 경로가 허용하는 최소 금액보다 적습니다. 더 큰 금액으로 시도하면 다시 확인합니다.",
+        "descriptionLocked": "이 금액은 앱에서 설정한 금액으로, 해당 경로가 허용하는 최소 금액보다 적습니다."
+      },
+      "amountTooHigh": {
+        "title": "금액이 너무 많습니다",
+        "description": "이 금액은 해당 경로가 허용하는 최대 금액보다 많습니다. 확인된 가장 높은 한도는 약 {{suggested}} {{symbol}}입니다. 이 금액 이하로 시도해 보세요.",
+        "descriptionUsd": "이 금액은 해당 경로가 허용하는 최대 금액보다 많습니다. 확인된 가장 높은 한도는 약 {{maxUsd}}입니다. {{suggested}} {{symbol}} 이하로 시도해 보세요.",
+        "descriptionNoAmount": "이 금액은 해당 경로가 허용하는 최대 금액보다 많습니다. 더 작은 금액으로 시도하면 다시 확인합니다.",
+        "descriptionLocked": "이 금액은 앱에서 설정한 금액으로, 해당 경로가 허용하는 최대 금액보다 많습니다."
+      },
+      "slippageTooTight": {
+        "title": "슬리피지가 너무 낮습니다",
+        "description": "해당 경로에는 최소 {{slippage}}%의 슬리피지가 필요하며, 이는 현재 적용된 슬리피지보다 높습니다.",
+        "descriptionSuggested": "현재 적용된 슬리피지는 해당 경로의 허용 범위보다 낮습니다. {{slippage}}%로 설정하면 해결될 수 있습니다.",
+        "descriptionNoAmount": "현재 적용된 슬리피지는 해당 경로의 허용 범위보다 낮습니다. 더 높은 슬리피지로 시도해 보세요.",
+        "descriptionHidden": "이 주문에 설정된 슬리피지는 해당 경로의 허용 범위보다 낮습니다."
+      },
+      "slippageTooLoose": {
+        "title": "슬리피지가 너무 높습니다",
+        "description": "해당 경로는 최대 {{slippage}}%의 슬리피지만 허용합니다. {{slippage}}%로 설정하면 해결될 수 있습니다.",
+        "descriptionNoAmount": "현재 적용된 슬리피지는 해당 경로의 허용 범위보다 높습니다. 더 낮은 슬리피지로 시도해 보세요.",
+        "descriptionHidden": "이 주문에 설정된 슬리피지는 해당 경로의 허용 범위보다 높습니다."
+      },
+      "destinationAccountNotReady": {
+        "title": "받는 계정이 준비되지 않았습니다",
+        "description": "이 토큰을 받으려면 먼저 받는 계정을 설정해야 합니다. 설정한 후 다시 확인하세요.",
+        "descriptionStellarUnfunded": "받는 Stellar 계정이 아직 활성화되지 않았습니다. 먼저 계정에 XLM을 보내거나, 받을 토큰으로 XLM을 선택하세요.",
+        "descriptionStellarTrustline": "받는 Stellar 계정에 이 토큰의 트러스트라인이 없습니다. 받는 지갑에서 트러스트라인을 추가한 후 다시 확인하세요.",
+        "descriptionStellarReserve": "받는 Stellar 계정의 XLM 잔액이 최소 보유량보다 적습니다. 계정에 XLM을 추가한 후 다시 확인하세요.",
+        "descriptionLighterAccount": "받는 주소에 Lighter 계정이 없습니다. Lighter에서 계정을 생성한 후 다시 확인하세요.",
+        "descriptionSeiLink": "이 전송에 사용하는 지갑이 SEI 주소와 연동되어 있지 않습니다. app.sei.io에서 연동한 후 다시 확인하세요.",
+        "descriptionSolAccountRent": "이 전송에 사용하는 Solana 지갑에 SOL이 부족해 토큰 계정을 생성할 수 없습니다. SOL을 조금 추가한 후 다시 확인하세요."
+      },
+      "recipientNotSupported": {
+        "title": "이 받는 주소는 지원되지 않습니다",
+        "description": "해당 경로는 컨트랙트 주소나 본인 소유가 아닌 주소로 보낼 수 없습니다. 보내는 지갑으로 받으면 대부분 해결됩니다.",
+        "descriptionNoAction": "해당 경로는 이 주소로 보낼 수 없습니다. 다른 토큰이나 체인으로 시도해 보세요.",
+        "action": "내 주소로 보내기"
+      },
+      "gaslessNotAvailable": {
+        "title": "가스리스 이용 불가",
+        "description": "해당 경로는 이 전송의 가스비를 대신 지불할 수 없습니다. 다른 토큰이나 체인으로 시도해 보세요."
+      },
+      "blockedBySettings": {
+        "title": "이 앱에서 이용 불가",
+        "description": "이 앱은 해당 경로에 필요한 단계를 허용하지 않습니다. 다른 토큰이나 체인으로 시도해 보세요."
+      },
+      "liquidity": {
+        "title": "가격 영향이 너무 큽니다",
+        "description": "이 금액에서는 가격 영향이 해당 경로의 허용 범위보다 큽니다. 다른 금액, 토큰 또는 체인으로 시도해 보세요."
+      },
+      "temporary": {
+        "title": "일시적으로 이용 불가",
+        "description": "제공업체에 요청이 많거나 점검 중입니다. 보통 몇 분 안에 해결됩니다.",
+        "descriptionGas": "현재 해당 경로의 가스비가 허용 한도를 초과합니다. 가스비가 낮아지면 다시 시도해 주세요.",
+        "action": "다시 시도",
+        "busy": "다시 확인 중…"
+      },
+      "pairNotSupported": {
+        "title": "이 페어는 지원되지 않습니다",
+        "description": "조회한 제공업체 중 현재 이 두 토큰을 연결할 수 있는 곳이 없습니다. 다른 토큰이나 체인으로 시도해 보세요."
+      }
+    },
     "title": {
       "autoRefuel": "{{chainName}} 가스 충전",
       "emptyTransactionHistory": "최근 트랜잭션 없음",

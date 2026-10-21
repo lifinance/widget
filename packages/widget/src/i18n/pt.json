@@ -121,6 +121,79 @@
       "routeNotFound": "Os motivos podem ser: baixa liquidez, valor selecionado muito baixo, taxas de gas muito altas ou ausência de rotas para a combinação selecionada.",
       "missingRouteRequiredAccount": "Conecte sua carteira {{chainName}} para continuar. {{address}}"
     },
+    "routeIssue": {
+      "lookForReasons": "Veja o principal motivo que encontramos.",
+      "useAmount": "Usar {{suggested}} {{symbol}}",
+      "setSlippage": "Definir slippage em {{slippage}}%",
+      "unaffordable": "Isso é mais do que você pode enviar desta carteira.",
+      "amountTooLow": {
+        "title": "Valor muito baixo",
+        "description": "Este valor está abaixo do mínimo aceito pelas rotas encontradas. Tente usar cerca de {{suggested}} {{symbol}}, um pouco acima do menor valor mínimo que vimos.",
+        "descriptionUsd": "As rotas encontradas exigem pelo menos {{minUsd}}. Tente usar cerca de {{suggested}} {{symbol}}.",
+        "descriptionEstimated": "Este valor está abaixo do mínimo aceito pelas rotas encontradas. Tente usar cerca de {{suggested}} {{symbol}} e vamos verificar novamente.",
+        "descriptionNoAmount": "Este valor está abaixo do mínimo aceito pelas rotas encontradas. Tente um valor maior e vamos verificar novamente.",
+        "descriptionLocked": "Este valor é definido pelo app e está abaixo do mínimo aceito pelas rotas encontradas."
+      },
+      "amountTooHigh": {
+        "title": "Valor muito alto",
+        "description": "Este valor está acima do máximo aceito pelas rotas encontradas. O maior limite que vimos é de cerca de {{suggested}} {{symbol}}, então tente esse valor ou menos.",
+        "descriptionUsd": "Este valor está acima do máximo aceito pelas rotas encontradas. O maior limite que vimos é de cerca de {{maxUsd}}. Tente usar {{suggested}} {{symbol}} ou menos.",
+        "descriptionNoAmount": "Este valor está acima do máximo aceito pelas rotas encontradas. Tente um valor menor e vamos verificar novamente.",
+        "descriptionLocked": "Este valor é definido pelo app e está acima do máximo aceito pelas rotas encontradas."
+      },
+      "slippageTooTight": {
+        "title": "Slippage muito baixo",
+        "description": "As rotas encontradas exigem um slippage de pelo menos {{slippage}}%, mais do que o slippage atual.",
+        "descriptionSuggested": "O slippage atual é menor do que as rotas encontradas aceitam. Ajustar para {{slippage}}% deve ajudar.",
+        "descriptionNoAmount": "O slippage atual é menor do que as rotas encontradas aceitam. Tente um slippage maior.",
+        "descriptionHidden": "O slippage definido para esta ordem é menor do que as rotas encontradas aceitam."
+      },
+      "slippageTooLoose": {
+        "title": "Slippage muito alto",
+        "description": "As rotas encontradas aceitam um slippage de no máximo {{slippage}}%. Ajustar para {{slippage}}% deve ajudar.",
+        "descriptionNoAmount": "O slippage atual é maior do que as rotas encontradas aceitam. Tente um slippage menor.",
+        "descriptionHidden": "O slippage definido para esta ordem é maior do que as rotas encontradas aceitam."
+      },
+      "destinationAccountNotReady": {
+        "title": "Conta do destinatário não está pronta",
+        "description": "A conta do destinatário precisa ser configurada antes de receber este token. Depois, verifique novamente.",
+        "descriptionStellarUnfunded": "A conta Stellar do destinatário ainda não está ativa. Envie XLM para ela primeiro ou escolha XLM como o token a receber.",
+        "descriptionStellarTrustline": "A conta Stellar do destinatário não tem trustline para este token. Crie uma na carteira do destinatário e depois verifique novamente.",
+        "descriptionStellarReserve": "A conta Stellar do destinatário não tem XLM suficiente para a reserva. Adicione XLM a ela e depois verifique novamente.",
+        "descriptionLighterAccount": "O endereço do destinatário não tem conta na Lighter. Crie uma na Lighter e depois verifique novamente.",
+        "descriptionSeiLink": "Uma carteira desta transferência não está vinculada ao endereço SEI correspondente. Vincule-a em app.sei.io e depois verifique novamente.",
+        "descriptionSolAccountRent": "Uma carteira Solana desta transferência precisa de mais SOL para abrir uma conta de token. Adicione um pouco de SOL e depois verifique novamente."
+      },
+      "recipientNotSupported": {
+        "title": "Destinatário não suportado",
+        "description": "As rotas encontradas não entregam para contratos nem para endereços que não sejam o seu. Enviar para a carteira de onde você paga costuma funcionar.",
+        "descriptionNoAction": "As rotas encontradas não entregam para este endereço. Tente outro token ou outra rede.",
+        "action": "Enviar para meu endereço"
+      },
+      "gaslessNotAvailable": {
+        "title": "Serviço sem gas indisponível aqui",
+        "description": "As rotas encontradas não podem pagar o gas por você nesta transferência. Tente outro token ou outra rede."
+      },
+      "blockedBySettings": {
+        "title": "Indisponível neste app",
+        "description": "Este app não permite uma etapa exigida pelas rotas encontradas. Tente outro token ou outra rede."
+      },
+      "liquidity": {
+        "title": "Impacto no preço muito alto",
+        "description": "O impacto no preço com este valor é maior do que as rotas encontradas permitem. Tente outro valor, outro token ou outra rede."
+      },
+      "temporary": {
+        "title": "Temporariamente indisponível",
+        "description": "Um provedor está sobrecarregado ou em manutenção. Isso costuma se resolver em poucos minutos.",
+        "descriptionGas": "As taxas de gas nas rotas encontradas estão acima do limite permitido no momento. Tente novamente quando as taxas de gas estiverem mais baixas.",
+        "action": "Tentar novamente",
+        "busy": "Verificando novamente…"
+      },
+      "pairNotSupported": {
+        "title": "Par de tokens não suportado",
+        "description": "Nenhum dos provedores consultados oferece uma rota entre esses dois tokens no momento. Tente outro token ou outra rede."
+      }
+    },
     "title": {
       "autoRefuel": "Obter gas na {{chainName}}",
       "emptyTransactionHistory": "Nenhuma transação recente",

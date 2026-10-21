@@ -1,0 +1,137 @@
+import { describe, expect, it } from 'vitest'
+import { unavailableRoutesFromError } from './fromError.js'
+
+const reasons = {
+  filteredOut: [
+    { overallPath: '1:ETH-1:USDC', reason: 'Pod is currently overloaded.' },
+  ],
+  failed: [],
+}
+
+const errorWith = (responseBody: unknown): unknown => ({
+  cause: { responseBody },
+})
+
+describe('reading the diagnostics off a quote error', () => {
+  it('prefers the documented errors field', () => {
+    expect(unavailableRoutesFromError(errorWith({ errors: reasons }))).toEqual(
+      reasons
+    )
+  })
+
+  // Observed on the develop backend: the same payload arrives serialised into
+  // `message` instead. Reading only `errors` left the user the generic sentence.
+  it('reads a payload serialised into message', () => {
+    const error = errorWith({ message: JSON.stringify(reasons), code: 1002 })
+    expect(unavailableRoutesFromError(error)).toEqual(reasons)
+  })
+
+  it('reads a message that wraps the payload under errors', () => {
+    const error = errorWith({ message: JSON.stringify({ errors: reasons }) })
+    expect(unavailableRoutesFromError(error)).toEqual(reasons)
+  })
+
+  // The SDK appends the body message to the error message, so prose can lead.
+  it('reads a payload that trails prose', () => {
+    const error = errorWith({
+      message: `No available quotes for the requested transfer ${JSON.stringify(reasons)}`,
+    })
+    expect(unavailableRoutesFromError(error)).toEqual(reasons)
+  })
+
+  // Reported in review: an empty `errors` is well shaped, so it won the
+  // precedence and the populated `message` beside it was never read — leaving
+  // the generic sentence, the outcome this feature exists to prevent.
+  it('prefers a populated message over an empty errors field', () => {
+    const error = errorWith({
+      errors: { filteredOut: [], failed: [] },
+      message: JSON.stringify(reasons),
+    })
+    expect(unavailableRoutesFromError(error)).toEqual(reasons)
+  })
+
+  // Reported in review: cutting at the first brace assumed the prose held none
+  // and nothing followed the payload. Both happen.
+  it('reads a payload with prose on both sides', () => {
+    const error = errorWith({
+      message: `No quotes {for now} ${JSON.stringify(reasons)} — request 42`,
+    })
+    expect(unavailableRoutesFromError(error)).toEqual(reasons)
+  })
+
+  // Reported in review: trailing prose can close a brace of its own, which put
+  // the end of the payload beyond the last one in the string.
+  it('reads a payload when the trailing prose also holds braces', () => {
+    const error = errorWith({
+      message: `No quotes ${JSON.stringify(reasons)} (trace {abc})`,
+    })
+    expect(unavailableRoutesFromError(error)).toEqual(reasons)
+  })
+
+  // A reason is free prose and can hold a brace or a quote of its own, so the
+  // scan has to skip string bodies rather than count every brace it sees.
+  it('reads a payload whose reason text contains braces', () => {
+    const braced = {
+      filteredOut: [
+        { overallPath: 'p', reason: 'Pod {overloaded} on "eu-west" }' },
+      ],
+      failed: [],
+    }
+    const error = errorWith({
+      message: `No quotes ${JSON.stringify(braced)} trailing {noise}`,
+    })
+    expect(unavailableRoutesFromError(error)).toEqual(braced)
+  })
+
+  // A malformed message must fail fast rather than pair every brace with every
+  // later one: the payload itself is full of them.
+  it('gives up quickly on a brace-heavy message with no payload', () => {
+    const noise = '{"a":1} '.repeat(500)
+    const started = performance.now()
+    expect(unavailableRoutesFromError(errorWith({ message: noise }))).toBe(
+      undefined
+    )
+    expect(performance.now() - started).toBeLessThan(250)
+  })
+
+  // Reported in review: advancing one character at a time let the braces nested
+  // inside a leading object spend the whole attempt budget.
+  it('reads a payload behind a large leading object', () => {
+    const decoy = { a: { b: { c: 1 } }, d: { e: 2 }, f: { g: 3 }, h: { i: 4 } }
+    const error = errorWith({
+      message: `${JSON.stringify(decoy)} then ${JSON.stringify(reasons)}`,
+    })
+    expect(unavailableRoutesFromError(error)).toEqual(reasons)
+  })
+
+  it('accepts a payload carrying only failed routes', () => {
+    const failedOnly = { failed: [{ overallPath: 'p', subpaths: {} }] }
+    expect(
+      unavailableRoutesFromError(errorWith({ errors: failedOnly }))
+    ).toEqual(failedOnly)
+  })
+
+  // Without diagnostics the caller must rethrow, so the error state and its
+  // retry affordance stand. Anything unreadable has to read as "nothing here".
+  it.each([
+    ['no cause', {}],
+    ['no body', { cause: {} }],
+    ['prose only', errorWith({ message: 'No available quotes' })],
+    ['unparseable braces', errorWith({ message: 'oops {not json' })],
+    ['json of the wrong shape', errorWith({ message: '{"code":1002}' })],
+    ['errors of the wrong shape', errorWith({ errors: { nope: true } })],
+    [
+      'an empty errors field',
+      errorWith({ errors: { filteredOut: [], failed: [] } }),
+    ],
+    [
+      'an empty payload in message',
+      errorWith({ message: '{"filteredOut":[],"failed":[]}' }),
+    ],
+    ['a null body', errorWith(null)],
+    ['a string body', errorWith('nope')],
+    ['undefined', undefined],
+  ])('returns nothing for %s', (_label, error) => {
+    expect(unavailableRoutesFromError(error)).toBeUndefined()
+  })
+})
