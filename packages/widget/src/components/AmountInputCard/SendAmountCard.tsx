@@ -137,9 +137,16 @@ export const SendAmountCard: React.FC<CardProps & { mask?: boolean }> = (
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: effect must run on value change
   useLayoutEffect(() => {
-    if (ref.current) {
-      fitInputText(maxInputFontSize, minInputFontSize, ref.current)
+    const element = ref.current
+    if (!element) {
+      return
     }
+    const resizeAmount = () =>
+      fitInputText(maxInputFontSize, minInputFontSize, element)
+    resizeAmount()
+    const observer = new ResizeObserver(resizeAmount)
+    observer.observe(element)
+    return () => observer.disconnect()
   }, [displayValue])
 
   return (
