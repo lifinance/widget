@@ -191,11 +191,13 @@
       "transactionNotSent": "トランザクションは送信されませんでした。",
       "transactionSimulationFailed": "シミュレーションでトランザクションを実行できませんでした。",
       "unknown": "もう一度お試しいただくか、サポートにお問い合わせください。",
-      "walletChangedDuringExecution": "見積もりをリクエストしたウォレットアドレスが、トランザクションに署名しようとしているウォレットアドレスと一致しません。トランザクションの実行中は、最初から最後まで同じウォレットアドレスを使用してください。"
+      "walletChangedDuringExecution": "見積もりをリクエストしたウォレットアドレスが、トランザクションに署名しようとしているウォレットアドレスと一致しません。トランザクションの実行中は、最初から最後まで同じウォレットアドレスを使用してください。",
+      "balanceReadFailed": "ウォレット残高を確認できませんでした。もう一度お試しください。"
     },
     "title": {
       "allowanceRequired": "使用上限不足",
       "balanceIsTooLow": "残高が少なすぎます",
+      "balanceReadFailed": "ウォレット残高を読み取れませんでした",
       "bookmarkAlreadyExists": "ウォレットはすでに {{name}} としてブックマークされています",
       "bookmarkNameRequired": "ブックマーク名が必要です",
       "callBundleNotFound": "ウォレットにトランザクションが見つかりません",
