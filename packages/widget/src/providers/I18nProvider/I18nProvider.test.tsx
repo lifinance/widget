@@ -10,15 +10,6 @@ import type { WidgetContextProps } from '../WidgetProvider/types.js'
 import { WidgetContext } from '../WidgetProvider/WidgetProvider.js'
 import { I18nProvider } from './I18nProvider.js'
 
-/**
- * Regression cover for JUM-1733.
- *
- * The i18n instance can start in a language before its strings load (nothing
- * saved), or with old strings (a saved cache from an older release). The label
- * is memoized, like the navigation tabs, so only an i18n event can re-render it
- * once the strings arrive.
- */
-
 const seedSettings = (state: Record<string, unknown>) =>
   window.localStorage.setItem(
     'li.fi-widget-settings',
@@ -27,6 +18,7 @@ const seedSettings = (state: Record<string, unknown>) =>
 
 const staleFrenchCache = { header: { gas: 'Old' } }
 
+// Memoized, so only an i18n event can re-render it once the strings load.
 const GasLabel = memo(() => {
   const { t } = useTranslation()
   return <span>{t('header.gas')}</span>

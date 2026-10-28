@@ -18,11 +18,8 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
 }) => {
   const { languages, languageResources } = useWidgetConfig()
   const { language, languageCache } = useSettings(['language', 'languageCache'])
-  // The language cache that the instance already holds.
   const addedLanguageCacheRef = useRef(languageCache)
 
-  // Create the instance once. Later language cache updates go through the
-  // effect below.
   const [i18nInstance] = useState(() => {
     // Custom language resources (of non-default languages) are added statically.
     // If custom language resources extend existing languages, they are merged with dynamically loaded resources.
@@ -37,9 +34,7 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
       fallbackLng: 'en',
       lowerCaseLng: true,
       interpolation: { escapeValue: false },
-      // Re-render `useTranslation` consumers when strings are added, not only
-      // on `languageChanged`. Memoized components such as the navigation tabs
-      // otherwise keep the strings of their first render.
+      // Memoized consumers otherwise keep the strings of their first render.
       react: { bindI18nStore: 'added' },
       resources: {
         en: {
@@ -86,8 +81,7 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
     return i18n
   })
 
-  // Add language cache updates after the commit, so that the `added` event
-  // does not update other components during this render.
+  // The `added` event must not update other components during this render.
   useEffect(() => {
     if (languageCache === addedLanguageCacheRef.current) {
       return
