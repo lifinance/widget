@@ -145,14 +145,12 @@
         "title": "Deslizamiento demasiado bajo",
         "description": "Estas rutas requieren un deslizamiento mínimo del {{slippage}}%, mayor que el actual.",
         "descriptionSuggested": "El deslizamiento actual es más bajo de lo que aceptan estas rutas. Ajustarlo al {{slippage}}% debería ayudar.",
-        "descriptionNoAmount": "El deslizamiento actual es más bajo de lo que aceptan estas rutas. Prueba con un deslizamiento mayor.",
-        "descriptionHidden": "El deslizamiento definido para esta orden es más bajo de lo que aceptan estas rutas."
+        "descriptionNoAmount": "El deslizamiento actual es más bajo de lo que aceptan estas rutas. Prueba con un deslizamiento mayor."
       },
       "slippageTooLoose": {
         "title": "Deslizamiento demasiado alto",
         "description": "Estas rutas aceptan un deslizamiento máximo del {{slippage}}%. Ajustarlo al {{slippage}}% debería ayudar.",
-        "descriptionNoAmount": "El deslizamiento actual es más alto de lo que aceptan estas rutas. Prueba con un deslizamiento menor.",
-        "descriptionHidden": "El deslizamiento definido para esta orden es más alto de lo que aceptan estas rutas."
+        "descriptionNoAmount": "El deslizamiento actual es más alto de lo que aceptan estas rutas. Prueba con un deslizamiento menor."
       },
       "destinationAccountNotReady": {
         "title": "La cuenta del destinatario no está lista",

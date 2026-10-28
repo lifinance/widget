@@ -424,25 +424,6 @@ describe('a card the user cannot act on', () => {
     )
   })
 
-  // In limit mode the slippage row is hidden, so a value set from the card
-  // could be neither seen nor undone there.
-  it.each([
-    ['slippageTooTight', 0.02],
-    ['slippageTooLoose', 0.005],
-  ] as const)(
-    'offers no slippage change for %s when it is hidden',
-    (bucket, required) => {
-      const card = buildRouteIssueCard(
-        issue(bucket, 1n, { requiredSlippage: required }),
-        deps({ slippage: '1', slippageHidden: true })
-      )
-      expect(card.description).toBe(
-        `info.routeIssue.${bucket}.descriptionHidden`
-      )
-      expect(card.action).toBeUndefined()
-    }
-  )
-
   it('says why the figure has no button when the wallet cannot send it', () => {
     const card = buildRouteIssueCard(
       issue('amountTooLow', 200_000n, { requiredFromAmount: 2_000_000n }),

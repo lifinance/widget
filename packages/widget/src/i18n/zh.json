@@ -145,14 +145,12 @@
         "title": "滑点过低",
         "description": "这些路由至少需要 {{slippage}}% 的滑点，高于当前滑点。",
         "descriptionSuggested": "当前滑点低于这些路由的要求。将滑点设为 {{slippage}}% 应可解决此问题。",
-        "descriptionNoAmount": "当前滑点低于这些路由的要求。请调高滑点。",
-        "descriptionHidden": "此订单设置的滑点低于这些路由的要求。"
+        "descriptionNoAmount": "当前滑点低于这些路由的要求。请调高滑点。"
       },
       "slippageTooLoose": {
         "title": "滑点过高",
         "description": "这些路由最多允许 {{slippage}}% 的滑点。将滑点设为 {{slippage}}% 应可解决此问题。",
-        "descriptionNoAmount": "当前滑点超出这些路由允许的上限。请调低滑点。",
-        "descriptionHidden": "此订单设置的滑点超出这些路由允许的上限。"
+        "descriptionNoAmount": "当前滑点超出这些路由允许的上限。请调低滑点。"
       },
       "destinationAccountNotReady": {
         "title": "接收账户尚未就绪",

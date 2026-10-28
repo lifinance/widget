@@ -145,14 +145,12 @@
         "title": "Trượt giá quá thấp",
         "description": "Các lộ trình này cần trượt giá ít nhất {{slippage}}%, cao hơn mức trượt giá đang áp dụng.",
         "descriptionSuggested": "Mức trượt giá đang áp dụng thấp hơn mức các lộ trình này chấp nhận. Đặt thành {{slippage}}% sẽ giúp khắc phục.",
-        "descriptionNoAmount": "Mức trượt giá đang áp dụng thấp hơn mức các lộ trình này chấp nhận. Hãy thử mức trượt giá cao hơn.",
-        "descriptionHidden": "Mức trượt giá đặt cho lệnh này thấp hơn mức các lộ trình này chấp nhận."
+        "descriptionNoAmount": "Mức trượt giá đang áp dụng thấp hơn mức các lộ trình này chấp nhận. Hãy thử mức trượt giá cao hơn."
       },
       "slippageTooLoose": {
         "title": "Trượt giá quá cao",
         "description": "Các lộ trình này chỉ chấp nhận trượt giá tối đa {{slippage}}%. Đặt thành {{slippage}}% sẽ giúp khắc phục.",
-        "descriptionNoAmount": "Mức trượt giá đang áp dụng cao hơn mức các lộ trình này chấp nhận. Hãy thử mức trượt giá thấp hơn.",
-        "descriptionHidden": "Mức trượt giá đặt cho lệnh này cao hơn mức các lộ trình này chấp nhận."
+        "descriptionNoAmount": "Mức trượt giá đang áp dụng cao hơn mức các lộ trình này chấp nhận. Hãy thử mức trượt giá thấp hơn."
       },
       "destinationAccountNotReady": {
         "title": "Tài khoản người nhận chưa sẵn sàng",

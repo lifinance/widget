@@ -145,14 +145,12 @@
         "title": "Slippage muito baixo",
         "description": "As rotas encontradas exigem um slippage de pelo menos {{slippage}}%, mais do que o slippage atual.",
         "descriptionSuggested": "O slippage atual é menor do que as rotas encontradas aceitam. Ajustar para {{slippage}}% deve ajudar.",
-        "descriptionNoAmount": "O slippage atual é menor do que as rotas encontradas aceitam. Tente um slippage maior.",
-        "descriptionHidden": "O slippage definido para esta ordem é menor do que as rotas encontradas aceitam."
+        "descriptionNoAmount": "O slippage atual é menor do que as rotas encontradas aceitam. Tente um slippage maior."
       },
       "slippageTooLoose": {
         "title": "Slippage muito alto",
         "description": "As rotas encontradas aceitam um slippage de no máximo {{slippage}}%. Ajustar para {{slippage}}% deve ajudar.",
-        "descriptionNoAmount": "O slippage atual é maior do que as rotas encontradas aceitam. Tente um slippage menor.",
-        "descriptionHidden": "O slippage definido para esta ordem é maior do que as rotas encontradas aceitam."
+        "descriptionNoAmount": "O slippage atual é maior do que as rotas encontradas aceitam. Tente um slippage menor."
       },
       "destinationAccountNotReady": {
         "title": "Conta do destinatário não está pronta",

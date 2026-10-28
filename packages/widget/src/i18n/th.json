@@ -145,14 +145,12 @@
         "title": "Slippage ต่ำเกินไป",
         "description": "เส้นทางที่เราตรวจสอบต้องใช้ Slippage อย่างน้อย {{slippage}}% ซึ่งสูงกว่า Slippage ที่ใช้อยู่ในขณะนี้",
         "descriptionSuggested": "Slippage ที่ใช้อยู่ในขณะนี้ต่ำเกินไปสำหรับเส้นทางที่เราตรวจสอบ การตั้ง Slippage เป็น {{slippage}}% น่าจะช่วยได้",
-        "descriptionNoAmount": "Slippage ที่ใช้อยู่ในขณะนี้ต่ำเกินไปสำหรับเส้นทางที่เราตรวจสอบ โปรดลองตั้ง Slippage ให้สูงขึ้น",
-        "descriptionHidden": "Slippage ที่ตั้งไว้ในการโอนนี้ต่ำเกินไปสำหรับเส้นทางที่เราตรวจสอบ"
+        "descriptionNoAmount": "Slippage ที่ใช้อยู่ในขณะนี้ต่ำเกินไปสำหรับเส้นทางที่เราตรวจสอบ โปรดลองตั้ง Slippage ให้สูงขึ้น"
       },
       "slippageTooLoose": {
         "title": "Slippage สูงเกินไป",
         "description": "เส้นทางที่เราตรวจสอบรองรับ Slippage สูงสุด {{slippage}}% การตั้ง Slippage เป็น {{slippage}}% น่าจะช่วยได้",
-        "descriptionNoAmount": "Slippage ที่ใช้อยู่ในขณะนี้สูงเกินไปสำหรับเส้นทางที่เราตรวจสอบ โปรดลองตั้ง Slippage ให้ต่ำลง",
-        "descriptionHidden": "Slippage ที่ตั้งไว้ในการโอนนี้สูงเกินไปสำหรับเส้นทางที่เราตรวจสอบ"
+        "descriptionNoAmount": "Slippage ที่ใช้อยู่ในขณะนี้สูงเกินไปสำหรับเส้นทางที่เราตรวจสอบ โปรดลองตั้ง Slippage ให้ต่ำลง"
       },
       "destinationAccountNotReady": {
         "title": "บัญชีผู้รับยังไม่พร้อม",

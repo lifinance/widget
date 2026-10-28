@@ -145,14 +145,12 @@
         "title": "Kayma çok düşük",
         "description": "Bu rotalar en az %{{slippage}} kayma gerektiriyor. Bu değer, şu an uygulanan kaymadan yüksek.",
         "descriptionSuggested": "Şu an uygulanan kayma, bu rotaların kabul ettiğinden düşük. Kaymayı %{{slippage}} olarak ayarlamak sorunu çözebilir.",
-        "descriptionNoAmount": "Şu an uygulanan kayma, bu rotaların kabul ettiğinden düşük. Daha yüksek bir kayma deneyin.",
-        "descriptionHidden": "Bu işlem için belirlenen kayma, bu rotaların kabul ettiğinden düşük."
+        "descriptionNoAmount": "Şu an uygulanan kayma, bu rotaların kabul ettiğinden düşük. Daha yüksek bir kayma deneyin."
       },
       "slippageTooLoose": {
         "title": "Kayma çok yüksek",
         "description": "Bu rotalar en fazla %{{slippage}} kayma kabul ediyor. Kaymayı %{{slippage}} olarak ayarlamak sorunu çözebilir.",
-        "descriptionNoAmount": "Şu an uygulanan kayma, bu rotaların kabul ettiğinden yüksek. Daha düşük bir kayma deneyin.",
-        "descriptionHidden": "Bu işlem için belirlenen kayma, bu rotaların kabul ettiğinden yüksek."
+        "descriptionNoAmount": "Şu an uygulanan kayma, bu rotaların kabul ettiğinden yüksek. Daha düşük bir kayma deneyin."
       },
       "destinationAccountNotReady": {
         "title": "Alıcı hesap hazır değil",

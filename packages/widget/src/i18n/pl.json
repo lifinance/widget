@@ -145,14 +145,12 @@
         "title": "Za niski poślizg",
         "description": "Te trasy wymagają poślizgu co najmniej {{slippage}}%, a obecny poślizg jest niższy.",
         "descriptionSuggested": "Obecny poślizg jest za niski dla tych tras. Zmiana na {{slippage}}% powinna pomóc.",
-        "descriptionNoAmount": "Obecny poślizg jest za niski dla tych tras. Spróbuj zwiększyć poślizg.",
-        "descriptionHidden": "Ustawiony poślizg jest za niski dla tych tras."
+        "descriptionNoAmount": "Obecny poślizg jest za niski dla tych tras. Spróbuj zwiększyć poślizg."
       },
       "slippageTooLoose": {
         "title": "Za wysoki poślizg",
         "description": "Te trasy akceptują poślizg najwyżej {{slippage}}%. Zmiana na {{slippage}}% powinna pomóc.",
-        "descriptionNoAmount": "Obecny poślizg jest za wysoki dla tych tras. Spróbuj zmniejszyć poślizg.",
-        "descriptionHidden": "Ustawiony poślizg jest za wysoki dla tych tras."
+        "descriptionNoAmount": "Obecny poślizg jest za wysoki dla tych tras. Spróbuj zmniejszyć poślizg."
       },
       "destinationAccountNotReady": {
         "title": "Konto odbiorcy nie jest gotowe",

@@ -145,14 +145,12 @@
         "title": "Slippage is too low",
         "description": "These routes need at least {{slippage}}% slippage, which is more than the slippage now applied.",
         "descriptionSuggested": "The slippage now applied is lower than these routes accept. Setting it to {{slippage}}% should help.",
-        "descriptionNoAmount": "The slippage now applied is lower than these routes accept. Try a higher slippage.",
-        "descriptionHidden": "The slippage set for this order is lower than these routes accept."
+        "descriptionNoAmount": "The slippage now applied is lower than these routes accept. Try a higher slippage."
       },
       "slippageTooLoose": {
         "title": "Slippage is too high",
         "description": "These routes accept at most {{slippage}}% slippage. Setting it to {{slippage}}% should help.",
-        "descriptionNoAmount": "The slippage now applied is higher than these routes accept. Try a lower slippage.",
-        "descriptionHidden": "The slippage set for this order is higher than these routes accept."
+        "descriptionNoAmount": "The slippage now applied is higher than these routes accept. Try a lower slippage."
       },
       "destinationAccountNotReady": {
         "title": "The receiving account is not ready",

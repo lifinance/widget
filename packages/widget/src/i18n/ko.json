@@ -145,14 +145,12 @@
         "title": "슬리피지가 너무 낮습니다",
         "description": "해당 경로에는 최소 {{slippage}}%의 슬리피지가 필요하며, 이는 현재 적용된 슬리피지보다 높습니다.",
         "descriptionSuggested": "현재 적용된 슬리피지는 해당 경로의 허용 범위보다 낮습니다. {{slippage}}%로 설정하면 해결될 수 있습니다.",
-        "descriptionNoAmount": "현재 적용된 슬리피지는 해당 경로의 허용 범위보다 낮습니다. 더 높은 슬리피지로 시도해 보세요.",
-        "descriptionHidden": "이 주문에 설정된 슬리피지는 해당 경로의 허용 범위보다 낮습니다."
+        "descriptionNoAmount": "현재 적용된 슬리피지는 해당 경로의 허용 범위보다 낮습니다. 더 높은 슬리피지로 시도해 보세요."
       },
       "slippageTooLoose": {
         "title": "슬리피지가 너무 높습니다",
         "description": "해당 경로는 최대 {{slippage}}%의 슬리피지만 허용합니다. {{slippage}}%로 설정하면 해결될 수 있습니다.",
-        "descriptionNoAmount": "현재 적용된 슬리피지는 해당 경로의 허용 범위보다 높습니다. 더 낮은 슬리피지로 시도해 보세요.",
-        "descriptionHidden": "이 주문에 설정된 슬리피지는 해당 경로의 허용 범위보다 높습니다."
+        "descriptionNoAmount": "현재 적용된 슬리피지는 해당 경로의 허용 범위보다 높습니다. 더 낮은 슬리피지로 시도해 보세요."
       },
       "destinationAccountNotReady": {
         "title": "받는 계정이 준비되지 않았습니다",

@@ -145,14 +145,12 @@
         "title": "Slippage trop faible",
         "description": "Ces routes exigent au moins {{slippage}} % de slippage, soit plus que le slippage actuel.",
         "descriptionSuggested": "Le slippage actuel est trop faible pour ces routes. Le régler à {{slippage}} % devrait aider.",
-        "descriptionNoAmount": "Le slippage actuel est trop faible pour ces routes. Essayez un slippage plus élevé.",
-        "descriptionHidden": "Le slippage défini pour cet ordre est trop faible pour ces routes."
+        "descriptionNoAmount": "Le slippage actuel est trop faible pour ces routes. Essayez un slippage plus élevé."
       },
       "slippageTooLoose": {
         "title": "Slippage trop élevé",
         "description": "Ces routes acceptent au maximum {{slippage}} % de slippage. Le régler à {{slippage}} % devrait aider.",
-        "descriptionNoAmount": "Le slippage actuel est trop élevé pour ces routes. Essayez un slippage plus faible.",
-        "descriptionHidden": "Le slippage défini pour cet ordre est trop élevé pour ces routes."
+        "descriptionNoAmount": "Le slippage actuel est trop élevé pour ces routes. Essayez un slippage plus faible."
       },
       "destinationAccountNotReady": {
         "title": "Le compte du destinataire n’est pas prêt",

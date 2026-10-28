@@ -145,14 +145,12 @@
         "title": "スリッページが低すぎます",
         "description": "対象ルートには、現在の設定より高い {{slippage}}% 以上のスリッページが必要です。",
         "descriptionSuggested": "現在のスリッページは対象ルートの下限を下回っています。{{slippage}}% に設定すると解決する見込みです。",
-        "descriptionNoAmount": "現在のスリッページは対象ルートの下限を下回っています。スリッページを上げてお試しください。",
-        "descriptionHidden": "この注文に設定されたスリッページは、対象ルートの下限を下回っています。"
+        "descriptionNoAmount": "現在のスリッページは対象ルートの下限を下回っています。スリッページを上げてお試しください。"
       },
       "slippageTooLoose": {
         "title": "スリッページが高すぎます",
         "description": "対象ルートのスリッページ上限は {{slippage}}% です。{{slippage}}% に設定すると解決する見込みです。",
-        "descriptionNoAmount": "現在のスリッページは対象ルートの上限を超えています。スリッページを下げてお試しください。",
-        "descriptionHidden": "この注文に設定されたスリッページは、対象ルートの上限を超えています。"
+        "descriptionNoAmount": "現在のスリッページは対象ルートの上限を超えています。スリッページを下げてお試しください。"
       },
       "destinationAccountNotReady": {
         "title": "受取アカウントの準備ができていません",

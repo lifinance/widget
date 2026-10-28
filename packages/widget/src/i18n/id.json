@@ -145,14 +145,12 @@
         "title": "Slippage terlalu rendah",
         "description": "Rute ini memerlukan slippage minimal {{slippage}}%, lebih tinggi dari slippage saat ini.",
         "descriptionSuggested": "Slippage saat ini lebih rendah dari batas minimum rute ini. Mengaturnya ke {{slippage}}% seharusnya dapat membantu.",
-        "descriptionNoAmount": "Slippage saat ini lebih rendah dari batas minimum rute ini. Coba slippage yang lebih tinggi.",
-        "descriptionHidden": "Slippage yang ditetapkan untuk order ini lebih rendah dari batas minimum rute ini."
+        "descriptionNoAmount": "Slippage saat ini lebih rendah dari batas minimum rute ini. Coba slippage yang lebih tinggi."
       },
       "slippageTooLoose": {
         "title": "Slippage terlalu tinggi",
         "description": "Rute ini hanya menerima slippage hingga {{slippage}}%. Mengaturnya ke {{slippage}}% seharusnya dapat membantu.",
-        "descriptionNoAmount": "Slippage saat ini lebih tinggi dari batas maksimum rute ini. Coba slippage yang lebih rendah.",
-        "descriptionHidden": "Slippage yang ditetapkan untuk order ini lebih tinggi dari batas maksimum rute ini."
+        "descriptionNoAmount": "Slippage saat ini lebih tinggi dari batas maksimum rute ini. Coba slippage yang lebih rendah."
       },
       "destinationAccountNotReady": {
         "title": "Akun penerima belum siap",

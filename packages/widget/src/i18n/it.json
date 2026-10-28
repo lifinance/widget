@@ -145,14 +145,12 @@
         "title": "Slippage troppo basso",
         "description": "Questi percorsi richiedono uno slippage di almeno {{slippage}}%, più alto di quello attuale.",
         "descriptionSuggested": "Lo slippage attuale è sotto il minimo accettato da questi percorsi. Prova a impostarlo a {{slippage}}%.",
-        "descriptionNoAmount": "Lo slippage attuale è sotto il minimo accettato da questi percorsi. Prova con uno slippage più alto.",
-        "descriptionHidden": "Lo slippage impostato per questo ordine è sotto il minimo accettato da questi percorsi."
+        "descriptionNoAmount": "Lo slippage attuale è sotto il minimo accettato da questi percorsi. Prova con uno slippage più alto."
       },
       "slippageTooLoose": {
         "title": "Slippage troppo alto",
         "description": "Questi percorsi accettano uno slippage massimo di {{slippage}}%. Prova a impostarlo a {{slippage}}%.",
-        "descriptionNoAmount": "Lo slippage attuale supera il massimo accettato da questi percorsi. Prova con uno slippage più basso.",
-        "descriptionHidden": "Lo slippage impostato per questo ordine supera il massimo accettato da questi percorsi."
+        "descriptionNoAmount": "Lo slippage attuale supera il massimo accettato da questi percorsi. Prova con uno slippage più basso."
       },
       "destinationAccountNotReady": {
         "title": "L'account del destinatario non è pronto",

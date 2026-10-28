@@ -45,8 +45,6 @@ export interface RouteIssueCardDeps {
   receiverRequired: boolean
   toAddress?: string
   sameEcosystem: boolean
-  /** The settings hide slippage, so a value set here could not be seen or undone. */
-  slippageHidden?: boolean
   /** A quote for this request is already running. */
   isFetching?: boolean
   applyAmount: (value: string) => void
@@ -259,13 +257,6 @@ export const buildRouteIssueCard = (
         ? t(`${base}.descriptionEstimated` as any, values)
         : t(`${base}.description` as any, values)
     }
-    if (
-      (issue.bucket === 'slippageTooLoose' ||
-        issue.bucket === 'slippageTooTight') &&
-      deps.slippageHidden
-    ) {
-      return t(`${base}.descriptionHidden` as any)
-    }
     if (issue.bucket === 'slippageTooLoose') {
       return slippageTarget
         ? t(`${base}.description` as any, values)
@@ -324,10 +315,7 @@ export const buildRouteIssueCard = (
       case 'slippageTooLoose': {
         const applied = Number(deps.slippage)
         const target = Number(slippageTarget)
-        return slippageTarget &&
-          !deps.slippageHidden &&
-          target > 0 &&
-          target < applied
+        return slippageTarget && target > 0 && target < applied
           ? setSlippage()
           : undefined
       }
@@ -340,9 +328,7 @@ export const buildRouteIssueCard = (
         const applied = Number(deps.slippage) || 0
         const target = Number(slippageTarget)
         const movesUp = target > applied && target <= maxRecommendedSlippage
-        return slippageTarget && movesUp && !deps.slippageHidden
-          ? setSlippage()
-          : undefined
+        return slippageTarget && movesUp ? setSlippage() : undefined
       }
 
       case 'recipientNotSupported':
