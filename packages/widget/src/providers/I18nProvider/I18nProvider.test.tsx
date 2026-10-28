@@ -13,11 +13,19 @@ import { I18nProvider } from './I18nProvider.js'
 /**
  * Regression cover for JUM-1733.
  *
- * With `languages.default` set and nothing saved, the i18n instance starts in
- * that language before its strings load. The label is memoized, like the
- * navigation tabs, so only an i18n event can re-render it once the strings
- * arrive.
+ * The i18n instance can start in a language before its strings load (nothing
+ * saved), or with old strings (a saved cache from an older release). The label
+ * is memoized, like the navigation tabs, so only an i18n event can re-render it
+ * once the strings arrive.
  */
+
+const seedSettings = (state: Record<string, unknown>) =>
+  window.localStorage.setItem(
+    'li.fi-widget-settings',
+    JSON.stringify({ state, version: 6 })
+  )
+
+const staleFrenchCache = { header: { gas: 'Old' } }
 
 const GasLabel = memo(() => {
   const { t } = useTranslation()
@@ -57,6 +65,24 @@ afterEach(() => {
 describe('I18nProvider', () => {
   it('shows the default language once its strings load, with nothing saved', async () => {
     render({ integrator: 'test', languages: { default: 'fr' } })
+
+    await vi.waitFor(() => expect(container.textContent).toBe('Gaz'))
+  })
+
+  it('replaces an old saved cache of the default language', async () => {
+    seedSettings({
+      language: 'fr',
+      lastDefaultLanguage: 'fr',
+      languageCache: staleFrenchCache,
+    })
+    render({ integrator: 'test', languages: { default: 'fr' } })
+
+    await vi.waitFor(() => expect(container.textContent).toBe('Gaz'))
+  })
+
+  it('replaces an old saved cache of the saved language', async () => {
+    seedSettings({ language: 'fr', languageCache: staleFrenchCache })
+    render({ integrator: 'test' })
 
     await vi.waitFor(() => expect(container.textContent).toBe('Gaz'))
   })

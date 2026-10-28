@@ -19,19 +19,11 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
   const { languages, languageResources } = useWidgetConfig()
   const { language, languageCache } = useSettings(['language', 'languageCache'])
   const i18nInstanceRef = useRef<i18n | null>(null)
+  // The language cache that the instance already holds.
+  const addedLanguageCacheRef = useRef(languageCache)
 
   const i18nInstance = useMemo(() => {
     if (i18nInstanceRef.current) {
-      // Update i18n instance with language and language cache updates
-      if (language && languageCache && language !== 'en') {
-        i18nInstanceRef.current.addResourceBundle(
-          language,
-          'translation',
-          languageCache,
-          true,
-          true
-        )
-      }
       return i18nInstanceRef.current
     }
 
@@ -48,6 +40,10 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
       fallbackLng: 'en',
       lowerCaseLng: true,
       interpolation: { escapeValue: false },
+      // Re-render `useTranslation` consumers when strings are added, not only
+      // on `languageChanged`. Memoized components such as the navigation tabs
+      // otherwise keep the strings of their first render.
+      react: { bindI18nStore: 'added' },
       resources: {
         en: {
           translation: mergeWithLanguageResources(
@@ -93,6 +89,24 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
     i18nInstanceRef.current = i18n
     return i18n
   }, [language, languageResources, languages?.default, languageCache])
+
+  // Add language cache updates after the commit, so that the `added` event
+  // does not update other components during this render.
+  useEffect(() => {
+    if (languageCache === addedLanguageCacheRef.current) {
+      return
+    }
+    addedLanguageCacheRef.current = languageCache
+    if (language && languageCache && language !== 'en') {
+      i18nInstance.addResourceBundle(
+        language,
+        'translation',
+        languageCache,
+        true,
+        true
+      )
+    }
+  }, [i18nInstance, language, languageCache])
 
   return (
     <I18nextProvider i18n={i18nInstance}>

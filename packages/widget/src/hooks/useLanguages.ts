@@ -47,7 +47,6 @@ export const useLanguages = (): {
       // Cache the language resource to prevent blinking
       // after switching languages and reloading the page.
       let newLanguageCache: LanguageResource | undefined
-      let addedResourceBundle = false
       if (
         !i18n.hasResourceBundle(languageKey, 'translation') &&
         languageKey !== 'en'
@@ -64,7 +63,6 @@ export const useLanguages = (): {
             true
           )
           newLanguageCache = languageResource
-          addedResourceBundle = true
         })
       } else {
         // If the language is already loaded, just cache the existing resource
@@ -74,11 +72,8 @@ export const useLanguages = (): {
       // Set the new language and language cache to the settings store.
       setValues({ language: languageKey, languageCache: newLanguageCache })
 
-      // Update the i18n instance to the new language. The instance can already
-      // be in this language without its strings (`languages.default` with
-      // nothing saved). react-i18next does not re-render when strings are only
-      // added, so emit `languageChanged` for a newly added bundle too.
-      if (languageKey !== i18n.language || addedResourceBundle) {
+      // Update the i18n instance to the new language.
+      if (languageKey !== i18n.language) {
         await i18n.changeLanguage(languageKey)
       }
     },
