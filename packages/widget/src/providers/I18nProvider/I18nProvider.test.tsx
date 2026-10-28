@@ -65,6 +65,7 @@ afterEach(() => {
 describe('I18nProvider', () => {
   it('shows the default language once its strings load, with nothing saved', async () => {
     render({ integrator: 'test', languages: { default: 'fr' } })
+    expect(container.textContent).toBe('Gas')
 
     await vi.waitFor(() => expect(container.textContent).toBe('Gaz'))
   })
@@ -76,6 +77,7 @@ describe('I18nProvider', () => {
       languageCache: staleFrenchCache,
     })
     render({ integrator: 'test', languages: { default: 'fr' } })
+    expect(container.textContent).toBe('Old')
 
     await vi.waitFor(() => expect(container.textContent).toBe('Gaz'))
   })
@@ -83,6 +85,7 @@ describe('I18nProvider', () => {
   it('replaces an old saved cache of the saved language', async () => {
     seedSettings({ language: 'fr', languageCache: staleFrenchCache })
     render({ integrator: 'test' })
+    expect(container.textContent).toBe('Old')
 
     await vi.waitFor(() => expect(container.textContent).toBe('Gaz'))
   })

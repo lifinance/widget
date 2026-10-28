@@ -1,5 +1,5 @@
-import { createInstance, type i18n } from 'i18next'
-import { useEffect, useMemo, useRef } from 'react'
+import { createInstance } from 'i18next'
+import { useEffect, useRef, useState } from 'react'
 import { I18nextProvider } from 'react-i18next'
 import { useLanguages } from '../../hooks/useLanguages.js'
 import { useSettingsStore } from '../../stores/settings/SettingsStore.js'
@@ -18,15 +18,12 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
 }) => {
   const { languages, languageResources } = useWidgetConfig()
   const { language, languageCache } = useSettings(['language', 'languageCache'])
-  const i18nInstanceRef = useRef<i18n | null>(null)
   // The language cache that the instance already holds.
   const addedLanguageCacheRef = useRef(languageCache)
 
-  const i18nInstance = useMemo(() => {
-    if (i18nInstanceRef.current) {
-      return i18nInstanceRef.current
-    }
-
+  // Create the instance once. Later language cache updates go through the
+  // effect below.
+  const [i18nInstance] = useState(() => {
     // Custom language resources (of non-default languages) are added statically.
     // If custom language resources extend existing languages, they are merged with dynamically loaded resources.
     const customLanguageKeys = languageResources
@@ -86,9 +83,8 @@ export const I18nProvider: React.FC<React.PropsWithChildren> = ({
     i18n.services.formatter?.addCached('numberExt', compactNumberFormatter)
     i18n.services.formatter?.addCached('currencyExt', currencyExtendedFormatter)
     i18n.services.formatter?.addCached('percent', percentFormatter)
-    i18nInstanceRef.current = i18n
     return i18n
-  }, [language, languageResources, languages?.default, languageCache])
+  })
 
   // Add language cache updates after the commit, so that the `added` event
   // does not update other components during this render.
