@@ -222,12 +222,19 @@ it('sends one request for two quick presses of retry', async () => {
 // The data is kept through a refetch, so the card did not change while the
 // retry ran and a second press looked like it did nothing.
 it('holds the retry button while the routes query runs', async () => {
+  // Fetches wait for the test, so a slow run cannot hide the busy state between polls.
+  const pending: Array<() => void> = []
+  const settle = async (): Promise<void> => {
+    await vi.waitFor(() => expect(pending).toHaveLength(1))
+    pending.pop()?.()
+  }
   const observer = new QueryObserver(client, {
     queryKey: ['test-widget-routes', '0xfrom'],
     queryFn: () =>
-      new Promise((resolve) => setTimeout(() => resolve({ routes: [] }), 50)),
+      new Promise((resolve) => pending.push(() => resolve({ routes: [] }))),
   })
   const unsubscribe = observer.subscribe(() => {})
+  await settle()
   await vi.waitFor(() =>
     expect(observer.getCurrentResult().isFetched).toBe(true)
   )
@@ -236,6 +243,7 @@ it('holds the retry button while the routes query runs', async () => {
   await vi.waitFor(() => expect(card?.action?.disabled).toBe(true))
   expect(card?.action?.label).toBe('info.routeIssue.temporary.busy')
 
+  await settle()
   await vi.waitFor(() => expect(card?.action?.disabled).toBeFalsy())
   expect(card?.action?.label).toBe('info.routeIssue.temporary.action')
   unsubscribe()
