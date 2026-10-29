@@ -1,5 +1,12 @@
 # @lifi/widget-checkout
 
+## 4.0.11
+
+### Patch Changes
+
+- Updated dependencies [[`7167584`](https://github.com/lifinance/widget/commit/7167584bea77f9d691b11c533d0f3c2538728186)]:
+  - @lifi/widget@4.10.4
+
 ## 4.0.10
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @lifi/widget
 
+## 4.10.4
+
+### Patch Changes
+
+- [#918](https://github.com/lifinance/widget/pull/918) [`7167584`](https://github.com/lifinance/widget/commit/7167584bea77f9d691b11c533d0f3c2538728186) Thanks [@chybisov](https://github.com/chybisov)! - Show the strings of the selected language everywhere after they load. Memoized components, such as the navigation tabs, kept the English fallback or old saved strings.
+
 ## 4.10.3
 
 ### Patch Changes
