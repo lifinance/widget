@@ -14,7 +14,8 @@
     "clean": "rm -rf dist",
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
-    "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg"
+    "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
+    "test": "vitest run"
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "homepage": "https://github.com/lifinance/widget",
@@ -41,7 +42,8 @@
     "@lifi/sdk": "^4.12.1",
     "@lifi/sdk-provider-ethereum": "^4.2.11",
     "@lifi/widget-provider": "workspace:*",
-    "viem": ">=2.52.0"
+    "viem": ">=2.52.0",
+    "qrcode": "^1.5.4"
   },
   "peerDependencies": {
     "@wagmi/core": "^3.6.5",
@@ -52,6 +54,9 @@
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "react": "^19.3.1",
-    "typescript": "^7.0.2"
+    "typescript": "^7.0.2",
+    "vitest": "^5.0.5",
+    "@types/qrcode": "^1.5.6",
+    "jsdom": "^30.1.3"
   }
 }

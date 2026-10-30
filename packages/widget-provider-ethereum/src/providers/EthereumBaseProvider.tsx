@@ -25,6 +25,7 @@ export const EthereumBaseProvider: FC<
 
   if (!wagmi.current) {
     wagmi.current = createDefaultWagmiConfig({
+      oathWallet: resolveConfig(config?.oathWallet, defaultWalletConnectConfig),
       coinbase: resolveConfig(config?.coinbase, defaultCoinbaseConfig),
       metaMask: resolveConfig(config?.metaMask, defaultMetaMaskConfig),
       walletConnect: resolveConfig(
