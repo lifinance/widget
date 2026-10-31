@@ -71,13 +71,14 @@ const result = {
   accounts: ['0x0000000000000000000000000000000000000001'],
   chainId: 1,
 }
-const setup = () => {
+const setup = async () => {
   const emit = vi.fn()
   const factory = createOathWalletConnector({ projectId: 'test-project' })
   const connector = factory({
     chains: [mainnet],
     emitter: { emit },
   } as unknown as Parameters<CreateConnectorFn>[0])
+  await connector.setup?.()
   return { connector, factory, emit }
 }
 const showQR = async (attempt = 0) => {
@@ -94,8 +95,8 @@ beforeEach(() => {
   vi.clearAllMocks()
 })
 describe('Oath direct WalletConnect connector', () => {
-  it('uses native selector metadata and an isolated provider without the generic modal', () => {
-    const { connector, factory } = setup()
+  it('uses native selector metadata and an isolated provider without the generic modal', async () => {
+    const { connector, factory } = await setup()
     expect(factory.id).toBe('oath-wallet')
     expect(factory.displayName).toBe('Oath Wallet')
     expect(factory.icon).toMatch(/^data:image\/svg\+xml/)
@@ -106,7 +107,7 @@ describe('Oath direct WalletConnect connector', () => {
     })
   })
   it('closes the QR after approval and forwards the supported chain/accounts', async () => {
-    const { connector } = setup()
+    const { connector } = await setup()
     const pending = connector.connect({ chainId: 1 })
     await showQR()
     fixtures.attempts[0].resolve(result)
@@ -115,7 +116,7 @@ describe('Oath direct WalletConnect connector', () => {
     expect(fixtures.attempts[0].provider.listenerCount('display_uri')).toBe(0)
   })
   it('cancels promptly, disconnects only its pairing, and permits a fresh retry', async () => {
-    const { connector } = setup()
+    const { connector } = await setup()
     const first = connector.connect().catch((error) => error)
     await showQR()
     fixtures.dialogs[0].cancel()
@@ -129,7 +130,7 @@ describe('Oath direct WalletConnect connector', () => {
     await expect(second).resolves.toEqual(result)
   })
   it('a late cancelled approval cannot connect, close the retry QR, or disconnect the retry session', async () => {
-    const { connector, emit } = setup()
+    const { connector, emit } = await setup()
     const first = connector.connect().catch((error) => error)
     await showQR()
     fixtures.dialogs[0].cancel()
@@ -158,7 +159,7 @@ describe('Oath direct WalletConnect connector', () => {
     await second
   })
   it('a late rejected attempt does not close a retry dialog', async () => {
-    const { connector } = setup()
+    const { connector } = await setup()
     const first = connector.connect().catch((error) => error)
     await showQR()
     fixtures.dialogs[0].cancel()
@@ -172,7 +173,7 @@ describe('Oath direct WalletConnect connector', () => {
     await second
   })
   it('does not delete a restored session on cancellation', async () => {
-    const { connector } = setup()
+    const { connector } = await setup()
     fixtures.attempts[0].provider.session = { topic: 'restored' }
     const pending = connector.connect().catch((error) => error)
     await showQR()
@@ -184,14 +185,14 @@ describe('Oath direct WalletConnect connector', () => {
     fixtures.attempts[0].reject(new Error('cancelled'))
   })
   it('rejects concurrent connection attempts instead of opening duplicate dialogs', async () => {
-    const { connector } = setup()
+    const { connector } = await setup()
     const first = connector.connect()
     await expect(connector.connect()).rejects.toThrow('already pending')
     fixtures.attempts[0].resolve(result)
     await first
   })
   it('cleans up UI and listeners when the wallet rejects', async () => {
-    const { connector } = setup()
+    const { connector } = await setup()
     const pending = connector.connect().catch((error) => error)
     await showQR()
     fixtures.attempts[0].reject(new Error('Wallet rejected'))
@@ -200,7 +201,7 @@ describe('Oath direct WalletConnect connector', () => {
     expect(fixtures.attempts[0].provider.listenerCount('display_uri')).toBe(0)
   })
   it('releases the connection lock when provider initialization fails', async () => {
-    const { connector } = setup()
+    const { connector } = await setup()
     fixtures.attempts[0].base.getProvider.mockRejectedValueOnce(
       new Error('Provider unavailable')
     )
@@ -209,8 +210,34 @@ describe('Oath direct WalletConnect connector', () => {
     fixtures.attempts[0].resolve(result)
     await expect(pending).resolves.toEqual(result)
   })
+  it('cancels while provider initialization is pending and never starts the abandoned proposal', async () => {
+    const { connector } = await setup()
+    const old = fixtures.attempts[0]
+    let initialize: (value: unknown) => void = () => {}
+    old.base.getProvider.mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          initialize = resolve
+        })
+    )
+    const first = connector.connect().catch((error) => error)
+    await vi.waitFor(() => expect(old.base.getProvider).toHaveBeenCalled())
+    await connector.disconnect()
+    expect((await first).code).toBe(4001)
+    const retry = connector.connect()
+    await vi.waitFor(() =>
+      expect(fixtures.attempts[1].base.connect).toHaveBeenCalled()
+    )
+    fixtures.attempts[1].resolve(result)
+    await expect(retry).resolves.toEqual(result)
+    initialize(old.provider)
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(old.base.connect).not.toHaveBeenCalled()
+    expect(old.provider.listenerCount('display_uri')).toBe(0)
+    expect(fixtures.dialogs).toHaveLength(0)
+  })
   it('retains normal EVM chain switching and disconnect behavior after connection', async () => {
-    const { connector } = setup()
+    const { connector } = await setup()
     await expect(connector.switchChain!({ chainId: 1 })).resolves.toEqual(
       mainnet
     )

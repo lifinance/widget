@@ -1,5 +1,11 @@
 import { EventEmitter } from 'node:events'
-import { connect, createConfig, disconnect, http } from '@wagmi/core'
+import {
+  connect,
+  createConfig,
+  createStorage,
+  disconnect,
+  http,
+} from '@wagmi/core'
 import { mainnet } from 'viem/chains'
 import { beforeEach, expect, it, vi } from 'vitest'
 import { createOathWalletConnector } from '../src/connectors/oathWallet.js'
@@ -7,6 +13,7 @@ import { createOathWalletConnector } from '../src/connectors/oathWallet.js'
 const state = vi.hoisted(() => ({
   providers: [] as any[],
   dialogs: [] as any[],
+  sessions: new Map<string, any>(),
 }))
 vi.mock('@walletconnect/ethereum-provider', () => ({
   EthereumProvider: {
@@ -33,6 +40,10 @@ vi.mock('@walletconnect/ethereum-provider', () => ({
                   },
                 }
                 provider.accounts = [address]
+                state.sessions.set(options.customStoragePrefix, {
+                  session: provider.session,
+                  accounts: provider.accounts,
+                })
                 provider.emit('connect', { chainId: '0x1' })
                 resolve()
               }
@@ -58,6 +69,14 @@ vi.mock('@walletconnect/ethereum-provider', () => ({
           },
         },
       })
+      const stored = state.sessions.get(options.customStoragePrefix)
+      if (stored) {
+        provider.session = stored.session
+        provider.accounts = stored.accounts
+      }
+      provider.signer.client.disconnect.mockImplementation(async () => {
+        state.sessions.delete(options.customStoragePrefix)
+      })
       state.providers.push(provider)
       return provider
     }),
@@ -73,6 +92,7 @@ vi.mock('../src/connectors/oathWalletDialog.js', () => ({
 beforeEach(() => {
   state.providers.length = 0
   state.dialogs.length = 0
+  state.sessions.clear()
   vi.clearAllMocks()
 })
 
@@ -157,4 +177,62 @@ it('does not replace the new approved accounts when an old approval arrives late
   ])
   expect(current.signer.client.disconnect).not.toHaveBeenCalled()
   await disconnect(config, { connector: oath })
+})
+
+it('restores the approved retry after late abandoned storage writes and disconnect on a shared store', async () => {
+  const saved = new Map<string, string>()
+  const storage = createStorage({
+    storage: {
+      getItem: (key) => saved.get(key) ?? null,
+      setItem: (key, value) => {
+        saved.set(key, value)
+      },
+      removeItem: (key) => {
+        saved.delete(key)
+      },
+    },
+  })
+  const makeConfig = () =>
+    createConfig({
+      chains: [mainnet],
+      storage,
+      transports: { [mainnet.id]: http() },
+      connectors: [createOathWalletConnector({ projectId: 'fixture' })],
+    })
+  const config = makeConfig()
+  const oath = config.connectors[0]
+  const first = connect(config, { connector: oath }).catch((error) => error)
+  await vi.waitFor(() => expect(state.dialogs).toHaveLength(1))
+  const abandoned = (await oath.getProvider()) as any
+  state.dialogs[0].cancel()
+  expect((await first).code).toBe(4001)
+  const retry = connect(config, { connector: oath })
+  await vi.waitFor(() => expect(state.dialogs).toHaveLength(2))
+  const active = (await oath.getProvider()) as any
+  active.approve()
+  await retry
+  expect(active.options.customStoragePrefix).not.toBe(
+    abandoned.options.customStoragePrefix
+  )
+  abandoned.approve()
+  await vi.waitFor(() =>
+    expect(abandoned.signer.client.disconnect).toHaveBeenCalled()
+  )
+  expect(
+    state.sessions.get(active.options.customStoragePrefix)?.session.topic
+  ).toBe(active.session.topic)
+  const reloaded = makeConfig()
+  const restored = reloaded.connectors[0]
+  expect(await restored.isAuthorized()).toBe(true)
+  const provider = (await restored.getProvider()) as any
+  expect(provider.options.customStoragePrefix).toBe(
+    active.options.customStoragePrefix
+  )
+  expect(provider.session.topic).toBe(active.session.topic)
+  await connect(reloaded, { connector: restored, isReconnecting: true })
+  expect(reloaded.state.connections.get(restored.uid)?.accounts).toEqual(
+    active.accounts
+  )
+  expect(provider.connect).not.toHaveBeenCalled()
+  await disconnect(reloaded, { connector: restored })
 })

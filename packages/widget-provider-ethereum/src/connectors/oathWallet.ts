@@ -1,3 +1,4 @@
+import type { Storage } from '@wagmi/core'
 import { UserRejectedRequestError } from 'viem'
 import type { CreateConnectorFn } from 'wagmi'
 import { type WalletConnectParameters, walletConnect } from 'wagmi/connectors'
@@ -18,8 +19,11 @@ export const createOathWalletConnector = (
     let generation = 0
     let connecting = false
     let cancelPending: (() => void) | undefined
-    const createBase = () => {
-      const ownGeneration = generation
+    const prefixKey = `oath-wallet.${params.projectId}.storagePrefix` as const
+    const storage = config.storage as Storage<
+      Record<typeof prefixKey, string>
+    > | null
+    const createBase = (storagePrefix: string, ownGeneration: number) => {
       const emitter = Object.create(config.emitter) as typeof config.emitter
       emitter.emit = (event, ...args) => {
         // A cancelled proposal can resolve after another attempt starts.
@@ -30,7 +34,7 @@ export const createOathWalletConnector = (
       const base = walletConnect({
         ...params,
         showQrModal: false,
-        customStoragePrefix: 'evm-oath-wallet',
+        customStoragePrefix: storagePrefix,
       })({ ...config, emitter })
       const setRequestedChains = base.setRequestedChainsIds.bind(base)
       base.setRequestedChainsIds = (chains) => {
@@ -44,29 +48,35 @@ export const createOathWalletConnector = (
         icon: OATH_WALLET_ICON,
       })
     }
-    let base = createBase()
+    // Reuse the current namespace on reload, but never let an abandoned client
+    // share persistence (or WalletConnect's cached Core) with its replacement.
+    let base = Promise.resolve(storage?.getItem(prefixKey)).then((prefix) =>
+      createBase(prefix || 'evm-oath-wallet', 0)
+    )
+    void base.catch(() => undefined)
     return {
       id: OATH_WALLET_ID,
       name: OATH_WALLET_NAME,
       icon: OATH_WALLET_ICON,
       type: 'walletConnect',
       setup: async () => {
-        await base.setup?.()
+        await (await base).setup?.()
       },
-      getProvider: (options) => base.getProvider(options),
-      getAccounts: () => base.getAccounts(),
-      getChainId: () => base.getChainId(),
-      isAuthorized: () => base.isAuthorized(),
-      switchChain: (options) => base.switchChain!(options),
-      onAccountsChanged: (accounts) => base.onAccountsChanged(accounts),
-      onChainChanged: (chainId) => base.onChainChanged(chainId),
-      onDisconnect: (error) => base.onDisconnect(error),
+      getProvider: async (options) => (await base).getProvider(options),
+      getAccounts: async () => (await base).getAccounts(),
+      getChainId: async () => (await base).getChainId(),
+      isAuthorized: async () => (await base).isAuthorized(),
+      switchChain: async (options) => (await base).switchChain!(options),
+      onAccountsChanged: async (accounts) =>
+        (await base).onAccountsChanged(accounts),
+      onChainChanged: async (chainId) => (await base).onChainChanged(chainId),
+      onDisconnect: async (error) => (await base).onDisconnect(error),
       async disconnect() {
         if (cancelPending) {
           cancelPending()
           return
         }
-        await base.disconnect()
+        await (await base).disconnect()
       },
       async connect(options) {
         if (connecting) {
@@ -82,11 +92,14 @@ export const createOathWalletConnector = (
           let dialog: OathConnectionDialog | undefined
           let pairingTopic: string | undefined
           const disconnectedTopics = new Set<string>()
-          const provider = await current.getProvider()
-          const restoredTopic = provider.session?.topic
+          let provider:
+            | Awaited<ReturnType<Awaited<typeof base>['getProvider']>>
+            | undefined
+          let restoredTopic: string | undefined
           const disconnectLateSession = async () => {
-            const topic = provider.session?.topic
+            const topic = provider?.session?.topic
             if (
+              !provider ||
               !topic ||
               topic === restoredTopic ||
               disconnectedTopics.has(topic)
@@ -116,10 +129,20 @@ export const createOathWalletConnector = (
             }
             cancelled = true
             generation++
-            base = createBase()
+            const replacementGeneration = generation
+            const prefix = `evm-oath-wallet-${crypto.randomUUID()}`
+            // Finish saving the namespace before starting its provider. Old
+            // clients may still write, but only into their abandoned namespace.
+            base = current
+              .catch(() => undefined)
+              .then(async () => {
+                await storage?.setItem(prefixKey, prefix)
+                return createBase(prefix, replacementGeneration)
+              })
+            void base.catch(() => undefined)
             lifetime.abort()
             rejectCancellation(error)
-            if (pairingTopic) {
+            if (pairingTopic && provider) {
               void provider.signer.client.core.pairing
                 .disconnect({ topic: pairingTopic })
                 .catch(() => undefined)
@@ -155,10 +178,24 @@ export const createOathWalletConnector = (
                 )
               })
           }
-          provider.on('display_uri', onDisplayUri)
-          const pairing = current
-            .connect(options)
-            .then(async (result) => {
+          // Cancellation is registered before either storage or provider loading.
+          const pairing = (async () => {
+            const connector = await current
+            if (cancelled) {
+              throw new UserRejectedRequestError(
+                new Error('Connection cancelled')
+              )
+            }
+            provider = await connector.getProvider()
+            restoredTopic = provider.session?.topic
+            if (cancelled) {
+              throw new UserRejectedRequestError(
+                new Error('Connection cancelled')
+              )
+            }
+            provider.on('display_uri', onDisplayUri)
+            try {
+              const result = await connector.connect(options)
               if (cancelled) {
                 await disconnectLateSession()
                 throw new UserRejectedRequestError(
@@ -166,13 +203,13 @@ export const createOathWalletConnector = (
                 )
               }
               return result
-            })
-            .finally(() => {
+            } finally {
               provider.removeListener('display_uri', onDisplayUri)
               if (cancelled) {
                 void disconnectLateSession()
               }
-            })
+            }
+          })()
           try {
             return await Promise.race([pairing, cancellation])
           } finally {
