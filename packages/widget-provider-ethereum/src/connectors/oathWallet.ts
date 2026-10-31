@@ -18,6 +18,7 @@ export const createOathWalletConnector = (
   const factory: CreateConnectorFn = (config) => {
     let generation = 0
     let connecting = false
+    let connectionCleanup: Promise<void> | undefined
     let cancelPending: (() => void) | undefined
     const prefixKey = `oath-wallet.${params.projectId}.storagePrefix` as const
     const storage = config.storage as Storage<
@@ -73,7 +74,10 @@ export const createOathWalletConnector = (
       onDisconnect: async (error) => (await base).onDisconnect(error),
       async disconnect() {
         if (cancelPending) {
+          const cleanup = connectionCleanup
           cancelPending()
+          // Wait for local UI/lock cleanup, never for the abandoned proposal.
+          await cleanup
           return
         }
         await (await base).disconnect()
@@ -83,6 +87,10 @@ export const createOathWalletConnector = (
           throw new Error('An Oath connection is already pending.')
         }
         connecting = true
+        let finishCleanup: () => void = () => undefined
+        connectionCleanup = new Promise<void>((resolve) => {
+          finishCleanup = resolve
+        })
         try {
           const lifetime = new AbortController()
           const current = base
@@ -222,6 +230,8 @@ export const createOathWalletConnector = (
           }
         } finally {
           connecting = false
+          connectionCleanup = undefined
+          finishCleanup()
         }
       },
     }
