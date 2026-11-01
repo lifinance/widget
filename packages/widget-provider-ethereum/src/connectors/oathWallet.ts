@@ -92,12 +92,12 @@ export const createOathWalletConnector = (
           finishCleanup = resolve
         })
         try {
-          const lifetime = new AbortController()
           const current = base
           const ownGeneration = generation
           let cancelled = false
           let finished = false
           let dialog: OathConnectionDialog | undefined
+          let dialogLifetime: AbortController | undefined
           let pairingTopic: string | undefined
           const disconnectedTopics = new Set<string>()
           let provider:
@@ -148,7 +148,7 @@ export const createOathWalletConnector = (
                 return createBase(prefix, replacementGeneration)
               })
             void base.catch(() => undefined)
-            lifetime.abort()
+            dialogLifetime?.abort()
             rejectCancellation(error)
             if (pairingTopic && provider) {
               void provider.signer.client.core.pairing
@@ -163,22 +163,35 @@ export const createOathWalletConnector = (
               return
             }
             pairingTopic = /^wc:([^@]+)@2\?/.exec(uri)?.[1]
+            // QR generation is asynchronous; a newer URI supersedes its render.
+            dialogLifetime?.abort()
+            dialog?.close()
+            const rendering = new AbortController()
+            dialogLifetime = rendering
             void import('./oathWalletDialog.js')
               .then(async ({ openOathConnectionDialog }) => {
-                if (cancelled || finished || ownGeneration !== generation) {
+                if (rendering.signal.aborted || cancelled || finished) {
                   return
                 }
-                dialog?.close()
-                dialog = await openOathConnectionDialog(
+                const opened = await openOathConnectionDialog(
                   uri,
-                  cancel,
-                  lifetime.signal
+                  () => {
+                    if (!rendering.signal.aborted) {
+                      cancel()
+                    }
+                  },
+                  rendering.signal
                 )
-                if (cancelled || finished || ownGeneration !== generation) {
-                  dialog.close()
+                if (rendering.signal.aborted || cancelled || finished) {
+                  opened.close()
+                  return
                 }
+                dialog = opened
               })
               .catch((error: unknown) => {
+                if (rendering.signal.aborted) {
+                  return
+                }
                 cancel(
                   error instanceof Error
                     ? error
@@ -225,7 +238,7 @@ export const createOathWalletConnector = (
             if (cancelPending === cancel) {
               cancelPending = undefined
             }
-            lifetime.abort()
+            dialogLifetime?.abort()
             dialog?.close()
           }
         } finally {

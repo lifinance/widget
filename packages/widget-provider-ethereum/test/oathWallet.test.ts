@@ -65,6 +65,7 @@ vi.mock('../src/connectors/oathWalletDialog.js', () => ({
 }))
 
 import { createOathWalletConnector } from '../src/connectors/oathWallet.js'
+import { openOathConnectionDialog } from '../src/connectors/oathWalletDialog.js'
 
 const uri = 'wc:test-pairing@2?relay-protocol=irn&symKey=test-only'
 const result = {
@@ -190,6 +191,77 @@ describe('Oath direct WalletConnect connector', () => {
     await expect(connector.connect()).rejects.toThrow('already pending')
     fixtures.attempts[0].resolve(result)
     await first
+  })
+  it('keeps only the latest QR when overlapping renders finish out of order', async () => {
+    const renders: {
+      close: ReturnType<typeof vi.fn>
+      signal: AbortSignal
+      resolve: () => void
+    }[] = []
+    vi.mocked(openOathConnectionDialog)
+      .mockImplementationOnce(
+        (_uri, _cancel, signal) =>
+          new Promise((resolve) => {
+            const close = vi.fn()
+            renders.push({ close, signal, resolve: () => resolve({ close }) })
+          })
+      )
+      .mockImplementationOnce(
+        (_uri, _cancel, signal) =>
+          new Promise((resolve) => {
+            const close = vi.fn()
+            renders.push({ close, signal, resolve: () => resolve({ close }) })
+          })
+      )
+    const { connector } = await setup()
+    const pending = connector.connect()
+    await vi.waitFor(() =>
+      expect(fixtures.attempts[0].base.connect).toHaveBeenCalled()
+    )
+    fixtures.attempts[0].provider.emit('display_uri', uri)
+    await vi.waitFor(() => expect(renders).toHaveLength(1))
+    fixtures.attempts[0].provider.emit(
+      'display_uri',
+      uri.replace('test-pairing', 'replacement')
+    )
+    await vi.waitFor(() => expect(renders).toHaveLength(2))
+    renders[1].resolve()
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    renders[0].resolve()
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(renders[0].close).toHaveBeenCalled()
+    expect(renders[1].close).not.toHaveBeenCalled()
+    fixtures.attempts[0].resolve(result)
+    await pending
+    expect(renders[1].close).toHaveBeenCalled()
+  })
+  it('ignores a superseded QR render failure instead of cancelling the latest QR', async () => {
+    let rejectRender: (error: Error) => void = () => {}
+    vi.mocked(openOathConnectionDialog).mockImplementationOnce(
+      () =>
+        new Promise((_resolve, reject) => {
+          rejectRender = reject
+        })
+    )
+    const { connector } = await setup()
+    const pending = connector.connect().catch((error) => error)
+    await vi.waitFor(() =>
+      expect(fixtures.attempts[0].base.connect).toHaveBeenCalled()
+    )
+    fixtures.attempts[0].provider.emit('display_uri', uri)
+    await vi.waitFor(() =>
+      expect(openOathConnectionDialog).toHaveBeenCalledOnce()
+    )
+    fixtures.attempts[0].provider.emit(
+      'display_uri',
+      uri.replace('test-pairing', 'replacement')
+    )
+    await vi.waitFor(() => expect(fixtures.dialogs).toHaveLength(1))
+    rejectRender(new Error('Superseded QR failed'))
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    expect(fixtures.dialogs[0].signal.aborted).toBe(false)
+    fixtures.attempts[0].resolve(result)
+    await expect(pending).resolves.toEqual(result)
   })
   it('cleans up UI and listeners when the wallet rejects', async () => {
     const { connector } = await setup()
