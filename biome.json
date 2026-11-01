@@ -9,7 +9,8 @@
       "!**/*.lock",
       "!**/*.svelte",
       "!**/*.svg",
-      "!**/*.vue"
+      "!**/*.vue",
+      "!**/routeIssues/fixtures/live-payloads.json"
     ]
   },
   "formatter": {

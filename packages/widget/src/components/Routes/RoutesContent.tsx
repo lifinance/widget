@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next'
 import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.js'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
+import type { RouteIssue } from '../../utils/routeIssues/types.js'
 import { PageContainer } from '../PageContainer.js'
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js'
 import { RouteCard } from '../RouteCard/RouteCard.js'
@@ -16,8 +17,10 @@ import { Container, Header } from './RoutesExpanded.style.js'
 
 interface RoutesContentProps {
   routes?: Route[]
+  issues?: readonly RouteIssue[]
   isFetching: boolean
   isLoading: boolean
+  isFetched: boolean
   dataUpdatedAt: number
   refetchTime: number
   fromChain: ExtendedChain | undefined
@@ -30,8 +33,10 @@ const headerHeight = '52px'
 export const RoutesContent: React.NamedExoticComponent<RoutesContentProps> =
   memo(function RoutesContent({
     routes,
+    issues,
     isFetching,
     isLoading,
+    isFetched,
     dataUpdatedAt,
     refetchTime,
     fromChain,
@@ -48,7 +53,10 @@ export const RoutesContent: React.NamedExoticComponent<RoutesContentProps> =
 
     const currentRoute = routes?.[0]
 
-    const routeNotFound = !currentRoute && !isLoading && !isFetching
+    // Settled without a route, and it stays that way across the periodic
+    // refetch: `isFetching` is true then, and blinking the reason out every
+    // minute reads as a bug. The form side shows no copy in this layout.
+    const routeNotFound = !currentRoute && !isLoading && isFetched
     const toAddressUnsatisfied =
       currentRoute &&
       (unsupportedReceiverBlocking || (requiredToAddress && !toAddress))
@@ -95,7 +103,7 @@ export const RoutesContent: React.NamedExoticComponent<RoutesContentProps> =
             }}
           >
             {routeNotFound ? (
-              <RouteNotFoundCard />
+              <RouteNotFoundCard issues={issues} />
             ) : (isLoading || isFetching) && !routes?.length ? (
               Array.from({ length: 3 }).map((_, index) => (
                 <RouteCardSkeleton key={index} />

@@ -26,8 +26,10 @@ export const RoutesPage = (): JSX.Element => {
   const listParentRef = useRef<HTMLDivElement>(null)
   const {
     routes,
+    issues,
     isLoading,
     isFetching,
+    isFetched,
     dataUpdatedAt,
     refetchTime,
     fromChain,
@@ -71,7 +73,9 @@ export const RoutesPage = (): JSX.Element => {
     })
   }
 
-  const routeNotFound = !routes?.length && !isLoading && !isFetching
+  // A refresh asks the same question again, so the answer stands until it
+  // returns, as it does in <Routes>.
+  const routeNotFound = !routes?.length && isFetched && !isLoading
 
   const toAddressUnsatisfied =
     routes?.[0] &&
@@ -88,7 +92,7 @@ export const RoutesPage = (): JSX.Element => {
       >
         <Stack direction="column" spacing={2} sx={{ pt: 1.5 }}>
           {routeNotFound ? (
-            <RouteNotFoundCard />
+            <RouteNotFoundCard issues={issues} />
           ) : isLoading && !routes?.length ? (
             Array.from({ length: 3 }).map((_, index) => (
               <RouteCardSkeleton key={index} />
