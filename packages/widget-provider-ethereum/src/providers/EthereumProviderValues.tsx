@@ -37,6 +37,7 @@ import { defaultWalletConnectConfig } from '../config/walletConnect.js'
 import { createBaseAccountConnector } from '../connectors/baseAccount.js'
 import { createCoinbaseConnector } from '../connectors/coinbase.js'
 import { createMetaMaskConnector } from '../connectors/metaMask.js'
+import { createOathWalletConnector } from '../connectors/oathWallet.js'
 import { createWalletConnectConnector } from '../connectors/walletConnect.js'
 import type {
   CreateConnectorFnExtended,
@@ -107,6 +108,16 @@ export const EthereumProviderValues: FC<
         additionalConnectors.push(
           createWalletConnectConnector(
             resolveConfig(config.walletConnect, defaultWalletConnectConfig)!
+          )
+        )
+      }
+      if (
+        config?.oathWallet &&
+        !evmConnectors.some((connector) => connector.id === 'oath-wallet')
+      ) {
+        additionalConnectors.push(
+          createOathWalletConnector(
+            resolveConfig(config.oathWallet, defaultWalletConnectConfig)!
           )
         )
       }

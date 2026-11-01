@@ -11,7 +11,7 @@ export const getConnectorTagType = (
     return WalletTagType.Connected
   }
 
-  if (connectorId === 'walletConnect') {
+  if (connectorId === 'walletConnect' || connectorId === 'oath-wallet') {
     return WalletTagType.QrCode
   }
 

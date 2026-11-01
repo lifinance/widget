@@ -12,6 +12,7 @@ import type {
 export interface CreateConnectorFnExtended extends CreateConnectorFn {
   id: string
   displayName: string
+  icon?: string
 }
 
 export interface EthereumProviderDeps {
@@ -21,6 +22,8 @@ export interface EthereumProviderDeps {
 }
 
 export interface EthereumProviderConfig {
+  /** Opt in to a named Oath iOS wallet entry with direct WalletConnect pairing. */
+  oathWallet?: WalletConnectParameters | boolean
   walletConnect?: WalletConnectParameters | boolean
   coinbase?: CoinbaseWalletParameters | boolean
   metaMask?: MetaMaskParameters | boolean

@@ -14,6 +14,7 @@ import { safe } from 'wagmi/connectors'
 import { createBaseAccountConnector } from '../connectors/baseAccount.js'
 import { createCoinbaseConnector } from '../connectors/coinbase.js'
 import { createMetaMaskConnector } from '../connectors/metaMask.js'
+import { createOathWalletConnector } from '../connectors/oathWallet.js'
 import { createWalletConnectConnector } from '../connectors/walletConnect.js'
 
 // Drop viem's bundled mainnet default (eth.merkle.io); BE RPCs arrive via useSyncWagmiConfig.
@@ -26,6 +27,7 @@ const mainnet: Chain = {
 }
 
 export interface DefaultWagmiConfigProps {
+  oathWallet?: WalletConnectParameters
   walletConnect?: WalletConnectParameters
   coinbase?: CoinbaseWalletParameters
   metaMask?: MetaMaskParameters
@@ -110,6 +112,13 @@ export function createDefaultWagmiConfig(
     (recentConnectorId?.includes?.('walletConnect') || !props.lazy)
   ) {
     connectors.unshift(createWalletConnectConnector(props.walletConnect))
+  }
+
+  if (
+    props?.oathWallet &&
+    (recentConnectorId?.includes('oath-wallet') || !props.lazy)
+  ) {
+    connectors.unshift(createOathWalletConnector(props.oathWallet))
   }
 
   if (

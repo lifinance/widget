@@ -1,3 +1,4 @@
+export { createOathWalletConnector } from './connectors/oathWallet.js'
 export { useSyncWagmiConfig } from './hooks/useSyncWagmiConfig.js'
 export { EthereumProvider } from './providers/EthereumProvider.js'
 export type {

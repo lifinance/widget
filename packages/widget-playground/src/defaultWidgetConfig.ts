@@ -44,6 +44,7 @@ export const widgetBaseConfig: WidgetConfig = {
       coinbase: true,
       metaMask: true,
       walletConnect: true,
+      oathWallet: true,
     }),
     SuiProvider(),
     SolanaProvider(),
