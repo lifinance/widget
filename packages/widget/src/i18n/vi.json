@@ -191,11 +191,13 @@
       "transactionNotSent": "Giao dịch chưa được gửi.",
       "transactionSimulationFailed": "Không thể thực thi giao dịch khi mô phỏng.",
       "unknown": "Vui lòng thử lại hoặc liên hệ bộ phận hỗ trợ.",
-      "walletChangedDuringExecution": "Địa chỉ ví yêu cầu báo giá không khớp với địa chỉ ví đang cố gắng ký giao dịch. Vui lòng đảm bảo sử dụng cùng một địa chỉ ví trong toàn bộ quá trình thực hiện giao dịch."
+      "walletChangedDuringExecution": "Địa chỉ ví yêu cầu báo giá không khớp với địa chỉ ví đang cố gắng ký giao dịch. Vui lòng đảm bảo sử dụng cùng một địa chỉ ví trong toàn bộ quá trình thực hiện giao dịch.",
+      "balanceReadFailed": "Không thể kiểm tra số dư ví của bạn. Vui lòng thử lại."
     },
     "title": {
       "allowanceRequired": "Hạn mức phê duyệt không đủ",
       "balanceIsTooLow": "Số dư quá thấp",
+      "balanceReadFailed": "Không thể đọc số dư ví",
       "bookmarkAlreadyExists": "Ví đã được lưu với tên {{name}}",
       "bookmarkNameRequired": "Cần nhập tên ví",
       "callBundleNotFound": "Không tìm thấy giao dịch trong ví của bạn",

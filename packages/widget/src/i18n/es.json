@@ -191,11 +191,13 @@
       "transactionNotSent": "La transacción no se envió.",
       "transactionSimulationFailed": "No se pudo ejecutar la transacción en la simulación.",
       "unknown": "Inténtalo de nuevo o ponte en contacto con soporte.",
-      "walletChangedDuringExecution": "La dirección de billetera que solicitó la cotización no coincide con la dirección de billetera que intenta firmar la transacción. Usa la misma dirección de billetera durante toda la ejecución de la transacción."
+      "walletChangedDuringExecution": "La dirección de billetera que solicitó la cotización no coincide con la dirección de billetera que intenta firmar la transacción. Usa la misma dirección de billetera durante toda la ejecución de la transacción.",
+      "balanceReadFailed": "No se pudo comprobar el saldo de tu billetera. Inténtalo de nuevo."
     },
     "title": {
       "allowanceRequired": "Límite de gasto insuficiente",
       "balanceIsTooLow": "El saldo es demasiado bajo",
+      "balanceReadFailed": "No se pudo consultar el saldo de la billetera",
       "bookmarkAlreadyExists": "La billetera ya está guardada como {{name}}",
       "bookmarkNameRequired": "El nombre es obligatorio",
       "callBundleNotFound": "Transacción no encontrada en tu billetera",

@@ -191,11 +191,13 @@
       "transactionNotSent": "İşlem gönderilmedi.",
       "transactionSimulationFailed": "İşlem simülasyonda yürütülemedi.",
       "unknown": "Lütfen tekrar deneyin veya destek ekibiyle iletişime geçin.",
-      "walletChangedDuringExecution": "Teklifi talep eden cüzdan adresi, işlemi imzalamaya çalışan cüzdan adresiyle eşleşmiyor. Lütfen işlemin tamamı boyunca aynı cüzdan adresini kullandığınızdan emin olun."
+      "walletChangedDuringExecution": "Teklifi talep eden cüzdan adresi, işlemi imzalamaya çalışan cüzdan adresiyle eşleşmiyor. Lütfen işlemin tamamı boyunca aynı cüzdan adresini kullandığınızdan emin olun.",
+      "balanceReadFailed": "Cüzdan bakiyeniz kontrol edilemedi. Lütfen tekrar deneyin."
     },
     "title": {
       "allowanceRequired": "Yetersiz harcama limiti",
       "balanceIsTooLow": "Bakiye çok düşük",
+      "balanceReadFailed": "Cüzdan bakiyesi okunamadı",
       "bookmarkAlreadyExists": "Bu cüzdan zaten {{name}} adıyla kayıtlı",
       "bookmarkNameRequired": "Cüzdan adı gerekli",
       "callBundleNotFound": "İşlem cüzdanınızda bulunamadı",
