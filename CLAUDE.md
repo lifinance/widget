@@ -14,6 +14,8 @@ Non-obvious ones only — the rest are in root `package.json` scripts.
 pnpm --filter widget-playground-vite analyze   # source-map-explorer on the built bundle
 pnpm --filter @lifi/widget check:types         # single-package type check
 pnpm --filter @lifi/widget test                # widget tests (widget-light has no test files yet)
+pnpm --filter @lifi/widget test:affected       # after a change: only tests the change affects (vitest run --since-last-run)
+pnpm test                                      # before you finish: the whole suite once
 
 # Example E2E (build → serve → Playwright render; registry in e2e/examples.json)
 pnpm test:example <name>     # one example, e.g. nft-checkout (build + serve + render)
