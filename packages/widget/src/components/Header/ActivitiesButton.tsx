@@ -11,6 +11,7 @@ import {
   ActivitiesIconButton,
   ErrorBadge,
   IconContainer,
+  ProgressClip,
   ProgressTrack,
 } from './ActivitiesButton.style.js'
 
@@ -37,18 +38,15 @@ export const ActivitiesButton = (): JSX.Element => {
         >
           <IconContainer>
             {(indicator.active || indicator.failed) && (
-              <ProgressTrack
-                variant="determinate"
-                value={100}
-                size={40}
-                thickness={3}
-              />
-            )}
-            {indicator.active && (
-              <CircularProgressPending
-                size={40}
-                sx={{ position: 'absolute', top: -8, left: -8 }}
-              />
+              <ProgressClip>
+                <ProgressTrack
+                  variant="determinate"
+                  value={100}
+                  size={40}
+                  thickness={3}
+                />
+                {indicator.active && <CircularProgressPending size={40} />}
+              </ProgressClip>
             )}
             <HistoryIcon />
           </IconContainer>
