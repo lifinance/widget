@@ -32,6 +32,18 @@ export const IconContainer: React.FC<React.ComponentProps<typeof Box>> = styled(
   justifyContent: 'center',
 }))
 
+// The spinner rotates its square box, whose corners would otherwise overflow the header and toggle its scrollbar.
+export const ProgressClip: React.FC<React.ComponentProps<typeof Box>> = styled(
+  Box
+)(() => ({
+  position: 'absolute',
+  top: -8,
+  left: -8,
+  width: 40,
+  height: 40,
+  overflow: 'hidden',
+}))
+
 export const ActivitiesIconButton: React.FC<
   React.ComponentProps<typeof MuiIconButton> & { active?: boolean }
 > = styled(MuiIconButton, {
@@ -60,6 +72,8 @@ export const ProgressTrack: React.FC<
   React.ComponentProps<typeof MuiCircularProgress>
 > = styled(MuiCircularProgress)(({ theme }) => ({
   position: 'absolute',
+  top: 0,
+  left: 0,
   color: theme.vars.palette.grey[300],
   ...theme.applyStyles('dark', {
     color: theme.vars.palette.grey[800],
