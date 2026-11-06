@@ -117,11 +117,6 @@ jobs:
           path: ~/.cache/ms-playwright
           key: playwright-browsers-${{ runner.os }}-${{ hashFiles('e2e/package.json') }}
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
-        with:
-          bun-version: "1.4.4"
-
       - name: Install Playwright browsers
         run: pnpm --filter @lifi/widget-e2e exec playwright install chromium --with-deps
 
@@ -141,7 +136,7 @@ jobs:
 
       - name: Run tests (shard ${{ matrix.shard }}/${{ strategy.job-total }})
         run: |
-          pnpm --filter @lifi/widget-e2e exec bunx --bun playwright test \
+          pnpm --filter @lifi/widget-e2e exec playwright test \
             --project preview \
             --shard=${{ matrix.shard }}/${{ strategy.job-total }}
 

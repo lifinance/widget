@@ -1,7 +1,7 @@
 import { realpathSync } from 'node:fs'
 import { delimiter, join } from 'node:path'
 
-// `bunx --bun` prepends a `node` -> bun shim to PATH; strip it so the servers
+// `bun --bun run` prepends a `node` -> bun shim to PATH; strip it so the servers
 // under test (vite build/preview/dev via pnpm) run on real Node, not Bun.
 // The shim is matched by identity, not by directory name.
 const bunExec = (() => {

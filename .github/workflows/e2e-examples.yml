@@ -141,17 +141,12 @@ jobs:
           echo "::error::Server failed to start within 60s at $URL"
           exit 1
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
-        with:
-          bun-version: "1.4.4"
-
       - name: Install Playwright browsers
         run: pnpm --filter @lifi/widget-e2e exec playwright install chromium --with-deps
 
       - name: Run example tests
         run: |
-          pnpm --filter @lifi/widget-e2e exec bunx --bun playwright test \
+          pnpm --filter @lifi/widget-e2e exec playwright test \
             --config playwright.examples.config.ts \
             --project "${{ matrix.example }}"
 

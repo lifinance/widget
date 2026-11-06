@@ -32,25 +32,25 @@ HMR, no build. The fast sanity loop; covers the smoke subset in `tests/dev/`.
 
 These invoke the Playwright binary directly (the `webServer` still manages the server
 automatically). Run them from `e2e/`, where `@lifi/widget-e2e` and its Playwright binary
-live — or prefix with `pnpm --filter @lifi/widget-e2e exec`. The test runner runs on Bun
-(`--bun` is required; without it `bunx` runs Playwright on Node). `pnpm test:ui` stays on
-Node because UI mode under Bun does not re-run tests on file changes.
+live — or prefix with `pnpm --filter @lifi/widget-e2e exec`. The runner uses Node by
+default. Bun is optional: `bun --bun run test` (needs Bun ≥ 1.4.4 and `@playwright/test`
+≥ 1.65.0; caveats: UI mode has no watch mode, console output is not in traces).
 
 ```bash
 # Run a single spec file
-bunx --bun playwright test settings.theme.spec.ts
+pnpm exec playwright test settings.theme.spec.ts
 
 # Filter by test name
-bunx --bun playwright test -g "Jumper theme"
+pnpm exec playwright test -g "Jumper theme"
 
 # Headed (visible browser)
-bunx --bun playwright test --headed -g "my test"
+pnpm exec playwright test --headed -g "my test"
 
 # Debug mode (step through)
-bunx --bun playwright test --debug -g "my test"
+pnpm exec playwright test --debug -g "my test"
 
 # Dev-mode config explicitly
-bunx --bun playwright test --config playwright.dev.config.ts
+pnpm exec playwright test --config playwright.dev.config.ts
 
 # Open last HTML report
 pnpm exec playwright show-report playwright-report/

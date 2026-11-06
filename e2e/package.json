@@ -4,15 +4,15 @@
   "private": true,
   "description": "Playwright E2E smoke tests for the LI.FI Widget playground",
   "scripts": {
-    "test": "bunx --bun playwright test",
-    "test:dev": "bunx --bun playwright test --config playwright.dev.config.ts",
-    "test:headed": "bunx --bun playwright test --headed",
-    "test:debug": "bunx --bun playwright test --debug",
+    "test": "playwright test",
+    "test:dev": "playwright test --config playwright.dev.config.ts",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
     "test:ui": "playwright test --ui",
     "typecheck": "tsc --noEmit",
     "report": "playwright show-report",
-    "e2e:examples": "bunx --bun playwright test --config playwright.examples.config.ts",
-    "e2e:example": "bunx --bun playwright test --config playwright.examples.config.ts --project"
+    "e2e:examples": "playwright test --config playwright.examples.config.ts",
+    "e2e:example": "playwright test --config playwright.examples.config.ts --project"
   },
   "devDependencies": {
     "@playwright/test": "^1.65.0"
