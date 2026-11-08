@@ -33,6 +33,11 @@ import {
 } from '../utils/customReceiver.js'
 import { getQueryKey } from '../utils/queries.js'
 import { updateTokenInCache } from '../utils/token.js'
+import {
+  isRouteExpired,
+  msUntilRouteRefresh,
+  routeRefetchTime,
+} from './routeQuote.js'
 import { useChain } from './useChain.js'
 import { useDebouncedWatch } from './useDebouncedWatch.js'
 import { useGasRefuel } from './useGasRefuel.js'
@@ -41,7 +46,7 @@ import { useSwapOnly } from './useSwapOnly.js'
 import { useToken } from './useToken.js'
 import { useWidgetEvents } from './useWidgetEvents.js'
 
-const refetchTime = 60_000
+const refetchTime = routeRefetchTime
 
 interface RoutesProps {
   observableRoute?: Route
@@ -622,10 +627,14 @@ export const useRoutes = ({
     staleTime: refetchTime,
     placeholderData: keepPreviousDataEnabled ? keepPreviousData : undefined,
     refetchInterval(query) {
-      return Math.min(
-        Math.abs(refetchTime - (Date.now() - query.state.dataUpdatedAt)),
-        refetchTime
-      )
+      const updatedAt = query.state.dataUpdatedAt
+      const now = Date.now()
+      // A quote at the end of the window is due immediately. The same clock
+      // reading is passed to both checks so they cannot disagree.
+      if (isRouteExpired(updatedAt, now)) {
+        return 0
+      }
+      return msUntilRouteRefresh(updatedAt, now)
     },
     retry(failureCount, error: any) {
       if (process.env.NODE_ENV === 'development') {
