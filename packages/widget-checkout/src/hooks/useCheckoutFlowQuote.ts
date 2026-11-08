@@ -15,7 +15,7 @@ export interface CheckoutFlowQuote {
   isFetched: boolean
   isError: boolean
   refetch: () => void
-  setReviewableRoute: (route: Route) => void
+  setReviewableRoute: (route: Route) => boolean
 }
 
 export function useCheckoutFlowQuote(): CheckoutFlowQuote {

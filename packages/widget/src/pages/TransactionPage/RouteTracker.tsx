@@ -42,7 +42,11 @@ export const RouteTracker = ({
     ) {
       const reviewableRouteId = observableRouteIdRef.current
       observableRouteIdRef.current = currentRoute.id
-      setExecutableRoute(currentRoute, [observableRouteId, reviewableRouteId])
+      setExecutableRoute(
+        currentRoute,
+        [observableRouteId, reviewableRouteId],
+        dataUpdatedAt || undefined
+      )
       onChange(currentRoute.id)
     }
   }, [currentRoute?.id, observableRouteId])

@@ -81,7 +81,9 @@ export const CheckoutFlowCtaButton: React.FC = (): JSX.Element => {
     if (!route) {
       return
     }
-    setReviewableRoute(route)
+    if (!setReviewableRoute(route)) {
+      return
+    }
     navigate({
       to: checkoutAbsolutePaths.transactionExecution,
       search: { routeId: route.id, checkoutAutoDeposit: true },

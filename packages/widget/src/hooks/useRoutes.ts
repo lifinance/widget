@@ -34,6 +34,7 @@ import {
 import { getQueryKey } from '../utils/queries.js'
 import { updateTokenInCache } from '../utils/token.js'
 import {
+  isCurrentQuoteRequest,
   isRouteExpired,
   msUntilRouteRefresh,
   routeRefetchTime,
@@ -78,7 +79,7 @@ export const useRoutes = ({
   fromChain: ExtendedChain | undefined
   toChain: ExtendedChain | undefined
   queryKey: readonly unknown[]
-  setReviewableRoute: (route: Route) => void
+  setReviewableRoute: (route: Route) => boolean
 } => {
   const {
     mode,
@@ -554,6 +555,13 @@ export const useRoutes = ({
       // Wait for the main routes to complete first
       const routesResult = await mainRoutesPromise
 
+      // A newer request aborts this one. Skip cache writes and events so a
+      // retired quote cannot reach an integrator or the token price cache.
+      // The query cache already drops this result because the signal is aborted.
+      if (!isCurrentQuoteRequest(signal)) {
+        return
+      }
+
       if (routesResult?.routes[0] && fromAddress) {
         // Update local tokens cache to keep priceUSD in sync
         const { fromToken, toToken } = routesResult.routes[0]
@@ -613,6 +621,9 @@ export const useRoutes = ({
       }
 
       const relayerRouteResult = await relayerQuotePromise
+      if (!isCurrentQuoteRequest(signal)) {
+        return
+      }
       // If we have a relayer route, add it to the routes array
       if (relayerRouteResult) {
         // Insert the relayer route at position 1 (after the first route)
@@ -651,12 +662,17 @@ export const useRoutes = ({
   })
 
   const setReviewableRoute = useCallback(
-    (route: Route) => {
+    (route: Route): boolean => {
+      const quotedAt = dataUpdatedAt || Date.now()
+      if (isRouteExpired(quotedAt)) {
+        return false
+      }
       const queryDataKey = queryKey.toSpliced(queryKey.length - 1, 1, route.id)
       queryClient.setQueryData(queryDataKey, [route], {
-        updatedAt: dataUpdatedAt || Date.now(),
+        updatedAt: quotedAt,
       })
-      setExecutableRoute(route)
+      setExecutableRoute(route, undefined, quotedAt)
+      return true
     },
     [queryClient, dataUpdatedAt, setExecutableRoute, queryKey]
   )

@@ -62,7 +62,9 @@ export const RoutesExpanded: React.NamedExoticComponent<RoutesExpandedProps> =
     // biome-ignore lint/correctness/useExhaustiveDependencies: stable navigation callback that won't cause rerenders in RoutesContent
     const onRouteClick = useCallback(
       (route: Route) => {
-        setReviewableRoute(route)
+        if (!setReviewableRoute(route)) {
+          return
+        }
         navigate({
           to: navigationRoutes.transactionExecution,
           search: { routeId: route.id },

@@ -9,7 +9,7 @@ import {
   useRouteExecutionStore,
   useRouteExecutionStoreContext,
 } from '../stores/routes/RouteExecutionStore.js'
-import type { RouteExecutionStatus } from '../stores/routes/types.js'
+import { RouteExecutionStatus } from '../stores/routes/types.js'
 import {
   getUpdatedAction,
   isRouteActive,
@@ -18,6 +18,7 @@ import {
 } from '../stores/routes/utils.js'
 import { WidgetEvent } from '../types/events.js'
 import { getQueryKey } from '../utils/queries.js'
+import { isExecutableQuote } from './routeQuote.js'
 import { useWidgetEvents } from './useWidgetEvents.js'
 
 interface RouteExecutionProps {
@@ -132,6 +133,12 @@ export const useRouteExecution = ({
       if (!routeExecution?.route) {
         throw new Error('Execution route not found.')
       }
+      if (
+        routeExecution.status === RouteExecutionStatus.Idle &&
+        !isExecutableQuote(routeExecution.quotedAt)
+      ) {
+        throw new Error('Quote expired.')
+      }
       queryClient.removeQueries({
         queryKey: [getQueryKey('routes', storageScopeKey)],
         exact: false,
@@ -166,6 +173,12 @@ export const useRouteExecution = ({
       }
       if (!routeExecution?.route) {
         throw new Error('Execution route not found.')
+      }
+      if (
+        routeExecution.status === RouteExecutionStatus.Idle &&
+        !isExecutableQuote(routeExecution.quotedAt)
+      ) {
+        throw new Error('Quote expired.')
       }
       return resumeRoute(sdkClient, args?.route ?? routeExecution.route, {
         updateRouteHook,

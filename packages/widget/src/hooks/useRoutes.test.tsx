@@ -6,9 +6,12 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { useIntermediateRoutesStore } from '../stores/routes/useIntermediateRoutesStore.js'
+import { WidgetEvent } from '../types/events.js'
 import {
   isCurrentQuoteRequest,
+  isExecutableQuote,
   isRouteExpired,
+  msUntilRouteRefresh,
   routeRefetchTime,
 } from './routeQuote.js'
 import { useRoutes } from './useRoutes.js'
@@ -225,13 +228,24 @@ describe('quote refresh window', () => {
     expect(isCurrentQuoteRequest(controller.signal)).toBe(false)
   })
 
-  it('is expired exactly when the refresh delay hits zero', () => {
+  it('expires at the window and stays expired after it', () => {
     const updatedAt = 1_700_000_000_000
     expect(isRouteExpired(updatedAt, updatedAt + routeRefetchTime - 1)).toBe(
       false
     )
     expect(isRouteExpired(updatedAt, updatedAt + routeRefetchTime)).toBe(true)
+    const pastWindow = updatedAt + routeRefetchTime + 30_000
+    expect(isRouteExpired(updatedAt, pastWindow)).toBe(true)
+    expect(msUntilRouteRefresh(updatedAt, pastWindow)).toBe(0)
     expect(isRouteExpired(0, updatedAt)).toBe(false)
+    expect(msUntilRouteRefresh(0, updatedAt)).toBe(routeRefetchTime)
+    expect(isExecutableQuote(undefined, updatedAt)).toBe(true)
+    expect(isExecutableQuote(updatedAt, updatedAt + routeRefetchTime)).toBe(
+      false
+    )
+    expect(isExecutableQuote(updatedAt, updatedAt + routeRefetchTime - 1)).toBe(
+      true
+    )
   })
 })
 
@@ -282,8 +296,13 @@ describe('useRoutes quote refresh', () => {
     expect(isCurrentQuoteRequest(pending[1]!.signal)).toBe(false)
     expect(isCurrentQuoteRequest(pending[2]!.signal)).toBe(true)
 
+    mocks.emit.mockClear()
     await settle(pending[1]!, 'stale')
     expect(currentRoutes()?.[0]?.id).toBe('first')
+    expect(mocks.emit).not.toHaveBeenCalledWith(
+      WidgetEvent.AvailableRoutes,
+      expect.anything()
+    )
 
     await settle(pending[2]!, 'fresh')
     await vi.waitFor(() => expect(currentRoutes()?.[0]?.id).toBe('fresh'))
@@ -302,8 +321,13 @@ describe('useRoutes quote refresh', () => {
 
     await settle(pending[1]!, 'fresh')
     await vi.waitFor(() => expect(currentRoutes()?.[0]?.id).toBe('fresh'))
+    mocks.emit.mockClear()
     await settle(pending[0]!, 'stale')
     expect(currentRoutes()?.[0]?.id).toBe('fresh')
+    expect(mocks.emit).not.toHaveBeenCalledWith(
+      WidgetEvent.AvailableRoutes,
+      expect.anything()
+    )
   })
 
   it('treats a quote at the end of the refresh window as expired', async () => {
@@ -330,6 +354,13 @@ describe('useRoutes quote refresh', () => {
       if (typeof refetchInterval === 'function') {
         expect(refetchInterval(query)).toBe(0)
       }
+
+      const overdue = updatedAt + routeRefetchTime + 30_000
+      vi.mocked(Date.now).mockReturnValue(overdue)
+      expect(isRouteExpired(query.state.dataUpdatedAt, overdue)).toBe(true)
+      if (typeof refetchInterval === 'function') {
+        expect(refetchInterval(query)).toBe(0)
+      }
     } finally {
       vi.mocked(Date.now).mockRestore()
     }
@@ -340,5 +371,31 @@ describe('useRoutes quote refresh', () => {
     await vi.waitFor(() => expect(pending).toHaveLength(2))
     await settle(pending[1]!, 'fresh')
     await vi.waitFor(() => expect(currentRoutes()?.[0]?.id).toBe('fresh'))
+  })
+
+  it('does not hand an expired quote to execution', async () => {
+    await render()
+    await vi.waitFor(() => expect(pending).toHaveLength(1))
+    await settle(pending[0]!, 'old')
+    await vi.waitFor(() => expect(currentRoutes()?.[0]?.id).toBe('old'))
+
+    const accepted = seen.current?.setReviewableRoute(currentRoutes()![0]!)
+    expect(accepted).toBe(true)
+    expect(mocks.setExecutableRoute).toHaveBeenCalledWith(
+      expect.objectContaining({ id: 'old' }),
+      undefined,
+      expect.any(Number)
+    )
+
+    const quotedAt = seen.current?.dataUpdatedAt ?? 0
+    mocks.setExecutableRoute.mockClear()
+    vi.spyOn(Date, 'now').mockReturnValue(quotedAt + routeRefetchTime)
+    try {
+      const rejected = seen.current?.setReviewableRoute(currentRoutes()![0]!)
+      expect(rejected).toBe(false)
+      expect(mocks.setExecutableRoute).not.toHaveBeenCalled()
+    } finally {
+      vi.mocked(Date.now).mockRestore()
+    }
   })
 })
