@@ -59,18 +59,18 @@
     "@mui/icons-material": "^9.5.0",
     "@mui/material": "^9.5.0",
     "@mui/system": "^9.5.0",
-    "@tanstack/react-router": "^1.170.45",
+    "@tanstack/react-router": "^1.170.46",
     "i18next": "^26.5.2",
-    "motion": "^14.4.0",
+    "motion": "^14.10.1",
     "qrcode.react": "^4.2.0",
     "react-i18next": "^17.1.0",
-    "zustand": "^5.0.15"
+    "zustand": "^5.1.0"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
-    "@types/node": "^26.6.5",
-    "happy-dom": "^21.0.3",
+    "@types/node": "^26.6.6",
+    "happy-dom": "^21.0.4",
     "madge": "^8.0.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
