@@ -20,6 +20,8 @@ minimumReleaseAgeExclude:
   - "@commitlint/lint@21.2.4"
   - "@commitlint/load@21.2.4"
   - "@commitlint/rules@21.2.4"
+  - "@vitest/mocker@5.1.0"
+  - "@vitest/spy@5.1.0"
   - framer-motion@14.4.0
   - knip@6.42.0
   - motion-dom@14.4.0
@@ -27,6 +29,7 @@ minimumReleaseAgeExclude:
   - "@playwright/test@1.65.0"
   - playwright-core@1.65.0
   - playwright@1.65.0
+  - vitest@5.1.0
 overrides:
   "@react-native-async-storage/async-storage": ">=2.2.0"
   "@reown/appkit": ">=1.8.20"

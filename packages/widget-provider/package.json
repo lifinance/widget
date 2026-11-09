@@ -17,6 +17,7 @@
     "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
     "clean": "rm -rf dist",
     "test": "vitest run",
+    "test:affected": "vitest run --since-last-run",
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg"
@@ -53,6 +54,6 @@
     "madge": "^8.0.0",
     "react": "^19.3.1",
     "typescript": "^7.0.2",
-    "vitest": "^5.0.5"
+    "vitest": "^5.1.0"
   }
 }
