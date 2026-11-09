@@ -44,10 +44,11 @@ export function ReownWalletProvider({
   const { themeMode } = useThemeMode()
 
   if (!wagmi.current || !modal.current) {
-    const networks: [AppKitNetwork, ...AppKitNetwork[]] = [
-      solana,
-      bitcoin,
-      tronMainnet,
+    // The prebuilt networks of @reown/appkit carry the hook phases of an older viem;
+    // viem 2.57.17 adds `afterFillTransactionError`. The difference is in types only.
+    const networks = [solana, bitcoin, tronMainnet] as [
+      AppKitNetwork,
+      ...AppKitNetwork[],
     ]
     const evmChains = chains.filter(
       (chain) => chain.chainType === ChainType.EVM
