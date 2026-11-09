@@ -11,9 +11,13 @@ packages:
 # so the rationale has to live here, above the key:
 #   - An exact-version entry is a version that was still inside the age window when it
 #     was bumped. Remove it once it ages out or is no longer resolved.
+#   - 2026-11-09: viem 2.57.17 deliberately inside the age window: 2.57.16 adds a literal
+#     import('mppx/client') for an optional peer that bundlers cannot resolve; 2.57.17
+#     wraps it (wevm/viem#5437).
 minimumReleaseAgeExclude:
   - '@bigmi/*'
   - '@lifi/*'
+  - viem@2.57.17
 overrides:
   "@react-native-async-storage/async-storage": ">=2.2.0"
   "@reown/appkit": ">=1.8.20"
