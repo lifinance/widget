@@ -1497,11 +1497,11 @@ importers:
         specifier: ^5.0.4
         version: 5.0.4
       i18next:
-        specifier: ^26.5.2
-        version: 26.5.2(typescript@7.0.2)
+        specifier: ^27.0.1
+        version: 27.0.1(typescript@7.0.2)
       react-i18next:
-        specifier: ^17.1.0
-        version: 17.1.0(i18next@26.5.2(typescript@7.0.2))(react-dom@19.3.1(react@19.3.1))(react-native@0.88.0(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1)(typescript@7.0.2)
+        specifier: ^18.0.0
+        version: 18.0.0(i18next@27.0.1(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
       zustand:
         specifier: ^5.1.0
         version: 5.1.0(@types/react@19.3.0)(react@19.3.1)(use-sync-external-store@1.7.0(react@19.3.1))
@@ -1564,8 +1564,8 @@ importers:
         specifier: ^5.0.4
         version: 5.0.4
       i18next:
-        specifier: ^26.5.2
-        version: 26.5.2(typescript@7.0.2)
+        specifier: ^27.0.1
+        version: 27.0.1(typescript@7.0.2)
       microdiff:
         specifier: ^1.6.0
         version: 1.6.0
@@ -1573,8 +1573,8 @@ importers:
         specifier: ^14.10.1
         version: 14.10.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       react-i18next:
-        specifier: ^17.1.0
-        version: 17.1.0(i18next@26.5.2(typescript@7.0.2))(react-dom@19.3.1(react@19.3.1))(react-native@0.88.0(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1)(typescript@7.0.2)
+        specifier: ^18.0.0
+        version: 18.0.0(i18next@27.0.1(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
       react-intersection-observer:
         specifier: ^11.0.1
         version: 11.0.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -1652,8 +1652,8 @@ importers:
         specifier: ^1.170.46
         version: 1.170.46(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
       i18next:
-        specifier: ^26.5.2
-        version: 26.5.2(typescript@7.0.2)
+        specifier: ^27.0.1
+        version: 27.0.1(typescript@7.0.2)
       motion:
         specifier: ^14.10.1
         version: 14.10.1(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -1661,8 +1661,8 @@ importers:
         specifier: ^4.2.0
         version: 4.2.0(react@19.3.1)
       react-i18next:
-        specifier: ^17.1.0
-        version: 17.1.0(i18next@26.5.2(typescript@7.0.2))(react-dom@19.3.1(react@19.3.1))(react-native@0.88.0(@babel/core@7.29.7(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1)(typescript@7.0.2)
+        specifier: ^18.0.0
+        version: 18.0.0(i18next@27.0.1(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2)
       zustand:
         specifier: ^5.1.0
         version: 5.1.0(@types/react@19.3.0)(react@19.3.1)(use-sync-external-store@1.7.0(react@19.3.1))
@@ -12069,6 +12069,15 @@ packages:
       typescript:
         optional: true
 
+  i18next@27.0.1:
+    resolution: {integrity: sha512-KaE5ozP8UUeVpOJIwMVbbnpRKpyYQuxd9ZbseJoDzezE3nvLnZZQn20pkzyIJwPI2Uet/Qs3WzPTG812f6F/Eg==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      typescript: ^5 || ^6 || ^7
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   iconv-lite@0.4.24:
     resolution: {integrity: sha512-v3MXnZAcvnywkTUEZomIActle7RXXeedOR31wwl7VlyoXO4Qi9arvSenNQWne1TcRwhCL1HwLI21bEqdpj8/rA==}
     engines: {node: '>=0.10.0'}
@@ -14368,6 +14377,17 @@ packages:
         optional: true
       react-native:
         optional: true
+      typescript:
+        optional: true
+
+  react-i18next@18.0.0:
+    resolution: {integrity: sha512-xXq/pcuMRwrW4iH0If/RjbPH3zuEqWVtaw4PjDsG54vx0FTook7aS3kop7DXy3g66wHkYUji8l7ZBrA8kfj67Q==}
+    engines: {node: '>=22'}
+    peerDependencies:
+      i18next: '>= 27.0.0'
+      react: '>= 18.0.0'
+      typescript: ^5 || ^6 || ^7
+    peerDependenciesMeta:
       typescript:
         optional: true
 
@@ -31300,6 +31320,10 @@ snapshots:
     optionalDependencies:
       typescript: 7.0.2
 
+  i18next@27.0.1(typescript@7.0.2):
+    optionalDependencies:
+      typescript: 7.0.2
+
   iconv-lite@0.4.24:
     dependencies:
       safer-buffer: 2.1.2
@@ -34382,6 +34406,14 @@ snapshots:
     optionalDependencies:
       react-dom: 19.3.1(react@19.3.1)
       react-native: 0.88.0(@babel/core@7.29.7(supports-color@5.5.0))(@types/react@19.3.0)(bufferutil@4.1.0)(react@19.3.1)(supports-color@5.5.0)(utf-8-validate@6.0.6)
+      typescript: 7.0.2
+
+  react-i18next@18.0.0(i18next@27.0.1(typescript@7.0.2))(react@19.3.1)(typescript@7.0.2):
+    dependencies:
+      html-parse-stringify: 4.0.1
+      i18next: 27.0.1(typescript@7.0.2)
+      react: 19.3.1
+    optionalDependencies:
       typescript: 7.0.2
 
   react-international-phone@4.5.0(react@19.3.1):

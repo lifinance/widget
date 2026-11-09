@@ -44,7 +44,7 @@ overrides:
   vite-plugin-node-polyfills: "0.26.0"
   # GHSA-wq5f-xc86-pv6w (librsvg) affects sharp <0.35.5. @dynamic-labs/iconic 5.10.0 pins 0.35.4.
   "sharp@<0.35.5": ">=0.35.5"
-  # wagmi pins 1.4.0 and valtio pins 1.2.0, while react-i18next and @tanstack/react-store
+  # wagmi pins 1.4.0 and valtio pins 1.2.0, while react-i18next 17 and @tanstack/react-store
   # need ^1.6.0. One override keeps a single copy.
   use-sync-external-store: "1.7.0"
   utf-8-validate: "6.0.6"

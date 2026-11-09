@@ -52,8 +52,8 @@
     "@mui/material": "^9.5.0",
     "@mui/system": "^9.5.0",
     "eventemitter3": "^5.0.4",
-    "i18next": "^26.5.2",
-    "react-i18next": "^17.1.0",
+    "i18next": "^27.0.1",
+    "react-i18next": "^18.0.0",
     "zustand": "^5.1.0"
   },
   "devDependencies": {

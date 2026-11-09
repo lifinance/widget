@@ -65,10 +65,10 @@
     "@tanstack/react-router": "^1.170.46",
     "@tanstack/react-virtual": "^3.14.26",
     "eventemitter3": "^5.0.4",
-    "i18next": "^26.5.2",
+    "i18next": "^27.0.1",
     "microdiff": "^1.6.0",
     "motion": "^14.10.1",
-    "react-i18next": "^17.1.0",
+    "react-i18next": "^18.0.0",
     "react-intersection-observer": "^11.0.1",
     "react-transition-group": "^4.4.5",
     "zustand": "^5.1.0"

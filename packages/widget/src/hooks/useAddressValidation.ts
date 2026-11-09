@@ -137,12 +137,12 @@ export const useAddressValidation = (): {
         } catch (_) {
           return {
             isValid: false,
-            error: t(
-              'error.title.walletAddressInvalid',
-              chain?.name
-                ? { context: 'chain', chainName: chain.name }
-                : undefined
-            ),
+            error: chain?.name
+              ? t('error.title.walletAddressInvalid', {
+                  context: 'chain',
+                  chainName: chain.name,
+                })
+              : t('error.title.walletAddressInvalid'),
           }
         }
       },
