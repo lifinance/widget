@@ -1792,10 +1792,10 @@ importers:
         specifier: ^0.9.5
         version: 0.9.5(@tanstack/query-core@5.107.1)(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@mysten/dapp-kit-react':
-        specifier: ^2.1.40
+        specifier: ^2.1.45
         version: 2.1.45(@mysten/sui@2.39.1(typescript@7.0.2))(@types/react@19.3.0)(react@19.3.1)(typescript@7.0.2)
       '@wagmi/core':
-        specifier: ^3.6.5
+        specifier: ^3.6.9
         version: 3.6.9(@tanstack/query-core@5.107.1)(@types/react@19.3.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))(viem@2.57.7(bufferutil@4.1.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.6.7))
       '@wallet-standard/base':
         specifier: ^1.1.1
@@ -1807,7 +1807,7 @@ importers:
         specifier: '>=2.52.0'
         version: 2.57.7(bufferutil@4.1.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.6.7)
       wagmi:
-        specifier: ^3.7.7
+        specifier: ^3.7.11
         version: 3.7.11(da3aff9346a9ee8371cf025eb31ebacd)
     devDependencies:
       cpy-cli:
@@ -2137,13 +2137,13 @@ importers:
         specifier: workspace:*
         version: link:../widget-provider
       '@wagmi/core':
-        specifier: ^3.6.5
+        specifier: ^3.6.9
         version: 3.6.9(@tanstack/query-core@5.107.1)(@types/react@19.3.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))(viem@2.57.7(bufferutil@4.1.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.6.7))
       viem:
         specifier: '>=2.52.0'
         version: 2.57.7(bufferutil@4.1.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.6.7)
       wagmi:
-        specifier: ^3.7.7
+        specifier: ^3.7.11
         version: 3.7.11(da3aff9346a9ee8371cf025eb31ebacd)
     devDependencies:
       cpy-cli:
@@ -2267,7 +2267,7 @@ importers:
         specifier: workspace:*
         version: link:../widget-provider
       '@mysten/dapp-kit-react':
-        specifier: ^2.1.40
+        specifier: ^2.1.45
         version: 2.1.45(@mysten/sui@2.39.1(typescript@7.0.2))(@types/react@19.3.0)(react@19.3.1)(typescript@7.0.2)
       '@mysten/sui':
         specifier: ^2.39.1
