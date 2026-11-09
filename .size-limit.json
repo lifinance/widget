@@ -136,7 +136,7 @@
       "packages/widget-provider-stellar/dist/esm/index.js": "{ StellarProvider }",
       "packages/widget-provider-zcash/dist/esm/index.js": "{ ZcashProvider }"
     },
-    "ignore": ["react", "react-dom", "@tanstack/react-query"],
+    "ignore": ["react", "react-dom", "@tanstack/react-query", "mppx"],
     "limit": "2292 kB"
   }
 ]
