@@ -554,15 +554,13 @@ export const useRoutes = ({
         setIntermediateRoutes(queryKey, initialRoutes)
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
         // Return early if we're only using main routes
-      } else if (shouldUseMainRoutes) {
-        // If we don't need a gasless route, return the initial routes
+      } else if (shouldUseMainRoutes && !shouldUseGaslessRoute) {
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
         return initialRoutes
       }
 
       const gaslessRoute = await gaslessRoutePromise
       if (gaslessRoute) {
-        // Insert the gasless route at position 1 (after the first route)
         initialRoutes.splice(1, 0, gaslessRoute)
         // Emit the updated routes
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)

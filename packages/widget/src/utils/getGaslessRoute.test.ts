@@ -31,7 +31,20 @@ const request: RoutesRequest = {
   },
 }
 
-const route = (id: string): Route => ({ id }) as Route
+const route = (id: string): Route =>
+  ({
+    id,
+    steps: [
+      {
+        estimate: {
+          feeCosts: [{ name: 'LIFI Gasless Relay Fee', included: true }],
+        },
+      },
+    ],
+  }) as unknown as Route
+
+const routeWithoutRelayFee = (id: string): Route =>
+  ({ id, steps: [{ estimate: { feeCosts: [] } }] }) as unknown as Route
 
 describe('getGaslessRoute', () => {
   beforeEach(() => {
@@ -72,6 +85,26 @@ describe('getGaslessRoute', () => {
 
     await expect(getGaslessRoute(client, request, signal)).resolves.toEqual(
       route('a')
+    )
+  })
+
+  it('drops the ranking tags of the gasless-only answer', async () => {
+    mocks.getRoutes.mockResolvedValue({
+      routes: [{ ...route('a'), tags: ['CHEAPEST', 'FASTEST'] }],
+    })
+
+    const gaslessRoute = await getGaslessRoute(client, request, signal)
+
+    expect(gaslessRoute).not.toHaveProperty('tags')
+  })
+
+  it('skips a route without the relay fee', async () => {
+    mocks.getRoutes.mockResolvedValue({
+      routes: [routeWithoutRelayFee('a'), route('b')],
+    })
+
+    await expect(getGaslessRoute(client, request, signal)).resolves.toEqual(
+      route('b')
     )
   })
 

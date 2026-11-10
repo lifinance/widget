@@ -1,5 +1,5 @@
 import type { Route, RoutesRequest, SDKClient } from '@lifi/sdk'
-import { getRoutes } from '@lifi/sdk'
+import { getRoutes, isGaslessStep } from '@lifi/sdk'
 
 export const getGaslessRoute = async (
   client: SDKClient,
@@ -14,7 +14,13 @@ export const getGaslessRoute = async (
       { ...request, options: { ...options, gasless: true } },
       { signal }
     )
-    return routes[0] ?? null
+    const route = routes.find((route) => route.steps.some(isGaslessStep))
+    if (!route) {
+      return null
+    }
+    // Its tags rank it among gasless routes only, not among the main routes.
+    const { tags: _tags, ...untaggedRoute } = route
+    return untaggedRoute
   } catch {
     return null
   }

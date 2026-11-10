@@ -1,7 +1,6 @@
 import { ChainType } from '@lifi/sdk'
 import {
   EthereumProvider as EthereumSDKProvider,
-  isBatchingSupported,
   isDelegationDesignatorCode,
 } from '@lifi/sdk-provider-ethereum'
 import {
@@ -250,7 +249,6 @@ export const EthereumProviderValues: FC<
       disconnect: handleDisconnect,
       getBytecode: handleGetBytecode,
       getTransactionCount: handleGetTransactionCount,
-      isBatchingSupported,
       isDelegationDesignatorCode,
       disableMessageSigning: config?.disableMessageSigning,
     }),

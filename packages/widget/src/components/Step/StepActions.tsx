@@ -1,4 +1,5 @@
 import type { LiFiStep, RouteExtended, StepExtended } from '@lifi/sdk'
+import { isGaslessStep } from '@lifi/sdk'
 import ArrowForward from '@mui/icons-material/ArrowForward'
 import { Box, Divider, Tooltip } from '@mui/material'
 import { Fragment } from 'react'
@@ -308,7 +309,7 @@ const ProtocolStepDetailsLabel: React.FC<
     <StepLabelTypography>
       {step.toolDetails.key === 'feeCollection'
         ? feeConfig?.name || t('main.fees.defaultIntegrator')
-        : step.toolDetails.key === 'gaslessRelayFee'
+        : isGaslessStep(step)
           ? t('main.fees.relayerService')
           : step.toolDetails.key === 'gasZip'
             ? t('main.refuelStepDetails', {

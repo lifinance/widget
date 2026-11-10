@@ -78,7 +78,7 @@ export const RouteDetails = ({ route }: RouteDetailsProps): JSX.Element => {
   const hasGaslessSupport = route.steps.every(isGaslessStep)
 
   const showIntegratorFeeCollectionDetails =
-    (feeAmountUSD || Number.isFinite(feeConfig?.fee)) && !hasGaslessSupport
+    feeAmountUSD || Number.isFinite(feeConfig?.fee)
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1, pt: 1.5 }}>
