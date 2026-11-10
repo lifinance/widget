@@ -560,13 +560,20 @@ export const useRoutes = ({
       }
 
       const gaslessRoute = await gaslessRoutePromise
-      if (gaslessRoute) {
-        initialRoutes.splice(1, 0, gaslessRoute)
-        // Emit the updated routes
-        emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
+      if (!gaslessRoute) {
+        if (!initialRoutes.length) {
+          emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
+        }
+        return initialRoutes
       }
-
-      return initialRoutes
+      // A new array: the routes above are already emitted and stored.
+      const routes = [
+        ...initialRoutes.slice(0, 1),
+        gaslessRoute,
+        ...initialRoutes.slice(1),
+      ]
+      emitter.emit(WidgetEvent.AvailableRoutes, routes)
+      return routes
     },
     enabled: isEnabled,
     staleTime: refetchTime,

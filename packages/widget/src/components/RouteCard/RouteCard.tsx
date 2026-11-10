@@ -1,4 +1,5 @@
 import type { TokenAmount } from '@lifi/sdk'
+import { isGaslessStep } from '@lifi/sdk'
 import { Box, Tooltip } from '@mui/material'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -39,7 +40,7 @@ export const RouteCard: React.FC<
     )
     const tags: string[] = mainTag ? [mainTag] : []
     const { combinedFeesUSD } = getAccumulatedFeeCostsBreakdown(route)
-    if (!combinedFeesUSD) {
+    if (!combinedFeesUSD || route.steps.some(isGaslessStep)) {
       tags.push('gasless')
     }
     if (route.steps.length > 1) {
