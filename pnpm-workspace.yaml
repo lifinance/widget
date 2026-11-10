@@ -14,9 +14,33 @@ packages:
 #   - 2026-11-09: viem 2.57.17 deliberately inside the age window: 2.57.16 adds a literal
 #     import('mppx/client') for an optional peer that bundlers cannot resolve; 2.57.17
 #     wraps it (wevm/viem#5437).
+#   - 2026-11-10: next and @next/* 16.4.6, and typescript-eslint and @typescript-eslint/*
+#     8.72.2, inside the age window (bump-packages fast-track: same publisher, same
+#     provenance repo and workflow, no advisory, no new install script or dependency).
 minimumReleaseAgeExclude:
   - '@bigmi/*'
   - '@lifi/*'
+  - '@next/env@16.4.6'
+  - '@next/swc-darwin-arm64@16.4.6'
+  - '@next/swc-darwin-x64@16.4.6'
+  - '@next/swc-linux-arm64-gnu@16.4.6'
+  - '@next/swc-linux-arm64-musl@16.4.6'
+  - '@next/swc-linux-x64-gnu@16.4.6'
+  - '@next/swc-linux-x64-musl@16.4.6'
+  - '@next/swc-win32-arm64-msvc@16.4.6'
+  - '@next/swc-win32-x64-msvc@16.4.6'
+  - '@typescript-eslint/eslint-plugin@8.72.2'
+  - '@typescript-eslint/parser@8.72.2'
+  - '@typescript-eslint/project-service@8.72.2'
+  - '@typescript-eslint/scope-manager@8.72.2'
+  - '@typescript-eslint/tsconfig-utils@8.72.2'
+  - '@typescript-eslint/type-utils@8.72.2'
+  - '@typescript-eslint/types@8.72.2'
+  - '@typescript-eslint/typescript-estree@8.72.2'
+  - '@typescript-eslint/utils@8.72.2'
+  - '@typescript-eslint/visitor-keys@8.72.2'
+  - next@16.4.6
+  - typescript-eslint@8.72.2
   - viem@2.57.17
 overrides:
   "@react-native-async-storage/async-storage": ">=2.2.0"
