@@ -3,7 +3,6 @@ import {
   EthereumProvider as EthereumSDKProvider,
   isBatchingSupported,
   isDelegationDesignatorCode,
-  isGaslessStep,
 } from '@lifi/sdk-provider-ethereum'
 import {
   EthereumContext,
@@ -251,7 +250,6 @@ export const EthereumProviderValues: FC<
       disconnect: handleDisconnect,
       getBytecode: handleGetBytecode,
       getTransactionCount: handleGetTransactionCount,
-      isGaslessStep,
       isBatchingSupported,
       isDelegationDesignatorCode,
       disableMessageSigning: config?.disableMessageSigning,

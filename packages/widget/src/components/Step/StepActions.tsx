@@ -1,5 +1,4 @@
 import type { LiFiStep, RouteExtended, StepExtended } from '@lifi/sdk'
-import { useEthereumContext } from '@lifi/widget-provider'
 import ArrowForward from '@mui/icons-material/ArrowForward'
 import { Box, Divider, Tooltip } from '@mui/material'
 import { Fragment } from 'react'
@@ -26,7 +25,6 @@ interface StepDetailsLabelProps {
   mode?: Extract<WidgetMode, 'custom'>
   modeOptions?: ModeOptions
   feeConfig?: WidgetFeeConfig
-  relayerSupport?: boolean
 }
 
 export const StepActions: React.FC<{
@@ -34,7 +32,6 @@ export const StepActions: React.FC<{
 }> = ({ route }) => {
   const { t } = useTranslation()
   const { mode, modeOptions, feeConfig, hiddenUI } = useWidgetConfig()
-  const { isGaslessStep } = useEthereumContext()
 
   const headerIncludedSteps = route.steps.flatMap((step) => step.includedSteps)
 
@@ -47,8 +44,7 @@ export const StepActions: React.FC<{
         steps[0].estimate.fromAmount = feeCollectionStep.estimate.fromAmount
       }
     }
-    const hasGaslessSupport = !!isGaslessStep?.(routeStep)
-    return steps.map((includedStep) => ({ includedStep, hasGaslessSupport }))
+    return steps
   })
 
   const tooltipContent = (
@@ -60,7 +56,7 @@ export const StepActions: React.FC<{
           columnGap: 1.5,
         }}
       >
-        {flatSteps.map(({ includedStep: step, hasGaslessSupport }, i, arr) => {
+        {flatSteps.map((step, i, arr) => {
           const showDivider = i !== arr.length - 1
           const isFeeCollection =
             step.type === 'protocol' && step.tool === 'feeCollection'
@@ -98,11 +94,7 @@ export const StepActions: React.FC<{
                 ) : step.type === 'cross' ? (
                   <BridgeStepDetailsLabel step={step} />
                 ) : step.type === 'protocol' ? (
-                  <ProtocolStepDetailsLabel
-                    step={step}
-                    feeConfig={feeConfig}
-                    relayerSupport={hasGaslessSupport}
-                  />
+                  <ProtocolStepDetailsLabel step={step} feeConfig={feeConfig} />
                 ) : (
                   <SwapStepDetailsLabel step={step} />
                 )}
@@ -310,20 +302,19 @@ const SwapStepDetailsLabel: React.FC<
 
 const ProtocolStepDetailsLabel: React.FC<
   Omit<StepDetailsLabelProps, 'variant'>
-> = ({ step, feeConfig, relayerSupport }) => {
+> = ({ step, feeConfig }) => {
   const { t } = useTranslation()
   return (
     <StepLabelTypography>
       {step.toolDetails.key === 'feeCollection'
-        ? feeConfig?.name ||
-          (relayerSupport
-            ? t('main.fees.relayerService')
-            : t('main.fees.defaultIntegrator'))
-        : step.toolDetails.key === 'gasZip'
-          ? t('main.refuelStepDetails', {
-              tool: step.toolDetails.name,
-            })
-          : step.toolDetails.name}
+        ? feeConfig?.name || t('main.fees.defaultIntegrator')
+        : step.toolDetails.key === 'gaslessRelayFee'
+          ? t('main.fees.relayerService')
+          : step.toolDetails.key === 'gasZip'
+            ? t('main.refuelStepDetails', {
+                tool: step.toolDetails.name,
+              })
+            : step.toolDetails.name}
     </StepLabelTypography>
   )
 }

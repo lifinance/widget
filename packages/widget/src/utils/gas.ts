@@ -1,5 +1,5 @@
 import type { LiFiStepExtended, RouteExtended } from '@lifi/sdk'
-import { ChainType } from '@lifi/sdk'
+import { ChainType, isGaslessStep } from '@lifi/sdk'
 
 /**
  * Returns how much of a step's gas token the route itself delivers before that
@@ -39,3 +39,15 @@ export const getSelfFundedGasAmount = (
     ? deliveredAmount - consumedAmount
     : 0n
 }
+
+/** Steps whose gas the wallet pays: not gasless, and not a signed Permit or Order. */
+export const getWalletFundedSteps = (
+  steps: LiFiStepExtended[]
+): LiFiStepExtended[] =>
+  steps.filter(
+    (step) =>
+      !isGaslessStep(step) &&
+      !step.typedData?.some(
+        (t) => t.primaryType === 'Permit' || t.primaryType === 'Order'
+      )
+  )

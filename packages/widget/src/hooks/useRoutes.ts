@@ -1,10 +1,10 @@
-import type { ExtendedChain, Route, Token } from '@lifi/sdk'
+import type { ExtendedChain, Route, RoutesRequest, Token } from '@lifi/sdk'
 import {
   ChainType,
   convertQuoteToRoute,
   getContractCallsQuote,
-  getRelayerQuote,
   getRoutes,
+  isGaslessStep,
   LiFiErrorCode,
   parseUnits,
 } from '@lifi/sdk'
@@ -31,12 +31,12 @@ import {
   isCustomReceiverBlocked,
   isSignerInvalidReceiver,
 } from '../utils/customReceiver.js'
+import { getGaslessRoute } from '../utils/getGaslessRoute.js'
 import { getQueryKey } from '../utils/queries.js'
 import { updateTokenInCache } from '../utils/token.js'
 import { useChain } from './useChain.js'
 import { useDebouncedWatch } from './useDebouncedWatch.js'
 import { useGasRefuel } from './useGasRefuel.js'
-import { useIsBatchingSupported } from './useIsBatchingSupported.js'
 import { useSwapOnly } from './useSwapOnly.js'
 import { useToken } from './useToken.js'
 import { useWidgetEvents } from './useWidgetEvents.js'
@@ -82,7 +82,7 @@ export const useRoutes = ({
     bridges,
     exchanges,
     feeConfig,
-    useRelayerRoutes,
+    useGaslessRoutes,
     storageScopeKey,
   } = useWidgetConfig()
   const sdkClient = useSDKClient()
@@ -140,10 +140,8 @@ export const useRoutes = ({
   const { enabled: enabledRefuel, fromAmount: gasRecommendationFromAmount } =
     useGasRefuel()
   const { isAddressForChain } = useAddressForChain()
-  const { isGaslessStep, disableMessageSigning } = useEthereumContext()
+  const { disableMessageSigning } = useEthereumContext()
   const { account } = useAccount({ chainType: fromChain?.chainType })
-  const { isBatchingSupported, isBatchingSupportedLoading } =
-    useIsBatchingSupported(fromChain, account.address)
 
   // In limit mode toAmount is the user's limit target, derived from the sell
   // amount and limit price. It's keyed and sent to the backend so changing the
@@ -212,8 +210,7 @@ export const useRoutes = ({
     hasAmount &&
     isToAddressSatisfied &&
     !customReceiverBlocked &&
-    contractCallQuoteEnabled &&
-    !isBatchingSupportedLoading
+    contractCallQuoteEnabled
 
   // Some values should be strictly typed and isEnabled ensures that
   const queryKey = useMemo(
@@ -244,7 +241,7 @@ export const useRoutes = ({
         gasRecommendationFromAmount,
         feeConfig?.fee,
         disableMessageSigning,
-        !!isBatchingSupported,
+        !!useGaslessRoutes,
         isPrivate,
         observableRoute?.id,
       ] as const,
@@ -275,7 +272,7 @@ export const useRoutes = ({
       gasRecommendationFromAmount,
       feeConfig?.fee,
       disableMessageSigning,
-      isBatchingSupported,
+      useGaslessRoutes,
       isPrivate,
       observableRoute?.id,
     ]
@@ -321,7 +318,7 @@ export const useRoutes = ({
         gasRecommendationFromAmount,
         configuredFee,
         disableMessageSigning,
-        isBatchingSupported,
+        useGaslessRoutes,
         isPrivate,
         // _observableRouteId must be the last element in the query key
         _observableRouteId,
@@ -430,24 +427,21 @@ export const useRoutes = ({
         return
       }
 
-      const isObservableRelayerRoute = observableRoute?.steps?.some(
-        (step) => !!isGaslessStep?.(step, fromChain)
-      )
+      const isObservableGaslessRoute =
+        observableRoute?.steps?.some(isGaslessStep)
 
-      const shouldUseMainRoutes = !observableRoute || !isObservableRelayerRoute
-      const shouldUseRelayerQuote =
-        // Relayer quotes don't support limit-order params
+      const shouldUseMainRoutes = !observableRoute || !isObservableGaslessRoute
+      const shouldUseGaslessRoute =
+        useGaslessRoutes &&
+        // Gasless routes don't support limit-order params
         mode !== 'limit' &&
-        account.address &&
-        fromAddress &&
+        !isPrivate &&
+        !disableMessageSigning &&
         fromChain?.chainType === ChainType.EVM &&
-        fromChain.permit2 &&
-        fromChain.permit2Proxy &&
-        fromChain.relayerSupported &&
-        fromChain.nativeToken.address !== fromTokenAddress &&
-        useRelayerRoutes &&
-        !isBatchingSupported &&
-        (!observableRoute || isObservableRelayerRoute)
+        // The backend needs the signer's own address to pick a strategy
+        !!account.address &&
+        fromAddress === account.address &&
+        (!observableRoute || isObservableGaslessRoute)
 
       const limitOrderRouteParams =
         mode === 'limit'
@@ -458,92 +452,51 @@ export const useRoutes = ({
             }
           : undefined
 
+      const routesRequest: RoutesRequest = {
+        fromAddress,
+        fromAmount: fromAmount.toString(),
+        fromChainId,
+        fromTokenAddress,
+        toAddress,
+        toChainId,
+        toTokenAddress,
+        fromAmountForGas:
+          enabledRefuel && gasRecommendationFromAmount
+            ? gasRecommendationFromAmount
+            : undefined,
+        ...limitOrderRouteParams,
+        options: {
+          allowSwitchChain: mode === 'refuel' ? false : allowSwitchChain,
+          bridges:
+            allowBridges?.length || disabledBridges.length
+              ? {
+                  allow: allowBridges,
+                  deny: disabledBridges.length ? disabledBridges : undefined,
+                }
+              : undefined,
+          exchanges:
+            allowExchanges?.length || disabledExchanges.length
+              ? {
+                  allow: allowExchanges,
+                  deny: disabledExchanges.length
+                    ? disabledExchanges
+                    : undefined,
+                }
+              : undefined,
+          order: routePriority,
+          slippage: formattedSlippage,
+          fee: calculatedFee || configuredFee,
+          executionType: disableMessageSigning ? 'transaction' : 'all',
+          ...(isPrivate && { private: true }),
+        },
+      }
+
       const mainRoutesPromise = shouldUseMainRoutes
-        ? getRoutes(
-            sdkClient,
-            {
-              fromAddress,
-              fromAmount: fromAmount.toString(),
-              fromChainId,
-              fromTokenAddress,
-              toAddress,
-              toChainId,
-              toTokenAddress,
-              fromAmountForGas:
-                enabledRefuel && gasRecommendationFromAmount
-                  ? gasRecommendationFromAmount
-                  : undefined,
-              ...limitOrderRouteParams,
-              options: {
-                allowSwitchChain: mode === 'refuel' ? false : allowSwitchChain,
-                bridges:
-                  allowBridges?.length || disabledBridges.length
-                    ? {
-                        allow: allowBridges,
-                        deny: disabledBridges.length
-                          ? disabledBridges
-                          : undefined,
-                      }
-                    : undefined,
-                exchanges:
-                  allowExchanges?.length || disabledExchanges.length
-                    ? {
-                        allow: allowExchanges,
-                        deny: disabledExchanges.length
-                          ? disabledExchanges
-                          : undefined,
-                      }
-                    : undefined,
-                order: routePriority,
-                slippage: formattedSlippage,
-                fee: calculatedFee || configuredFee,
-                executionType: disableMessageSigning ? 'transaction' : 'all',
-                ...(isPrivate && { private: true }),
-              },
-            },
-            { signal }
-          )
+        ? getRoutes(sdkClient, routesRequest, { signal })
         : Promise.resolve(null)
 
-      const relayerQuotePromise = shouldUseRelayerQuote
-        ? getRelayerQuote(
-            sdkClient,
-            {
-              fromAddress,
-              fromAmount: fromAmount.toString(),
-              fromChain: fromChainId,
-              fromToken: fromTokenAddress,
-              toAddress,
-              toChain: toChainId,
-              toToken: toTokenAddress,
-              fromAmountForGas:
-                enabledRefuel && gasRecommendationFromAmount
-                  ? gasRecommendationFromAmount
-                  : undefined,
-              order: routePriority,
-              slippage: formattedSlippage,
-              fee: calculatedFee || configuredFee,
-              ...(allowBridges?.length || disabledBridges.length
-                ? {
-                    allowBridges: allowBridges,
-                    denyBridges: disabledBridges.length
-                      ? disabledBridges
-                      : undefined,
-                  }
-                : undefined),
-              ...(allowExchanges?.length || disabledExchanges.length
-                ? {
-                    allowExchanges: allowExchanges,
-                    denyExchanges: disabledExchanges.length
-                      ? disabledExchanges
-                      : undefined,
-                  }
-                : undefined),
-            },
-            { signal }
-          )
-            .then(convertQuoteToRoute)
-            .catch(() => null)
+      const gaslessRoutePromise = shouldUseGaslessRoute
+        ? getGaslessRoute(sdkClient, routesRequest, signal)
         : Promise.resolve(null)
 
       // Wait for the main routes to complete first
@@ -597,21 +550,20 @@ export const useRoutes = ({
 
       const initialRoutes = routesResult?.routes ?? []
 
-      if (shouldUseRelayerQuote && initialRoutes.length) {
+      if (shouldUseGaslessRoute && initialRoutes.length) {
         setIntermediateRoutes(queryKey, initialRoutes)
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
         // Return early if we're only using main routes
       } else if (shouldUseMainRoutes) {
-        // If we don't need relayer quote, return the initial routes
+        // If we don't need a gasless route, return the initial routes
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
         return initialRoutes
       }
 
-      const relayerRouteResult = await relayerQuotePromise
-      // If we have a relayer route, add it to the routes array
-      if (relayerRouteResult) {
-        // Insert the relayer route at position 1 (after the first route)
-        initialRoutes.splice(1, 0, relayerRouteResult)
+      const gaslessRoute = await gaslessRoutePromise
+      if (gaslessRoute) {
+        // Insert the gasless route at position 1 (after the first route)
+        initialRoutes.splice(1, 0, gaslessRoute)
         // Emit the updated routes
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
       }

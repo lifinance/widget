@@ -1,5 +1,5 @@
 import type { RouteExtended } from '@lifi/sdk'
-import { useEthereumContext } from '@lifi/widget-provider'
+import { isGaslessStep } from '@lifi/sdk'
 import { Box, Tooltip } from '@mui/material'
 import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -31,7 +31,6 @@ export const RouteDetails = ({ route }: RouteDetailsProps): JSX.Element => {
   const { t, i18n } = useTranslation()
   const { rateText, toggleRate } = useTokenRateText(route)
   const { feeConfig } = useWidgetConfig()
-  const { isGaslessStep } = useEthereumContext()
 
   const { gasCosts, feeCosts, gasCostUSD, feeCostUSD } =
     getAccumulatedFeeCostsBreakdown(route)
@@ -76,7 +75,7 @@ export const RouteDetails = ({ route }: RouteDetailsProps): JSX.Element => {
     )
   )
 
-  const hasGaslessSupport = route.steps.every((step) => isGaslessStep?.(step))
+  const hasGaslessSupport = route.steps.every(isGaslessStep)
 
   const showIntegratorFeeCollectionDetails =
     (feeAmountUSD || Number.isFinite(feeConfig?.fee)) && !hasGaslessSupport

@@ -1,8 +1,6 @@
 import type {
   ChainType,
   ExtendedChain,
-  LiFiStep,
-  LiFiStepExtended,
   SDKClient,
   SDKProvider,
 } from '@lifi/sdk'
@@ -56,10 +54,6 @@ export type EthereumProviderContext = WidgetProviderContext & {
     chainId: number,
     address: string
   ) => Promise<number | undefined>
-  isGaslessStep?: (
-    step: LiFiStepExtended | LiFiStep,
-    chain?: ExtendedChain
-  ) => boolean
   isBatchingSupported?: (
     sdkClient: SDKClient,
     {
