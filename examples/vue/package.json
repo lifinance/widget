@@ -16,11 +16,11 @@
     "vue": "^3.5.45"
   },
   "devDependencies": {
-    "@vitejs/plugin-react": "^6.2.1",
+    "@vitejs/plugin-react": "^6.3.0",
     "@vitejs/plugin-vue": "^6.0.10",
     "@vitejs/plugin-vue-jsx": "^5.1.6",
     "typescript": "^6.0.3",
-    "vite": "^8.3.6",
+    "vite": "^8.3.7",
     "vite-plugin-node-polyfills": "^0.26.0",
     "vue-tsc": "^3.3.14"
   }

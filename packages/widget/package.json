@@ -67,8 +67,8 @@
     "eventemitter3": "^5.0.4",
     "i18next": "^27.0.1",
     "microdiff": "^1.6.0",
-    "motion": "^14.10.1",
-    "react-i18next": "^18.0.0",
+    "motion": "^14.11.1",
+    "react-i18next": "^18.0.1",
     "react-intersection-observer": "^11.0.1",
     "react-transition-group": "^4.4.5",
     "zustand": "^5.1.0"
