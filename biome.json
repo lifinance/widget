@@ -9,7 +9,8 @@
       "!**/*.lock",
       "!**/*.svelte",
       "!**/*.svg",
-      "!**/*.vue"
+      "!**/*.vue",
+      "!.claude/skills/bump-packages/scripts/test/fixtures"
     ]
   },
   "formatter": {
