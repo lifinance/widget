@@ -39,10 +39,16 @@ export const StepActions: React.FC<{
   const flatSteps = route.steps.flatMap((routeStep) => {
     let steps = routeStep.includedSteps
     if (hiddenUI?.integratorStepDetails) {
-      const feeCollectionStep = steps.find((s) => s.tool === 'feeCollection')
-      if (feeCollectionStep) {
+      const feeCollectionIndex = steps.findIndex(
+        (s) => s.tool === 'feeCollection'
+      )
+      if (feeCollectionIndex >= 0) {
+        const { fromAmount } = steps[feeCollectionIndex].estimate
         steps = structuredClone(steps.filter((s) => s.tool !== 'feeCollection'))
-        steps[0].estimate.fromAmount = feeCollectionStep.estimate.fromAmount
+        // The step after the hidden fee shows the amount before the fee.
+        if (steps[feeCollectionIndex]) {
+          steps[feeCollectionIndex].estimate.fromAmount = fromAmount
+        }
       }
     }
     return steps
