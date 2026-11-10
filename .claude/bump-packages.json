@@ -1,0 +1,18 @@
+{
+  "heldMajors": [
+    {
+      "name": "@solana/web3.js",
+      "reason": "The Solana wallet adapters (wallet-adapter-base, wallet-adapter-react, and the mobile wallet adapter) have the peer @solana/web3.js ^1.99.0. Remove this entry when they accept 3.x."
+    },
+    {
+      "name": "next",
+      "projects": ["nextjs15"],
+      "reason": "This example shows Next.js 15 on purpose."
+    },
+    {
+      "name": "typescript",
+      "projects": ["nextjs15", "svelte", "vue"],
+      "reason": "vue-tsc crashes with TypeScript 7 (vuejs/language-tools#6170). svelte-check has the peer typescript ^5 || ^6 (sveltejs/language-tools#3063). The nextjs15 build fails with TypeScript 7. Remove a project from this entry when its tool supports TypeScript 7."
+    }
+  ]
+}
