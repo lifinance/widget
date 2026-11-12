@@ -1,7 +1,7 @@
 'use client'
 import { useAccount } from '@lifi/wallet-management'
-import { useChain, useWidgetConfig } from '@lifi/widget/shared'
 import { useAddressForChain } from '@lifi/widget-provider'
+import { useChain, useWidgetConfig } from '@lifi/widget/shared'
 import { useEffect, useRef } from 'react'
 import { useCheckoutFlowStore } from '../stores/useCheckoutFlowStore.js'
 import { useResolvedCheckoutRecipient } from './useResolvedCheckoutRecipient.js'

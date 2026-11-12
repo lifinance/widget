@@ -1,9 +1,9 @@
-import { useSDKClient } from '@lifi/widget/shared'
 import {
   CheckoutContext,
   type CheckoutContextValue,
   useCheckoutConfig,
 } from '@lifi/widget-provider/checkout'
+import { useSDKClient } from '@lifi/widget/shared'
 import { type JSX, type PropsWithChildren, useMemo } from 'react'
 
 // Must mount inside `SDKClientProvider` — re-provides `CheckoutContext` with

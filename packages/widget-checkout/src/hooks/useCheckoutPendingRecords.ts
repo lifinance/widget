@@ -1,11 +1,11 @@
 'use client'
 import { getStatus, type StatusResponse } from '@lifi/sdk'
+import { useCheckoutConfig } from '@lifi/widget-provider/checkout'
 import {
   isRouteFailed,
   useRouteExecutionStore,
   useSDKClient,
 } from '@lifi/widget/shared'
-import { useCheckoutConfig } from '@lifi/widget-provider/checkout'
 import { useQueries } from '@tanstack/react-query'
 import { useEffect, useMemo } from 'react'
 import {

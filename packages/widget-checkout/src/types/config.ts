@@ -1,9 +1,9 @@
-import type { FormRef, WidgetConfig } from '@lifi/widget/shared'
 import type {
   CheckoutError,
   CheckoutResult,
   OnRampProvider,
 } from '@lifi/widget-provider/checkout'
+import type { FormRef, WidgetConfig } from '@lifi/widget/shared'
 import type { PropsWithChildren, RefObject } from 'react'
 
 export interface CheckoutConfig {

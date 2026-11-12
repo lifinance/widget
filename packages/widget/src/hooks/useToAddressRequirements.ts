@@ -92,10 +92,10 @@ export const useToAddressRequirements = (
   // A shared chain type is not a shared format: a Bitcoin signer cannot receive on ZEC.
   const isSignerAddressInvalidAtDestination = Boolean(
     fromAddress &&
-      fromChain &&
-      toChain &&
-      isAddressForChain(fromAddress, fromChain) &&
-      !isAddressForChain(fromAddress, toChain)
+    fromChain &&
+    toChain &&
+    isAddressForChain(fromAddress, fromChain) &&
+    !isAddressForChain(fromAddress, toChain)
   )
 
   const requiredToAddress = Boolean(
@@ -103,8 +103,8 @@ export const useToAddressRequirements = (
       isCrossChainContractAddress ||
       isSignerAddressInvalidAtDestination ||
       requiredUI?.toAddress) &&
-      !hiddenUI?.toAddress &&
-      !unsupportedToAddress
+    !hiddenUI?.toAddress &&
+    !unsupportedToAddress
   )
 
   const isValidReceiver = (address?: string): boolean =>
@@ -112,16 +112,16 @@ export const useToAddressRequirements = (
 
   const accountNotDeployedAtDestination = Boolean(
     isFromContractAddress &&
-      !fromContractCodeHasDelegationIndicator &&
-      !isToContractAddress &&
-      fromAddress?.toLowerCase() === toAddress?.toLowerCase()
+    !fromContractCodeHasDelegationIndicator &&
+    !isToContractAddress &&
+    fromAddress?.toLowerCase() === toAddress?.toLowerCase()
   )
 
   const accountDeployedAtDestination = Boolean(
     isFromContractAddress &&
-      isToContractAddress &&
-      !fromContractCodeHasDelegationIndicator &&
-      fromAddress?.toLowerCase() === toAddress?.toLowerCase()
+    isToContractAddress &&
+    !fromContractCodeHasDelegationIndicator &&
+    fromAddress?.toLowerCase() === toAddress?.toLowerCase()
   )
 
   return {
