@@ -1,11 +1,7 @@
-import {
-  Badge,
-  Box,
-  CircularProgress as MuiCircularProgress,
-  IconButton as MuiIconButton,
-  styled,
-} from '@mui/material'
+import { Badge, Box, IconButton as MuiIconButton, styled } from '@mui/material'
 import type React from 'react'
+
+export const progressRingSize = 40
 
 export const ErrorBadge: React.FC<React.ComponentProps<typeof Badge>> = styled(
   Badge
@@ -32,16 +28,15 @@ export const IconContainer: React.FC<React.ComponentProps<typeof Box>> = styled(
   justifyContent: 'center',
 }))
 
-// The spinner rotates its square box, whose corners would otherwise overflow the header and toggle its scrollbar.
-export const ProgressClip: React.FC<React.ComponentProps<typeof Box>> = styled(
+export const ProgressRing: React.FC<React.ComponentProps<typeof Box>> = styled(
   Box
 )(() => ({
   position: 'absolute',
-  top: -8,
-  left: -8,
-  width: 40,
-  height: 40,
-  overflow: 'hidden',
+  top: '50%',
+  left: '50%',
+  width: progressRingSize,
+  height: progressRingSize,
+  margin: -progressRingSize / 2,
 }))
 
 export const ActivitiesIconButton: React.FC<
@@ -67,15 +62,3 @@ export const ActivitiesIconButton: React.FC<
     },
   ],
 })
-
-export const ProgressTrack: React.FC<
-  React.ComponentProps<typeof MuiCircularProgress>
-> = styled(MuiCircularProgress)(({ theme }) => ({
-  position: 'absolute',
-  top: 0,
-  left: 0,
-  color: theme.vars.palette.grey[300],
-  ...theme.applyStyles('dark', {
-    color: theme.vars.palette.grey[800],
-  }),
-}))
