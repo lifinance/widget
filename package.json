@@ -51,7 +51,7 @@
     ]
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.6.6",
+    "@biomejs/biome": "^2.6.7",
     "@changesets/changelog-github": "^1.0.1",
     "@changesets/cli": "^3.0.3",
     "@commitlint/cli": "^21.2.4",
@@ -63,7 +63,7 @@
     "@types/react-dom": "^19.3.0",
     "fs-extra": "^11.4.1",
     "husky": "^9.1.7",
-    "knip": "^6.44.2",
+    "knip": "^6.45.1",
     "lint-staged": "^17.6.0",
     "size-limit": "^14.3.0",
     "tsdown": "^0.23.7",

@@ -17,10 +17,10 @@
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.3.0",
-    "@vitejs/plugin-vue": "^6.0.10",
+    "@vitejs/plugin-vue": "^6.0.11",
     "@vitejs/plugin-vue-jsx": "^5.1.6",
     "typescript": "^6.0.3",
-    "vite": "^8.3.7",
+    "vite": "^8.3.8",
     "vite-plugin-node-polyfills": "^0.26.0",
     "vue-tsc": "^3.3.14"
   }
