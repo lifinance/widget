@@ -191,11 +191,13 @@
       "transactionNotSent": "Die Transaktion wurde nicht gesendet.",
       "transactionSimulationFailed": "Die Transaktion konnte in der Simulation nicht ausgeführt werden.",
       "unknown": "Bitte versuche es erneut oder kontaktiere den Support.",
-      "walletChangedDuringExecution": "Die Wallet-Adresse, die das Angebot angefordert hat, stimmt nicht mit der Wallet-Adresse überein, die die Transaktion signieren will. Bitte verwende während der gesamten Transaktion dieselbe Wallet-Adresse."
+      "walletChangedDuringExecution": "Die Wallet-Adresse, die das Angebot angefordert hat, stimmt nicht mit der Wallet-Adresse überein, die die Transaktion signieren will. Bitte verwende während der gesamten Transaktion dieselbe Wallet-Adresse.",
+      "balanceReadFailed": "Dein Wallet-Guthaben konnte nicht geprüft werden. Bitte versuche es erneut."
     },
     "title": {
       "allowanceRequired": "Genehmigter Betrag zu niedrig",
       "balanceIsTooLow": "Das Guthaben ist zu niedrig",
+      "balanceReadFailed": "Wallet-Guthaben konnte nicht gelesen werden",
       "bookmarkAlreadyExists": "Wallet ist bereits als {{name}} gespeichert",
       "bookmarkNameRequired": "Name ist erforderlich",
       "callBundleNotFound": "Transaktion in deiner Wallet nicht gefunden",

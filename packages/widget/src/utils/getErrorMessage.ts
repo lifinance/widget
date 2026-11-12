@@ -44,6 +44,12 @@ export function getErrorMessage(
       })
       break
     case LiFiErrorCode.BalanceError:
+      // The SDK uses BalanceError for both read failures and insufficient funds.
+      if (error.message === 'Could not read wallet balance.') {
+        title = t('error.title.balanceReadFailed')
+        message = t('error.message.balanceReadFailed')
+        break
+      }
       title = t('error.title.balanceIsTooLow')
       message = getDefaultErrorMessage()
       break

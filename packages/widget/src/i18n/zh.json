@@ -191,11 +191,13 @@
       "transactionNotSent": "交易未发送。",
       "transactionSimulationFailed": "交易模拟执行失败。",
       "unknown": "请重试或联系技术支持。",
-      "walletChangedDuringExecution": "请求报价的钱包地址与尝试签名交易的钱包地址不一致。请确保整个交易执行过程中使用同一钱包地址。"
+      "walletChangedDuringExecution": "请求报价的钱包地址与尝试签名交易的钱包地址不一致。请确保整个交易执行过程中使用同一钱包地址。",
+      "balanceReadFailed": "无法查询钱包余额，请重试。"
     },
     "title": {
       "allowanceRequired": "授权额度不足",
       "balanceIsTooLow": "余额过低",
+      "balanceReadFailed": "无法读取钱包余额",
       "bookmarkAlreadyExists": "该钱包已收藏为 {{name}}",
       "bookmarkNameRequired": "请输入收藏名称",
       "callBundleNotFound": "钱包中未找到该交易",

@@ -191,11 +191,13 @@
       "transactionNotSent": "La transazione non è stata inviata.",
       "transactionSimulationFailed": "Non è stato possibile eseguire la transazione in simulazione.",
       "unknown": "Riprova oppure contatta l'assistenza.",
-      "walletChangedDuringExecution": "L'indirizzo del wallet che ha richiesto la quotazione non corrisponde a quello che sta firmando la transazione. Usa lo stesso indirizzo del wallet per tutta l'esecuzione della transazione."
+      "walletChangedDuringExecution": "L'indirizzo del wallet che ha richiesto la quotazione non corrisponde a quello che sta firmando la transazione. Usa lo stesso indirizzo del wallet per tutta l'esecuzione della transazione.",
+      "balanceReadFailed": "Non è stato possibile verificare il saldo del tuo wallet. Riprova."
     },
     "title": {
       "allowanceRequired": "Importo approvato insufficiente",
       "balanceIsTooLow": "Il saldo è troppo basso",
+      "balanceReadFailed": "Impossibile leggere il saldo del wallet",
       "bookmarkAlreadyExists": "Wallet già salvato come {{name}}",
       "bookmarkNameRequired": "Il nome è obbligatorio",
       "callBundleNotFound": "Transazione non trovata nel tuo wallet",

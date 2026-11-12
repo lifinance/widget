@@ -191,11 +191,13 @@
       "transactionNotSent": "ยังไม่ได้ส่งธุรกรรม",
       "transactionSimulationFailed": "ธุรกรรมดำเนินการไม่สำเร็จในการจำลอง",
       "unknown": "โปรดลองอีกครั้งหรือติดต่อฝ่ายสนับสนุน",
-      "walletChangedDuringExecution": "ที่อยู่ Wallet ที่ขอการเสนอราคาไม่ตรงกับที่อยู่ Wallet ที่กำลังเซ็นธุรกรรม โปรดใช้ที่อยู่ Wallet เดียวกันตลอดการทำธุรกรรม"
+      "walletChangedDuringExecution": "ที่อยู่ Wallet ที่ขอการเสนอราคาไม่ตรงกับที่อยู่ Wallet ที่กำลังเซ็นธุรกรรม โปรดใช้ที่อยู่ Wallet เดียวกันตลอดการทำธุรกรรม",
+      "balanceReadFailed": "ไม่สามารถตรวจสอบยอดคงเหลือใน Wallet ของคุณได้ โปรดลองอีกครั้ง"
     },
     "title": {
       "allowanceRequired": "จำนวนที่อนุมัติไม่เพียงพอ",
       "balanceIsTooLow": "ยอดคงเหลือต่ำเกินไป",
+      "balanceReadFailed": "ไม่สามารถอ่านยอดคงเหลือใน Wallet ได้",
       "bookmarkAlreadyExists": "Wallet นี้บุ๊กมาร์กไว้แล้วในชื่อ {{name}}",
       "bookmarkNameRequired": "โปรดกรอกชื่อบุ๊กมาร์ก",
       "callBundleNotFound": "ไม่พบธุรกรรมใน Wallet ของคุณ",

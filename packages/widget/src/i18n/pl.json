@@ -191,11 +191,13 @@
       "transactionNotSent": "Transakcja nie została wysłana.",
       "transactionSimulationFailed": "Nie udało się wykonać transakcji w symulacji.",
       "unknown": "Spróbuj ponownie lub skontaktuj się z supportem.",
-      "walletChangedDuringExecution": "Adres portfela, który pobrał wycenę, różni się od adresu portfela, który próbuje podpisać transakcję. Używaj tego samego adresu portfela przez cały czas realizacji transakcji."
+      "walletChangedDuringExecution": "Adres portfela, który pobrał wycenę, różni się od adresu portfela, który próbuje podpisać transakcję. Używaj tego samego adresu portfela przez cały czas realizacji transakcji.",
+      "balanceReadFailed": "Nie udało się sprawdzić salda Twojego portfela. Spróbuj ponownie."
     },
     "title": {
       "allowanceRequired": "Za niska zatwierdzona kwota",
       "balanceIsTooLow": "Saldo jest za niskie",
+      "balanceReadFailed": "Nie udało się odczytać salda portfela",
       "bookmarkAlreadyExists": "Portfel jest już zapisany jako {{name}}",
       "bookmarkNameRequired": "Nazwa portfela jest wymagana",
       "callBundleNotFound": "Nie znaleziono transakcji w Twoim portfelu",
