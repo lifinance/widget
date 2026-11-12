@@ -1,6 +1,6 @@
 import {
-  type Connector,
   connect,
+  type Connector,
   disconnect,
   getConnectorClient as getBigmiConnectorClient,
 } from '@bigmi/client'

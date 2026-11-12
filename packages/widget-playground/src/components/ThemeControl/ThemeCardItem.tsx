@@ -11,8 +11,8 @@ import {
 import { extractPreviewColors } from '../../utils/themePreview.js'
 import {
   EditThemeAction,
-  SchemeIconSlot,
   SchemeIcons,
+  SchemeIconSlot,
   ThemeCard,
   ThemeCardInfo,
   ThemeName,

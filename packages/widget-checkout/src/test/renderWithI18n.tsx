@@ -1,8 +1,8 @@
 import { createTheme, ThemeProvider } from '@mui/material'
 import {
+  render,
   type RenderOptions,
   type RenderResult,
-  render,
 } from '@testing-library/react'
 import i18n from 'i18next'
 import type { ComponentType, ReactElement, ReactNode } from 'react'
