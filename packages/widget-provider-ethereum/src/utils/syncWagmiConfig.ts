@@ -10,31 +10,43 @@ const lastSync = new WeakMap<
   { chainsKey: string; connectors: CreateConnectorFn[] }
 >()
 
-// Only the chain fields that wagmi and the connectors read. LI.FI chain data
-// also carries token prices, which change on every refetch.
+// The viem chain fields only: LI.FI chain data adds token prices that change.
 const getChainsKey = (chains: readonly Chain[]): string =>
   JSON.stringify(
     chains.map((chain) => [
       chain.id,
       chain.name,
       chain.nativeCurrency,
-      chain.rpcUrls.default?.http,
-      Object.values(chain.blockExplorers ?? {}).map((explorer) => explorer.url),
-      chain.contracts?.multicall3?.address,
+      chain.rpcUrls,
+      chain.blockExplorers,
+      chain.contracts,
+      chain.testnet,
     ])
   )
 
+const isSameConnectors = (
+  previous: CreateConnectorFn[],
+  connectors: CreateConnectorFn[]
+): boolean =>
+  previous.length === connectors.length &&
+  previous.every((connectorFn, index) => connectorFn === connectors[index])
+
 const latestEmitterConnectors = new WeakMap<
-  CreateConnectorFn,
-  CreateConnectorFn
+  Config,
+  WeakMap<CreateConnectorFn, CreateConnectorFn>
 >()
 
-// Connector SDKs (MetaMask Connect, WalletConnect, Coinbase) bind their event
-// handlers to the first connector object; `setup` gives each a new emitter.
+// Connector SDKs bind their event handlers to the first connector object only.
 const withLatestEmitter = (
+  wagmiConfig: Config,
   connectorFn: CreateConnectorFn
 ): CreateConnectorFn => {
-  const cached = latestEmitterConnectors.get(connectorFn)
+  let cache = latestEmitterConnectors.get(wagmiConfig)
+  if (!cache) {
+    cache = new WeakMap()
+    latestEmitterConnectors.set(wagmiConfig, cache)
+  }
+  const cached = cache.get(connectorFn)
   if (cached) {
     return cached
   }
@@ -56,7 +68,7 @@ const withLatestEmitter = (
     )
   }
   Object.assign(wrapped, connectorFn)
-  latestEmitterConnectors.set(connectorFn, wrapped)
+  cache.set(connectorFn, wrapped)
   return wrapped
 }
 
@@ -65,26 +77,31 @@ export const syncWagmiConfig = async (
   connectors: CreateConnectorFn[],
   chains: readonly [Chain, ...Chain[]]
 ): Promise<void> => {
-  const chainsKey = getChainsKey(chains)
-  const previous = lastSync.get(wagmiConfig)
-  if (previous?.chainsKey === chainsKey && previous.connectors === connectors) {
-    return
-  }
-  lastSync.set(wagmiConfig, { chainsKey, connectors })
-
   const _mainnet = chains.find((chain) => chain.id === mainnet.id)
   if (_mainnet) {
     _mainnet.contracts = { ...mainnet.contracts, ..._mainnet.contracts }
   }
 
+  const chainsKey = getChainsKey(chains)
+  const previous = lastSync.get(wagmiConfig)
+  if (
+    previous?.chainsKey === chainsKey &&
+    isSameConnectors(previous.connectors, connectors)
+  ) {
+    return
+  }
+
   wagmiConfig._internal.chains.setState(chains)
   wagmiConfig._internal.connectors.setState(() =>
     [
-      ...connectors.map(withLatestEmitter),
+      ...connectors.map((connectorFn) =>
+        withLatestEmitter(wagmiConfig, connectorFn)
+      ),
       ...(wagmiConfig._internal.mipd
         ?.getProviders()
         .map(wagmiConfig._internal.connectors.providerDetailToConnector) ?? []),
     ].map(wagmiConfig._internal.connectors.setup)
   )
+  lastSync.set(wagmiConfig, { chainsKey, connectors: [...connectors] })
   reconnect(wagmiConfig)
 }

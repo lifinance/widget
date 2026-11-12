@@ -105,13 +105,16 @@ const createChains = (priceUSD: string): [Chain, ...Chain[]] => [
   createChain(42161, { priceUSD }),
 ]
 
-const setUp = async () => {
-  const config: Config = createConfig({
+const createTestConfig = (): Config =>
+  createConfig({
     chains: [createChain(1)],
     client: () => ({}) as never,
     storage: null,
     multiInjectedProviderDiscovery: false,
   })
+
+const setUp = async () => {
+  const config = createTestConfig()
   const connector = createClosureConnector()
   const connectors = [connector.connectorFn]
   await syncWagmiConfig(config, connectors, createChains('3000'))
@@ -172,6 +175,20 @@ describe('syncWagmiConfig', () => {
       ],
     },
     {
+      change: 'a WebSocket RPC URL',
+      chains: [
+        createChain(1, {
+          rpcUrls: {
+            default: {
+              http: ['https://rpc.example/1'],
+              webSocket: ['wss://rpc.example/1'],
+            },
+          },
+        }),
+        ...createChains('3000').slice(1),
+      ],
+    },
+    {
       change: 'a chain name',
       chains: [
         createChain(1, { name: 'Renamed' }),
@@ -210,12 +227,69 @@ describe('syncWagmiConfig', () => {
     expect(setups).toHaveBeenCalledTimes(2)
   })
 
-  it('sets up connectors again for a new connectors array', async () => {
+  it('sets up connectors again for another connector function', async () => {
     const { config, connectors, setups } = await setUp()
 
-    await resync(config, [...connectors], createChains('3000'))
+    await resync(
+      config,
+      [...connectors, createClosureConnector().connectorFn],
+      createChains('3000')
+    )
 
     expect(setups).toHaveBeenCalledTimes(2)
+  })
+
+  it('does not set up connectors again for a new array with the same functions', async () => {
+    const { config, connectors, setups } = await setUp()
+
+    await syncWagmiConfig(config, [...connectors], createChains('3000'))
+
+    expect(setups).toHaveBeenCalledTimes(1)
+  })
+
+  it('does not set up connectors again for the same mainnet chains array', async () => {
+    const config = createTestConfig()
+    const { connectorFn, setups } = createClosureConnector()
+    const chains = createChains('3000')
+
+    await resync(config, [connectorFn], chains)
+    await syncWagmiConfig(config, [connectorFn], chains)
+
+    expect(setups).toHaveBeenCalledTimes(1)
+  })
+
+  it('tries the sync again after a failed setup', async () => {
+    const config = createTestConfig()
+    const { connectorFn } = createClosureConnector()
+    let fail = true
+    const flakyConnectorFn: typeof connectorFn = (connectorConfig) => {
+      if (fail) {
+        fail = false
+        throw new Error('Setup failed.')
+      }
+      return connectorFn(connectorConfig)
+    }
+
+    const connectors = [flakyConnectorFn]
+
+    await expect(
+      syncWagmiConfig(config, connectors, createChains('3000'))
+    ).rejects.toThrow('Setup failed.')
+    await resync(config, connectors, createChains('3000'))
+
+    expect(config.state.status).toBe('connected')
+  })
+
+  it('sends the events of a shared connector function to its own config', async () => {
+    const { connectorFn, switchInWallet } = createClosureConnector()
+    const first = createTestConfig()
+    const second = createTestConfig()
+
+    await resync(first, [connectorFn], createChains('3000'))
+    await resync(second, [connectorFn], createChains('3000'))
+    switchInWallet(8453)
+
+    expect(first.state.chainId).toBe(8453)
   })
 
   it('keeps chain events after connectors are set up again', async () => {
