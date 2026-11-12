@@ -57,6 +57,6 @@ export function deepEqual(a: any, b: any): boolean {
   }
 
   // true if both NaN, false otherwise
-  // biome-ignore lint/suspicious/noSelfCompare: allowed in typescript
+  // oxlint-disable-next-line no-self-compare -- allowed in typescript
   return a !== a && b !== b
 }

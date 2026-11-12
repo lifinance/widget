@@ -150,7 +150,6 @@ const AmountInputBase: React.FC<
     }
   }
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: we need run effect on value change
   useLayoutEffect(() => {
     if (ref.current) {
       fitInputText(maxInputFontSize, minInputFontSize, ref.current)

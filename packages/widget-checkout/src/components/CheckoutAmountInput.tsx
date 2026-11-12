@@ -215,7 +215,6 @@ const CheckoutAmountInputBase: React.FC<
     }
   }
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: we need run effect on value change
   useLayoutEffect(() => {
     if (ref.current) {
       fitInputText(48, 16, ref.current)

@@ -3,7 +3,7 @@
 declare module '*.vue' {
   import type { DefineComponent } from 'vue'
 
-  // biome-ignore lint/complexity/noBannedTypes: allowed in vue
+  // oxlint-disable-next-line typescript/no-empty-object-type -- allowed in vue
   const component: DefineComponent<{}, {}, any>
   export default component
 }

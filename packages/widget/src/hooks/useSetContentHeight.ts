@@ -12,7 +12,6 @@ export const useSetContentHeight = (
   dependency?: unknown
 ): void => {
   const elementId = useDefaultElementId() ?? ''
-  // biome-ignore lint/correctness/useExhaustiveDependencies: we use dependency to refresh height
   useLayoutEffect(() => {
     const relativeContainer = getRelativeContainer(elementId)
     if (

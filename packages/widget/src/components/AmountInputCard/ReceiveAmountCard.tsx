@@ -160,7 +160,6 @@ export const ReceiveAmountCard: React.FC<ReceiveCardProps> = (
     ? t('format.tokenAmount', { value: receiveAmount || '0' })
     : t('format.currency', { value: fiatValue })
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: effect must run on value change
   useLayoutEffect(() => {
     if (amountRef.current) {
       fitInputText(maxInputFontSize, minInputFontSize, amountRef.current)

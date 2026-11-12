@@ -143,7 +143,6 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     }
   }, [measure, scrollElementRef.current])
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: run only when chainId changes
   useEffect(() => {
     // Scroll to the top of the list when switching the chains
     if (getVirtualItems().length) {
