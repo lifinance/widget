@@ -12,6 +12,7 @@ export const useSetContentHeight = (
   dependency?: unknown
 ): void => {
   const elementId = useDefaultElementId() ?? ''
+  // we use dependency to refresh height
   useLayoutEffect(() => {
     const relativeContainer = getRelativeContainer(elementId)
     if (

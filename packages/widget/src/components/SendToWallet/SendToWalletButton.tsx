@@ -157,6 +157,7 @@ export const SendToWalletButton: React.FC<
       unmountOnExit
     >
       <Card
+        // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- a clickable MUI Card; a native button changes the card layout
         role="button"
         onClick={readOnly ? undefined : handleOnClick}
         sx={{ width: '100%', ...props.sx }}

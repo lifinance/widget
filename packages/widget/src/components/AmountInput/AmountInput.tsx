@@ -150,6 +150,7 @@ const AmountInputBase: React.FC<
     }
   }
 
+  // we need run effect on value change
   useLayoutEffect(() => {
     if (ref.current) {
       fitInputText(maxInputFontSize, minInputFontSize, ref.current)

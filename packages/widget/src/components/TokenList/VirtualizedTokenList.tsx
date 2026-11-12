@@ -141,6 +141,7 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     if (scrollElementRef.current) {
       measure()
     }
+    // oxlint-disable-next-line react/exhaustive-deps -- the effect runs again on a later render, after the scroll element is set
   }, [measure, scrollElementRef.current])
 
   useEffect(() => {

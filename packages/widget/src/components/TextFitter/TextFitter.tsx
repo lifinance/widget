@@ -50,6 +50,7 @@ export const TextFitter: React.FC<PropsWithChildren<TextFitterProps>> = ({
     onFit?.()
   }, [cropBottom, cropTop, onFit])
 
+  // run only when children changes
   useLayoutEffect(() => {
     calculateBox()
   }, [calculateBox, children])

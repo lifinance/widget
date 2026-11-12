@@ -5,6 +5,7 @@ export const LiFiLogo: FC<SVGProps<SVGSVGElement>> = (props) => (
     xmlns="http://www.w3.org/2000/svg"
     viewBox="0 0 132 48"
     fill="none"
+    // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- an inline SVG logo with aria-label; role="img" is the accessible pattern
     role="img"
     aria-label="LI.FI"
     {...props}

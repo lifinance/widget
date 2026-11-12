@@ -54,6 +54,7 @@ export const BitcoinProviderValues: FC<
       return config.sdkProvider({ getWalletClient })
     }
     return config?.sdkProvider ?? BitcoinSDKProvider({ getWalletClient })
+    // oxlint-disable-next-line react/exhaustive-deps -- of the fields of `config`, the memo reads only `sdkProvider`; it calls `config.sdkProvider(...)` as a method to keep `this`
   }, [bigmiConfig, config?.sdkProvider])
 
   const [installedWallets, setInstalledWallets] = useState<Connector[]>([])

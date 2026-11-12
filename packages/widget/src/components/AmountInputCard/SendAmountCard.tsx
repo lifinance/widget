@@ -135,6 +135,7 @@ export const SendAmountCard: React.FC<CardProps & { mask?: boolean }> = (
     }
   }
 
+  // effect must run on value change
   useLayoutEffect(() => {
     if (ref.current) {
       fitInputText(maxInputFontSize, minInputFontSize, ref.current)
