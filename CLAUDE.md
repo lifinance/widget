@@ -82,8 +82,8 @@ QueryClient → Settings → WidgetConfig → I18n → Theme → SDK → Wallet 
 ## Conventions
 
 - **ESM only** — all packages output to `dist/esm/`. No CJS.
-- **Biome** for linting and formatting (not ESLint/Prettier). **Always run `pnpm check:write` after making changes** so Biome can auto-fix formatting.
-- **Biome sorts imports** — running `pnpm check:write` may reorder import/export statements. This is expected.
+- **Oxlint** and **Oxfmt** for linting and formatting (not ESLint/Prettier). **Always run `pnpm check:write` after making changes** so Oxlint and Oxfmt can auto-fix formatting. `pnpm check:write:unsafe` removes unused imports. It also removes `console` calls that fail `no-console`.
+- **Oxfmt sorts imports** — running `pnpm check:write` may reorder import statements. This is expected. Oxfmt does not sort `export ... from` statements. Put an empty line after a side-effect import (for example `import './globals.css'`); otherwise Oxfmt can move other imports across it.
 - **Conventional commits** enforced by commitlint (`feat:`, `fix:`, `chore:`, etc.).
 - **pnpm settings live in `pnpm-workspace.yaml` only** — pnpm v11 silently ignores `package.json#pnpm` and most non-auth `.npmrc` keys. Verify any setting with `pnpm config get <kebab-name>` (returns `undefined` if pnpm isn't reading it). npm publish provenance is set via `NPM_CONFIG_PROVENANCE=true` env in `.github/workflows/publish.yaml`, not pnpm config.
 - **widget-light must have zero `dependencies`** — all types are self-contained duplicates. Chain-specific integrations are optional peer deps exposed via subpath exports (`@lifi/widget-light/ethereum`, etc.).
