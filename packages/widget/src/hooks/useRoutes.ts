@@ -438,6 +438,11 @@ export const useRoutes = ({
         !isPrivate &&
         !disableMessageSigning &&
         fromChain?.chainType === ChainType.EVM &&
+        // A native source token has no Permit2 path, so the backend asks for an
+        // EIP-7702 authorization, which the SDK refuses. Its seller can also pay
+        // the gas.
+        fromChain.nativeToken.address.toLowerCase() !==
+          fromTokenAddress.toLowerCase() &&
         // The backend needs the signer's own address to pick a strategy
         !!account.address &&
         fromAddress === account.address &&

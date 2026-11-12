@@ -6,12 +6,20 @@ export const getGaslessRoute = async (
   request: RoutesRequest,
   signal?: AbortSignal
 ): Promise<Route | null> => {
-  // The backend rejects gasless with executionType 'all' or 'message'.
-  const { executionType: _executionType, ...options } = request.options ?? {}
   try {
     const { routes } = await getRoutes(
       client,
-      { ...request, options: { ...options, gasless: true } },
+      {
+        ...request,
+        options: {
+          ...request.options,
+          // The backend rejects gasless with executionType 'all' or 'message'.
+          // An explicit undefined also wins over the SDK's configured route
+          // options, and the JSON body drops it.
+          executionType: undefined,
+          gasless: true,
+        },
+      },
       { signal }
     )
     const route = routes.find((route) => route.steps.some(isGaslessStep))

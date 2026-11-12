@@ -7,7 +7,7 @@
 
 Support the new LI.FI gasless flow. The `useGaslessRoutes` config option replaces `useRelayerRoutes`.
 
-When `useGaslessRoutes` is on, the widget requests gasless routes with `options.gasless: true` next to the normal routes and adds the best one at position 2. It requests them only for an EVM source chain, a connected wallet, message signing on, and not in limit or private mode. A gasless route shows the "Gasless" tag, the free fee value and the gasless tooltip. The step list labels the relay fee step "Gasless service", and the route details show the integrator fee as for other routes. The gas check skips gasless steps.
+When `useGaslessRoutes` is on, the widget requests gasless routes with `options.gasless: true` next to the normal routes and adds the best one at position 2. It requests them only for an EVM source chain, a source token that is not the native token, a connected wallet, message signing on, and not in limit or private mode. A gasless route shows the "Gasless" tag, the free fee value and the gasless tooltip. The step list labels the relay fee step "Gasless service", and the route details show the integrator fee as for other routes. The gas check skips gasless steps.
 
 The relayer pays the gas of a gasless step. Its gas cost therefore counts as 0 in the fee breakdown and in the `gasCostUSD` of the widget events.
 

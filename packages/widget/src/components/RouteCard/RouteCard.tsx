@@ -40,7 +40,7 @@ export const RouteCard: React.FC<
     )
     const tags: string[] = mainTag ? [mainTag] : []
     const { combinedFeesUSD } = getAccumulatedFeeCostsBreakdown(route)
-    if (!combinedFeesUSD || route.steps.some(isGaslessStep)) {
+    if (!combinedFeesUSD || route.steps.every(isGaslessStep)) {
       tags.push('gasless')
     }
     if (route.steps.length > 1) {

@@ -71,13 +71,32 @@ describe('getGaslessRoute', () => {
     )
   })
 
-  it('drops executionType, which the backend rejects with gasless', async () => {
-    mocks.getRoutes.mockResolvedValue({ routes: [] })
+  it('sends no executionType, which the backend rejects with gasless, also when the SDK config sets one', async () => {
+    // `getRoutes` puts `client.config.routeOptions` under the request options
+    // and posts them as JSON, as the SDK does.
+    let body: RoutesRequest | undefined
+    mocks.getRoutes.mockImplementation(
+      async (sdkClient: SDKClient, params: RoutesRequest) => {
+        body = JSON.parse(
+          JSON.stringify({
+            ...params,
+            options: {
+              ...sdkClient.config.routeOptions,
+              ...params.options,
+            },
+          })
+        )
+        return { routes: [] }
+      }
+    )
+    const configuredClient = {
+      config: { routeOptions: { executionType: 'all' } },
+    } as unknown as SDKClient
 
-    await getGaslessRoute(client, request, signal)
+    await getGaslessRoute(configuredClient, request, signal)
 
-    const { options } = mocks.getRoutes.mock.calls[0][1] as RoutesRequest
-    expect(options).not.toHaveProperty('executionType')
+    expect(body?.options).not.toHaveProperty('executionType')
+    expect(body?.options).toHaveProperty('gasless', true)
   })
 
   it('returns the first gasless route', async () => {
