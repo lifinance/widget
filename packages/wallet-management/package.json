@@ -52,9 +52,9 @@
     "@mui/material": "^9.5.0",
     "@mui/system": "^9.5.0",
     "eventemitter3": "^5.0.4",
-    "i18next": "^26.5.2",
-    "react-i18next": "^17.1.0",
-    "zustand": "^5.0.15"
+    "i18next": "^27.1.1",
+    "react-i18next": "^18.0.1",
+    "zustand": "^5.1.0"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",

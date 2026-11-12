@@ -43,7 +43,8 @@
           "level": "off"
         },
         "useUniqueElementIds": "off",
-        "noNestedComponentDefinitions": "info"
+        "noNestedComponentDefinitions": "info",
+        "noComponentHookFactories": "info"
       },
       "style": {
         "noDefaultExport": "off",
@@ -74,6 +75,9 @@
       "semicolons": "asNeeded",
       "trailingCommas": "es5"
     }
+  },
+  "yaml": {
+    "formatter": { "enabled": false }
   },
   "overrides": [
     {
