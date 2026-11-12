@@ -11,31 +11,32 @@ packages:
 # so the rationale has to live here, above the key:
 #   - An exact-version entry is a version that was still inside the age window when it
 #     was bumped. Remove it once it ages out or is no longer resolved.
+#   - 2026-11-10: next and @next/* 16.4.6, and typescript-eslint and @typescript-eslint/*
+#     8.72.2, inside the age window (bump-packages fast-track: same publisher, same
+#     provenance repo and workflow, no advisory, no new install script or dependency).
+#   - 2026-11-12: fast-track @biomejs/biome@2.6.7, @biomejs/cli-android-arm64@2.6.7, @biomejs/cli-android-x64@2.6.7, @biomejs/cli-darwin-arm64@2.6.7, @biomejs/cli-darwin-x64@2.6.7, @biomejs/cli-linux-arm64-musl@2.6.7, @biomejs/cli-linux-arm64@2.6.7, @biomejs/cli-linux-x64-musl@2.6.7, @biomejs/cli-linux-x64@2.6.7, @biomejs/cli-win32-arm64@2.6.7, @biomejs/cli-win32-x64@2.6.7, @vitejs/plugin-vue@6.0.11, viem@2.57.19 (all checks pass, or approved by the user).
 minimumReleaseAgeExclude:
   - '@bigmi/*'
   - '@lifi/*'
-  - "@commitlint/cli@21.2.4"
-  - "@commitlint/config-conventional@21.2.4"
-  - "@commitlint/ensure@21.2.4"
-  - "@commitlint/lint@21.2.4"
-  - "@commitlint/load@21.2.4"
-  - "@commitlint/rules@21.2.4"
-  - "@vitest/mocker@5.1.0"
-  - "@vitest/spy@5.1.0"
-  - framer-motion@14.4.0
-  - knip@6.42.0
-  - motion-dom@14.4.0
-  - motion@14.4.0
-  - "@playwright/test@1.65.0"
-  - playwright-core@1.65.0
-  - playwright@1.65.0
-  - vitest@5.1.0
+  - '@biomejs/biome@2.6.7'
+  - '@biomejs/cli-android-arm64@2.6.7'
+  - '@biomejs/cli-android-x64@2.6.7'
+  - '@biomejs/cli-darwin-arm64@2.6.7'
+  - '@biomejs/cli-darwin-x64@2.6.7'
+  - '@biomejs/cli-linux-arm64@2.6.7'
+  - '@biomejs/cli-linux-arm64-musl@2.6.7'
+  - '@biomejs/cli-linux-x64@2.6.7'
+  - '@biomejs/cli-linux-x64-musl@2.6.7'
+  - '@biomejs/cli-win32-arm64@2.6.7'
+  - '@biomejs/cli-win32-x64@2.6.7'
+  - '@vitejs/plugin-vue@6.0.11'
+  - viem@2.57.19
 overrides:
   "@react-native-async-storage/async-storage": ">=2.2.0"
   "@reown/appkit": ">=1.8.20"
   "@msgpack/msgpack": ">=3.1.3"
   abitype: ">=1.2.4"
-  axios: "^1.20.0"
+  axios: "^1.21.1"
   viem: ">=2.52.0"
   bs58: ">=4.0.1"
   preact: ">=10.29.1"
@@ -44,7 +45,7 @@ overrides:
   vite-plugin-node-polyfills: "0.26.0"
   # GHSA-wq5f-xc86-pv6w (librsvg) affects sharp <0.35.5. @dynamic-labs/iconic 5.10.0 pins 0.35.4.
   "sharp@<0.35.5": ">=0.35.5"
-  # wagmi pins 1.4.0 and valtio pins 1.2.0, while react-i18next and @tanstack/react-store
+  # wagmi pins 1.4.0 and valtio pins 1.2.0, while react-i18next 17 and @tanstack/react-store
   # need ^1.6.0. One override keeps a single copy.
   use-sync-external-store: "1.7.0"
   utf-8-validate: "6.0.6"
