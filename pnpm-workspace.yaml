@@ -31,7 +31,9 @@ minimumReleaseAgeExclude:
   - playwright@1.65.0
   - vitest@5.1.0
 overrides:
-  # Temporary preview of lifinance/sdk#548. Replace with the SDK release before merge.
+  # Temporary preview of lifinance/sdk#548. Before merge: remove both overrides, bump
+  # @lifi/sdk and every @lifi/sdk-provider-* to the release, and check that
+  # `pnpm why @lifi/sdk` finds one version. Each provider pins one exact @lifi/sdk.
   "@lifi/sdk": "0.0.0-preview-6fd9ec48"
   "@lifi/sdk-provider-ethereum": "0.0.0-preview-6fd9ec48"
   "@react-native-async-storage/async-storage": ">=2.2.0"
