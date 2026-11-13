@@ -50,32 +50,26 @@ export const syncWagmiConfig = async (
     return
   }
 
+  const { mipd } = wagmiConfig._internal
+  const { providerDetailToConnector, setState, setup } =
+    wagmiConfig._internal.connectors
   const setUpConnectors = state.connectors
   const getConnector = (connectorFn: CreateConnectorFn): Connector => {
     let connector = setUpConnectors.get(connectorFn)
     if (!connector) {
-      connector = wagmiConfig._internal.connectors.setup(
-        withLiveChains(wagmiConfig, connectorFn)
-      )
+      connector = setup(withLiveChains(wagmiConfig, connectorFn))
       setUpConnectors.set(connectorFn, connector)
     }
     return connector
   }
 
-  wagmiConfig._internal.connectors.setState(() => [
+  setState(() => [
     ...connectors.map(getConnector),
-    ...(wagmiConfig._internal.mipd
-      ?.getProviders()
-      .map((providerDetail) =>
-        wagmiConfig._internal.connectors.setup(
-          withLiveChains(
-            wagmiConfig,
-            wagmiConfig._internal.connectors.providerDetailToConnector(
-              providerDetail
-            )
-          )
-        )
-      ) ?? []),
+    ...(mipd?.getProviders() ?? []).map((providerDetail) =>
+      setup(
+        withLiveChains(wagmiConfig, providerDetailToConnector(providerDetail))
+      )
+    ),
   ])
   state.connectorFns = [...connectors]
   reconnect(wagmiConfig)
