@@ -182,6 +182,7 @@ export const EthereumProviderValues: FC<
         disableMessageSigning: config?.disableMessageSigning,
       })
     )
+    // oxlint-disable-next-line react/exhaustive-deps -- of the fields of `config`, the memo reads only `disableMessageSigning` and `sdkProvider`; it calls `config.sdkProvider(...)` as a method to keep `this`
   }, [wagmiConfig, config?.disableMessageSigning, config?.sdkProvider])
 
   const installedWallets = useMemo(

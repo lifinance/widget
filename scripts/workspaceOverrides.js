@@ -1,4 +1,4 @@
-// biome-ignore-all lint/suspicious/noConsole: allowed in scripts
+/* oxlint-disable no-console -- allowed in scripts */
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'

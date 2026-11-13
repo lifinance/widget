@@ -14,7 +14,7 @@ export const useWidgetEventConsoleLogging = (
     for (const eventName of allWidgetEventNames) {
       map[eventName] = (value: unknown): void => {
         if (monitoredEventsRef.current[eventName]) {
-          // biome-ignore lint/suspicious/noConsole: allowed in dev controls
+          // oxlint-disable-next-line no-console -- allowed in dev controls
           console.info(eventName, value)
         }
       }

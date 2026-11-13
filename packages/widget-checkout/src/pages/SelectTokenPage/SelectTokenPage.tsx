@@ -1,4 +1,5 @@
 import { parseUnits } from '@lifi/sdk'
+import { useMeshBalance } from '@lifi/widget-provider-mesh'
 import {
   ChainSelect,
   FormKeyHelper,
@@ -10,7 +11,6 @@ import {
   useToken,
   useWidgetConfig,
 } from '@lifi/widget/shared'
-import { useMeshBalance } from '@lifi/widget-provider-mesh'
 import { Alert, Box, type Theme, useMediaQuery } from '@mui/material'
 import { useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'

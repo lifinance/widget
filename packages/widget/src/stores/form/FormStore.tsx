@@ -61,7 +61,6 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
   // We use the presence/absence of a property to decide if the form values in state need to be updated
   // We only build and set a property on the memoized form values here if they are included in the
   // config - undefined is considered a valid value that will reset that form field
-  // biome-ignore lint/correctness/useExhaustiveDependencies: formUpdateKey is needed here.
   const reactiveFormValues = useMemo(
     () => ({
       ...(configHasFromChain ? { fromChain } : undefined),
@@ -90,6 +89,7 @@ export const FormStoreProvider: React.FC<FormStoreProviderProps> = ({
           }
         : undefined),
     }),
+    // oxlint-disable-next-line react/exhaustive-deps -- formUpdateKey is needed here.
     [
       fromAmount,
       toAmount,

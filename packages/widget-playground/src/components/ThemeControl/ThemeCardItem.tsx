@@ -11,8 +11,8 @@ import {
 import { extractPreviewColors } from '../../utils/themePreview.js'
 import {
   EditThemeAction,
-  SchemeIconSlot,
   SchemeIcons,
+  SchemeIconSlot,
   ThemeCard,
   ThemeCardInfo,
   ThemeName,
@@ -62,6 +62,7 @@ export const ThemeCardItem: FC<ThemeCardItemProps> = memo(
           <ThemeName>{displayName}</ThemeName>
           {isSelected ? (
             <EditThemeAction
+              // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- the action is inside the ThemeCard button; a nested native button is not valid HTML
               role="button"
               tabIndex={0}
               aria-label={`Edit ${displayName} theme`}

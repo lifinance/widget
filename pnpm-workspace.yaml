@@ -14,21 +14,10 @@ packages:
 #   - 2026-11-10: next and @next/* 16.4.6, and typescript-eslint and @typescript-eslint/*
 #     8.72.2, inside the age window (bump-packages fast-track: same publisher, same
 #     provenance repo and workflow, no advisory, no new install script or dependency).
-#   - 2026-11-12: fast-track @biomejs/biome@2.6.7, @biomejs/cli-android-arm64@2.6.7, @biomejs/cli-android-x64@2.6.7, @biomejs/cli-darwin-arm64@2.6.7, @biomejs/cli-darwin-x64@2.6.7, @biomejs/cli-linux-arm64-musl@2.6.7, @biomejs/cli-linux-arm64@2.6.7, @biomejs/cli-linux-x64-musl@2.6.7, @biomejs/cli-linux-x64@2.6.7, @biomejs/cli-win32-arm64@2.6.7, @biomejs/cli-win32-x64@2.6.7, @vitejs/plugin-vue@6.0.11, viem@2.57.19 (all checks pass, or approved by the user).
+#   - 2026-11-12: fast-track @vitejs/plugin-vue@6.0.11, viem@2.57.19 (all checks pass, or approved by the user).
 minimumReleaseAgeExclude:
   - '@bigmi/*'
   - '@lifi/*'
-  - '@biomejs/biome@2.6.7'
-  - '@biomejs/cli-android-arm64@2.6.7'
-  - '@biomejs/cli-android-x64@2.6.7'
-  - '@biomejs/cli-darwin-arm64@2.6.7'
-  - '@biomejs/cli-darwin-x64@2.6.7'
-  - '@biomejs/cli-linux-arm64@2.6.7'
-  - '@biomejs/cli-linux-arm64-musl@2.6.7'
-  - '@biomejs/cli-linux-x64@2.6.7'
-  - '@biomejs/cli-linux-x64-musl@2.6.7'
-  - '@biomejs/cli-win32-arm64@2.6.7'
-  - '@biomejs/cli-win32-x64@2.6.7'
   - '@vitejs/plugin-vue@6.0.11'
   - viem@2.57.19
 overrides:

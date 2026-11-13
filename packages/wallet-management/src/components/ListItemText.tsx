@@ -1,7 +1,7 @@
 import type { StyledComponent } from '@emotion/styled'
 import {
-  type ListItemTextProps,
   listItemTextClasses,
+  type ListItemTextProps,
   ListItemText as MuiListItemText,
   styled,
 } from '@mui/material'

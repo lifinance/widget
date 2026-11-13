@@ -1,9 +1,9 @@
 import type { TokenAmount } from '@lifi/sdk'
 import type { FormTypeProps } from '@lifi/widget/shared'
 import {
-  FormKeyHelper,
   formatTokenAmount,
   formatTokenPrice,
+  FormKeyHelper,
   InputPriceButton,
   useFieldValues,
   useInputModeStore,

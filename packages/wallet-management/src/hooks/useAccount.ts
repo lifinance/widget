@@ -59,7 +59,6 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
   const { account: stellarAccount } = useStellarContext()
   const { lastConnectedAccount } = useLastConnectedAccount()
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: run only when wallet changes
   return useMemo(() => {
     const accounts = [
       ethereumAccount,
@@ -102,6 +101,7 @@ export const useAccount = (args?: UseAccountArgs): AccountResult => {
       accounts: connectedAccounts,
     }
     return result
+    // oxlint-disable-next-line react/exhaustive-deps -- run only when wallet changes
   }, [
     solanaAccount?.address,
     solanaAccount?.status,
