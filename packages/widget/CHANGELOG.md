@@ -1,5 +1,28 @@
 # @lifi/widget
 
+## 4.10.4
+
+### Patch Changes
+
+- [#918](https://github.com/lifinance/widget/pull/918) [`7167584`](https://github.com/lifinance/widget/commit/7167584bea77f9d691b11c533d0f3c2538728186) Thanks [@chybisov](https://github.com/chybisov)! - Show the strings of the selected language everywhere after they load. Memoized components, such as the navigation tabs, kept the English fallback or old saved strings.
+
+- [#930](https://github.com/lifinance/widget/pull/930) [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b) Thanks [@chybisov](https://github.com/chybisov)! - Update `i18next` to 27.1.1 and `react-i18next` to 18.0.1.
+  
+  `Trans` text now always decodes HTML entities. If your `languageResources` override `tooltip.progressToNextUpdate`, `checkout.legal.termsDisclaimer` or `checkout.transferDeposit.warning` with an entity such as `&amp;` or `&nbsp;`, the widget now shows the character instead of the entity. The built-in translations have no entities, so they do not change.
+  
+  With `i18next` 27.1, if your `languageResources` do not have the plural form that a count needs, the widget shows the `_other` form of the same language. Before, it showed the fallback language. An example is the French `many` form for exact millions. The built-in translations have no plural forms, so they do not change.
+
+- [#930](https://github.com/lifinance/widget/pull/930) [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b) Thanks [@chybisov](https://github.com/chybisov)! - Update `motion` to 14.12.0.
+
+- [#930](https://github.com/lifinance/widget/pull/930) [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b) Thanks [@chybisov](https://github.com/chybisov)! - Update `@tanstack/react-router` to 1.170.46.
+
+- [#930](https://github.com/lifinance/widget/pull/930) [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b) Thanks [@chybisov](https://github.com/chybisov)! - Update `@tanstack/react-virtual` to 3.14.26.
+
+- [#930](https://github.com/lifinance/widget/pull/930) [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b) Thanks [@chybisov](https://github.com/chybisov)! - Update `zustand` to 5.1.0.
+- Updated dependencies [[`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b), [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b)]:
+  - @lifi/wallet-management@4.3.6
+  - @lifi/widget-provider@4.6.3
+
 ## 4.10.3
 
 ### Patch Changes

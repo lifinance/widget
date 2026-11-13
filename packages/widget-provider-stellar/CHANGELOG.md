@@ -1,5 +1,15 @@
 # @lifi/widget-provider-stellar
 
+## 4.2.6
+
+### Patch Changes
+
+- [#930](https://github.com/lifinance/widget/pull/930) [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b) Thanks [@chybisov](https://github.com/chybisov)! - Update `@creit.tech/stellar-wallets-kit` to 2.8.0.
+
+- [#930](https://github.com/lifinance/widget/pull/930) [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b) Thanks [@chybisov](https://github.com/chybisov)! - Update `zustand` to 5.1.0.
+- Updated dependencies [[`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b)]:
+  - @lifi/widget-provider@4.6.3
+
 ## 4.2.5
 
 ### Patch Changes

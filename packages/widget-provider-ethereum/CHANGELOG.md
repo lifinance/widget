@@ -1,5 +1,13 @@
 # @lifi/widget-provider-ethereum
 
+## 4.1.11
+
+### Patch Changes
+
+- [#930](https://github.com/lifinance/widget/pull/930) [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk-provider-ethereum` to 4.2.12 and raise the `@wagmi/core` and `wagmi` peer floors to 3.6.9 and 3.7.11.
+- Updated dependencies [[`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b)]:
+  - @lifi/widget-provider@4.6.3
+
 ## 4.1.10
 
 ### Patch Changes
