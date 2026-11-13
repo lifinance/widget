@@ -1,5 +1,13 @@
 # @lifi/widget-provider-tron
 
+## 4.1.10
+
+### Patch Changes
+
+- [#930](https://github.com/lifinance/widget/pull/930) [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk-provider-tron` to 4.1.10, `@tronweb3/tronwallet-adapter-binance` to 1.2.1, and `@tronweb3/tronwallet-adapter-imtoken` and `@tronweb3/tronwallet-adapter-trust` to 1.3.0.
+- Updated dependencies [[`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b)]:
+  - @lifi/widget-provider@4.6.3
+
 ## 4.1.9
 
 ### Patch Changes
