@@ -6,12 +6,16 @@ import type { JSX } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useRouteExecutionIndicator } from '../../stores/routes/useRouteExecutionIndicator.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
-import { CircularProgressPending } from '../Timer/StepStatusTimer.style.js'
+import {
+  CircularProgressPending,
+  ProgressTrack,
+} from '../Timer/StepStatusTimer.style.js'
 import {
   ActivitiesIconButton,
   ErrorBadge,
   IconContainer,
-  ProgressTrack,
+  ProgressRing,
+  progressRingSize,
 } from './ActivitiesButton.style.js'
 
 export const ActivitiesButton = (): JSX.Element => {
@@ -37,18 +41,17 @@ export const ActivitiesButton = (): JSX.Element => {
         >
           <IconContainer>
             {(indicator.active || indicator.failed) && (
-              <ProgressTrack
-                variant="determinate"
-                value={100}
-                size={40}
-                thickness={3}
-              />
-            )}
-            {indicator.active && (
-              <CircularProgressPending
-                size={40}
-                sx={{ position: 'absolute', top: -8, left: -8 }}
-              />
+              <ProgressRing>
+                <ProgressTrack
+                  variant="determinate"
+                  value={100}
+                  size={progressRingSize}
+                  thickness={3}
+                />
+                {indicator.active && (
+                  <CircularProgressPending size={progressRingSize} />
+                )}
+              </ProgressRing>
             )}
             <HistoryIcon />
           </IconContainer>
