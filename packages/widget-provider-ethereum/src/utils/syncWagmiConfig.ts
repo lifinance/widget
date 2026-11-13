@@ -11,6 +11,17 @@ type SyncState = {
 
 const syncStates = new WeakMap<Config, SyncState>()
 
+// wagmi gives each connector a copy of the chain list, so it gets the live list.
+const withLiveChains =
+  (wagmiConfig: Config, connectorFn: CreateConnectorFn): CreateConnectorFn =>
+  (config) =>
+    connectorFn(
+      new Proxy(config, {
+        get: (target, key) =>
+          key === 'chains' ? wagmiConfig.chains : Reflect.get(target, key),
+      })
+    )
+
 const isSameConnectorFns = (
   previous: CreateConnectorFn[] | undefined,
   connectorFns: CreateConnectorFn[]
@@ -43,14 +54,8 @@ export const syncWagmiConfig = async (
   const getConnector = (connectorFn: CreateConnectorFn): Connector => {
     let connector = setUpConnectors.get(connectorFn)
     if (!connector) {
-      // wagmi gives each connector a copy of the chain list, so it gets the live list.
-      connector = wagmiConfig._internal.connectors.setup((config) =>
-        connectorFn(
-          new Proxy(config, {
-            get: (target, key) =>
-              key === 'chains' ? wagmiConfig.chains : Reflect.get(target, key),
-          })
-        )
+      connector = wagmiConfig._internal.connectors.setup(
+        withLiveChains(wagmiConfig, connectorFn)
       )
       setUpConnectors.set(connectorFn, connector)
     }
@@ -61,8 +66,16 @@ export const syncWagmiConfig = async (
     ...connectors.map(getConnector),
     ...(wagmiConfig._internal.mipd
       ?.getProviders()
-      .map(wagmiConfig._internal.connectors.providerDetailToConnector)
-      .map(wagmiConfig._internal.connectors.setup) ?? []),
+      .map((providerDetail) =>
+        wagmiConfig._internal.connectors.setup(
+          withLiveChains(
+            wagmiConfig,
+            wagmiConfig._internal.connectors.providerDetailToConnector(
+              providerDetail
+            )
+          )
+        )
+      ) ?? []),
   ])
   state.connectorFns = [...connectors]
   reconnect(wagmiConfig)

@@ -1,6 +1,11 @@
 import type { Chain } from 'viem'
 import { describe, expect, it, vi } from 'vitest'
-import { type Config, createConfig, createConnector } from 'wagmi'
+import {
+  type Config,
+  type CreateConnectorFn,
+  createConfig,
+  createConnector,
+} from 'wagmi'
 import { getConnectorClient, switchChain } from 'wagmi/actions'
 import { syncWagmiConfig } from './syncWagmiConfig.js'
 
@@ -201,6 +206,27 @@ describe('syncWagmiConfig', () => {
     switchInWallet(8453)
     expect(config.state.chainId).toBe(8453)
     await expect(getConnectorClient(config)).resolves.toBeDefined()
+  })
+
+  it('gives the live chain list to a wallet found through EIP-6963', async () => {
+    const config = createTestConfig()
+    const wallet = createClosureConnector()
+    const internal = config._internal as unknown as {
+      mipd: { getProviders: () => unknown[]; subscribe: () => () => void }
+      connectors: { providerDetailToConnector: () => CreateConnectorFn }
+    }
+    internal.mipd = { getProviders: () => [{}], subscribe: () => () => {} }
+    internal.connectors.providerDetailToConnector = () => wallet.connectorFn
+
+    await resync(config, [], createChains('3000'))
+    await syncWagmiConfig(
+      config,
+      [],
+      [...createChains('3001'), createChain(10)]
+    )
+    await switchChain(config, { chainId: 10 })
+
+    expect(config.state.chainId).toBe(10)
   })
 
   it('sets up only a new connector function and keeps the old connector', async () => {
