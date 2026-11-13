@@ -32,6 +32,11 @@ minimumReleaseAgeExclude:
   - '@vitejs/plugin-vue@6.0.11'
   - viem@2.57.19
 overrides:
+  # Temporary preview of lifinance/sdk#548. Before merge: remove both overrides, bump
+  # @lifi/sdk and every @lifi/sdk-provider-* to the release, and check that
+  # `pnpm why @lifi/sdk` finds one version. Each provider pins one exact @lifi/sdk.
+  "@lifi/sdk": "0.0.0-preview-c996a5fb"
+  "@lifi/sdk-provider-ethereum": "0.0.0-preview-c996a5fb"
   "@react-native-async-storage/async-storage": ">=2.2.0"
   "@reown/appkit": ">=1.8.20"
   "@msgpack/msgpack": ">=3.1.3"

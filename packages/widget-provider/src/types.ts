@@ -1,11 +1,4 @@
-import type {
-  ChainType,
-  ExtendedChain,
-  LiFiStep,
-  LiFiStepExtended,
-  SDKClient,
-  SDKProvider,
-} from '@lifi/sdk'
+import type { ChainType, ExtendedChain, SDKProvider } from '@lifi/sdk'
 
 export type SDKProviderFactory<TDeps> = (deps: TDeps) => SDKProvider
 
@@ -56,22 +49,6 @@ export type EthereumProviderContext = WidgetProviderContext & {
     chainId: number,
     address: string
   ) => Promise<number | undefined>
-  isGaslessStep?: (
-    step: LiFiStepExtended | LiFiStep,
-    chain?: ExtendedChain
-  ) => boolean
-  isBatchingSupported?: (
-    sdkClient: SDKClient,
-    {
-      client,
-      chainId,
-      skipReady,
-    }: {
-      client?: any
-      chainId: number
-      skipReady?: boolean
-    }
-  ) => Promise<boolean>
   isDelegationDesignatorCode?: (code?: string) => boolean | undefined
   disableMessageSigning?: boolean
 }

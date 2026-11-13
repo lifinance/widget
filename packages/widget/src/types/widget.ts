@@ -404,7 +404,13 @@ export interface WidgetConfig {
    * @default false
    */
   showSingleRoute?: boolean
-  useRelayerRoutes?: boolean
+  /**
+   * When true, adds the best gasless route to the routes. With a gasless route
+   * the user signs a message, and LI.FI pays the source chain gas from a fee in
+   * the source token. EVM source chains and connected wallets only.
+   * @default false
+   */
+  useGaslessRoutes?: boolean
 
   walletConfig?: WidgetWalletConfig
   sdkConfig?: WidgetSDKConfig
