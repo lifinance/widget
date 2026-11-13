@@ -208,17 +208,21 @@ describe('syncWagmiConfig', () => {
     await expect(getConnectorClient(config)).resolves.toBeDefined()
   })
 
-  it('gives the live chain list to a wallet found through EIP-6963', async () => {
+  it('keeps the EIP-6963 wallet connector and gives it the live chain list', async () => {
     const config = createTestConfig()
     const wallet = createClosureConnector()
     const internal = config._internal as unknown as {
       mipd: { getProviders: () => unknown[]; subscribe: () => () => void }
       connectors: { providerDetailToConnector: () => CreateConnectorFn }
     }
-    internal.mipd = { getProviders: () => [{}], subscribe: () => () => {} }
+    internal.mipd = {
+      getProviders: () => [{ info: { uuid: 'wallet', rdns: 'io.example' } }],
+      subscribe: () => () => {},
+    }
     internal.connectors.providerDetailToConnector = () => wallet.connectorFn
 
     await resync(config, [], createChains('3000'))
+    const [injected] = config.connectors
     await syncWagmiConfig(
       config,
       [],
@@ -226,6 +230,7 @@ describe('syncWagmiConfig', () => {
     )
     await switchChain(config, { chainId: 10 })
 
+    expect(config.connectors).toEqual([injected])
     expect(config.state.chainId).toBe(10)
   })
 
@@ -310,6 +315,114 @@ describe('syncWagmiConfig', () => {
     switchInWallet(8453)
 
     expect(first.state.chainId).toBe(8453)
+  })
+
+  it('keeps one change listener over many price-only refetches', async () => {
+    const { config, connectors } = await setUp()
+
+    for (const priceUSD of ['3001', '3002', '3003']) {
+      await syncWagmiConfig(config, connectors, createChains(priceUSD))
+    }
+    await new Promise((resolve) => setTimeout(resolve, 20))
+
+    expect(config.connectors[0].emitter.listenerCount('change')).toBe(1)
+  })
+
+  it('reconnects when wagmi Hydrate cleared the connections', async () => {
+    const { config, connectors } = await setUp()
+
+    config.setState((state) => ({ ...state, connections: new Map() }))
+    await syncWagmiConfig(config, connectors, createChains('3001'))
+
+    await vi.waitFor(() => expect(config.state.connections.size).toBe(1))
+  })
+
+  it('reconnects a connector that is added while a reconnect runs', async () => {
+    const config = createTestConfig()
+    let release!: () => void
+    const gate = new Promise<void>((resolve) => {
+      release = resolve
+    })
+    const slowConnectorFn = createConnector(() => ({
+      id: 'slow',
+      name: 'Slow',
+      type: 'slow',
+      async connect() {
+        throw new Error('Not authorized.')
+      },
+      async disconnect() {},
+      async getAccounts() {
+        return []
+      },
+      async getChainId() {
+        return 1
+      },
+      async getProvider() {
+        await gate
+        return {}
+      },
+      async isAuthorized() {
+        return false
+      },
+      onAccountsChanged() {},
+      onChainChanged() {},
+      onDisconnect() {},
+    }))
+    const added = createClosureConnector()
+
+    await syncWagmiConfig(config, [slowConnectorFn], createChains('3000'))
+    await syncWagmiConfig(
+      config,
+      [added.connectorFn, slowConnectorFn],
+      createChains('3000')
+    )
+    release()
+
+    await vi.waitFor(() => expect(config.state.status).toBe('connected'))
+    expect(config.state.current).toBe(config.connectors[0].uid)
+  })
+
+  it('replaces an EIP-6963 connector that wagmi set up itself', async () => {
+    const config = createTestConfig()
+    const wallet = createClosureConnector()
+    const providers: unknown[] = []
+    const internal = config._internal as unknown as {
+      mipd: { getProviders: () => unknown[]; subscribe: () => () => void }
+      connectors: { providerDetailToConnector: () => CreateConnectorFn }
+    }
+    internal.mipd = { getProviders: () => providers, subscribe: () => () => {} }
+    internal.connectors.providerDetailToConnector = () => wallet.connectorFn
+    const { connectorFn } = createClosureConnector()
+    await resync(config, [connectorFn], createChains('3000'))
+
+    // Like wagmi's own handler for a wallet that announces itself late.
+    providers.push({ info: { uuid: 'late', rdns: 'io.example' } })
+    config._internal.connectors.setState((connectors) => [
+      ...connectors,
+      config._internal.connectors.setup(wallet.connectorFn),
+    ])
+    await resync(
+      config,
+      [connectorFn],
+      [...createChains('3001'), createChain(10)]
+    )
+    const injected = config.connectors[1]
+    await switchChain(config, { chainId: 10, connector: injected })
+
+    expect(config.connectors).toHaveLength(2)
+    expect(config.state.connections.get(injected.uid)?.chainId).toBe(10)
+  })
+
+  it('gives the emitter to a connector that spreads its parameters', async () => {
+    const config = createTestConfig()
+    const { connectorFn, switchInWallet } = createClosureConnector()
+    const spreadingConnectorFn: CreateConnectorFn = (parameters) =>
+      connectorFn({ ...parameters })
+
+    await resync(config, [spreadingConnectorFn], createChains('3000'))
+    switchInWallet(8453)
+
+    expect(config.state.chainId).toBe(8453)
   })
 
   it('keeps the properties of the connector function', async () => {

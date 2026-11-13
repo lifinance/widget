@@ -4,9 +4,10 @@ import type { Config, Connector, CreateConnectorFn } from 'wagmi'
 import { reconnect } from 'wagmi/actions'
 
 type SyncState = {
-  connectorFns?: CreateConnectorFn[]
-  // Connector SDKs bind their event handlers to the first connector object only.
-  connectors: WeakMap<CreateConnectorFn, Connector>
+  // Connector SDKs bind their event handlers to the first connector object
+  // only, so each connector function and EIP-6963 wallet gets one object.
+  connectors: Map<CreateConnectorFn | string, Connector>
+  reconnect: Promise<unknown>
 }
 
 const syncStates = new WeakMap<Config, SyncState>()
@@ -14,20 +15,16 @@ const syncStates = new WeakMap<Config, SyncState>()
 // wagmi gives each connector a copy of the chain list, so it gets the live list.
 const withLiveChains =
   (wagmiConfig: Config, connectorFn: CreateConnectorFn): CreateConnectorFn =>
-  (config) =>
+  (parameters) =>
     connectorFn(
-      new Proxy(config, {
-        get: (target, key) =>
-          key === 'chains' ? wagmiConfig.chains : Reflect.get(target, key),
-      })
+      Object.defineProperties(
+        {},
+        {
+          ...Object.getOwnPropertyDescriptors(parameters),
+          chains: { enumerable: true, get: () => wagmiConfig.chains },
+        }
+      ) as typeof parameters
     )
-
-const isSameConnectorFns = (
-  previous: CreateConnectorFn[] | undefined,
-  connectorFns: CreateConnectorFn[]
-): boolean =>
-  previous?.length === connectorFns.length &&
-  previous.every((connectorFn, index) => connectorFn === connectorFns[index])
 
 export const syncWagmiConfig = async (
   wagmiConfig: Config,
@@ -39,38 +36,56 @@ export const syncWagmiConfig = async (
     _mainnet.contracts = { ...mainnet.contracts, ..._mainnet.contracts }
   }
 
+  const { connectors: connectorStore, mipd } = wagmiConfig._internal
   wagmiConfig._internal.chains.setState(chains)
 
-  let state = syncStates.get(wagmiConfig)
-  if (!state) {
-    state = { connectors: new WeakMap() }
-    syncStates.set(wagmiConfig, state)
+  const isFirstSync = !syncStates.has(wagmiConfig)
+  const sync = syncStates.get(wagmiConfig) ?? {
+    connectors: new Map(),
+    reconnect: Promise.resolve(),
   }
-  if (isSameConnectorFns(state.connectorFns, connectors)) {
-    return
-  }
+  syncStates.set(wagmiConfig, sync)
 
-  const { mipd } = wagmiConfig._internal
-  const { providerDetailToConnector, setState, setup } =
-    wagmiConfig._internal.connectors
-  const setUpConnectors = state.connectors
-  const getConnector = (connectorFn: CreateConnectorFn): Connector => {
-    let connector = setUpConnectors.get(connectorFn)
+  const getConnector = (
+    key: CreateConnectorFn | string,
+    getConnectorFn: () => CreateConnectorFn
+  ): Connector => {
+    let connector = sync.connectors.get(key)
     if (!connector) {
-      connector = setup(withLiveChains(wagmiConfig, connectorFn))
-      setUpConnectors.set(connectorFn, connector)
+      connector = connectorStore.setup(
+        withLiveChains(wagmiConfig, getConnectorFn())
+      )
+      sync.connectors.set(key, connector)
     }
     return connector
   }
 
-  setState(() => [
-    ...connectors.map(getConnector),
+  const nextConnectors = [
+    ...connectors.map((connectorFn) =>
+      getConnector(connectorFn, () => connectorFn)
+    ),
     ...(mipd?.getProviders() ?? []).map((providerDetail) =>
-      setup(
-        withLiveChains(wagmiConfig, providerDetailToConnector(providerDetail))
+      getConnector(providerDetail.info.uuid, () =>
+        connectorStore.providerDetailToConnector(providerDetail)
       )
     ),
-  ])
-  state.connectorFns = [...connectors]
-  reconnect(wagmiConfig)
+  ]
+  const isChanged =
+    nextConnectors.length !== wagmiConfig.connectors.length ||
+    nextConnectors.some(
+      (connector, index) => connector !== wagmiConfig.connectors[index]
+    )
+  const { connections, current } = wagmiConfig.state
+  // wagmi Hydrate can clear the connections, for example on each render when `ssr` is false.
+  const isConnectionLost = !!current && !connections.has(current)
+
+  if (isFirstSync || isChanged) {
+    connectorStore.setState(nextConnectors)
+  }
+  if (isFirstSync || isChanged || isConnectionLost) {
+    // wagmi drops a reconnect call while another one runs.
+    sync.reconnect = sync.reconnect
+      .then(() => reconnect(wagmiConfig))
+      .catch(() => undefined)
+  }
 }
