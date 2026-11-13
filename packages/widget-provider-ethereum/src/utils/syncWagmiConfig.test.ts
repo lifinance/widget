@@ -2,9 +2,9 @@ import type { Chain } from 'viem'
 import { describe, expect, it, vi } from 'vitest'
 import {
   type Config,
-  type CreateConnectorFn,
   createConfig,
   createConnector,
+  type CreateConnectorFn,
 } from 'wagmi'
 import { getConnectorClient, switchChain } from 'wagmi/actions'
 import { syncWagmiConfig } from './syncWagmiConfig.js'
