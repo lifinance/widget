@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file gives guidance to AI coding agents that work in this repository.
 
 ## Repository Overview
 
@@ -85,7 +85,7 @@ QueryClient → Settings → WidgetConfig → I18n → Theme → SDK → Wallet 
 - **Oxlint** and **Oxfmt** for linting and formatting (not ESLint/Prettier). **Always run `pnpm check:write` after making changes** so Oxlint and Oxfmt can auto-fix formatting. `pnpm check:write:unsafe` removes unused imports. It also removes `console` calls that fail `no-console`.
 - **Oxfmt sorts imports** — running `pnpm check:write` may reorder import statements. This is expected. Oxfmt does not sort `export ... from` statements. Put an empty line after a side-effect import (for example `import './globals.css'`); otherwise Oxfmt can move other imports across it.
 - **Conventional commits** enforced by commitlint (`feat:`, `fix:`, `chore:`, etc.).
-- **pnpm settings live in `pnpm-workspace.yaml` only** — pnpm v11 silently ignores `package.json#pnpm` and most non-auth `.npmrc` keys. Verify any setting with `pnpm config get <kebab-name>` (returns `undefined` if pnpm isn't reading it). npm publish provenance is set via `NPM_CONFIG_PROVENANCE=true` env in `.github/workflows/publish.yaml`, not pnpm config.
+- **pnpm settings live in `pnpm-workspace.yaml` only** — pnpm 11 and later silently ignore `package.json#pnpm` and most non-auth `.npmrc` keys. Verify any setting with `pnpm config get <kebab-name>` (returns `undefined` if pnpm isn't reading it). npm publish provenance is set via `NPM_CONFIG_PROVENANCE=true` env in `.github/workflows/publish.yaml`, not pnpm config.
 - **widget-light must have zero `dependencies`** — all types are self-contained duplicates. Chain-specific integrations are optional peer deps exposed via subpath exports (`@lifi/widget-light/ethereum`, etc.).
 - Package entry points use TypeScript source (`src/index.ts`). The `scripts/formatPackageJson.js` rewrites paths to `dist/esm/` at publish time.
 - Library packages use `tsdown` with `unbundle: true` mode. The widget package needs `neverBundle: [/\.json$/]` for i18n JSON files.
@@ -104,5 +104,15 @@ QueryClient → Settings → WidgetConfig → I18n → Theme → SDK → Wallet 
 
 Changesets, independent per-package versioning. **Every PR touching a publishable package
 needs a `.changeset/*.md`** (`feat:` → minor, `fix:` → patch, breaking → major) — use the
-`changeset` skill to author one. Full release mechanics (version PR, dist-tags, preview
-builds, `pnpm changeset:*` scripts) live in the `release` skill.
+`changeset` skill (`.claude/skills/changeset/SKILL.md`) to author one. Full release mechanics
+(version PR, dist-tags, preview builds, `pnpm changeset:*` scripts) live in the `release`
+skill (`.claude/skills/release/SKILL.md`).
+
+## Skills
+
+Task guides live in `.claude/skills/<name>/SKILL.md`. If your agent does not load skills,
+read the `SKILL.md` file before you do that task.
+
+- `bump-packages` — the routine dependency bump.
+- `changeset` — write a `.changeset/*.md` file.
+- `release` — the release flow, dist-tags and preview builds.
