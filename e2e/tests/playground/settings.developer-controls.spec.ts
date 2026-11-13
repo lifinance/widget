@@ -27,17 +27,21 @@ async function assertWidgetNotClipped(
   const scrollContainer = page.locator('[id^="widget-scrollable-container"]')
   const vp = page.viewportSize()!
 
-  const [headerBox, scrollBox] = await Promise.all([
+  const [headerBox, scrollBox, paddingTop] = await Promise.all([
     widgetHeader.boundingBox(),
     scrollContainer.boundingBox(),
+    scrollContainer.evaluate(
+      (el) => Number.parseFloat(getComputedStyle(el).paddingTop) || 0
+    ),
   ])
 
   if (headerBox && scrollBox) {
     const headerBottom = headerBox.y + headerBox.height
+    const contentTop = scrollBox.y + paddingTop
     expect(
-      scrollBox.y,
-      `scrollable content (y=${scrollBox.y}) starts ${Math.round(headerBottom - scrollBox.y)}px behind fixed header bottom (y=${headerBottom})`
-    ).toBeGreaterThanOrEqual(headerBottom)
+      contentTop,
+      `scrollable content (y=${contentTop}) starts ${Math.round(headerBottom - contentTop)}px behind fixed header bottom (y=${headerBottom})`
+    ).toBeGreaterThanOrEqual(headerBottom - 1)
   }
 
   const elements: Array<{
@@ -630,17 +634,11 @@ test.describe('Playground settings — Developer controls (Mock header)', () => 
     ).not.toBeAttached()
   })
 
-  // KNOWN BUG (PR #770): widget-scrollable-container.paddingTop equals the header height but
-  // does not add header.top (48px). When the widget header has top:48px the scroll
-  // area starts 48px too early, hiding the From/To labels behind the fixed header.
-  // Marked test.fail() so it stays green while the bug exists and turns RED (unexpected
-  // pass) the moment the fix lands — the signal to remove test.fail() and this comment.
   test('scrollable content is not obscured by the fixed widget header when mock header is on', async ({
     page,
     sidebar,
     widget,
   }) => {
-    test.fail()
     await setCompactFullHeight({ sidebar })
     await openDeveloperControls({ sidebar })
     await sidebar.developerControlsEditor.mockHeader.click()
@@ -764,16 +762,11 @@ test.describe('Playground settings — Developer controls (Mock footer)', () => 
     await expect(sidebar.developerControlsEditor.fixedFooter).not.toBeVisible()
   })
 
-  // KNOWN BUG (PR #770, same root cause as mock header): verify footer + header combo
-  // leaves all key elements within the visible content area. Marked test.fail() so it
-  // stays green while the bug exists and turns RED (unexpected pass) once the fix lands —
-  // the signal to remove test.fail() and this comment.
   test('all key elements are within the visible content area with mock header and footer on', async ({
     page,
     sidebar,
     widget,
   }) => {
-    test.fail()
     await setCompactFullHeight({ sidebar })
     await openDeveloperControls({ sidebar })
     await sidebar.developerControlsEditor.mockHeader.click()
