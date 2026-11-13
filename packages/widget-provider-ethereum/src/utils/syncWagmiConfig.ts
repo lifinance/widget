@@ -3,10 +3,16 @@ import { mainnet } from 'viem/chains'
 import type { Config, Connector, CreateConnectorFn } from 'wagmi'
 import { reconnect } from 'wagmi/actions'
 
+type ConnectorCache<Key> = {
+  get(key: Key): Connector | undefined
+  set(key: Key, connector: Connector): unknown
+}
+
 type SyncState = {
   // Connector SDKs bind their event handlers to the first connector object
   // only, so each connector function and EIP-6963 wallet gets one object.
-  connectors: Map<CreateConnectorFn | string, Connector>
+  connectors: WeakMap<CreateConnectorFn, Connector>
+  injectedConnectors: Map<string, Connector>
   reconnect: Promise<unknown>
 }
 
@@ -41,31 +47,33 @@ export const syncWagmiConfig = async (
 
   const isFirstSync = !syncStates.has(wagmiConfig)
   const sync = syncStates.get(wagmiConfig) ?? {
-    connectors: new Map(),
+    connectors: new WeakMap(),
+    injectedConnectors: new Map(),
     reconnect: Promise.resolve(),
   }
   syncStates.set(wagmiConfig, sync)
 
-  const getConnector = (
-    key: CreateConnectorFn | string,
+  const getConnector = <Key>(
+    cache: ConnectorCache<Key>,
+    key: Key,
     getConnectorFn: () => CreateConnectorFn
   ): Connector => {
-    let connector = sync.connectors.get(key)
+    let connector = cache.get(key)
     if (!connector) {
       connector = connectorStore.setup(
         withLiveChains(wagmiConfig, getConnectorFn())
       )
-      sync.connectors.set(key, connector)
+      cache.set(key, connector)
     }
     return connector
   }
 
   const nextConnectors = [
     ...connectors.map((connectorFn) =>
-      getConnector(connectorFn, () => connectorFn)
+      getConnector(sync.connectors, connectorFn, () => connectorFn)
     ),
     ...(mipd?.getProviders() ?? []).map((providerDetail) =>
-      getConnector(providerDetail.info.uuid, () =>
+      getConnector(sync.injectedConnectors, providerDetail.info.uuid, () =>
         connectorStore.providerDetailToConnector(providerDetail)
       )
     ),
@@ -85,7 +93,17 @@ export const syncWagmiConfig = async (
   if (isFirstSync || isChanged || isConnectionLost) {
     // wagmi drops a reconnect call while another one runs.
     sync.reconnect = sync.reconnect
-      .then(() => reconnect(wagmiConfig))
+      .then(async () => {
+        await reconnect(wagmiConfig)
+        // wagmi adds its listeners again on each reconnect of a connector.
+        const { change, disconnect } = wagmiConfig._internal.events
+        for (const { connector } of wagmiConfig.state.connections.values()) {
+          connector.emitter.off('change', change)
+          connector.emitter.on('change', change)
+          connector.emitter.off('disconnect', disconnect)
+          connector.emitter.on('disconnect', disconnect)
+        }
+      })
       .catch(() => undefined)
   }
 }

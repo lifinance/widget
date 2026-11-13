@@ -330,11 +330,17 @@ describe('syncWagmiConfig', () => {
 
   it('reconnects when wagmi Hydrate cleared the connections', async () => {
     const { config, connectors } = await setUp()
+    const [connector] = config.connectors
 
-    config.setState((state) => ({ ...state, connections: new Map() }))
-    await syncWagmiConfig(config, connectors, createChains('3001'))
+    for (const priceUSD of ['3001', '3002', '3003']) {
+      config.setState((state) => ({ ...state, connections: new Map() }))
+      await syncWagmiConfig(config, connectors, createChains(priceUSD))
+      await vi.waitFor(() => expect(config.state.connections.size).toBe(1))
+    }
+    await new Promise((resolve) => setTimeout(resolve, 20))
 
-    await vi.waitFor(() => expect(config.state.connections.size).toBe(1))
+    expect(connector.emitter.listenerCount('change')).toBe(1)
+    expect(connector.emitter.listenerCount('disconnect')).toBe(1)
   })
 
   it('reconnects a connector that is added while a reconnect runs', async () => {
