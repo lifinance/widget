@@ -14,6 +14,7 @@
     "clean": "rm -rf dist",
     "check:types": "tsc --noEmit",
     "test": "vitest run",
+    "test:affected": "vitest run --since-last-run",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg"
   },
@@ -38,11 +39,11 @@
     "lifi"
   ],
   "dependencies": {
-    "@creit.tech/stellar-wallets-kit": "^2.7.1",
+    "@creit.tech/stellar-wallets-kit": "^2.8.0",
     "@lifi/sdk": "^4.12.1",
     "@lifi/sdk-provider-stellar": "^4.3.10",
     "@lifi/widget-provider": "workspace:*",
-    "zustand": "^5.0.15"
+    "zustand": "^5.1.0"
   },
   "peerDependencies": {
     "react": ">=19"
@@ -52,6 +53,6 @@
     "madge": "^8.0.0",
     "react": "^19.3.1",
     "typescript": "^7.0.2",
-    "vitest": "^5.0.5"
+    "vitest": "^5.1.0"
   }
 }

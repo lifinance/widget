@@ -1,9 +1,9 @@
 import type { CSSObject } from '@mui/material'
 import {
-  AvatarGroup,
   avatarClasses,
-  Box,
+  AvatarGroup,
   badgeClasses,
+  Box,
   Avatar as MuiAvatar,
   styled,
 } from '@mui/material'

@@ -134,7 +134,6 @@ export class TurnkeyHDWallet implements Wallet {
 
   #on: StandardEventsOnMethod = (event, listener) => {
     this.#listeners[event]?.push(listener) ||
-      // biome-ignore lint/suspicious/noAssignInExpressions: allowed in typescript
       (this.#listeners[event] = [listener])
     return (): void => this.#off(event, listener)
   }

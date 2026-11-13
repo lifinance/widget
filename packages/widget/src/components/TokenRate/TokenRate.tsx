@@ -55,6 +55,7 @@ export const TokenRate: React.FC<TokenRateProps> = ({ route }) => {
     : `1 ${toToken.symbol} ≈ ${t('format.tokenAmount', { value: toFromRate })} ${fromToken.symbol}`
 
   return (
+    // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- clickable text that toggles the rate; a native button changes the text layout
     <TokenRateTypography onClick={toggleRate} role="button">
       {rateText}
     </TokenRateTypography>

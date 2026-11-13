@@ -9,8 +9,8 @@ export function pickAutoResumeItem(
       item.state !== 'failed' &&
       Boolean(
         item.record.depositAddress ||
-          item.record.transactionHash ||
-          item.record.taskId
+        item.record.transactionHash ||
+        item.record.taskId
       )
   )
   return resumable.length === 1 ? resumable[0] : null

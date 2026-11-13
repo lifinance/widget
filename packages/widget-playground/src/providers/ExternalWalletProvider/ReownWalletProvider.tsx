@@ -1,14 +1,14 @@
 import { ChainType, type ExtendedChain } from '@lifi/widget'
 import { useSyncWagmiConfig } from '@lifi/widget-provider-ethereum'
 import { createTronAdapters } from '@lifi/widget-provider-tron'
-import { bitcoin, mainnet, solana, tronMainnet } from '@reown/appkit/networks'
-import { type AppKit, createAppKit } from '@reown/appkit/react'
 import { BitcoinAdapter } from '@reown/appkit-adapter-bitcoin'
 import { SolanaAdapter } from '@reown/appkit-adapter-solana'
 import { TronAdapter } from '@reown/appkit-adapter-tron'
 import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
 import type { AppKitNetwork } from '@reown/appkit-common'
 import type { ChainAdapter } from '@reown/appkit-controllers'
+import { bitcoin, mainnet, solana, tronMainnet } from '@reown/appkit/networks'
+import { type AppKit, createAppKit } from '@reown/appkit/react'
 import type { JSX } from 'react'
 import { useEffect, useRef } from 'react'
 import { WagmiProvider } from 'wagmi'
@@ -44,10 +44,11 @@ export function ReownWalletProvider({
   const { themeMode } = useThemeMode()
 
   if (!wagmi.current || !modal.current) {
-    const networks: [AppKitNetwork, ...AppKitNetwork[]] = [
-      solana,
-      bitcoin,
-      tronMainnet,
+    // The prebuilt networks of @reown/appkit carry the hook phases of an older viem;
+    // viem 2.57.17 adds `afterFillTransactionError`. The difference is in types only.
+    const networks = [solana, bitcoin, tronMainnet] as [
+      AppKitNetwork,
+      ...AppKitNetwork[],
     ]
     const evmChains = chains.filter(
       (chain) => chain.chainType === ChainType.EVM

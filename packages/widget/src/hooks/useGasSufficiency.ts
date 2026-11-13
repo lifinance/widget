@@ -225,10 +225,10 @@ export const useGasSufficiency = (
 
     enabled: Boolean(
       !isContractAddress &&
-        !isContractAddressLoading &&
-        relevantAccounts.length > 0 &&
-        route &&
-        !hiddenUI?.insufficientGasMessage
+      !isContractAddressLoading &&
+      relevantAccounts.length > 0 &&
+      route &&
+      !hiddenUI?.insufficientGasMessage
     ),
     refetchInterval,
     staleTime: refetchInterval,

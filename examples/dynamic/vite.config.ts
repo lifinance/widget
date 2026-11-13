@@ -50,7 +50,9 @@ function absolutizeShims<T>(value: T): T {
         )
     return exact as unknown as T
   }
-  if (Array.isArray(value)) return value.map(absolutizeShims) as unknown as T
+  if (Array.isArray(value)) {
+    return value.map(absolutizeShims) as unknown as T
+  }
   if (value && typeof value === 'object') {
     for (const [key, inner] of Object.entries(value)) {
       ;(value as Record<string, unknown>)[key] = absolutizeShims(inner)
@@ -64,7 +66,9 @@ function nodePolyfillsResolved(): Plugin[] {
   const plugins = [nodePolyfills()].flat() as Plugin[]
   for (const plugin of plugins) {
     const original = plugin.config
-    if (typeof original !== 'function') continue
+    if (typeof original !== 'function') {
+      continue
+    }
     plugin.config = async function config(
       this: ThisParameterType<typeof original>,
       ...args: Parameters<typeof original>

@@ -79,6 +79,7 @@ export const SolanaProviderValues: FC<
       return config.sdkProvider({ getWallet })
     }
     return config?.sdkProvider ?? SolanaSDKProvider({ getWallet })
+    // oxlint-disable-next-line react/exhaustive-deps -- of the fields of `config`, the memo reads only `sdkProvider`; it calls `config.sdkProvider(...)` as a method to keep `this`
   }, [config?.sdkProvider])
 
   // Convert Wallet Standard wallets to a format the UI expects

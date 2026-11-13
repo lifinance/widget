@@ -116,6 +116,7 @@ export const CheckoutModal: ForwardRefExoticComponent<
           }
         }}
         tabIndex={-1}
+        // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- a custom modal container with aria-modal; the native dialog element changes the focus and top-layer behavior
         role="dialog"
         aria-modal={inline ? undefined : 'true'}
         aria-label="Checkout"

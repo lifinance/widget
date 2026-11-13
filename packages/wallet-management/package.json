@@ -13,6 +13,7 @@
     "build:postrelease": "node ../../scripts/postrelease.js && rm -rf README.md",
     "clean": "rm -rf dist",
     "test": "vitest run",
+    "test:affected": "vitest run --since-last-run",
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg"
@@ -51,9 +52,9 @@
     "@mui/material": "^9.5.0",
     "@mui/system": "^9.5.0",
     "eventemitter3": "^5.0.4",
-    "i18next": "^26.5.2",
-    "react-i18next": "^17.1.0",
-    "zustand": "^5.0.15"
+    "i18next": "^27.1.1",
+    "react-i18next": "^18.0.1",
+    "zustand": "^5.1.0"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",
@@ -61,7 +62,7 @@
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "typescript": "^7.0.2",
-    "vitest": "^5.0.5"
+    "vitest": "^5.1.0"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0",

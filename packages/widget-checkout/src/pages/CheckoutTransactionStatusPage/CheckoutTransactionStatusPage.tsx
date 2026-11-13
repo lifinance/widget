@@ -34,8 +34,8 @@ import { checkoutNavigationRoutes } from '../../utils/navigationRoutes.js'
 import { extractStatusHints } from '../../utils/statusHints.js'
 import { StatusCompleted } from './StatusCompleted.js'
 import { StatusExecuting } from './StatusExecuting.js'
-import { StatusWatching } from './StatusWatching.js'
 import { resolveStatusVariant, type StatusVariant } from './statusVariants.js'
+import { StatusWatching } from './StatusWatching.js'
 
 interface StatusSearch {
   transactionHash?: string
