@@ -1,3 +1,4 @@
+import type { OnRampProvider } from '@lifi/widget-provider/checkout'
 import type { FormRef, WidgetConfig } from '@lifi/widget/shared'
 import {
   BookmarkStoreProvider,
@@ -9,7 +10,6 @@ import {
   WalletProvider,
   WidgetProvider,
 } from '@lifi/widget/shared'
-import type { OnRampProvider } from '@lifi/widget-provider/checkout'
 import type { JSX, PropsWithChildren } from 'react'
 import { useMemo } from 'react'
 import { INTENT_FACTORY_ONLY } from '../hooks/useCheckoutExchangesOverride.js'

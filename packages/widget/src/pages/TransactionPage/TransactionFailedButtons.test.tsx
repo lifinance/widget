@@ -93,9 +93,8 @@ vi.mock('./ConfirmToAddressSheet.js', () => ({
   ConfirmToAddressSheet: () => null,
 }))
 vi.mock('./TransactionContent.js', async () => {
-  const { TransactionFailedButtons } = await import(
-    './TransactionFailedButtons.js'
-  )
+  const { TransactionFailedButtons } =
+    await import('./TransactionFailedButtons.js')
   return {
     TransactionContent: ({
       route,

@@ -113,6 +113,7 @@ export const StellarProviderValues: FC<
       config?.sdkProvider ??
       StellarSDKProvider({ getWallet, networkPassphrase })
     )
+    // oxlint-disable-next-line react/exhaustive-deps -- of the fields of `config`, the memo reads only `sdkProvider`; it calls `config.sdkProvider(...)` as a method to keep `this`
   }, [
     config?.sdkProvider,
     networkPassphrase,

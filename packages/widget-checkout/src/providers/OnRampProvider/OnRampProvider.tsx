@@ -1,6 +1,4 @@
 'use client'
-import type { FormRef, WidgetConfig } from '@lifi/widget/shared'
-import { StoreProvider } from '@lifi/widget/shared'
 import {
   createOnRampSessionsStore,
   type OnRampError,
@@ -12,6 +10,8 @@ import {
   type OnRampSessionsStore,
   useOnRampSession,
 } from '@lifi/widget-provider/checkout'
+import type { FormRef, WidgetConfig } from '@lifi/widget/shared'
+import { StoreProvider } from '@lifi/widget/shared'
 import {
   createContext,
   type FC,

@@ -1,4 +1,8 @@
 import { ChainType, type ExtendedChain } from '@lifi/sdk'
+import { BitcoinAdapter } from '@reown/appkit-adapter-bitcoin'
+import { SolanaAdapter } from '@reown/appkit-adapter-solana'
+import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
+import type { AppKitNetwork } from '@reown/appkit-common'
 import { bitcoin, mainnet, solana } from '@reown/appkit/networks'
 import {
   type AppKit,
@@ -6,10 +10,6 @@ import {
   useAppKitAccount,
   useAppKitNetwork,
 } from '@reown/appkit/react'
-import { BitcoinAdapter } from '@reown/appkit-adapter-bitcoin'
-import { SolanaAdapter } from '@reown/appkit-adapter-solana'
-import { WagmiAdapter } from '@reown/appkit-adapter-wagmi'
-import type { AppKitNetwork } from '@reown/appkit-common'
 import { useEffect, useRef } from 'react'
 import { WagmiProvider } from 'wagmi'
 import { metadata, projectId } from '../config/appkit.js'

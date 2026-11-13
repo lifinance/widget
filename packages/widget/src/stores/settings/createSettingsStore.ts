@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/correctness/noUnusedVariables: allowed in this store */
 import type { StoreApi, UseBoundStore } from 'zustand'
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'

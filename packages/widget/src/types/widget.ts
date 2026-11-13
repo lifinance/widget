@@ -208,16 +208,15 @@ export interface WidgetWalletConfig {
   forceInternalWalletManagement?: boolean
 }
 
-export interface WidgetSDKConfig
-  extends Omit<
-    SDKConfig,
-    | 'apiKey'
-    | 'disableVersionCheck'
-    | 'integrator'
-    | 'providers'
-    | 'routeOptions'
-    | 'widgetVersion'
-  > {
+export interface WidgetSDKConfig extends Omit<
+  SDKConfig,
+  | 'apiKey'
+  | 'disableVersionCheck'
+  | 'integrator'
+  | 'providers'
+  | 'routeOptions'
+  | 'widgetVersion'
+> {
   routeOptions?: Omit<
     RouteOptions,
     'bridges' | 'exchanges' | 'fee' | 'referrer' | 'order' | 'slippage'
@@ -462,8 +461,10 @@ export interface FormFieldOptions {
   setUrlSearchParam: boolean
 }
 
-export interface FieldValues
-  extends Omit<DefaultFieldValues, 'fromAmount' | 'toAmount' | 'toAddress'> {
+export interface FieldValues extends Omit<
+  DefaultFieldValues,
+  'fromAmount' | 'toAmount' | 'toAddress'
+> {
   fromAmount?: number | string
   toAmount?: number | string
   toAddress?: ToAddress | string

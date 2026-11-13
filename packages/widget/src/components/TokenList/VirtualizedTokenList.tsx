@@ -141,9 +141,9 @@ export const VirtualizedTokenList: FC<VirtualizedTokenListProps> = ({
     if (scrollElementRef.current) {
       measure()
     }
+    // oxlint-disable-next-line react/exhaustive-deps -- the effect runs again on a later render, after the scroll element is set
   }, [measure, scrollElementRef.current])
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: run only when chainId changes
   useEffect(() => {
     // Scroll to the top of the list when switching the chains
     if (getVirtualItems().length) {

@@ -47,6 +47,7 @@ export const RouteCard: React.FC<
     }
     const customLabels = getMatchingLabels(route, routeLabels)
     return [tags, customLabels]
+    // oxlint-disable-next-line react/exhaustive-deps -- `route.tags` also triggers a recompute when the same `route` object gets new tags
   }, [route.tags, route, routeLabels])
 
   const cardContent = (
