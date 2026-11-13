@@ -9,6 +9,7 @@
     "clean": "rm -rf dist",
     "check:types": "tsc --noEmit",
     "test": "vitest run",
+    "test:affected": "vitest run --since-last-run",
     "test:watch": "vitest",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg"
@@ -18,7 +19,7 @@
     "./widget-config": "./src/defaultWidgetConfig.ts"
   },
   "dependencies": {
-    "@base-org/account": "~2.5.13",
+    "@base-org/account": "~2.6.0",
     "@bigmi/client": "^0.10.5",
     "@bigmi/core": "^0.9.3",
     "@bigmi/react": "^0.9.5",
@@ -56,17 +57,17 @@
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "viem": ">=2.52.0",
-    "wagmi": "^3.7.7",
-    "zustand": "^5.0.15"
+    "wagmi": "^3.7.11",
+    "zustand": "^5.1.0"
   },
   "devDependencies": {
     "@types/lodash.isequal": "^4.5.8",
-    "@types/node": "^26.6.5",
+    "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "madge": "^8.0.0",
     "typescript": "^7.0.2",
-    "vitest": "^5.0.5"
+    "vitest": "^5.1.0"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0"
