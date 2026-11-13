@@ -170,73 +170,60 @@ describe('syncWagmiConfig', () => {
         createChain(1, {
           rpcUrls: { default: { http: ['https://rpc.example/new'] } },
         }),
-        createChain(8453),
-        createChain(42161),
-      ],
-    },
-    {
-      change: 'a WebSocket RPC URL',
-      chains: [
-        createChain(1, {
-          rpcUrls: {
-            default: {
-              http: ['https://rpc.example/1'],
-              webSocket: ['wss://rpc.example/1'],
-            },
-          },
-        }),
         ...createChains('3000').slice(1),
       ],
     },
-    {
-      change: 'a chain name',
-      chains: [
-        createChain(1, { name: 'Renamed' }),
-        ...createChains('3000').slice(1),
-      ],
-    },
-    {
-      change: 'a block explorer',
-      chains: [
-        createChain(1, {
-          blockExplorers: {
-            default: { name: 'Explorer', url: 'https://scan.example/new' },
-          },
-        }),
-        ...createChains('3000').slice(1),
-      ],
-    },
-    {
-      change: 'the multicall address',
-      chains: [
-        createChain(1, {
-          contracts: {
-            multicall3: {
-              address: '0x0000000000000000000000000000000000000002',
-            },
-          },
-        }),
-        ...createChains('3000').slice(1),
-      ],
-    },
-  ])('sets up connectors again for $change', async ({ chains }) => {
-    const { config, connectors, setups } = await setUp()
+  ])(
+    'updates the chains without a new setup for $change',
+    async ({ chains }) => {
+      const { config, connectors, setups } = await setUp()
+      const reconnects = vi.fn()
+      config.subscribe((state) => state.status, reconnects)
 
-    await resync(config, connectors, chains as [Chain, ...Chain[]])
+      await syncWagmiConfig(config, connectors, chains as [Chain, ...Chain[]])
 
-    expect(setups).toHaveBeenCalledTimes(2)
+      expect(config.chains).toBe(chains)
+      expect(setups).toHaveBeenCalledTimes(1)
+      expect(reconnects).not.toHaveBeenCalled()
+    }
+  )
+
+  it('switches to a chain that is added after setup', async () => {
+    const { config, connectors, switchInWallet } = await setUp()
+
+    await syncWagmiConfig(config, connectors, [
+      ...createChains('3001'),
+      createChain(10),
+    ])
+    await switchChain(config, { chainId: 10 })
+    expect(config.state.chainId).toBe(10)
+
+    switchInWallet(8453)
+    expect(config.state.chainId).toBe(8453)
+    await expect(getConnectorClient(config)).resolves.toBeDefined()
   })
 
-  it('sets up connectors again for another connector function', async () => {
-    const { config, connectors, setups } = await setUp()
+  it('sets up only a new connector function and keeps the old connector', async () => {
+    const { config, connectors, setups, switchInWallet, disconnectInWallet } =
+      await setUp()
+    const [connector] = config.connectors
+    const added = createClosureConnector()
 
     await resync(
       config,
-      [...connectors, createClosureConnector().connectorFn],
+      [...connectors, added.connectorFn],
       createChains('3000')
     )
 
-    expect(setups).toHaveBeenCalledTimes(2)
+    expect(setups).toHaveBeenCalledTimes(1)
+    expect(added.setups).toHaveBeenCalledTimes(1)
+    expect(config.connectors[0]).toBe(connector)
+    expect(config.state.current).toBe(connector.uid)
+
+    switchInWallet(8453)
+    expect(config.state.chainId).toBe(8453)
+    disconnectInWallet()
+    expect(config.state.connections.has(connector.uid)).toBe(false)
   })
 
   it('does not set up connectors again for a new array with the same functions', async () => {
@@ -247,37 +234,44 @@ describe('syncWagmiConfig', () => {
     expect(setups).toHaveBeenCalledTimes(1)
   })
 
-  it('does not set up connectors again for the same mainnet chains array', async () => {
+  it('syncs the chains and reconnects on the first call with no connectors', async () => {
     const config = createTestConfig()
-    const { connectorFn, setups } = createClosureConnector()
-    const chains = createChains('3000')
+    const statuses = vi.fn()
+    config.subscribe((state) => state.status, statuses)
 
-    await resync(config, [connectorFn], chains)
-    await syncWagmiConfig(config, [connectorFn], chains)
+    await syncWagmiConfig(config, [], createChains('3000'))
+    await vi.waitFor(() => expect(config.state.status).toBe('disconnected'))
+    expect(statuses).toHaveBeenCalled()
 
-    expect(setups).toHaveBeenCalledTimes(1)
+    statuses.mockClear()
+    const chains = createChains('3001')
+    await syncWagmiConfig(config, [], chains)
+
+    expect(config.chains).toBe(chains)
+    expect(statuses).not.toHaveBeenCalled()
   })
 
-  it('tries the sync again after a failed setup', async () => {
+  it('does not set up a connector again after a later connector fails', async () => {
     const config = createTestConfig()
-    const { connectorFn } = createClosureConnector()
+    const { connectorFn, setups } = createClosureConnector()
+    const flaky = createClosureConnector()
     let fail = true
     const flakyConnectorFn: typeof connectorFn = (connectorConfig) => {
       if (fail) {
         fail = false
         throw new Error('Setup failed.')
       }
-      return connectorFn(connectorConfig)
+      return flaky.connectorFn(connectorConfig)
     }
-
-    const connectors = [flakyConnectorFn]
+    const connectors = [connectorFn, flakyConnectorFn]
 
     await expect(
       syncWagmiConfig(config, connectors, createChains('3000'))
     ).rejects.toThrow('Setup failed.')
     await resync(config, connectors, createChains('3000'))
 
-    expect(config.state.status).toBe('connected')
+    expect(setups).toHaveBeenCalledTimes(1)
+    expect(flaky.setups).toHaveBeenCalledTimes(1)
   })
 
   it('sends the events of a shared connector function to its own config', async () => {
@@ -290,27 +284,6 @@ describe('syncWagmiConfig', () => {
     switchInWallet(8453)
 
     expect(first.state.chainId).toBe(8453)
-  })
-
-  it('keeps chain events after connectors are set up again', async () => {
-    const { config, connectors, switchInWallet } = await setUp()
-
-    await resync(config, connectors, [...createChains('3000'), createChain(10)])
-    await switchChain(config, { chainId: 10 })
-    expect(config.state.chainId).toBe(10)
-
-    switchInWallet(8453)
-    expect(config.state.chainId).toBe(8453)
-    await expect(getConnectorClient(config)).resolves.toBeDefined()
-  })
-
-  it('keeps setup events after connectors are set up again', async () => {
-    const { config, connectors, disconnectInWallet } = await setUp()
-
-    await resync(config, connectors, [...createChains('3000'), createChain(10)])
-    disconnectInWallet()
-
-    expect(config.state.status).toBe('disconnected')
   })
 
   it('keeps the properties of the connector function', async () => {

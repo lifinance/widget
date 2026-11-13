@@ -1,76 +1,22 @@
 import type { Chain } from 'viem'
 import { mainnet } from 'viem/chains'
-import type { Config, CreateConnectorFn } from 'wagmi'
+import type { Config, Connector, CreateConnectorFn } from 'wagmi'
 import { reconnect } from 'wagmi/actions'
 
-type ConnectorEmitter = Parameters<CreateConnectorFn>[0]['emitter']
-
-const lastSync = new WeakMap<
-  Config,
-  { chainsKey: string; connectors: CreateConnectorFn[] }
->()
-
-// The viem chain fields only: LI.FI chain data adds token prices that change.
-const getChainsKey = (chains: readonly Chain[]): string =>
-  JSON.stringify(
-    chains.map((chain) => [
-      chain.id,
-      chain.name,
-      chain.nativeCurrency,
-      chain.rpcUrls,
-      chain.blockExplorers,
-      chain.contracts,
-      chain.testnet,
-    ])
-  )
-
-const isSameConnectors = (
-  previous: CreateConnectorFn[],
-  connectors: CreateConnectorFn[]
-): boolean =>
-  previous.length === connectors.length &&
-  previous.every((connectorFn, index) => connectorFn === connectors[index])
-
-const latestEmitterConnectors = new WeakMap<
-  Config,
-  WeakMap<CreateConnectorFn, CreateConnectorFn>
->()
-
-// Connector SDKs bind their event handlers to the first connector object only.
-const withLatestEmitter = (
-  wagmiConfig: Config,
-  connectorFn: CreateConnectorFn
-): CreateConnectorFn => {
-  let cache = latestEmitterConnectors.get(wagmiConfig)
-  if (!cache) {
-    cache = new WeakMap()
-    latestEmitterConnectors.set(wagmiConfig, cache)
-  }
-  const cached = cache.get(connectorFn)
-  if (cached) {
-    return cached
-  }
-  let latestEmitter: ConnectorEmitter | undefined
-  const emitter = new Proxy({} as ConnectorEmitter, {
-    get: (_, key) => {
-      const value = Reflect.get(latestEmitter!, key)
-      return typeof value === 'function' ? value.bind(latestEmitter) : value
-    },
-  })
-  const wrapped: CreateConnectorFn = (config) => {
-    latestEmitter = config.emitter
-    // A proxy, not a spread: `config.providers` is a getter.
-    return connectorFn(
-      new Proxy(config, {
-        get: (target, key) =>
-          key === 'emitter' ? emitter : Reflect.get(target, key),
-      })
-    )
-  }
-  Object.assign(wrapped, connectorFn)
-  cache.set(connectorFn, wrapped)
-  return wrapped
+type SyncState = {
+  connectorFns?: CreateConnectorFn[]
+  // Connector SDKs bind their event handlers to the first connector object only.
+  connectors: WeakMap<CreateConnectorFn, Connector>
 }
+
+const syncStates = new WeakMap<Config, SyncState>()
+
+const isSameConnectorFns = (
+  previous: CreateConnectorFn[] | undefined,
+  connectorFns: CreateConnectorFn[]
+): boolean =>
+  previous?.length === connectorFns.length &&
+  previous.every((connectorFn, index) => connectorFn === connectorFns[index])
 
 export const syncWagmiConfig = async (
   wagmiConfig: Config,
@@ -82,26 +28,42 @@ export const syncWagmiConfig = async (
     _mainnet.contracts = { ...mainnet.contracts, ..._mainnet.contracts }
   }
 
-  const chainsKey = getChainsKey(chains)
-  const previous = lastSync.get(wagmiConfig)
-  if (
-    previous?.chainsKey === chainsKey &&
-    isSameConnectors(previous.connectors, connectors)
-  ) {
+  wagmiConfig._internal.chains.setState(chains)
+
+  let state = syncStates.get(wagmiConfig)
+  if (!state) {
+    state = { connectors: new WeakMap() }
+    syncStates.set(wagmiConfig, state)
+  }
+  if (isSameConnectorFns(state.connectorFns, connectors)) {
     return
   }
 
-  wagmiConfig._internal.chains.setState(chains)
-  wagmiConfig._internal.connectors.setState(() =>
-    [
-      ...connectors.map((connectorFn) =>
-        withLatestEmitter(wagmiConfig, connectorFn)
-      ),
-      ...(wagmiConfig._internal.mipd
-        ?.getProviders()
-        .map(wagmiConfig._internal.connectors.providerDetailToConnector) ?? []),
-    ].map(wagmiConfig._internal.connectors.setup)
-  )
-  lastSync.set(wagmiConfig, { chainsKey, connectors: [...connectors] })
+  const setUpConnectors = state.connectors
+  const getConnector = (connectorFn: CreateConnectorFn): Connector => {
+    let connector = setUpConnectors.get(connectorFn)
+    if (!connector) {
+      // wagmi gives each connector a copy of the chain list, so it gets the live list.
+      connector = wagmiConfig._internal.connectors.setup((config) =>
+        connectorFn(
+          new Proxy(config, {
+            get: (target, key) =>
+              key === 'chains' ? wagmiConfig.chains : Reflect.get(target, key),
+          })
+        )
+      )
+      setUpConnectors.set(connectorFn, connector)
+    }
+    return connector
+  }
+
+  wagmiConfig._internal.connectors.setState(() => [
+    ...connectors.map(getConnector),
+    ...(wagmiConfig._internal.mipd
+      ?.getProviders()
+      .map(wagmiConfig._internal.connectors.providerDetailToConnector)
+      .map(wagmiConfig._internal.connectors.setup) ?? []),
+  ])
+  state.connectorFns = [...connectors]
   reconnect(wagmiConfig)
 }
