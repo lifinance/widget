@@ -20,7 +20,11 @@ export const createRouteExecutionStore = ({
     persist(
       (set, get) => ({
         routes: {},
-        setExecutableRoute: (route: Route, observableRouteIds?: string[]) => {
+        setExecutableRoute: (
+          route: Route,
+          observableRouteIds?: string[],
+          quotedAt?: number
+        ) => {
           if (!get().routes[route.id]) {
             set((state: RouteExecutionState) => {
               const routes = { ...state.routes }
@@ -40,6 +44,7 @@ export const createRouteExecutionStore = ({
               routes[route.id] = {
                 route,
                 status: RouteExecutionStatus.Idle,
+                ...(quotedAt ? { quotedAt } : {}),
               }
               return {
                 routes,

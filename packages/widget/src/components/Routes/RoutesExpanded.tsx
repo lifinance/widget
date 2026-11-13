@@ -61,7 +61,9 @@ export const RoutesExpanded: React.NamedExoticComponent<RoutesExpandedProps> =
 
     const onRouteClick = useCallback(
       (route: Route) => {
-        setReviewableRoute(route)
+        if (!setReviewableRoute(route)) {
+          return
+        }
         navigate({
           to: navigationRoutes.transactionExecution,
           search: { routeId: route.id },

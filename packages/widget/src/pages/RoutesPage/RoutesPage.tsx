@@ -60,7 +60,9 @@ export const RoutesPage = (): JSX.Element => {
   })
 
   const handleRouteClick = (route: Route) => {
-    setReviewableRoute(route)
+    if (!setReviewableRoute(route)) {
+      return
+    }
     navigate({
       to: navigationRoutes.transactionExecution,
       search: { routeId: route.id },

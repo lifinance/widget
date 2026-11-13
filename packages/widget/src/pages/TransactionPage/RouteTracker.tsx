@@ -41,7 +41,11 @@ export const RouteTracker = ({
     ) {
       const reviewableRouteId = observableRouteIdRef.current
       observableRouteIdRef.current = currentRoute.id
-      setExecutableRoute(currentRoute, [observableRouteId, reviewableRouteId])
+      setExecutableRoute(
+        currentRoute,
+        [observableRouteId, reviewableRouteId],
+        dataUpdatedAt || undefined
+      )
       onChange(currentRoute.id)
     }
     // oxlint-disable-next-line react/exhaustive-deps -- run only when currentRoute changes

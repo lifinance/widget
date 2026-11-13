@@ -34,7 +34,9 @@ export const ReviewButton: React.FC = () => {
       return
     }
 
-    setReviewableRoute(currentRoute)
+    if (!setReviewableRoute(currentRoute)) {
+      return
+    }
     navigate({
       to: navigationRoutes.transactionExecution,
       search: { routeId: currentRoute.id },
