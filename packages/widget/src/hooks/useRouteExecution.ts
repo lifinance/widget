@@ -107,7 +107,7 @@ export const useRouteExecution = ({
         )
       }
     }
-    // biome-ignore lint/suspicious/noConsole: logs route information
+    // oxlint-disable-next-line no-console -- logs route information
     console.log('Route updated.', clonedUpdatedRoute)
   }
 
@@ -151,7 +151,7 @@ export const useRouteExecution = ({
       })
     },
     onMutate: () => {
-      // biome-ignore lint/suspicious/noConsole: logs route information
+      // oxlint-disable-next-line no-console -- logs route information
       console.log('Execution started.', routeId)
       if (routeExecution) {
         emitter.emit(WidgetEvent.RouteExecutionStarted, routeExecution.route)
@@ -161,7 +161,7 @@ export const useRouteExecution = ({
       console.warn('Execution failed!', routeId, error)
     },
     onSuccess: (route: Route) => {
-      // biome-ignore lint/suspicious/noConsole: logs route information
+      // oxlint-disable-next-line no-console -- logs route information
       console.log('Executed successfully!', route)
     },
   })
@@ -187,14 +187,14 @@ export const useRouteExecution = ({
       })
     },
     onMutate: () => {
-      // biome-ignore lint/suspicious/noConsole: logs route information
+      // oxlint-disable-next-line no-console -- logs route information
       console.log('Resumed to execution.', routeId)
     },
     onError: (error) => {
       console.warn('Resumed execution failed.', routeId, error)
     },
     onSuccess: (route) => {
-      // biome-ignore lint/suspicious/noConsole: logs route information
+      // oxlint-disable-next-line no-console -- logs route information
       console.log('Resumed execution successful.', route)
     },
   })
@@ -217,13 +217,12 @@ export const useRouteExecution = ({
     })
   }, [resumeRouteMutation, routeExecution?.route])
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: run only when routeId changes
   const deleteRouteMutation = useCallback(() => {
     deleteRoute(routeId)
+    // oxlint-disable-next-line react/exhaustive-deps -- run only when routeId changes
   }, [routeId])
 
   // Resume route execution after page reload
-  // biome-ignore lint/correctness/useExhaustiveDependencies: run only when routeId changes
   useEffect(() => {
     // Check if route is eligible for automatic resuming
     const route = routeExecutionStoreContext.getState().routes[routeId]?.route
@@ -243,10 +242,11 @@ export const useRouteExecution = ({
         return
       }
       updateRouteExecution(route, { executeInBackground: true })
-      // biome-ignore lint/suspicious/noConsole: logs route information
+      // oxlint-disable-next-line no-console -- logs route information
       console.log('Move route execution to background.', routeId)
       resumedAfterMount.current = false
     }
+    // oxlint-disable-next-line react/exhaustive-deps -- run only when routeId changes
   }, [account.isConnected, routeExecutionStoreContext, routeId])
 
   return {

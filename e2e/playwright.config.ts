@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test'
+import { nodePath } from './node-path'
 
 /**
  * LI.FI Widget E2E — Playwright configuration (preview mode)
@@ -50,6 +51,7 @@ export default defineConfig({
       'pnpm --filter widget-playground-vite build && pnpm --filter widget-playground-vite preview',
     url: 'http://localhost:4173',
     reuseExistingServer: true,
+    env: { ...process.env, PATH: nodePath } as Record<string, string>,
     timeout: 180_000,
   },
   projects: [

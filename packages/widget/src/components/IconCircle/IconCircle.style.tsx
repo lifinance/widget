@@ -57,29 +57,31 @@ export const IconCircleRoot: React.FC<
   }
 > = styled(Box, {
   shouldForwardProp: (prop) => prop !== 'colorConfig' && prop !== 'circleSize',
-})<{ colorConfig: StatusColorConfig; circleSize: number }>(
-  ({ theme, colorConfig, circleSize }) => {
-    const svgSize = Math.round(circleSize * iconSizeRatio)
-    return {
-      backgroundColor: `color-mix(in srgb, ${colorConfig.color} ${colorConfig.mixAmount}%, ${theme.vars.palette.background.paper})`,
-      borderRadius: '50%',
-      width: circleSize,
-      height: circleSize,
-      display: 'grid',
-      position: 'relative',
-      placeItems: 'center',
+})<{ colorConfig: StatusColorConfig; circleSize: number }>(({
+  theme,
+  colorConfig,
+  circleSize,
+}) => {
+  const svgSize = Math.round(circleSize * iconSizeRatio)
+  return {
+    backgroundColor: `color-mix(in srgb, ${colorConfig.color} ${colorConfig.mixAmount}%, ${theme.vars.palette.background.paper})`,
+    borderRadius: '50%',
+    width: circleSize,
+    height: circleSize,
+    display: 'grid',
+    position: 'relative',
+    placeItems: 'center',
+    '& > svg': {
+      color: `color-mix(in srgb, ${colorConfig.color} ${(1 - colorConfig.lightDarken) * 100}%, black)`,
+      width: svgSize,
+      height: svgSize,
+    },
+    ...theme.applyStyles('dark', {
       '& > svg': {
-        color: `color-mix(in srgb, ${colorConfig.color} ${(1 - colorConfig.lightDarken) * 100}%, black)`,
+        color: `color-mix(in srgb, ${colorConfig.color} ${(1 - colorConfig.darkDarken) * 100}%, black)`,
         width: svgSize,
         height: svgSize,
       },
-      ...theme.applyStyles('dark', {
-        '& > svg': {
-          color: `color-mix(in srgb, ${colorConfig.color} ${(1 - colorConfig.darkDarken) * 100}%, black)`,
-          width: svgSize,
-          height: svgSize,
-        },
-      }),
-    }
+    }),
   }
-)
+})

@@ -7,7 +7,7 @@ import type { FormTypeProps } from '../../stores/form/types.js'
 import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { formatTokenAmount } from '../../utils/format.js'
-import { FooterText, footerFontSize } from './AmountInputCard.style.js'
+import { footerFontSize, FooterText } from './AmountInputCard.style.js'
 import { BalanceContainer } from './BalanceDisplay.style.js'
 
 export const BalanceDisplay: React.NamedExoticComponent<FormTypeProps> = memo(

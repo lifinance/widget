@@ -46,10 +46,10 @@ const needsAddressConfirmation = ({
 }: AddressGateInput): boolean =>
   Boolean(
     toAddress &&
-      !hasActivity &&
-      !isLoadingAddressActivity &&
-      isActivityAddressFetched &&
-      !confirmationHidden
+    !hasActivity &&
+    !isLoadingAddressActivity &&
+    isActivityAddressFetched &&
+    !confirmationHidden
   )
 
 export type RetryGate = 'address' | 'value'

@@ -1,6 +1,6 @@
-import { shortenAddress } from '@lifi/widget/shared'
 import type { Account } from '@lifi/widget-provider'
 import type { ConnectedCexAccount } from '@lifi/widget-provider/checkout'
+import { shortenAddress } from '@lifi/widget/shared'
 import AccountBalance from '@mui/icons-material/AccountBalance'
 import AccountBalanceWallet from '@mui/icons-material/AccountBalanceWallet'
 import CreditCardIcon from '@mui/icons-material/CreditCard'

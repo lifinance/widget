@@ -268,7 +268,7 @@ export const createTheme = (widgetTheme: WidgetTheme = {}): Theme => {
           // in string templates. Do not convert these styles in JS object as it will break.
           root: css`
             &
-              .${touchRippleClasses.ripple}.${touchRippleClasses.rippleVisible} {
+            .${touchRippleClasses.ripple}.${touchRippleClasses.rippleVisible} {
               opacity: 0.1;
               animation-name: ${enterKeyframe};
             }

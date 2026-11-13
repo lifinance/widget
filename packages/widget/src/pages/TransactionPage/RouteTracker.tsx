@@ -33,7 +33,6 @@ export const RouteTracker = ({
    * This allows us to query the route using the same tool each time we refresh.
    * The observable and reviewable routes can be the same when we first enter the review page.
    */
-  // biome-ignore lint/correctness/useExhaustiveDependencies: run only when currentRoute changes
   useEffect(() => {
     if (
       observableRouteIdRef.current &&
@@ -49,6 +48,7 @@ export const RouteTracker = ({
       )
       onChange(currentRoute.id)
     }
+    // oxlint-disable-next-line react/exhaustive-deps -- run only when currentRoute changes
   }, [currentRoute?.id, observableRouteId])
 
   useEffect(() => {

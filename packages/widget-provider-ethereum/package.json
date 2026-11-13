@@ -39,14 +39,14 @@
   ],
   "dependencies": {
     "@lifi/sdk": "^4.12.1",
-    "@lifi/sdk-provider-ethereum": "^4.2.11",
+    "@lifi/sdk-provider-ethereum": "^4.2.12",
     "@lifi/widget-provider": "workspace:*",
     "viem": ">=2.52.0"
   },
   "peerDependencies": {
-    "@wagmi/core": "^3.6.5",
+    "@wagmi/core": "^3.6.9",
     "react": ">=19",
-    "wagmi": "^3.7.7"
+    "wagmi": "^3.7.11"
   },
   "devDependencies": {
     "cpy-cli": "^7.0.0",

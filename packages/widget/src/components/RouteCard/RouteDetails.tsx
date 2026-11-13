@@ -192,6 +192,7 @@ export const RouteDetails = ({ route }: RouteDetailsProps): JSX.Element => {
         </DetailLabelContainer>
         <DetailValue
           onClick={toggleRate}
+          // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- clickable value that toggles the rate; a native button changes the row layout
           role="button"
           sx={{ cursor: 'pointer' }}
         >

@@ -59,7 +59,6 @@ export const RoutesExpanded: React.NamedExoticComponent<RoutesExpandedProps> =
         routesActiveRef.current || isLoading || isFetching || isFetched
       ) && canOpen
 
-    // biome-ignore lint/correctness/useExhaustiveDependencies: stable navigation callback that won't cause rerenders in RoutesContent
     const onRouteClick = useCallback(
       (route: Route) => {
         if (!setReviewableRoute(route)) {
@@ -71,6 +70,7 @@ export const RoutesExpanded: React.NamedExoticComponent<RoutesExpandedProps> =
         })
         emitter.emit(WidgetEvent.RouteSelected, { route, routes: routes! })
       },
+      // oxlint-disable-next-line react/exhaustive-deps -- stable navigation callback that won't cause rerenders in RoutesContent
       [emitter, routes, setReviewableRoute]
     )
 

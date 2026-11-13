@@ -24,7 +24,8 @@
     "check:types": "tsc --noEmit",
     "check:circular-deps": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx')",
     "check:circular-deps-graph": "madge --circular $(find ./src -name '*.ts' -o -name '*.tsx') --image graph.svg",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "test:affected": "vitest run --since-last-run --passWithNoTests"
   },
   "author": "Eugene Chybisov <eugene@li.finance>",
   "homepage": "https://github.com/lifinance/widget",
@@ -57,17 +58,17 @@
     "cpy-cli": "^7.0.0",
     "madge": "^8.0.0",
     "typescript": "^7.0.2",
-    "vitest": "^5.0.5"
+    "vitest": "^5.1.0"
   },
   "peerDependencies": {
     "@bigmi/client": "^0.10.5",
     "@bigmi/react": "^0.9.5",
-    "@mysten/dapp-kit-react": "^2.1.40",
-    "@wagmi/core": "^3.6.5",
+    "@mysten/dapp-kit-react": "^2.1.45",
+    "@wagmi/core": "^3.6.9",
     "@wallet-standard/base": "^1.1.1",
     "react": ">=19",
     "viem": ">=2.52.0",
-    "wagmi": "^3.7.7"
+    "wagmi": "^3.7.11"
   },
   "peerDependenciesMeta": {
     "wagmi": {

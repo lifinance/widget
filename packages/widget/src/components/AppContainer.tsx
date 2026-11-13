@@ -16,22 +16,22 @@ import { getWidgetMaxHeight } from '../utils/widgetSize.js'
 //    - useSetContentHeight
 //  Also check any code that is using the methods from elements.ts utils file
 
-export const AppExpandedContainer: React.FC<BoxProps> = styled(Box)(
-  ({ theme }) => {
-    return {
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'start',
-      flex: 1,
-      height:
-        theme.container?.display === 'flex'
-          ? '100%'
-          : theme.container?.maxHeight
-            ? 'auto'
-            : theme.container?.height || 'auto',
-    }
+export const AppExpandedContainer: React.FC<BoxProps> = styled(Box)(({
+  theme,
+}) => {
+  return {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'start',
+    flex: 1,
+    height:
+      theme.container?.display === 'flex'
+        ? '100%'
+        : theme.container?.maxHeight
+          ? 'auto'
+          : theme.container?.height || 'auto',
   }
-)
+})
 
 export const RelativeContainer: React.FC<
   BoxProps & { variant?: WidgetVariant }

@@ -283,8 +283,8 @@ export const createSearchMatcher = (
   return (token) =>
     Boolean(
       token.name?.toLowerCase().includes(searchTerm) ||
-        token.symbol?.replaceAll('₮', 'T').toLowerCase().includes(searchTerm) ||
-        token.address?.toLowerCase().includes(searchTerm)
+      token.symbol?.replaceAll('₮', 'T').toLowerCase().includes(searchTerm) ||
+      token.address?.toLowerCase().includes(searchTerm)
     )
 }
 

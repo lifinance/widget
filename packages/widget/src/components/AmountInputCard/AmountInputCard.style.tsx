@@ -22,24 +22,26 @@ export const AmountCard: React.FC<
   }
 > = styled(InputCard, {
   shouldForwardProp: (prop) => !['formType', 'mask'].includes(prop as string),
-})<{ formType?: FormType; mask?: boolean }>(
-  ({ theme, formType, mask = true }) => {
-    const cardVariant = theme.components?.MuiCard?.defaultProps?.variant
-    // Notch faces the swap button between the stacked cards: bottom edge for the
-    // top (send) card, top edge for the bottom (receive) card.
-    const vertical = formType === 'to' ? '-4px' : 'calc(100% + 4px)'
-    return {
-      display: 'flex',
-      flexDirection: 'column',
-      gap: theme.spacing(1.5),
-      padding: theme.spacing(2),
-      ...(cardVariant !== 'outlined' &&
-        mask && {
-          mask: `radial-gradient(circle 22px at 50% ${vertical}, #fff0 96%, #fff) 100% 100% / 100% 100% no-repeat`,
-        }),
-    }
+})<{ formType?: FormType; mask?: boolean }>(({
+  theme,
+  formType,
+  mask = true,
+}) => {
+  const cardVariant = theme.components?.MuiCard?.defaultProps?.variant
+  // Notch faces the swap button between the stacked cards: bottom edge for the
+  // top (send) card, top edge for the bottom (receive) card.
+  const vertical = formType === 'to' ? '-4px' : 'calc(100% + 4px)'
+  return {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: theme.spacing(1.5),
+    padding: theme.spacing(2),
+    ...(cardVariant !== 'outlined' &&
+      mask && {
+        mask: `radial-gradient(circle 22px at 50% ${vertical}, #fff0 96%, #fff) 100% 100% / 100% 100% no-repeat`,
+      }),
   }
-)
+})
 
 export const CardHeaderRow: React.FC<React.ComponentProps<typeof Box>> = styled(
   Box
