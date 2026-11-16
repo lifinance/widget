@@ -1,7 +1,7 @@
 import type { ChainType } from '@lifi/sdk'
-import { useChain, useWidgetConfig } from '@lifi/widget/shared'
 import { useAddressForChain } from '@lifi/widget-provider'
 import { useCheckoutConfig } from '@lifi/widget-provider/checkout'
+import { useChain, useWidgetConfig } from '@lifi/widget/shared'
 import { useCallback, useMemo } from 'react'
 import {
   type CheckoutRecipient,

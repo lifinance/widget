@@ -65,9 +65,8 @@ vi.mock('./createStellarWalletsKit.js', () => ({
   }),
 }))
 
-const { createStellarWalletsKitStore } = await import(
-  './createStellarWalletsKitStore.js'
-)
+const { createStellarWalletsKitStore } =
+  await import('./createStellarWalletsKitStore.js')
 
 describe('createStellarWalletsKitStore', () => {
   beforeEach(() => {

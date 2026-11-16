@@ -65,6 +65,7 @@ export const TronProviderValues: FC<
         multicallBatchSize: 40,
       }) as SDKProvider)
     )
+    // oxlint-disable-next-line react/exhaustive-deps -- of the fields of `config`, the memo reads only `sdkProvider`; it calls `config.sdkProvider(...)` as a method to keep `this`
   }, [config?.sdkProvider])
 
   // The WC wrapper can surface a foreign-namespace address (e.g. eip155 `0x…`).

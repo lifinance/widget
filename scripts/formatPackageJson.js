@@ -1,4 +1,3 @@
-/** biome-ignore-all lint/correctness/noUnusedVariables: allowed in scripts */
 import { resolve } from 'node:path'
 import fsExtra from 'fs-extra'
 

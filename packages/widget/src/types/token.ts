@@ -19,8 +19,7 @@ export interface TokenFlags {
 export interface TokenAmount extends SDKTokenAmount, TokenFlags {}
 
 export interface TokenAmountExtended
-  extends SDKTokenAmountExtended,
-    TokenFlags {}
+  extends SDKTokenAmountExtended, TokenFlags {}
 
 export type TokenWithFlags = TokenExtended & TokenFlags
 export type TokensByChain = Record<number, TokenWithFlags[]>

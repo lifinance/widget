@@ -12,7 +12,4 @@ export {
   type StellarWalletsKitState,
   useStellarWalletsKit,
 } from './stellar-kit/useStellarWalletsKit.js'
-export type {
-  StellarProviderConfig,
-  StellarProviderDeps,
-} from './types.js'
+export type { StellarProviderConfig, StellarProviderDeps } from './types.js'

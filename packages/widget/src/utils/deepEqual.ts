@@ -18,7 +18,7 @@ export function deepEqual(a: any, b: any): boolean {
       if (length !== b.length) {
         return false
       }
-      for (i = length; i-- !== 0; ) {
+      for (i = length; i-- !== 0;) {
         if (!deepEqual(a[i], b[i])) {
           return false
         }
@@ -39,13 +39,13 @@ export function deepEqual(a: any, b: any): boolean {
       return false
     }
 
-    for (i = length; i-- !== 0; ) {
+    for (i = length; i-- !== 0;) {
       if (!Object.hasOwn(b, keys[i]!)) {
         return false
       }
     }
 
-    for (i = length; i-- !== 0; ) {
+    for (i = length; i-- !== 0;) {
       const key = keys[i]
 
       if (key && !deepEqual(a[key], b[key])) {
@@ -57,6 +57,6 @@ export function deepEqual(a: any, b: any): boolean {
   }
 
   // true if both NaN, false otherwise
-  // biome-ignore lint/suspicious/noSelfCompare: allowed in typescript
+  // oxlint-disable-next-line no-self-compare -- allowed in typescript
   return a !== a && b !== b
 }

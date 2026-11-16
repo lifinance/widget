@@ -59,6 +59,7 @@ export const SuiProviderValues: FC<
       return config.sdkProvider({ getClient, getSigner })
     }
     return config?.sdkProvider ?? SuiSDKProvider({ getClient, getSigner })
+    // oxlint-disable-next-line react/exhaustive-deps -- of the fields of `config`, the memo reads only `sdkProvider`; it calls `config.sdkProvider(...)` as a method to keep `this`
   }, [dappKit, config?.sdkProvider])
 
   const handleConnect = useCallback(

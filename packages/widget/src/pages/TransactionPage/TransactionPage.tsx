@@ -71,7 +71,6 @@ export const TransactionPage = (): JSX.Element | null => {
 
   useHeader(getHeaderTitle(), headerAction)
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: cleanup only on unmount
   useEffect(() => {
     return () => {
       if (
@@ -82,6 +81,7 @@ export const TransactionPage = (): JSX.Element | null => {
         clearAmountFields()
       }
     }
+    // oxlint-disable-next-line react/exhaustive-deps -- cleanup only on unmount
   }, [])
 
   if (!route || !status) {

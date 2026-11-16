@@ -2,12 +2,12 @@ import type { Config } from '@bigmi/client'
 import { createConfig, reown } from '@bigmi/client'
 import { bitcoin, ChainId, createClient, http } from '@bigmi/core'
 import { BigmiProvider } from '@bigmi/react'
+import type { BitcoinConnector } from '@reown/appkit-adapter-bitcoin'
 import {
   useAppKitAccount,
   useAppKitProvider,
   useWalletInfo,
 } from '@reown/appkit/react'
-import type { BitcoinConnector } from '@reown/appkit-adapter-bitcoin'
 import { type FC, type PropsWithChildren, useEffect } from 'react'
 
 const bigmiConfig = createConfig({

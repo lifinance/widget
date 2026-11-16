@@ -1,4 +1,4 @@
-import { Box, badgeClasses, Badge as MuiBadge, styled } from '@mui/material'
+import { badgeClasses, Box, Badge as MuiBadge, styled } from '@mui/material'
 import type React from 'react'
 
 export const SettingsList: React.FC<React.ComponentProps<typeof Box>> = styled(

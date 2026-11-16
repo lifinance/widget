@@ -1,3 +1,4 @@
+import type { OnrampFiatCurrency } from '@lifi/widget-provider/checkout'
 import {
   FormKeyHelper,
   ListItemButton,
@@ -6,7 +7,6 @@ import {
   useFieldActions,
   useHeader,
 } from '@lifi/widget/shared'
-import type { OnrampFiatCurrency } from '@lifi/widget-provider/checkout'
 import {
   Alert,
   Avatar,

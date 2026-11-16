@@ -1,16 +1,16 @@
 'use client'
 import {
-  FormKeyHelper,
-  useDebouncedWatch,
-  useFieldValues,
-  useWidgetConfig,
-} from '@lifi/widget/shared'
-import {
   type OnrampQuoteRequest,
   type OnrampQuoteResponse,
   postCheckoutSession,
   useCheckoutConfig,
 } from '@lifi/widget-provider/checkout'
+import {
+  FormKeyHelper,
+  useDebouncedWatch,
+  useFieldValues,
+  useWidgetConfig,
+} from '@lifi/widget/shared'
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import { useFiatCurrencyStore } from '../stores/useFiatCurrencyStore.js'
 import { normalizeFiatAmount } from '../utils/fiatFormat.js'

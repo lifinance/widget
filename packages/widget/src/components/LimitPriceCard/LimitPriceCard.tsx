@@ -63,10 +63,10 @@ export const LimitPriceCard: React.FC<CardProps> = (props): JSX.Element => {
   // Canonical price is orientation-independent; flip only for display.
   const displayPrice = priceInverted ? invertPrice(limitPrice) : limitPrice
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: pair fields are intentional re-run triggers, not read in the body
   useEffect(() => {
     setFieldValue('toAmount', '', { isDirty: false, isTouched: false })
     setFieldValue('selectedRouteId', undefined)
+    // oxlint-disable-next-line react/exhaustive-deps -- pair fields are intentional re-run triggers, not read in the body
   }, [fromChainId, fromTokenAddress, toChainId, toTokenAddress])
 
   // Keep the input in sync with derived/preset/invert updates, but never yank

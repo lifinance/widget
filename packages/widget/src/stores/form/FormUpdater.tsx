@@ -16,7 +16,6 @@ export const FormUpdater: React.FC<{
 
   // React to changes in widget config options (reactiveFormValues), updating userValues accordingly.
   // Includes special logic for chain fields, where account.chainId is only a fallback and not a direct reactivity source.
-  // biome-ignore lint/correctness/useExhaustiveDependencies: account.chainId is used as a fallback only and does not need to be a dependency for reactivity.
   useEffect(() => {
     if (toAddress) {
       setSelectedBookmark(toAddress)
@@ -25,6 +24,7 @@ export const FormUpdater: React.FC<{
     setUserAndDefaultValues(
       accountForChainId(reactiveFormValues, account.chainId)
     )
+    // oxlint-disable-next-line react/exhaustive-deps -- account.chainId is used as a fallback only and does not need to be a dependency for reactivity.
   }, [
     toAddress,
     reactiveFormValues,

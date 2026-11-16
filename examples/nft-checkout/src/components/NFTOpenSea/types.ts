@@ -647,8 +647,7 @@ interface OpenSeaAssetBundleJSON {
 /**
  * Query interface for Bundles
  */
-export interface OpenSeaAssetBundleQuery
-  extends Partial<OpenSeaAssetBundleJSON> {
+export interface OpenSeaAssetBundleQuery extends Partial<OpenSeaAssetBundleJSON> {
   asset_contract_address?: string
   token_ids?: Array<number | string>
   on_sale?: boolean
@@ -866,8 +865,7 @@ export interface OpenSeaAssetQuery {
 /**
  * Query interface for Fungible Assets
  */
-export interface OpenSeaFungibleTokenQuery
-  extends Partial<OpenSeaFungibleToken> {
+export interface OpenSeaFungibleTokenQuery extends Partial<OpenSeaFungibleToken> {
   limit?: number
   offset?: number
   // Typescript bug requires this duplication

@@ -1,6 +1,6 @@
 import {
-  type CreateConnectorFn,
   createConnector,
+  type CreateConnectorFn,
   ProviderNotFoundError,
 } from '@wagmi/core'
 import { type Chain, fromHex, getAddress, type Hex, toHex } from 'viem'

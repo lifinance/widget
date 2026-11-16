@@ -1,5 +1,5 @@
-import { useWidgetConfig } from '@lifi/widget/shared'
 import { useCheckoutConfig } from '@lifi/widget-provider/checkout'
+import { useWidgetConfig } from '@lifi/widget/shared'
 import { Box, Typography } from '@mui/material'
 import type { JSX, ReactNode } from 'react'
 import { useEffect } from 'react'

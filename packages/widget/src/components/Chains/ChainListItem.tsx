@@ -9,7 +9,7 @@ import {
   ListItemButton,
   ListItemText,
 } from './ChainList.style.js'
-import { PinChainButton, pinButtonClassName } from './PinChainButton.js'
+import { pinButtonClassName, PinChainButton } from './PinChainButton.js'
 
 interface ChainListItemProps {
   chain: ExtendedChain

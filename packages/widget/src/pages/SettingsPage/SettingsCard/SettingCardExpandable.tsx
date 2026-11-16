@@ -69,6 +69,7 @@ export const SettingCardExpandable = ({
       </CardRowButton>
       <Collapse
         id={collapseId}
+        // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- the MUI Collapse is the expandable region of the accordion
         role="region"
         aria-labelledby={buttonId}
         in={expanded}

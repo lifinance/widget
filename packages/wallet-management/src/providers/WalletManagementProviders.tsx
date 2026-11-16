@@ -11,8 +11,7 @@ type WidgetProvider = (
   props: PropsWithChildren<WidgetProviderProps>
 ) => ReactNode
 
-export interface WalletManagementProvidersProps
-  extends WalletManagementProviderProps {
+export interface WalletManagementProvidersProps extends WalletManagementProviderProps {
   providers?: WidgetProvider[]
   chains?: ExtendedChain[]
   forceInternalWalletManagement?: boolean
