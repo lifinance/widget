@@ -122,7 +122,7 @@ const setUp = async () => {
   const config = createTestConfig()
   const connector = createClosureConnector()
   const connectors = [connector.connectorFn]
-  await syncWagmiConfig(config, connectors, createChains('3000'))
+  await syncWagmiConfig(config, connectors, createChains('3000'), true)
   await vi.waitFor(() => expect(config.state.status).toBe('connected'))
   return { config, connectors, ...connector }
 }
@@ -270,7 +270,7 @@ describe('syncWagmiConfig', () => {
     const statuses = vi.fn()
     config.subscribe((state) => state.status, statuses)
 
-    await syncWagmiConfig(config, [], createChains('3000'))
+    await syncWagmiConfig(config, [], createChains('3000'), true)
     await vi.waitFor(() => expect(config.state.status).toBe('disconnected'))
     expect(statuses).toHaveBeenCalled()
 
@@ -341,6 +341,17 @@ describe('syncWagmiConfig', () => {
 
     expect(connector.emitter.listenerCount('change')).toBe(1)
     expect(connector.emitter.listenerCount('disconnect')).toBe(1)
+  })
+
+  it('reconnects on the first sync after a remount', async () => {
+    const { config, connectors } = await setUp()
+
+    const sync = syncWagmiConfig(config, connectors, createChains('3000'), true)
+    // Like wagmi Hydrate after the remount, when `reconnectOnMount` is false.
+    config.setState((state) => ({ ...state, connections: new Map() }))
+    await sync
+
+    await vi.waitFor(() => expect(config.state.connections.size).toBe(1))
   })
 
   it('reconnects a connector that is added while a reconnect runs', async () => {

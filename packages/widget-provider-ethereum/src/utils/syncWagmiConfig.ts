@@ -35,7 +35,8 @@ const withLiveChains =
 export const syncWagmiConfig = async (
   wagmiConfig: Config,
   connectors: CreateConnectorFn[],
-  chains: readonly [Chain, ...Chain[]]
+  chains: readonly [Chain, ...Chain[]],
+  isFirstSync = false
 ): Promise<void> => {
   const _mainnet = chains.find((chain) => chain.id === mainnet.id)
   if (_mainnet) {
@@ -45,7 +46,6 @@ export const syncWagmiConfig = async (
   const { connectors: connectorStore, mipd } = wagmiConfig._internal
   wagmiConfig._internal.chains.setState(chains)
 
-  const isFirstSync = !syncStates.has(wagmiConfig)
   const sync = syncStates.get(wagmiConfig) ?? {
     connectors: new WeakMap(),
     injectedConnectors: new Map(),
@@ -87,7 +87,7 @@ export const syncWagmiConfig = async (
   // wagmi Hydrate can clear the connections, for example on each render when `ssr` is false.
   const isConnectionLost = !!current && !connections.has(current)
 
-  if (isFirstSync || isChanged) {
+  if (isChanged) {
     connectorStore.setState(nextConnectors)
   }
   if (isFirstSync || isChanged || isConnectionLost) {
