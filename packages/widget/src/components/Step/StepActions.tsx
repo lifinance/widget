@@ -1,5 +1,5 @@
 import type { LiFiStep, RouteExtended, StepExtended } from '@lifi/sdk'
-import { useEthereumContext } from '@lifi/widget-provider'
+import { isGaslessStep } from '@lifi/sdk'
 import ArrowForward from '@mui/icons-material/ArrowForward'
 import { Box, Divider, Tooltip } from '@mui/material'
 import { Fragment } from 'react'
@@ -26,7 +26,6 @@ interface StepDetailsLabelProps {
   mode?: Extract<WidgetMode, 'custom'>
   modeOptions?: ModeOptions
   feeConfig?: WidgetFeeConfig
-  relayerSupport?: boolean
 }
 
 export const StepActions: React.FC<{
@@ -34,21 +33,25 @@ export const StepActions: React.FC<{
 }> = ({ route }) => {
   const { t } = useTranslation()
   const { mode, modeOptions, feeConfig, hiddenUI } = useWidgetConfig()
-  const { isGaslessStep } = useEthereumContext()
 
   const headerIncludedSteps = route.steps.flatMap((step) => step.includedSteps)
 
   const flatSteps = route.steps.flatMap((routeStep) => {
     let steps = routeStep.includedSteps
     if (hiddenUI?.integratorStepDetails) {
-      const feeCollectionStep = steps.find((s) => s.tool === 'feeCollection')
-      if (feeCollectionStep) {
+      const feeCollectionIndex = steps.findIndex(
+        (s) => s.tool === 'feeCollection'
+      )
+      if (feeCollectionIndex >= 0) {
+        const { fromAmount } = steps[feeCollectionIndex].estimate
         steps = structuredClone(steps.filter((s) => s.tool !== 'feeCollection'))
-        steps[0].estimate.fromAmount = feeCollectionStep.estimate.fromAmount
+        // The step after the hidden fee shows the amount before the fee.
+        if (steps[feeCollectionIndex]) {
+          steps[feeCollectionIndex].estimate.fromAmount = fromAmount
+        }
       }
     }
-    const hasGaslessSupport = !!isGaslessStep?.(routeStep)
-    return steps.map((includedStep) => ({ includedStep, hasGaslessSupport }))
+    return steps
   })
 
   const tooltipContent = (
@@ -60,7 +63,7 @@ export const StepActions: React.FC<{
           columnGap: 1.5,
         }}
       >
-        {flatSteps.map(({ includedStep: step, hasGaslessSupport }, i, arr) => {
+        {flatSteps.map((step, i, arr) => {
           const showDivider = i !== arr.length - 1
           const isFeeCollection =
             step.type === 'protocol' && step.tool === 'feeCollection'
@@ -98,11 +101,7 @@ export const StepActions: React.FC<{
                 ) : step.type === 'cross' ? (
                   <BridgeStepDetailsLabel step={step} />
                 ) : step.type === 'protocol' ? (
-                  <ProtocolStepDetailsLabel
-                    step={step}
-                    feeConfig={feeConfig}
-                    relayerSupport={hasGaslessSupport}
-                  />
+                  <ProtocolStepDetailsLabel step={step} feeConfig={feeConfig} />
                 ) : (
                   <SwapStepDetailsLabel step={step} />
                 )}
@@ -310,20 +309,19 @@ const SwapStepDetailsLabel: React.FC<
 
 const ProtocolStepDetailsLabel: React.FC<
   Omit<StepDetailsLabelProps, 'variant'>
-> = ({ step, feeConfig, relayerSupport }) => {
+> = ({ step, feeConfig }) => {
   const { t } = useTranslation()
   return (
     <StepLabelTypography>
       {step.toolDetails.key === 'feeCollection'
-        ? feeConfig?.name ||
-          (relayerSupport
-            ? t('main.fees.relayerService')
-            : t('main.fees.defaultIntegrator'))
-        : step.toolDetails.key === 'gasZip'
-          ? t('main.refuelStepDetails', {
-              tool: step.toolDetails.name,
-            })
-          : step.toolDetails.name}
+        ? feeConfig?.name || t('main.fees.defaultIntegrator')
+        : isGaslessStep(step)
+          ? t('main.fees.relayerService')
+          : step.toolDetails.key === 'gasZip'
+            ? t('main.refuelStepDetails', {
+                tool: step.toolDetails.name,
+              })
+            : step.toolDetails.name}
     </StepLabelTypography>
   )
 }
