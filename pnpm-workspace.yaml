@@ -21,6 +21,9 @@ minimumReleaseAgeExclude:
   - '@vitejs/plugin-vue@6.0.11'
   - viem@2.57.19
 overrides:
+  # Temporary preview of lifinance/sdk#540 (JUMEMB-192), for a wallet test only. Do not merge.
+  "@lifi/sdk": "0.0.0-preview-9b9526be"
+  "@lifi/sdk-provider-ethereum": "0.0.0-preview-9b9526be"
   "@react-native-async-storage/async-storage": ">=2.2.0"
   "@reown/appkit": ">=1.8.20"
   "@msgpack/msgpack": ">=3.1.3"
