@@ -163,8 +163,6 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@lifi/sdk': 0.0.0-preview-e8c80bc4
-  '@lifi/sdk-provider-ethereum': 0.0.0-preview-e8c80bc4
   '@react-native-async-storage/async-storage': '>=2.2.0'
   '@reown/appkit': '>=1.8.20'
   '@msgpack/msgpack': '>=3.1.3'
@@ -301,8 +299,8 @@ importers:
   examples/connectkit:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/wallet-management':
         specifier: 4.3.5
         version: 4.3.5(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react-native@0.88.1(@babel/core@7.29.13(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.2.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1)(supports-color@10.2.2)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
@@ -365,8 +363,8 @@ importers:
   examples/deposit-flow:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/widget':
         specifier: 4.10.3
         version: 4.10.3(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react-native@0.88.1(@babel/core@7.29.13(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.2.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1)(supports-color@10.2.2)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
@@ -420,14 +418,14 @@ importers:
   examples/dynamic:
     dependencies:
       '@bigmi/client':
-        specifier: ^0.10.5
-        version: 0.10.5(@tanstack/query-core@5.107.1)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+        specifier: ^0.10.6
+        version: 0.10.6(@tanstack/query-core@5.107.1)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@bigmi/core':
-        specifier: ^0.9.3
-        version: 0.9.3(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+        specifier: ^0.9.4
+        version: 0.9.4(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@bigmi/react':
-        specifier: ^0.9.5
-        version: 0.9.5(@tanstack/query-core@5.107.1)(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+        specifier: ^0.9.6
+        version: 0.9.6(@tanstack/query-core@5.107.1)(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@dynamic-labs/bitcoin':
         specifier: 5.16.0
         version: 5.16.0(@dynamic-labs-wallet/primitives@1.1.57)(@react-native-async-storage/async-storage@3.1.1(react-native@0.88.1(@babel/core@7.29.13(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.2.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1))(@types/node@26.6.6)(bufferutil@4.2.0)(debug@4.4.3(supports-color@10.2.2))(encoding@0.1.14)(fastestsmallesttextencoderdecoder@1.0.22)(react-dom@19.3.1(react@19.3.1))(react-native@0.88.1(@babel/core@7.29.13(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.2.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1)(supports-color@10.2.2)(typescript@7.0.2)(utf-8-validate@6.0.6)(viem@2.57.19(bufferutil@4.2.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.6.7))
@@ -450,8 +448,8 @@ importers:
         specifier: 5.16.0
         version: 5.16.0(4c38d7a37d846a11b3dfbb03a4b3e787)
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/wallet-management':
         specifier: 4.3.5
         version: 4.3.5(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react-native@0.88.1(@babel/core@7.29.13(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.2.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1)(supports-color@10.2.2)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
@@ -526,8 +524,8 @@ importers:
   examples/nextjs:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/widget':
         specifier: 4.10.3
         version: 4.10.3(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react-native@0.88.1(@babel/core@7.29.13(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.2.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1)(supports-color@10.2.2)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
@@ -560,8 +558,8 @@ importers:
   examples/nextjs15:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/widget':
         specifier: 4.10.3
         version: 4.10.3(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react-native@0.88.1(@babel/core@7.29.13(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.2.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1)(supports-color@10.2.2)(typescript@6.0.3)(use-sync-external-store@1.7.0(react@19.3.1))
@@ -594,8 +592,8 @@ importers:
   examples/nft-checkout:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/wallet-management':
         specifier: workspace:*
         version: link:../../packages/wallet-management
@@ -697,8 +695,8 @@ importers:
   examples/privy:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/wallet-management':
         specifier: 4.3.5
         version: 4.3.5(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react-native@0.88.1(@babel/core@7.29.13(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.2.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1)(supports-color@10.2.2)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
@@ -779,8 +777,8 @@ importers:
   examples/privy-ethers:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/wallet-management':
         specifier: 4.3.5
         version: 4.3.5(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react-native@0.88.1(@babel/core@7.29.13(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.2.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1)(supports-color@10.2.2)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
@@ -858,8 +856,8 @@ importers:
   examples/rainbowkit:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/wallet-management':
         specifier: 4.3.5
         version: 4.3.5(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react-native@0.88.1(@babel/core@7.29.13(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.2.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1)(supports-color@10.2.2)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
@@ -1008,17 +1006,17 @@ importers:
   examples/reown:
     dependencies:
       '@bigmi/client':
-        specifier: ^0.10.5
-        version: 0.10.5(@tanstack/query-core@5.107.1)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+        specifier: ^0.10.6
+        version: 0.10.6(@tanstack/query-core@5.107.1)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@bigmi/core':
-        specifier: ^0.9.3
-        version: 0.9.3(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+        specifier: ^0.9.4
+        version: 0.9.4(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@bigmi/react':
-        specifier: ^0.9.5
-        version: 0.9.5(@tanstack/query-core@5.107.1)(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+        specifier: ^0.9.6
+        version: 0.9.6(@tanstack/query-core@5.107.1)(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/wallet-management':
         specifier: 4.3.5
         version: 4.3.5(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react-native@0.88.1(@babel/core@7.29.13(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.2.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1)(supports-color@10.2.2)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
@@ -1182,8 +1180,8 @@ importers:
   examples/vite:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/wallet-management':
         specifier: 4.3.5
         version: 4.3.5(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react-native@0.88.1(@babel/core@7.29.13(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.2.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1)(supports-color@10.2.2)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
@@ -1246,8 +1244,8 @@ importers:
   examples/vite-iframe:
     dependencies:
       '@bigmi/react':
-        specifier: ^0.9.5
-        version: 0.9.5(@tanstack/query-core@5.107.1)(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+        specifier: ^0.9.6
+        version: 0.9.6(@tanstack/query-core@5.107.1)(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@emotion/react':
         specifier: ^11.14.0
         version: 11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2)
@@ -1255,8 +1253,8 @@ importers:
         specifier: ^11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2)
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/wallet-management':
         specifier: workspace:*
         version: link:../../packages/wallet-management
@@ -1457,8 +1455,8 @@ importers:
         specifier: ^11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2)
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
@@ -1515,8 +1513,8 @@ importers:
         specifier: ^11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2)
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/wallet-management':
         specifier: workspace:*
         version: link:../wallet-management
@@ -1603,8 +1601,8 @@ importers:
         specifier: ^11.14.1
         version: 11.14.1(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2)
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/wallet-management':
         specifier: workspace:*
         version: link:../wallet-management
@@ -1679,20 +1677,20 @@ importers:
   packages/widget-embedded:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/sdk-provider-bitcoin':
-        specifier: ^4.1.3
-        version: 4.1.3(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+        specifier: ^4.1.4
+        version: 4.1.4(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@lifi/sdk-provider-solana':
-        specifier: ^4.3.7
-        version: 4.3.7(bufferutil@4.2.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@7.0.2)(utf-8-validate@6.0.6)
+        specifier: ^4.3.8
+        version: 4.3.8(bufferutil@4.2.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@7.0.2)(utf-8-validate@6.0.6)
       '@lifi/sdk-provider-sui':
-        specifier: ^4.2.11
-        version: 4.2.11(typescript@7.0.2)
+        specifier: ^4.2.12
+        version: 4.2.12(typescript@7.0.2)
       '@lifi/sdk-provider-tron':
-        specifier: ^4.1.10
-        version: 4.1.10(bufferutil@4.2.0)(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)(utf-8-validate@6.0.6)
+        specifier: ^4.1.11
+        version: 4.1.11(bufferutil@4.2.0)(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)(utf-8-validate@6.0.6)
       '@lifi/wallet-management':
         specifier: workspace:*
         version: link:../wallet-management
@@ -1768,10 +1766,10 @@ importers:
     dependencies:
       '@bigmi/client':
         specifier: ^0.10.5
-        version: 0.10.5(@tanstack/query-core@5.107.1)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+        version: 0.10.6(@tanstack/query-core@5.107.1)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@bigmi/react':
         specifier: ^0.9.5
-        version: 0.9.5(@tanstack/query-core@5.107.1)(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+        version: 0.9.6(@tanstack/query-core@5.107.1)(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@mysten/dapp-kit-react':
         specifier: ^2.1.45
         version: 2.1.45(@mysten/sui@2.39.1(typescript@7.0.2))(@types/react@19.3.0)(react@19.3.1)(typescript@7.0.2)
@@ -1810,14 +1808,14 @@ importers:
         specifier: ~2.6.0
         version: 2.6.0(@types/react@19.3.0)(bufferutil@4.2.0)(debug@4.4.3(supports-color@10.2.2))(fastestsmallesttextencoderdecoder@1.0.22)(react@19.3.1)(supports-color@10.2.2)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))(utf-8-validate@6.0.6)(zod@4.6.7)
       '@bigmi/client':
-        specifier: ^0.10.5
-        version: 0.10.5(@tanstack/query-core@5.107.1)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+        specifier: ^0.10.6
+        version: 0.10.6(@tanstack/query-core@5.107.1)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@bigmi/core':
-        specifier: ^0.9.3
-        version: 0.9.3(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+        specifier: ^0.9.4
+        version: 0.9.4(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@bigmi/react':
-        specifier: ^0.9.5
-        version: 0.9.5(@tanstack/query-core@5.107.1)(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+        specifier: ^0.9.6
+        version: 0.9.6(@tanstack/query-core@5.107.1)(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@coinbase/wallet-sdk':
         specifier: ~4.4.0
         version: 4.4.0(bufferutil@4.2.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.6.7)
@@ -2047,8 +2045,8 @@ importers:
   packages/widget-provider:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       zustand:
         specifier: ^5.1.0
         version: 5.1.0(@types/react@19.3.0)(react@19.3.1)(use-sync-external-store@1.7.0(react@19.3.1))
@@ -2072,20 +2070,20 @@ importers:
   packages/widget-provider-bitcoin:
     dependencies:
       '@bigmi/client':
-        specifier: ^0.10.5
-        version: 0.10.5(@tanstack/query-core@5.107.1)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+        specifier: ^0.10.6
+        version: 0.10.6(@tanstack/query-core@5.107.1)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@bigmi/core':
-        specifier: ^0.9.3
-        version: 0.9.3(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+        specifier: ^0.9.4
+        version: 0.9.4(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@bigmi/react':
-        specifier: ^0.9.5
-        version: 0.9.5(@tanstack/query-core@5.107.1)(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+        specifier: ^0.9.6
+        version: 0.9.6(@tanstack/query-core@5.107.1)(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/sdk-provider-bitcoin':
-        specifier: ^4.1.3
-        version: 4.1.3(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+        specifier: ^4.1.4
+        version: 4.1.4(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
@@ -2109,11 +2107,11 @@ importers:
   packages/widget-provider-ethereum:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/sdk-provider-ethereum':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4(bufferutil@4.2.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.6.7)
+        specifier: ^4.3.0
+        version: 4.3.0(bufferutil@4.2.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.6.7)
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
@@ -2165,11 +2163,11 @@ importers:
   packages/widget-provider-solana:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/sdk-provider-solana':
-        specifier: ^4.3.7
-        version: 4.3.7(bufferutil@4.2.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@7.0.2)(utf-8-validate@6.0.6)
+        specifier: ^4.3.8
+        version: 4.3.8(bufferutil@4.2.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@7.0.2)(utf-8-validate@6.0.6)
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
@@ -2208,11 +2206,11 @@ importers:
         specifier: ^2.8.0
         version: 2.8.0(@react-native-async-storage/async-storage@3.1.1(react-native@0.88.1(@babel/core@7.29.13(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.2.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1))(@types/react@19.3.0)(bufferutil@4.2.0)(db0@0.4.2)(debug@4.4.3(supports-color@10.2.2))(encoding@0.1.14)(fastestsmallesttextencoderdecoder@1.0.22)(ioredis@6.0.0(supports-color@10.2.2))(near-api-js@5.1.1(encoding@0.1.14))(react@19.3.1)(supports-color@10.2.2)(tslib@2.9.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))(utf-8-validate@6.0.6)(zod@4.6.7)
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/sdk-provider-stellar':
-        specifier: ^4.3.10
-        version: 4.3.10(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)
+        specifier: ^4.3.11
+        version: 4.3.11(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
@@ -2239,11 +2237,11 @@ importers:
   packages/widget-provider-sui:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/sdk-provider-sui':
-        specifier: ^4.2.11
-        version: 4.2.11(typescript@7.0.2)
+        specifier: ^4.2.12
+        version: 4.2.12(typescript@7.0.2)
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
@@ -2295,11 +2293,11 @@ importers:
   packages/widget-provider-tron:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/sdk-provider-tron':
-        specifier: ^4.1.10
-        version: 4.1.10(bufferutil@4.2.0)(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)(utf-8-validate@6.0.6)
+        specifier: ^4.1.11
+        version: 4.1.11(bufferutil@4.2.0)(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)(utf-8-validate@6.0.6)
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
@@ -2368,11 +2366,11 @@ importers:
   packages/widget-provider-zcash:
     dependencies:
       '@lifi/sdk':
-        specifier: 0.0.0-preview-e8c80bc4
-        version: 0.0.0-preview-e8c80bc4
+        specifier: ^4.13.0
+        version: 4.13.0
       '@lifi/sdk-provider-zcash':
-        specifier: ^4.0.2
-        version: 4.0.2
+        specifier: ^4.0.3
+        version: 4.0.3
       '@lifi/widget-provider':
         specifier: workspace:*
         version: link:../widget-provider
@@ -2641,18 +2639,18 @@ packages:
       '@types/react':
         optional: true
 
-  '@bigmi/client@0.10.5':
-    resolution: {integrity: sha512-NyXK+8TXNyTiOHGpjsfkfYz1hQtPFY74+/4yUzk4mY46ZmpDakj2vou1Q3FxIHCWU7Um21b652rBQ22vKKTTSw==}
+  '@bigmi/client@0.10.6':
+    resolution: {integrity: sha512-tvDr1+7KKcsBTw4XVNgxysmftJ22LM/aRE7Rh6VmCLs+q1Z9ittOlYgEB75aA4fXpJhC9m9piyT7aHcz3aEoVw==}
     peerDependencies:
       '@tanstack/query-core': '>=5.68.0'
 
-  '@bigmi/core@0.9.3':
-    resolution: {integrity: sha512-H7Scul3cYPlcdyMdwHaYpTNQEL37on2AX5WiZkb7/K73xIltyX6MlqysfaplO8ZaURWucKbdEc6MWwwbVRdJiA==}
+  '@bigmi/core@0.9.4':
+    resolution: {integrity: sha512-FydzVL1BrGsgRQzM8UcFBmzVU7mzoF9COt5ALb3D0Bi2xcmZN2XSNgyuHlQzPKnui2ePGt91BKFMiwSJ2dWuLg==}
     peerDependencies:
       bs58: '>=4.0.1'
 
-  '@bigmi/react@0.9.5':
-    resolution: {integrity: sha512-t5Za6dxoGvZXUeEqKOtYl0+P1si4Ut/RkoHYsmOukj8iVUz2bl50AM82ltSAcIGtDqEnLdN79XZ0BaFSL67rHA==}
+  '@bigmi/react@0.9.6':
+    resolution: {integrity: sha512-F+fvkk6Ij3ntNDDvmkRcK7r/Cz/Af4wtGEhkZPUG0TMzUXDpP9ytB+PRkHZZgKib6r/jT3DqVLCyP7O6mSDfMQ==}
     peerDependencies:
       '@tanstack/react-query': '>=5.68.0'
       react: ^18.0.0 || ^19.0.0
@@ -3810,32 +3808,32 @@ packages:
   '@ledgerhq/logs@6.20.0':
     resolution: {integrity: sha512-Pp+s24tGEGR3ANA+qQM50vlAUH/SmAaxkpCw0pmYYUa/fcGggko+7c1+RvgpjA6PhB3XPKTmu9vQdVrROJXjuw==}
 
-  '@lifi/sdk-provider-bitcoin@4.1.3':
-    resolution: {integrity: sha512-wvsXrvJ3InLx7rH9vhhki37av7Am7ZCAig7gyg0QpEX5lYMSgCb6M64cEUd5zMo0Z5N6j6VJpJ26OaQSaG2voQ==}
+  '@lifi/sdk-provider-bitcoin@4.1.4':
+    resolution: {integrity: sha512-aBcRTc4u/X5HdSTU+Lw3zU2S2nTelZoSn50nMbO6yyaU2gP5WYsqPbT4+uSxFu6T7umiK7fGEi2d2U33wMDwmw==}
 
-  '@lifi/sdk-provider-ethereum@0.0.0-preview-e8c80bc4':
-    resolution: {integrity: sha512-0ta1/FQg4qJ5uDn6fChMUXZ2UXNx9lGi2S1oSq0PVVdmgz4D6ZDlJGFYLvYH19TwCAkrPDaZNm70hNufDwOWFw==}
+  '@lifi/sdk-provider-ethereum@4.3.0':
+    resolution: {integrity: sha512-fN6MgWpjq90gRzWij/S3revpVOxHR6LEP527TlCXkqqLjV5ZUVNxdjw2GC5uNToKhXVm0AobjotB1tBZwnf/dw==}
 
-  '@lifi/sdk-provider-solana@4.3.7':
-    resolution: {integrity: sha512-FXILM+jcS82ygx8bnFrXFy2y6ByYyyUZepe8dOQG4IY6bpPE+yNt4ZNZKjjUnO5zWlvelMKOdZ7viTPPq/F+sQ==}
+  '@lifi/sdk-provider-solana@4.3.8':
+    resolution: {integrity: sha512-7GVd+8+b6w6fHVX9pmDgG6AYznL5yX8B3tUliIjzg9oyOfY4Vcy4h5Y6QMOZ61gLq7bcg6eCS7sLvKJHRoy9Ow==}
 
-  '@lifi/sdk-provider-stellar@4.3.10':
-    resolution: {integrity: sha512-xtrqLmPNDjl6bxQr0s+OxVVgdDxVnsvV1v22wEGBcgn/BaWTrvxJ2EoVmCPS62Qx0NOnFrVhMrvLFNbVmblKgw==}
+  '@lifi/sdk-provider-stellar@4.3.11':
+    resolution: {integrity: sha512-81CXDUxEms5ncmAPi4WyCyDHb7+5NMT6sw22ZkkqS/FqXfzxvsDQbEP89jrYXPXUwT2t2QEtaIb34aHa4IaNdg==}
 
-  '@lifi/sdk-provider-sui@4.2.11':
-    resolution: {integrity: sha512-S7JoS18L7Lkndp+S4q5dU0OWF6k3MKr7fzTjMFiaY110JA4XYpNmYALqGFrGhiRw+KindwKsk6I40QpxBW6uXA==}
+  '@lifi/sdk-provider-sui@4.2.12':
+    resolution: {integrity: sha512-l40gRsGce6zLuOXLdrFhlGgNLC1MlDoLRYQefQdTq+13Ld081r2zgAKTq3ulEq+RLavWocanzngXojFBCqjZjQ==}
 
-  '@lifi/sdk-provider-tron@4.1.10':
-    resolution: {integrity: sha512-Qf6WaEG1y0yMc4oCJRg7pMQPV8ihzgX34jJDDbDdR+MyaR6NTmarbzgMPudparu7PKrdk+RwmhDKuy/WJM9Imw==}
+  '@lifi/sdk-provider-tron@4.1.11':
+    resolution: {integrity: sha512-E4TkKtjp9FQBG8G0rIGaYoAj5GoeZ4x18/q0Drizpf1dc/eDX+xf/Xd85hJUg20GvAnaFXqFwAZ6rS1FWRVQzQ==}
 
-  '@lifi/sdk-provider-zcash@4.0.2':
-    resolution: {integrity: sha512-mvXebvcMDISJszyK1bRJ6dIQwRoe1/+baYdHGMFv5WH4+gaN7K2E3a4OTgwxe8ILDT8z1YmpMgDixIea27ureQ==}
+  '@lifi/sdk-provider-zcash@4.0.3':
+    resolution: {integrity: sha512-Lp1U8TnAih4gRfgxIjhPa82EH24TlH9iR+5oPyosVXcyg+RQvBwoLc2+wCYGcN8pmzwoLoRiVPzzRfNO58uUtg==}
 
-  '@lifi/sdk@0.0.0-preview-e8c80bc4':
-    resolution: {integrity: sha512-ZlKd7eRV1szYD7iss23wIbWU0jRhtUjqdUO/BkvTM47KDwY7UUjLAedbvcmgp6Z+545iGyF0CsdDCmPGZ5FlmQ==}
+  '@lifi/sdk@4.13.0':
+    resolution: {integrity: sha512-6XaLQCrdJZw4x2Qo40r3czC/+CsGpL3SxR6q1HtuoeWTBs0i9GoZnAij6KkRTW0HFSjyH8s/9lsAz8FzMcEy/g==}
 
-  '@lifi/types@18.16.0':
-    resolution: {integrity: sha512-UWpAkkMjX4KTSvyoRLwrjzEWUFKPrANvijlO6dF+Vw6MrLYctcpmjWPp41sCcSqJboon0mtjs7x9CVGMgqJ4Fw==}
+  '@lifi/types@19.1.0':
+    resolution: {integrity: sha512-umGZRKYkMlwKcAjfK1AywXinrMJuqW5IhUdWwg5Pff4Cdi4ZB53/HT3RTlpkaZ9BwGnBQKP7islQTC5yKX4JwA==}
 
   '@lifi/wallet-management@4.3.5':
     resolution: {integrity: sha512-xXNN9CYyo6Wjri+zkH+D6m4g/RSO5OoiTj/9ejJuizWxkL54U1cTTadTbB/7l04vualuogPVPa59wlfEA+9Yow==}
@@ -16307,9 +16305,9 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.3.0
 
-  '@bigmi/client@0.10.5(@tanstack/query-core@5.107.1)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))':
+  '@bigmi/client@0.10.6(@tanstack/query-core@5.107.1)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))':
     dependencies:
-      '@bigmi/core': 0.9.3(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+      '@bigmi/core': 0.9.4(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@tanstack/query-core': 5.107.1
       '@wallet-standard/app': 1.1.1
       '@wallet-standard/base': 1.1.1
@@ -16323,7 +16321,7 @@ snapshots:
       - typescript
       - use-sync-external-store
 
-  '@bigmi/core@0.9.3(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))':
+  '@bigmi/core@0.9.4(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))':
     dependencies:
       '@noble/hashes': 1.8.0
       bech32: 2.0.0
@@ -16338,10 +16336,10 @@ snapshots:
       - typescript
       - use-sync-external-store
 
-  '@bigmi/react@0.9.5(@tanstack/query-core@5.107.1)(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))':
+  '@bigmi/react@0.9.6(@tanstack/query-core@5.107.1)(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(bs58@6.0.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))':
     dependencies:
-      '@bigmi/client': 0.10.5(@tanstack/query-core@5.107.1)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
-      '@bigmi/core': 0.9.3(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+      '@bigmi/client': 0.10.6(@tanstack/query-core@5.107.1)(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+      '@bigmi/core': 0.9.4(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@tanstack/react-query': 5.107.1(@types/react@19.3.0)(react@19.3.1)
       react: 19.3.1
       react-dom: 19.3.1(react@19.3.1)
@@ -18432,11 +18430,11 @@ snapshots:
 
   '@ledgerhq/logs@6.20.0': {}
 
-  '@lifi/sdk-provider-bitcoin@4.1.3(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))':
+  '@lifi/sdk-provider-bitcoin@4.1.4(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))':
     dependencies:
-      '@bigmi/core': 0.9.3(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
+      '@bigmi/core': 0.9.4(@types/react@19.3.0)(bs58@6.0.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@bitcoinerlab/secp256k1': 2.0.0
-      '@lifi/sdk': 0.0.0-preview-e8c80bc4
+      '@lifi/sdk': 4.13.0
       bech32: 2.0.0
       bitcoinjs-lib: 7.0.5(typescript@7.0.2)
     transitivePeerDependencies:
@@ -18447,9 +18445,9 @@ snapshots:
       - typescript
       - use-sync-external-store
 
-  '@lifi/sdk-provider-ethereum@0.0.0-preview-e8c80bc4(bufferutil@4.2.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.6.7)':
+  '@lifi/sdk-provider-ethereum@4.3.0(bufferutil@4.2.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.6.7)':
     dependencies:
-      '@lifi/sdk': 0.0.0-preview-e8c80bc4
+      '@lifi/sdk': 4.13.0
       viem: 2.57.19(bufferutil@4.2.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.6.7)
     transitivePeerDependencies:
       - bufferutil
@@ -18458,9 +18456,9 @@ snapshots:
       - utf-8-validate
       - zod
 
-  '@lifi/sdk-provider-solana@4.3.7(bufferutil@4.2.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@7.0.2)(utf-8-validate@6.0.6)':
+  '@lifi/sdk-provider-solana@4.3.8(bufferutil@4.2.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@7.0.2)(utf-8-validate@6.0.6)':
     dependencies:
-      '@lifi/sdk': 0.0.0-preview-e8c80bc4
+      '@lifi/sdk': 4.13.0
       '@solana/kit': 8.6.0(bufferutil@4.2.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@7.0.2)(utf-8-validate@6.0.6)
       '@solana/wallet-standard-features': 1.5.0
       '@wallet-standard/base': 1.1.1
@@ -18470,26 +18468,26 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@lifi/sdk-provider-stellar@4.3.10(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)':
+  '@lifi/sdk-provider-stellar@4.3.11(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)':
     dependencies:
-      '@lifi/sdk': 0.0.0-preview-e8c80bc4
+      '@lifi/sdk': 4.13.0
       '@stellar/stellar-sdk': 17.4.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)
     transitivePeerDependencies:
       - debug
       - supports-color
 
-  '@lifi/sdk-provider-sui@4.2.11(typescript@7.0.2)':
+  '@lifi/sdk-provider-sui@4.2.12(typescript@7.0.2)':
     dependencies:
-      '@lifi/sdk': 0.0.0-preview-e8c80bc4
+      '@lifi/sdk': 4.13.0
       '@mysten/sui': 2.39.1(typescript@7.0.2)
     transitivePeerDependencies:
       - '@gql.tada/svelte-support'
       - '@gql.tada/vue-support'
       - typescript
 
-  '@lifi/sdk-provider-tron@4.1.10(bufferutil@4.2.0)(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)(utf-8-validate@6.0.6)':
+  '@lifi/sdk-provider-tron@4.1.11(bufferutil@4.2.0)(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)(utf-8-validate@6.0.6)':
     dependencies:
-      '@lifi/sdk': 0.0.0-preview-e8c80bc4
+      '@lifi/sdk': 4.13.0
       '@tronweb3/tronwallet-abstract-adapter': 1.3.0(bufferutil@4.2.0)(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)(utf-8-validate@6.0.6)
       tronweb: 6.5.2(bufferutil@4.2.0)(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)(utf-8-validate@6.0.6)
     transitivePeerDependencies:
@@ -18498,23 +18496,23 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  '@lifi/sdk-provider-zcash@4.0.2':
+  '@lifi/sdk-provider-zcash@4.0.3':
     dependencies:
-      '@lifi/sdk': 0.0.0-preview-e8c80bc4
-      '@noble/hashes': 1.8.0
-      '@scure/base': 1.2.6
+      '@lifi/sdk': 4.13.0
+      '@noble/hashes': 2.4.0
+      '@scure/base': 2.4.0
 
-  '@lifi/sdk@0.0.0-preview-e8c80bc4':
+  '@lifi/sdk@4.13.0':
     dependencies:
-      '@lifi/types': 18.16.0
+      '@lifi/types': 19.1.0
 
-  '@lifi/types@18.16.0': {}
+  '@lifi/types@19.1.0': {}
 
   '@lifi/wallet-management@4.3.5(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react-native@0.88.1(@babel/core@7.29.13(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.2.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1)(supports-color@10.2.2)(typescript@6.0.3)(use-sync-external-store@1.7.0(react@19.3.1))':
     dependencies:
       '@emotion/react': 11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2)
       '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2)
-      '@lifi/sdk': 0.0.0-preview-e8c80bc4
+      '@lifi/sdk': 4.13.0
       '@lifi/widget-provider': 4.6.2(@types/react@19.3.0)(react@19.3.1)(use-sync-external-store@1.7.0(react@19.3.1))
       '@mui/icons-material': 9.5.0(@mui/material@9.5.0(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(@types/react@19.3.0)(react@19.3.1)
       '@mui/material': 9.5.0(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -18539,7 +18537,7 @@ snapshots:
     dependencies:
       '@emotion/react': 11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2)
       '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2)
-      '@lifi/sdk': 0.0.0-preview-e8c80bc4
+      '@lifi/sdk': 4.13.0
       '@lifi/widget-provider': 4.6.2(@types/react@19.3.0)(react@19.3.1)(use-sync-external-store@1.7.0(react@19.3.1))
       '@mui/icons-material': 9.5.0(@mui/material@9.5.0(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(@types/react@19.3.0)(react@19.3.1)
       '@mui/material': 9.5.0(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)
@@ -18562,8 +18560,8 @@ snapshots:
 
   '@lifi/widget-provider-ethereum@4.1.10(@types/react@19.3.0)(@wagmi/core@3.6.9(@tanstack/query-core@5.107.1)(@types/react@19.3.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))(viem@2.57.19(bufferutil@4.2.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.6.7)))(bufferutil@4.2.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))(utf-8-validate@6.0.6)(wagmi@3.7.11(56a3987f2de1b5541bc6821474cc5a09))(zod@4.6.7)':
     dependencies:
-      '@lifi/sdk': 0.0.0-preview-e8c80bc4
-      '@lifi/sdk-provider-ethereum': 0.0.0-preview-e8c80bc4(bufferutil@4.2.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.6.7)
+      '@lifi/sdk': 4.13.0
+      '@lifi/sdk-provider-ethereum': 4.3.0(bufferutil@4.2.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.6.7)
       '@lifi/widget-provider': 4.6.2(@types/react@19.3.0)(react@19.3.1)(use-sync-external-store@1.7.0(react@19.3.1))
       '@wagmi/core': 3.6.9(@tanstack/query-core@5.107.1)(@types/react@19.3.0)(react@19.3.1)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))(viem@2.57.19(bufferutil@4.2.0)(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.6.7))
       react: 19.3.1
@@ -18581,7 +18579,7 @@ snapshots:
 
   '@lifi/widget-provider@4.6.2(@types/react@19.3.0)(react@19.3.1)(use-sync-external-store@1.7.0(react@19.3.1))':
     dependencies:
-      '@lifi/sdk': 0.0.0-preview-e8c80bc4
+      '@lifi/sdk': 4.13.0
       react: 19.3.1
       zustand: 5.1.0(@types/react@19.3.0)(react@19.3.1)(use-sync-external-store@1.7.0(react@19.3.1))
     transitivePeerDependencies:
@@ -18593,7 +18591,7 @@ snapshots:
     dependencies:
       '@emotion/react': 11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2)
       '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2)
-      '@lifi/sdk': 0.0.0-preview-e8c80bc4
+      '@lifi/sdk': 4.13.0
       '@lifi/wallet-management': 4.3.5(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react-native@0.88.1(@babel/core@7.29.13(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.2.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1)(supports-color@10.2.2)(typescript@6.0.3)(use-sync-external-store@1.7.0(react@19.3.1))
       '@lifi/widget-provider': 4.6.2(@types/react@19.3.0)(react@19.3.1)(use-sync-external-store@1.7.0(react@19.3.1))
       '@mui/icons-material': 9.5.0(@mui/material@9.5.0(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(@types/react@19.3.0)(react@19.3.1)
@@ -18626,7 +18624,7 @@ snapshots:
     dependencies:
       '@emotion/react': 11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2)
       '@emotion/styled': 11.14.1(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2)
-      '@lifi/sdk': 0.0.0-preview-e8c80bc4
+      '@lifi/sdk': 4.13.0
       '@lifi/wallet-management': 4.3.5(@tanstack/react-query@5.107.1(@types/react@19.3.0)(react@19.3.1))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react-native@0.88.1(@babel/core@7.29.13(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.2.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1)(supports-color@10.2.2)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))
       '@lifi/widget-provider': 4.6.2(@types/react@19.3.0)(react@19.3.1)(use-sync-external-store@1.7.0(react@19.3.1))
       '@mui/icons-material': 9.5.0(@mui/material@9.5.0(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@emotion/styled@11.14.1(@emotion/react@11.14.0(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react@19.3.1)(supports-color@10.2.2))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1))(@types/react@19.3.0)(react@19.3.1)
