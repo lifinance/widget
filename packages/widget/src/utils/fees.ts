@@ -1,4 +1,5 @@
 import type { FeeCost, GasCost, RouteExtended, Token } from '@lifi/sdk'
+import { isGaslessStep } from '@lifi/sdk'
 import { formatTokenPrice } from './format.js'
 
 export interface FeesBreakdown {
@@ -41,6 +42,10 @@ const getGasCostsBreakdown = (route: RouteExtended): FeesBreakdown[] => {
   return Array.from(
     route.steps
       .reduce((groupedGasCosts, step) => {
+        // The relayer pays the gas of a gasless step.
+        if (isGaslessStep(step)) {
+          return groupedGasCosts
+        }
         const gasCosts = step.execution?.gasCosts ?? step.estimate.gasCosts
         if (gasCosts?.length) {
           const {
