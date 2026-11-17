@@ -141,10 +141,12 @@ export const VirtualizedChainList = ({
 
     // Only scroll if sortedChains is not empty and we haven't scrolled yet
     if (!hasScrolledRef.current && sortedChains.length > 0 && range) {
-      const selectedChainIndex = sortedChains.findIndex(
+      const chainIndex = sortedChains.findIndex(
         (chain) => chain.id === selectedChainIdRef.current
       )
-      if (selectedChainIndex !== -1) {
+      if (chainIndex !== -1) {
+        // Virtual indices include the "All networks" row.
+        const selectedChainIndex = chainIndex + (showAllNetworksOption ? 1 : 0)
         // Only scroll if the selected chain is not in the visible range
         // +1 and -1 to account for partially visible items
         if (
@@ -156,7 +158,7 @@ export const VirtualizedChainList = ({
       }
       hasScrolledRef.current = true // Mark as scrolled (when needed)
     }
-  }, [sortedChains, scrollToIndex, range, isAllNetworks])
+  }, [sortedChains, scrollToIndex, range, isAllNetworks, showAllNetworksOption])
 
   const selectAllNetworks = useCallback(() => {
     setIsAllNetworks(true, formType)
@@ -177,7 +179,7 @@ export const VirtualizedChainList = ({
             <ListItem
               key={item.key}
               style={{
-                height: `${itemsSize}px`,
+                height: `${item.size}px`,
                 transform: `translateY(${item.start}px)`,
                 padding: 0,
               }}

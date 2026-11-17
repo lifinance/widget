@@ -14,11 +14,7 @@ import {
 } from './ChainList.style.js'
 import { pinButtonClassName, PinChainButton } from './PinChainButton.js'
 
-// With a label, the chain name never grows and shrinks only when the label is at
-// `minWidth`. The label has a zero flex basis: it grows up to its content width
-// when the row has space, and it freezes at `minWidth` when the row overflows.
-// Thus the label text gets the ellipsis first, and the chain name keeps its
-// natural width until the label reaches `minWidth`.
+// A zero flex basis makes the label truncate before the chain name.
 const labelLayoutSx = {
   flex: '1 1 0px',
   minWidth: 48,

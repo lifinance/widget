@@ -298,10 +298,7 @@ export type AllowDenyItems<T> = {
   to?: AllowDeny<T>
 } & AllowDeny<T>
 
-export interface ChainLabel {
-  text: string
-  sx?: SxProps<Theme>
-}
+export type ChainLabel = RouteLabel
 
 export interface PinnedChain {
   chainId: number

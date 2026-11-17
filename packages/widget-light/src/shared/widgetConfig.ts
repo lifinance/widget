@@ -220,9 +220,7 @@ export type WidgetLanguageResources = Record<string, Record<string, unknown>>
 // Chain filtering (mirrors WidgetChains)
 // ---------------------------------------------------------------------------
 
-export interface WidgetChainLabel {
-  text: string
-}
+export type WidgetChainLabel = WidgetRouteLabel
 
 export interface WidgetPinnedChain {
   chainId: number
