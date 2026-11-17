@@ -2,6 +2,7 @@ import { Avatar, Box, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import type React from 'react'
 import { Card } from '../../components/Card/Card.js'
+import { CardLabel } from '../../components/Card/CardLabel.js'
 import { maxChainsToShow } from '../../stores/chains/createChainOrderStore.js'
 
 const chainCardWidthPx = 52
@@ -19,6 +20,9 @@ const maxChainsPerRow = Math.ceil(maxChainsToShow / maxRows)
 export const ChainCard: React.FC<
   React.ComponentProps<typeof Card> & { itemCount?: number }
 > = styled(Card)(({ theme }) => ({
+  position: 'relative',
+  // The corner badge overlaps the tile edge.
+  overflow: 'visible',
   display: 'grid',
   placeItems: 'center',
   minWidth: chainCardWidthPx,
@@ -27,6 +31,31 @@ export const ChainCard: React.FC<
     height: chainCardHeightPxMobile,
     minWidth: chainCardWidthPxMobile,
   },
+}))
+
+export const ChainCardBadgeContainer: React.FC<
+  React.ComponentProps<typeof Box>
+> = styled(Box)({
+  position: 'absolute',
+  top: -6,
+  right: -6,
+  pointerEvents: 'none',
+})
+
+export const ChainCardBadge: React.FC<React.ComponentProps<typeof CardLabel>> =
+  styled(CardLabel)({
+    height: 16,
+    minWidth: 0,
+  })
+
+export const ChainCardBadgeText: React.FC<
+  React.ComponentProps<typeof Typography>
+> = styled(Typography)(({ theme }) => ({
+  padding: theme.spacing(0.25, 0.5),
+  fontSize: 10,
+  fontWeight: 600,
+  lineHeight: 1,
+  whiteSpace: 'nowrap',
 }))
 
 export const ChainAvatar: React.FC<
