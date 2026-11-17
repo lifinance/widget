@@ -59,7 +59,7 @@ export const ChainListItem: React.NamedExoticComponent<ChainListItemProps> =
       onPin,
       withPin,
     }: ChainListItemProps): JSX.Element => {
-      const hasLabel = isVisibleChainLabel(label)
+      const visibleLabel = isVisibleChainLabel(label) ? label : undefined
       return (
         <ListItem
           style={{
@@ -88,18 +88,20 @@ export const ChainListItem: React.NamedExoticComponent<ChainListItemProps> =
             <ListItemText
               primary={chain.name}
               size={itemsSize}
-              sx={hasLabel ? nameWithLabelSx : nameSx}
+              sx={visibleLabel ? nameWithLabelSx : nameSx}
             />
-            {isVisibleChainLabel(label) && (
+            {visibleLabel && (
               <CardLabel
                 className="chain-label"
                 sx={[
                   labelLayoutSx,
-                  ...(Array.isArray(label.sx) ? label.sx : [label.sx]),
+                  ...(Array.isArray(visibleLabel.sx)
+                    ? visibleLabel.sx
+                    : [visibleLabel.sx]),
                 ]}
               >
                 <CardLabelTypography noWrap>
-                  {label.text.trim()}
+                  {visibleLabel.text.trim()}
                 </CardLabelTypography>
               </CardLabel>
             )}

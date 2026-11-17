@@ -210,9 +210,7 @@ export const VirtualizedChainList = ({
             size={item.size}
             start={item.start}
             withPin={withPinnedChains}
-            isPinned={
-              configPins.has(chain.id) || pinnedChains.includes(chain.id)
-            }
+            isPinned={pinnedChains.includes(chain.id)}
             isLocked={configPins.has(chain.id)}
             label={configPins.get(chain.id)?.label}
             onPin={onPin}

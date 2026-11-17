@@ -106,6 +106,17 @@ describe('getConfigPinnedChains', () => {
     ])
   })
 
+  it('treats an unknown side value as no side', () => {
+    // Untyped config (plain JS, postMessage) can pass any value.
+    const pinned = [{ chainId: 1, side: 'both' }] as unknown as PinnedChain[]
+    expect([
+      ...getConfigPinnedChains(pinned, allChains, 'from').keys(),
+    ]).toEqual([1])
+    expect([...getConfigPinnedChains(pinned, allChains, 'to').keys()]).toEqual([
+      1,
+    ])
+  })
+
   it('drops the pins that are not in the chains', () => {
     const result = getConfigPinnedChains(
       [{ chainId: 999 }, { chainId: 1 }],

@@ -10,6 +10,7 @@ export const isVisibleChainLabel = (
   // Untyped config (plain JS, postMessage) can pass any shape.
   typeof label?.text === 'string' && label.text.trim() !== ''
 
+// Not a type guard: a valid label that is too long must not narrow to undefined.
 export const isShortChainLabel = (label: ChainLabel | undefined): boolean => {
   if (!isVisibleChainLabel(label)) {
     return false
@@ -30,11 +31,14 @@ export const getConfigPinnedChains = (
   const chainIds = new Set(chains.map((chain) => chain.id))
   for (const pin of pinned) {
     // Untyped config (plain JS, postMessage) can pass any shape.
+    // An unknown `side` value counts as no side: the pin applies to both lists.
+    const pinSide =
+      pin?.side === 'from' || pin?.side === 'to' ? pin.side : undefined
     if (
       typeof pin !== 'object' ||
       pin === null ||
       typeof pin.chainId !== 'number' ||
-      (pin.side && pin.side !== side) ||
+      (pinSide && pinSide !== side) ||
       !chainIds.has(pin.chainId) ||
       configPins.has(pin.chainId)
     ) {
@@ -91,8 +95,9 @@ export const getGridChains = ({
   selectedChainId,
   tileCount,
 }: GetGridChainsParams): ExtendedChain[] => {
+  const chainById = new Map(chains.map((chain) => [chain.id, chain]))
   const pins = [...configPins.keys()]
-    .map((id) => chains.find((c) => c.id === id))
+    .map((id) => chainById.get(id))
     .filter(Boolean)
     .slice(0, tileCount) as ExtendedChain[]
   // Filter with all config pins: a pin that the cut removed must not come back as a base tile.
@@ -101,9 +106,7 @@ export const getGridChains = ({
     .slice(0, Math.max(tileCount - pins.length, 0))
   const tiles = [...pins, ...rest]
   const selected =
-    selectedChainId === undefined
-      ? undefined
-      : chains.find((c) => c.id === selectedChainId)
+    selectedChainId === undefined ? undefined : chainById.get(selectedChainId)
   if (!selected || tiles.some((c) => c.id === selected.id) || tileCount < 1) {
     return tiles
   }

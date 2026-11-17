@@ -29,6 +29,7 @@ export const ChainSelectItem: React.NamedExoticComponent<ChainSelectItemProps> =
       onSelect,
       label,
     }: ChainSelectItemProps): JSX.Element => {
+      const badgeLabel = label && isShortChainLabel(label) ? label : undefined
       return (
         <Tooltip title={chain.name} enterNextDelay={100}>
           <ChainCard
@@ -36,17 +37,25 @@ export const ChainSelectItem: React.NamedExoticComponent<ChainSelectItemProps> =
             onClick={() => onSelect(chain.id)}
             type={!isAllNetworks && isSelected ? 'selected' : 'default'}
             selectionColor="secondary"
+            // Only a tile with a badge lets content overlap its edge.
+            sx={badgeLabel ? { overflow: 'visible' } : undefined}
           >
             <ChainAvatar src={chain.logoURI} alt={chain.key}>
               {chain.name[0]}
             </ChainAvatar>
-            {label && isShortChainLabel(label) ? (
+            {badgeLabel ? (
               <ChainCardBadgeContainer>
                 <ChainCardBadge
                   className="chain-badge"
-                  sx={Array.isArray(label.sx) ? label.sx : [label.sx]}
+                  sx={
+                    Array.isArray(badgeLabel.sx)
+                      ? badgeLabel.sx
+                      : [badgeLabel.sx]
+                  }
                 >
-                  <ChainCardBadgeText>{label.text.trim()}</ChainCardBadgeText>
+                  <ChainCardBadgeText>
+                    {badgeLabel.text.trim()}
+                  </ChainCardBadgeText>
                 </ChainCardBadge>
               </ChainCardBadgeContainer>
             ) : null}

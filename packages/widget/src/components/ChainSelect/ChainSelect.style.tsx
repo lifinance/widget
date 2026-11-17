@@ -21,8 +21,6 @@ export const ChainCard: React.FC<
   React.ComponentProps<typeof Card> & { itemCount?: number }
 > = styled(Card)(({ theme }) => ({
   position: 'relative',
-  // The corner badge overlaps the tile edge.
-  overflow: 'visible',
   display: 'grid',
   placeItems: 'center',
   minWidth: chainCardWidthPx,

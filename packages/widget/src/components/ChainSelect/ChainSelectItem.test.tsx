@@ -98,6 +98,16 @@ describe('ChainSelectItem', () => {
     expect(getBadge()).toBeNull()
   })
 
+  it('lets only a tile with a badge overflow its edge', () => {
+    render({ label: { text: 'NEW' } })
+    const badgeTile = container.querySelector('button')
+    expect(getComputedStyle(badgeTile!).overflow).toBe('visible')
+
+    render({ label: { text: 'Promo' } })
+    const plainTile = container.querySelector('button')
+    expect(getComputedStyle(plainTile!).overflow).not.toBe('visible')
+  })
+
   it('selects the chain on click', () => {
     render()
 
