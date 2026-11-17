@@ -3,9 +3,11 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 import type { JSX, RefObject } from 'react'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useConfigPinnedChains } from '../../hooks/useConfigPinnedChains.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import { FormKeyHelper, type FormType } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
+import { sortChainsByPins } from '../../utils/pinnedChains.js'
 import { AllChainsAvatar } from './AllChainsAvatar.js'
 import {
   List,
@@ -61,18 +63,12 @@ export const VirtualizedChainList = ({
     [setPinnedChain]
   )
 
-  const sortedChains = useMemo(() => {
-    if (!pinnedChains.length) {
-      return chains
-    }
-    // Pinning logic: move pinned chains to the top of the list
-    const pinned = pinnedChains
-      .map((id) => chains.find((c) => c.id === id))
-      .filter(Boolean) as ExtendedChain[]
-    const pinnedIds = new Set(pinned.map((c) => c.id))
-    const rest = chains.filter((c) => !pinnedIds.has(c.id))
-    return [...pinned, ...rest]
-  }, [chains, pinnedChains])
+  const configPins = useConfigPinnedChains(chains, formType)
+
+  const sortedChains = useMemo(
+    () => sortChainsByPins(chains, configPins, pinnedChains),
+    [chains, configPins, pinnedChains]
+  )
 
   const showAllNetworksOption = showAllNetworks && !hasSearchQuery
 
@@ -214,7 +210,11 @@ export const VirtualizedChainList = ({
             size={item.size}
             start={item.start}
             withPin={withPinnedChains}
-            isPinned={pinnedChains.includes(chain.id)}
+            isPinned={
+              configPins.has(chain.id) || pinnedChains.includes(chain.id)
+            }
+            isLocked={configPins.has(chain.id)}
+            label={configPins.get(chain.id)?.label}
             onPin={onPin}
           />
         )

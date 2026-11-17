@@ -2,6 +2,7 @@ import type { ExtendedChain } from '@lifi/sdk'
 import { Box } from '@mui/material'
 import type React from 'react'
 import { type JSX, memo } from 'react'
+import type { ChainLabel } from '../../types/widget.js'
 import {
   Avatar,
   ListItem,
@@ -19,6 +20,8 @@ interface ChainListItemProps {
   size: number
   start: number
   isPinned: boolean
+  isLocked: boolean
+  label?: ChainLabel
   onPin: (chainId: number) => void
   withPin: boolean
 }
