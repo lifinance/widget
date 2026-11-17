@@ -1,5 +1,9 @@
 import { describe, expect, it, vi } from 'vitest'
-import { formatInputAmount, parseAmountToBigInt } from './format.js'
+import {
+  formatInputAmount,
+  formatSlippage,
+  parseAmountToBigInt,
+} from './format.js'
 
 describe('formatInputAmount', () => {
   it('should handle empty input', () => {
@@ -101,5 +105,50 @@ describe('parseAmountToBigInt', () => {
     expect(warn).not.toHaveBeenCalled()
 
     warn.mockRestore()
+  })
+})
+
+describe('formatSlippage', () => {
+  it('should handle empty input', () => {
+    expect(formatSlippage('')).toBe('')
+  })
+
+  it('should pass through plain dot-decimal values', () => {
+    expect(formatSlippage('0.5', '0.5', false)).toBe('0.5')
+    expect(formatSlippage('1.5', '0.5', false)).toBe('1.5')
+    expect(formatSlippage('5', '0.5', false)).toBe('5')
+  })
+
+  it('should normalize a comma decimal separator', () => {
+    expect(formatSlippage('0,5', '0.5', false)).toBe('0.5')
+    expect(formatSlippage('1,5', '0.5', false)).toBe('1.5')
+    expect(formatSlippage('0,25', '0.5', false)).toBe('0.25')
+  })
+
+  it('should normalize a comma decimal separator while typing (returnInitial)', () => {
+    expect(formatSlippage('0', '0.5', true)).toBe('0')
+    expect(formatSlippage('0,', '0.5', true)).toBe('0.')
+    expect(formatSlippage('0,5', '0.5', true)).toBe('0.5')
+  })
+
+  it('should clamp to 100', () => {
+    expect(formatSlippage('150', '0.5', false)).toBe('100')
+    expect(formatSlippage('150,5', '0.5', false)).toBe('100')
+  })
+
+  it('should take the absolute value of a negative input', () => {
+    expect(formatSlippage('-3', '0.5', false)).toBe('3')
+    expect(formatSlippage('-3,5', '0.5', false)).toBe('3.5')
+  })
+
+  it('should fall back to defaultValue on unparseable input', () => {
+    expect(formatSlippage('abc', '0.5', false)).toBe('0.5')
+  })
+
+  it('should not attempt to normalize ambiguous separator combinations', () => {
+    expect(formatSlippage('1,,5', '0.5', false)).toBe('1')
+    expect(formatSlippage('1,234.5', '0.5', false)).toBe('1')
+    expect(formatSlippage('150,,5', '0.5', false)).toBe('150')
+    expect(formatSlippage('-150,,5', '0.5', false)).toBe('-150')
   })
 })
