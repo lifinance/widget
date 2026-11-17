@@ -217,7 +217,7 @@ overrides:
   glob@>=10.0.0 <14.0.2: ^14.0.2
   minimatch@>=10.0.0 <11.0.1: ^11.0.1
   react-router-dom@>=6.0.0 <6.30.6: ^6.30.6
-  '@reown/appkit-adapter-bitcoin>bitcoinjs-lib': 6.1.9
+  '@reown/appkit-adapter-bitcoin>bitcoinjs-lib': 6.1.10
 
 importers:
 
@@ -9416,12 +9416,12 @@ packages:
   bitcoin-address-validation@3.0.0:
     resolution: {integrity: sha512-R1X1c9EdgjgjTpjshjk5e16TbgF7HYasxBcu7l5ScWMxVs53845vMUg5PvnQ/R/3h8Grly6Y52DgH6/77gazLQ==}
 
-  bitcoinjs-lib@6.1.8:
-    resolution: {integrity: sha512-A6o+yq7BvwlmLj4F0NC5f3XX109rRe5evxi368S9zil5voOtUfiqfiMCzZYKHk4k7iIJ3+NmcQW05Ar4CBlKyg==}
+  bitcoinjs-lib@6.1.10:
+    resolution: {integrity: sha512-9KpnS5JKVP0j0yfTsBNFIsNA6+JdBDb7VtL35F20I/pJYobosi3TmZFGtu6qxhJCfb0vubJixr5Zv61/lUYETw==}
     engines: {node: '>=8.0.0'}
 
-  bitcoinjs-lib@6.1.9:
-    resolution: {integrity: sha512-En4bd8fh45xWJwRIxSPaGjoydr45BIQ0haKZBcKPQIJBPyB/wB+FJH+57dcWg2KD+k5hAV9Ii2uJksyAsT4tCg==}
+  bitcoinjs-lib@6.1.8:
+    resolution: {integrity: sha512-A6o+yq7BvwlmLj4F0NC5f3XX109rRe5evxi368S9zil5voOtUfiqfiMCzZYKHk4k7iIJ3+NmcQW05Ar4CBlKyg==}
     engines: {node: '>=8.0.0'}
 
   bitcoinjs-lib@7.0.5:
@@ -21103,7 +21103,7 @@ snapshots:
       '@wallet-standard/app': 1.1.0
       '@wallet-standard/base': 1.1.0
       '@walletconnect/universal-provider': 2.26.0(@react-native-async-storage/async-storage@3.1.1(react-native@0.88.1(@babel/core@7.29.13(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.2.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1))(bufferutil@4.2.0)(db0@0.4.2)(encoding@0.1.14)(ioredis@6.0.0(supports-color@10.2.2))(typescript@7.0.2)(utf-8-validate@6.0.6)(zod@4.6.7)
-      bitcoinjs-lib: 6.1.9
+      bitcoinjs-lib: 6.1.10
       sats-connect: 3.5.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)(typescript@7.0.2)
     transitivePeerDependencies:
       - '@azure/app-configuration'
@@ -26107,7 +26107,7 @@ snapshots:
       bech32: 2.0.0
       sha256-uint8array: 0.10.7
 
-  bitcoinjs-lib@6.1.8:
+  bitcoinjs-lib@6.1.10:
     dependencies:
       '@noble/hashes': 1.8.0
       bech32: 2.0.0
@@ -26116,7 +26116,7 @@ snapshots:
       typeforce: 1.18.0
       varuint-bitcoin: 1.1.2
 
-  bitcoinjs-lib@6.1.9:
+  bitcoinjs-lib@6.1.8:
     dependencies:
       '@noble/hashes': 1.8.0
       bech32: 2.0.0
