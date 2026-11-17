@@ -3,6 +3,8 @@ import { Box } from '@mui/material'
 import type React from 'react'
 import { type JSX, memo } from 'react'
 import type { ChainLabel } from '../../types/widget.js'
+import { isVisibleChainLabel } from '../../utils/pinnedChains.js'
+import { CardLabel, CardLabelTypography } from '../Card/CardLabel.js'
 import {
   Avatar,
   ListItem,
@@ -11,6 +13,13 @@ import {
   ListItemText,
 } from './ChainList.style.js'
 import { pinButtonClassName, PinChainButton } from './PinChainButton.js'
+
+// The chain name gets the ellipsis first; the label keeps its width up to the limit.
+const labelLayoutSx = {
+  flexShrink: 0,
+  maxWidth: '50%',
+  marginLeft: 1,
+}
 
 interface ChainListItemProps {
   chain: ExtendedChain
@@ -36,6 +45,8 @@ export const ChainListItem: React.NamedExoticComponent<ChainListItemProps> =
       size,
       start,
       isPinned,
+      isLocked,
+      label,
       onPin,
       withPin,
     }: ChainListItemProps): JSX.Element => {
@@ -64,17 +75,34 @@ export const ChainListItem: React.NamedExoticComponent<ChainListItemProps> =
                 {chain.name[0]}
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={chain.name} size={itemsSize} />
+            <ListItemText
+              primary={chain.name}
+              size={itemsSize}
+              sx={{ minWidth: 0 }}
+            />
+            {isVisibleChainLabel(label) && (
+              <CardLabel
+                className="chain-label"
+                sx={[
+                  labelLayoutSx,
+                  ...(Array.isArray(label.sx) ? label.sx : [label.sx]),
+                ]}
+              >
+                <CardLabelTypography noWrap>{label.text}</CardLabelTypography>
+              </CardLabel>
+            )}
             {withPin && (
               <Box
                 style={{
                   position: 'relative',
+                  flexShrink: 0,
                   height: 28,
                   width: 28,
                 }}
               >
                 <PinChainButton
                   isPinned={isPinned}
+                  isLocked={isLocked}
                   onPin={() => onPin(chain.id)}
                 />
               </Box>
