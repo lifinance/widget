@@ -1,6 +1,6 @@
 import type { ExtendedChain } from '@lifi/sdk'
 import { describe, expect, it } from 'vitest'
-import type { PinnedChain } from '../types/widget.js'
+import type { ChainLabel, PinnedChain } from '../types/widget.js'
 import {
   getConfigPinnedChains,
   getGridChains,
@@ -35,6 +35,15 @@ describe('isVisibleChainLabel', () => {
   it('returns true for a text', () => {
     expect(isVisibleChainLabel({ text: 'NEW' })).toBe(true)
   })
+
+  it('returns false for a malformed label', () => {
+    expect(isVisibleChainLabel('NEW' as unknown as ChainLabel)).toBe(false)
+    expect(isVisibleChainLabel({} as ChainLabel)).toBe(false)
+    expect(isVisibleChainLabel({ text: 5 } as unknown as ChainLabel)).toBe(
+      false
+    )
+    expect(isVisibleChainLabel(null as unknown as ChainLabel)).toBe(false)
+  })
 })
 
 describe('isShortChainLabel', () => {
@@ -57,6 +66,12 @@ describe('isShortChainLabel', () => {
     expect(isShortChainLabel({ text: 'Ünï' })).toBe(true)
     expect(isShortChainLabel({ text: '🔥🔥🔥🔥' })).toBe(true)
     expect(isShortChainLabel({ text: '🔥🔥🔥🔥🔥' })).toBe(false)
+  })
+
+  it('returns false for a malformed label', () => {
+    expect(isShortChainLabel('NEW' as unknown as ChainLabel)).toBe(false)
+    expect(isShortChainLabel({} as ChainLabel)).toBe(false)
+    expect(isShortChainLabel({ text: 5 } as unknown as ChainLabel)).toBe(false)
   })
 })
 
@@ -124,6 +139,48 @@ describe('getConfigPinnedChains', () => {
     expect(
       getConfigPinnedChains(pinned, allChains, 'to').get(1)?.label?.text
     ).toBe('B')
+  })
+
+  describe('with malformed entries from untyped config', () => {
+    const resolve = (pinned: unknown[]): Map<number, PinnedChain> =>
+      getConfigPinnedChains(pinned as PinnedChain[], allChains, 'from')
+
+    it('skips a null entry', () => {
+      expect([...resolve([null, { chainId: 1 }]).keys()]).toEqual([1])
+    })
+
+    it('skips an undefined entry', () => {
+      expect([...resolve([undefined, { chainId: 1 }]).keys()]).toEqual([1])
+    })
+
+    it('skips an entry with a string chainId', () => {
+      expect([...resolve([{ chainId: '137' }, { chainId: 1 }]).keys()]).toEqual(
+        [1]
+      )
+    })
+
+    it('keeps the pin without a label for a string label', () => {
+      const result = resolve([{ chainId: 137, label: 'NEW' }])
+      expect([...result.keys()]).toEqual([137])
+      expect(result.get(137)?.label).toBeUndefined()
+    })
+
+    it('keeps the pin without a label for a label without text', () => {
+      const result = resolve([{ chainId: 137, label: {} }])
+      expect([...result.keys()]).toEqual([137])
+      expect(result.get(137)?.label).toBeUndefined()
+    })
+
+    it('keeps the pin without a label for a label with a number text', () => {
+      const result = resolve([{ chainId: 137, label: { text: 5 } }])
+      expect([...result.keys()]).toEqual([137])
+      expect(result.get(137)?.label).toBeUndefined()
+    })
+
+    it('keeps a valid label', () => {
+      const result = resolve([{ chainId: 137, label: { text: 'NEW' } }])
+      expect(result.get(137)?.label).toEqual({ text: 'NEW' })
+    })
   })
 })
 

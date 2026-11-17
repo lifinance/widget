@@ -6,7 +6,9 @@ export const maxGridLabelLength = 4
 
 export const isVisibleChainLabel = (
   label: ChainLabel | undefined
-): label is ChainLabel => Boolean(label?.text.trim())
+): label is ChainLabel =>
+  // Untyped config (plain JS, postMessage) can pass any shape.
+  typeof label?.text === 'string' && label.text.trim() !== ''
 
 export const isShortChainLabel = (label: ChainLabel | undefined): boolean => {
   if (!isVisibleChainLabel(label)) {
@@ -22,16 +24,25 @@ export const getConfigPinnedChains = (
   side: FormType
 ): Map<number, PinnedChain> => {
   const configPins = new Map<number, PinnedChain>()
-  if (!pinned?.length) {
+  if (!Array.isArray(pinned) || !pinned.length) {
     return configPins
   }
   const chainIds = new Set(chains.map((chain) => chain.id))
   for (const pin of pinned) {
+    // Untyped config (plain JS, postMessage) can pass any shape.
     if (
+      typeof pin !== 'object' ||
+      pin === null ||
+      typeof pin.chainId !== 'number' ||
       (pin.side && pin.side !== side) ||
       !chainIds.has(pin.chainId) ||
       configPins.has(pin.chainId)
     ) {
+      continue
+    }
+    if (pin.label !== undefined && typeof pin.label?.text !== 'string') {
+      const { label: _label, ...pinWithoutLabel } = pin
+      configPins.set(pin.chainId, pinWithoutLabel)
       continue
     }
     configPins.set(pin.chainId, pin)
