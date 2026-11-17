@@ -14,13 +14,21 @@ import {
 } from './ChainList.style.js'
 import { pinButtonClassName, PinChainButton } from './PinChainButton.js'
 
-// The label shrinks first (its text gets the ellipsis) down to `minWidth`.
-// Only then does the chain name shrink and get the ellipsis.
+// With a label, the chain name never grows and shrinks only when the label is at
+// `minWidth`. The label has a zero flex basis: it grows up to its content width
+// when the row has space, and it freezes at `minWidth` when the row overflows.
+// Thus the label text gets the ellipsis first, and the chain name keeps its
+// natural width until the label reaches `minWidth`.
 const labelLayoutSx = {
-  flexShrink: 1000,
+  flex: '1 1 0px',
   minWidth: 48,
+  maxWidth: 'max-content',
   marginLeft: 1,
 }
+
+const nameSx = { minWidth: 0 }
+
+const nameWithLabelSx = { flex: '0 1 auto', minWidth: 0 }
 
 interface ChainListItemProps {
   chain: ExtendedChain
@@ -51,6 +59,7 @@ export const ChainListItem: React.NamedExoticComponent<ChainListItemProps> =
       onPin,
       withPin,
     }: ChainListItemProps): JSX.Element => {
+      const hasLabel = isVisibleChainLabel(label)
       return (
         <ListItem
           style={{
@@ -79,7 +88,7 @@ export const ChainListItem: React.NamedExoticComponent<ChainListItemProps> =
             <ListItemText
               primary={chain.name}
               size={itemsSize}
-              sx={{ minWidth: 0 }}
+              sx={hasLabel ? nameWithLabelSx : nameSx}
             />
             {isVisibleChainLabel(label) && (
               <CardLabel
@@ -99,6 +108,8 @@ export const ChainListItem: React.NamedExoticComponent<ChainListItemProps> =
                 style={{
                   position: 'relative',
                   flexShrink: 0,
+                  // Keeps the pin at the right edge when the label does not fill the row.
+                  marginLeft: 'auto',
                   height: 28,
                   width: 28,
                 }}
