@@ -14,10 +14,11 @@ import {
 } from './ChainList.style.js'
 import { pinButtonClassName, PinChainButton } from './PinChainButton.js'
 
-// The chain name gets the ellipsis first; the label keeps its width up to the limit.
+// The label shrinks first (its text gets the ellipsis) down to `minWidth`.
+// Only then does the chain name shrink and get the ellipsis.
 const labelLayoutSx = {
-  flexShrink: 0,
-  maxWidth: '50%',
+  flexShrink: 1000,
+  minWidth: 48,
   marginLeft: 1,
 }
 
@@ -88,7 +89,9 @@ export const ChainListItem: React.NamedExoticComponent<ChainListItemProps> =
                   ...(Array.isArray(label.sx) ? label.sx : [label.sx]),
                 ]}
               >
-                <CardLabelTypography noWrap>{label.text}</CardLabelTypography>
+                <CardLabelTypography noWrap>
+                  {label.text.trim()}
+                </CardLabelTypography>
               </CardLabel>
             )}
             {withPin && (

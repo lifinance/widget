@@ -90,6 +90,20 @@ describe('ChainListItem', () => {
     expect(container.textContent).toContain('NEW')
   })
 
+  it('trims the label text', () => {
+    render({ label: { text: '  NEW  ' } })
+
+    expect(container.querySelector('.chain-label')?.textContent).toBe('NEW')
+  })
+
+  it('applies the integrator label sx after the layout sx', () => {
+    render({ label: { text: 'NEW', sx: { marginLeft: '7px' } } })
+
+    const label = container.querySelector<HTMLElement>('.chain-label')
+    expect(label).not.toBeNull()
+    expect(getComputedStyle(label!).marginLeft).toBe('7px')
+  })
+
   it('shows no label for whitespace text', () => {
     render({ label: { text: '  ' } })
 
@@ -98,6 +112,12 @@ describe('ChainListItem', () => {
 
   it('a locked pin click does not unpin or select', () => {
     render({ withPin: true, isPinned: true, isLocked: true })
+
+    const pinButton = container.querySelector<HTMLButtonElement>(
+      `.${pinButtonClassName}`
+    )
+    expect(pinButton?.getAttribute('aria-disabled')).toBe('true')
+    expect(pinButton?.tabIndex).toBe(-1)
 
     clickPin()
 
