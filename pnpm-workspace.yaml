@@ -121,7 +121,7 @@ overrides:
   # Security, 2026-11-17: GHSA-8vv3-6qpc-gpw6 (critical) affects bitcoinjs-lib 6.0.0 to 6.1.7.
   # @reown/appkit-adapter-bitcoin 1.8.24 and 2.0.0 pin 6.1.7. Remove this when a release pins
   # 6.1.8 or later.
-  "@reown/appkit-adapter-bitcoin>bitcoinjs-lib": "6.1.9"
+  "@reown/appkit-adapter-bitcoin>bitcoinjs-lib": "6.1.10"
 allowBuilds:
   "@opensea/seaport-js": false
   "@parcel/watcher": false
