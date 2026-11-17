@@ -298,8 +298,29 @@ export type AllowDenyItems<T> = {
   to?: AllowDeny<T>
 } & AllowDeny<T>
 
+export interface ChainLabel {
+  text: string
+  sx?: SxProps<Theme>
+}
+
+export interface PinnedChain {
+  chainId: number
+  /** Optional label next to the chain name. Same shape as `RouteLabel`. */
+  label?: ChainLabel
+  /**
+   * Limits the pin to the source ('from') or the destination ('to') chain list.
+   * Without it, the pin applies to both lists.
+   */
+  side?: 'from' | 'to'
+}
+
 export type WidgetChains = {
   types?: AllowDeny<ChainType>
+  /**
+   * Chains pinned for all users, in this order, above the user's own pins.
+   * Users cannot unpin them. Filters (allow, deny, from, to, types) still apply.
+   */
+  pinned?: PinnedChain[]
 } & AllowDenyItems<number>
 
 export type WidgetTokens = {
