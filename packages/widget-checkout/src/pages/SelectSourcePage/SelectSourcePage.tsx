@@ -4,6 +4,15 @@ import {
   useAccount,
   useWalletMenu,
 } from '@lifi/wallet-management'
+import { useMeshBalance } from '@lifi/widget-provider-mesh'
+import {
+  type ConnectedCexAccount,
+  connectedCexKey,
+  useCheckoutConfig,
+  useCheckoutUserId,
+  useConnectedCexAccounts,
+  useConnectedCexStore,
+} from '@lifi/widget-provider/checkout'
 import {
   FormKeyHelper,
   PageContainer,
@@ -14,15 +23,6 @@ import {
   useHeader,
   useToken,
 } from '@lifi/widget/shared'
-import {
-  type ConnectedCexAccount,
-  connectedCexKey,
-  useCheckoutConfig,
-  useCheckoutUserId,
-  useConnectedCexAccounts,
-  useConnectedCexStore,
-} from '@lifi/widget-provider/checkout'
-import { useMeshBalance } from '@lifi/widget-provider-mesh'
 import { Alert, Box, CircularProgress } from '@mui/material'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'

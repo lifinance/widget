@@ -115,6 +115,7 @@ export const VirtualizedChainList = ({
     if (scrollElementRef.current) {
       measure()
     }
+    // oxlint-disable-next-line react/exhaustive-deps -- the effect runs again on a later render, after the scroll element is set
   }, [measure, scrollElementRef.current])
 
   const scrollToIndex = useCallback(
@@ -131,6 +132,7 @@ export const VirtualizedChainList = ({
         })
       })
     },
+    // oxlint-disable-next-line react/exhaustive-deps -- the callback is created again on a later render, after the scroll element is set
     [getOffsetForIndex, scrollElementRef.current]
   )
 

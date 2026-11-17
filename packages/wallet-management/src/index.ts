@@ -29,7 +29,4 @@ export * from './utils/getConnectorIcon.js'
 export { getConnectorId } from './utils/getConnectorId.js'
 export { getSortedByTags } from './utils/getSortedByTags.js'
 export * from './utils/getWalletPriority.js'
-export {
-  getConnectorTagType,
-  getWalletTagType,
-} from './utils/walletTags.js'
+export { getConnectorTagType, getWalletTagType } from './utils/walletTags.js'

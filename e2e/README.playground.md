@@ -32,7 +32,9 @@ HMR, no build. The fast sanity loop; covers the smoke subset in `tests/dev/`.
 
 These invoke the Playwright binary directly (the `webServer` still manages the server
 automatically). Run them from `e2e/`, where `@lifi/widget-e2e` and its Playwright binary
-live — or prefix with `pnpm --filter @lifi/widget-e2e exec`.
+live — or prefix with `pnpm --filter @lifi/widget-e2e exec`. The runner uses Node by
+default. Bun is optional: `bun --bun run test` (needs Bun ≥ 1.4.4 and `@playwright/test`
+≥ 1.65.0; caveats: UI mode has no watch mode, console output is not in traces).
 
 ```bash
 # Run a single spec file

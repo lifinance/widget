@@ -1,8 +1,6 @@
 import { beforeAll, describe, expect, it } from 'vitest'
 import { classifyRouteIssues } from './classify.js'
-import ethToSol from './fixtures/no-routes-eth-to-sol.json' with {
-  type: 'json',
-}
+import ethToSol from './fixtures/no-routes-eth-to-sol.json' with { type: 'json' }
 import type { ClassifyContext, RouteIssue } from './types.js'
 
 const context: ClassifyContext = {

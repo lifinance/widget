@@ -1,5 +1,6 @@
 {
   "ignore": [
+    ".claude/**",
     "examples/**",
     "e2e/**",
     "packages/widget-embedded/**",

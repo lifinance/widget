@@ -5,10 +5,10 @@ import type {
   ExchangeRateBottomSheetBase,
 } from '@lifi/widget/shared'
 import {
+  calculateValueLossPercentage,
   Card,
   ConfirmToAddressSheet,
   ContractComponent,
-  calculateValueLossPercentage,
   ExchangeRateBottomSheet,
   getAccumulatedFeeCostsBreakdown,
   getSourceTxHash,

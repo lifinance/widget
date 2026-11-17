@@ -1,9 +1,7 @@
 import { ChainType } from '@lifi/sdk'
 import {
   EthereumProvider as EthereumSDKProvider,
-  isBatchingSupported,
   isDelegationDesignatorCode,
-  isGaslessStep,
 } from '@lifi/sdk-provider-ethereum'
 import {
   EthereumContext,
@@ -182,6 +180,7 @@ export const EthereumProviderValues: FC<
         disableMessageSigning: config?.disableMessageSigning,
       })
     )
+    // oxlint-disable-next-line react/exhaustive-deps -- of the fields of `config`, the memo reads only `disableMessageSigning` and `sdkProvider`; it calls `config.sdkProvider(...)` as a method to keep `this`
   }, [wagmiConfig, config?.disableMessageSigning, config?.sdkProvider])
 
   const installedWallets = useMemo(
@@ -251,8 +250,6 @@ export const EthereumProviderValues: FC<
       disconnect: handleDisconnect,
       getBytecode: handleGetBytecode,
       getTransactionCount: handleGetTransactionCount,
-      isGaslessStep,
-      isBatchingSupported,
       isDelegationDesignatorCode,
       disableMessageSigning: config?.disableMessageSigning,
     }),

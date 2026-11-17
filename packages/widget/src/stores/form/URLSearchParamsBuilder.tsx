@@ -41,7 +41,6 @@ export const URLSearchParamsBuilder = () => {
   const { getFieldValues, isTouched, setUserAndDefaultValues } =
     useFieldActions()
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: the URL is read once, not again on each config render
   useEffect(() => {
     // get the initial values from the querystring
     const formValues = getDefaultValuesFromQueryString({ buildUrl, chains })
@@ -77,6 +76,7 @@ export const URLSearchParamsBuilder = () => {
 
     setUserAndDefaultValues(initialFormValues)
     initializeFromAddress()
+    // oxlint-disable-next-line react/exhaustive-deps -- the URL is read once, not again on each config render
   }, [
     setUserAndDefaultValues,
     validateAddress,
@@ -85,7 +85,6 @@ export const URLSearchParamsBuilder = () => {
     buildUrl,
   ])
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: run only when pathname changes
   useEffect(() => {
     // set the values on the querysting
     const url = new URL(window.location as any)

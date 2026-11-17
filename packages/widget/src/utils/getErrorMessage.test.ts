@@ -17,7 +17,7 @@ const t = ((key: string, opts?: Record<string, string>) => {
     throw new Error(`Missing translation key: ${key}`)
   }
   return template.replace(/{{(\w+)}}/g, (_, name) => opts?.[name] ?? '')
-}) as TFunction
+}) as unknown as TFunction
 
 const step = {
   action: {

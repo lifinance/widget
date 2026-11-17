@@ -12,11 +12,11 @@ export const ThemeProvider: React.FC<React.PropsWithChildren> = ({
   const { appearance: colorSchemeMode, theme: themeConfig } = useWidgetConfig()
   const { setMode } = useColorScheme()
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: setMode is stable
   useEffect(() => {
     if (colorSchemeMode) {
       setMode(colorSchemeMode)
     }
+    // oxlint-disable-next-line react/exhaustive-deps -- setMode is stable
   }, [colorSchemeMode])
 
   const theme = useMemo(() => createTheme(themeConfig), [themeConfig])

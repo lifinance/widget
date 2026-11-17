@@ -1,3 +1,4 @@
+/* oxlint-disable vitest/no-conditional-expect -- each payload checks the invariants that apply to its own bucket and suggestion */
 import type { Token } from '@lifi/sdk'
 import type { TFunction } from 'i18next'
 import { describe, expect, it } from 'vitest'

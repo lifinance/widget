@@ -1,6 +1,6 @@
 import { useSolanaWalletStandard } from '@lifi/widget-provider-solana'
-import { useAppKitProvider, useAppKitState } from '@reown/appkit/react'
 import type { Provider as SolanaWalletProvider } from '@reown/appkit-adapter-solana'
+import { useAppKitProvider, useAppKitState } from '@reown/appkit/react'
 import { type FC, type PropsWithChildren, useEffect } from 'react'
 
 export const SolanaProvider: FC<PropsWithChildren> = ({ children }) => {

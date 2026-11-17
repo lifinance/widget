@@ -20,16 +20,18 @@ const mocks = vi.hoisted(() => ({
   account: {} as { address?: string },
   emit: vi.fn(),
   getRoutes: vi.fn(),
-  getRelayerQuote: vi.fn(),
+  getGaslessRoute: vi.fn(),
   getContractCallsQuote: vi.fn(),
 }))
 
 vi.mock('@lifi/sdk', async (importOriginal) => ({
   ...(await importOriginal<Record<string, unknown>>()),
   getRoutes: mocks.getRoutes,
-  getRelayerQuote: mocks.getRelayerQuote,
   getContractCallsQuote: mocks.getContractCallsQuote,
   convertQuoteToRoute: (quote: { id: string }) => ({ id: quote.id }),
+}))
+vi.mock('../utils/getGaslessRoute.js', () => ({
+  getGaslessRoute: mocks.getGaslessRoute,
 }))
 vi.mock('@lifi/wallet-management', () => ({
   useAccount: () => ({ account: mocks.account }),
@@ -82,10 +84,6 @@ vi.mock('./useChain.js', () => ({
       id: chainId,
       chainType: 'EVM',
       nativeToken: { address: native },
-      // Everything the relayer path asks of the source chain.
-      permit2: '0xpermit2',
-      permit2Proxy: '0xpermit2proxy',
-      relayerSupported: true,
     },
   }),
 }))
@@ -98,12 +96,6 @@ vi.mock('./useToken.js', () => ({
 }))
 vi.mock('./useGasRefuel.js', () => ({
   useGasRefuel: () => ({ enabled: false }),
-}))
-vi.mock('./useIsBatchingSupported.js', () => ({
-  useIsBatchingSupported: () => ({
-    isBatchingSupported: false,
-    isBatchingSupportedLoading: false,
-  }),
 }))
 vi.mock('./useSwapOnly.js', () => ({ useSwapOnly: () => false }))
 vi.mock('./useWidgetEvents.js', () => ({
@@ -301,45 +293,45 @@ describe('a contract-call quote', () => {
   })
 })
 
-describe('an empty main result beside a relayer quote', () => {
+describe('an empty main result beside a gasless request', () => {
   beforeEach(() => {
-    mocks.config.useRelayerRoutes = true
+    mocks.config.useGaslessRoutes = true
     mocks.getRoutes.mockResolvedValue({
       routes: [],
       unavailableRoutes: reasons,
     })
   })
 
-  // Reported in QA: the no-route answer waited on the relayer — 2.8 s live, and
-  // as long as the relayer hung. It now goes out at once, and a route the
-  // relayer brings later still takes its place.
-  it('answers at once and adds the relayer route when it arrives', async () => {
+  // Reported in QA: the no-route answer waited on the optional second quote —
+  // 2.8 s live, and as long as it hung. It now goes out at once, and a gasless
+  // route that arrives later still takes its place.
+  it('answers at once and adds the gasless route when it arrives', async () => {
     let release = (_route: unknown): void => {}
-    mocks.getRelayerQuote.mockReturnValue(
+    mocks.getGaslessRoute.mockReturnValue(
       new Promise((resolve) => {
         release = resolve
       })
     )
     render()
     await settled()
-    expect(mocks.getRelayerQuote).toHaveBeenCalledTimes(1)
+    expect(mocks.getGaslessRoute).toHaveBeenCalledTimes(1)
     expect(hook().routes).toEqual([])
     expect(hook().issues.map((issue) => issue.bucket)).toEqual(['temporary'])
     expect(emittedRoutes()).toEqual([[]])
 
-    act(() => release({ id: 'relayer-route' }))
+    act(() => release({ id: 'gasless-route' }))
     await vi.waitFor(() =>
-      expect(hook().routes).toEqual([{ id: 'relayer-route' }])
+      expect(hook().routes).toEqual([{ id: 'gasless-route' }])
     )
     expect(hook().issues).toEqual([])
-    expect(emittedRoutes()).toEqual([[], [{ id: 'relayer-route' }]])
+    expect(emittedRoutes()).toEqual([[], [{ id: 'gasless-route' }]])
   })
 
-  // The user changed the amount before the relayer answered. Its route belongs
+  // The user changed the amount before the gasless request answered. Its route belongs
   // to an amount no longer in the form, and integrators must not hear of it.
-  it('drops a late relayer route for a request the user has left', async () => {
+  it('drops a late gasless route for a request the user has left', async () => {
     let release = (_route: unknown): void => {}
-    mocks.getRelayerQuote
+    mocks.getGaslessRoute
       .mockReturnValueOnce(
         new Promise((resolve) => {
           release = resolve
@@ -355,7 +347,7 @@ describe('an empty main result beside a relayer quote', () => {
     await vi.waitFor(() => expect(mocks.getRoutes).toHaveBeenCalledTimes(2))
     await settled()
 
-    act(() => release({ id: 'relayer-route' }))
+    act(() => release({ id: 'gasless-route' }))
     await new Promise((resolve) => setTimeout(resolve, 20))
     expect(emittedRoutes()).toEqual([[], []])
     expect(hook().routes).toEqual([])
@@ -363,9 +355,9 @@ describe('an empty main result beside a relayer quote', () => {
 
   // The late route answers an older request. A newer answer that already has a
   // route must not be swapped for it.
-  it('keeps a newer answer when the relayer arrives late', async () => {
+  it('keeps a newer answer when the gasless route arrives late', async () => {
     let release = (_route: unknown): void => {}
-    mocks.getRelayerQuote
+    mocks.getGaslessRoute
       .mockReturnValueOnce(
         new Promise((resolve) => {
           release = resolve
@@ -389,16 +381,17 @@ describe('an empty main result beside a relayer quote', () => {
     await vi.waitFor(() => expect(hook().routes).toEqual([mainRoute]))
     await settled()
 
-    act(() => release({ id: 'relayer-route' }))
+    act(() => release({ id: 'gasless-route' }))
     await new Promise((resolve) => setTimeout(resolve, 20))
     expect(hook().routes).toEqual([mainRoute])
   })
 
-  it('explains the empty result when the relayer has nothing either', async () => {
-    mocks.getRelayerQuote.mockRejectedValue(new Error('no relayer quote'))
+  // getGaslessRoute turns every failure into null.
+  it('explains the empty result when the gasless request has nothing either', async () => {
+    mocks.getGaslessRoute.mockResolvedValue(null)
     render()
     await settled()
-    expect(mocks.getRelayerQuote).toHaveBeenCalledTimes(1)
+    expect(mocks.getGaslessRoute).toHaveBeenCalledTimes(1)
     expect(hook().routes).toEqual([])
     expect(hook().issues.map((issue) => issue.bucket)).toEqual(['temporary'])
     expect(emittedRoutes()).toEqual([[]])

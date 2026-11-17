@@ -1,15 +1,15 @@
 'use client'
 import {
-  FormKeyHelper,
-  useFieldValues,
-  useWidgetConfig,
-} from '@lifi/widget/shared'
-import {
   type OnrampFiatCurrenciesRequest,
   type OnrampFiatCurrenciesResponse,
   postCheckoutSession,
   useCheckoutConfig,
 } from '@lifi/widget-provider/checkout'
+import {
+  FormKeyHelper,
+  useFieldValues,
+  useWidgetConfig,
+} from '@lifi/widget/shared'
 import { useQuery } from '@tanstack/react-query'
 
 export interface OnRampFiatCurrenciesResult {

@@ -48,11 +48,11 @@ export const isSignerInvalidReceiver = ({
 }): boolean =>
   Boolean(
     signerAddress &&
-      !toAddress &&
-      fromChain &&
-      toChain &&
-      fromChain.chainType === toChain.chainType &&
-      !isAddressForChain(signerAddress, toChain)
+    !toAddress &&
+    fromChain &&
+    toChain &&
+    fromChain.chainType === toChain.chainType &&
+    !isAddressForChain(signerAddress, toChain)
   )
 
 export const canQuoteWithToAddress = (

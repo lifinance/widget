@@ -1,6 +1,6 @@
 import { ChainType, type ExtendedChain } from '@lifi/sdk'
-import { defineChain } from '@reown/appkit/networks'
 import type { AppKitNetwork, ChainNamespace } from '@reown/appkit-common'
+import { defineChain } from '@reown/appkit/networks'
 
 export type AppKitSupportedChainTypes = Exclude<
   ChainType,

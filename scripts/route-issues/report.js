@@ -17,9 +17,7 @@ import en from '../../packages/widget/src/i18n/en.json' with { type: 'json' }
 import { compactNumberFormatter } from '../../packages/widget/src/utils/compactNumberFormatter.js'
 import { buildRouteIssueCard } from '../../packages/widget/src/utils/routeIssues/card.js'
 import { classifyRouteIssues } from '../../packages/widget/src/utils/routeIssues/classify.js'
-import payloads from '../../packages/widget/src/utils/routeIssues/fixtures/live-payloads.json' with {
-  type: 'json',
-}
+import payloads from '../../packages/widget/src/utils/routeIssues/fixtures/live-payloads.json' with { type: 'json' }
 
 const suggestionsFile =
   process.env.SUGGESTIONS_FILE ?? join(tmpdir(), 'route-issue-suggestions.json')

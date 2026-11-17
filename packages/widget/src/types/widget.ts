@@ -208,16 +208,15 @@ export interface WidgetWalletConfig {
   forceInternalWalletManagement?: boolean
 }
 
-export interface WidgetSDKConfig
-  extends Omit<
-    SDKConfig,
-    | 'apiKey'
-    | 'disableVersionCheck'
-    | 'integrator'
-    | 'providers'
-    | 'routeOptions'
-    | 'widgetVersion'
-  > {
+export interface WidgetSDKConfig extends Omit<
+  SDKConfig,
+  | 'apiKey'
+  | 'disableVersionCheck'
+  | 'integrator'
+  | 'providers'
+  | 'routeOptions'
+  | 'widgetVersion'
+> {
   routeOptions?: Omit<
     RouteOptions,
     'bridges' | 'exchanges' | 'fee' | 'referrer' | 'order' | 'slippage'
@@ -404,7 +403,13 @@ export interface WidgetConfig {
    * @default false
    */
   showSingleRoute?: boolean
-  useRelayerRoutes?: boolean
+  /**
+   * When true, adds the best gasless route to the routes. With a gasless route
+   * the user signs a message, and LI.FI pays the source chain gas from a fee in
+   * the source token. EVM source chains and connected wallets only.
+   * @default false
+   */
+  useGaslessRoutes?: boolean
 
   walletConfig?: WidgetWalletConfig
   sdkConfig?: WidgetSDKConfig
@@ -462,8 +467,10 @@ export interface FormFieldOptions {
   setUrlSearchParam: boolean
 }
 
-export interface FieldValues
-  extends Omit<DefaultFieldValues, 'fromAmount' | 'toAmount' | 'toAddress'> {
+export interface FieldValues extends Omit<
+  DefaultFieldValues,
+  'fromAmount' | 'toAmount' | 'toAddress'
+> {
   fromAmount?: number | string
   toAmount?: number | string
   toAddress?: ToAddress | string

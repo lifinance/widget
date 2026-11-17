@@ -1,11 +1,11 @@
 'use client'
 import { getStatus, type StatusResponse } from '@lifi/sdk'
+import { useCheckoutConfig } from '@lifi/widget-provider/checkout'
 import {
   isRouteFailed,
   useRouteExecutionStore,
   useSDKClient,
 } from '@lifi/widget/shared'
-import { useCheckoutConfig } from '@lifi/widget-provider/checkout'
 import { useQueries } from '@tanstack/react-query'
 import { useEffect, useMemo } from 'react'
 import {
@@ -136,7 +136,6 @@ export function useCheckoutPendingRecords(): PendingActivityItem[] {
     })
     .join('|')
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: reconcileSignature encodes the only inputs that should retrigger reconciliation; depending on `results`/`entries` directly would re-run every render.
   useEffect(() => {
     entries.forEach(([key], i) => {
       const data = results[i]?.data
@@ -156,6 +155,7 @@ export function useCheckoutPendingRecords(): PendingActivityItem[] {
         markFailed(key)
       }
     })
+    // oxlint-disable-next-line react/exhaustive-deps -- reconcileSignature encodes the only inputs that should retrigger reconciliation; depending on `results`/`entries` directly would re-run every render.
   }, [reconcileSignature, clearForKey, markFailed])
 
   return entries.map(([key, record], i) => {

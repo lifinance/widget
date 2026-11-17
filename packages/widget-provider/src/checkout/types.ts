@@ -46,6 +46,7 @@ export interface OnRampProvider {
   Host: FC<{ widgetConfig: OnRampHostWidgetConfig }>
 }
 
+// oxlint-disable-next-line typescript/no-invalid-void-type -- `void` is the default for "no options", and the conditional type checks for it
 export type OnRampProviderFactory<TOptions = void> = TOptions extends void
   ? () => OnRampProvider
   : (options: TOptions) => OnRampProvider

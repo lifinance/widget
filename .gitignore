@@ -46,7 +46,8 @@ next-env.d.ts
 .cursor/
 .codex/
 .agents/
-AGENTS.md
+# `next dev` writes this file when an agent runs it.
+packages/widget-playground-next/AGENTS.md
 
 # superpowers
 .superpowers/

@@ -27,10 +27,7 @@ export type {
   WidgetLightChainType,
   WidgetLightConfig,
 } from './shared/protocol.js'
-export {
-  isWidgetLightMessage,
-  WIDGET_LIGHT_SOURCE,
-} from './shared/protocol.js'
+export { isWidgetLightMessage, WIDGET_LIGHT_SOURCE } from './shared/protocol.js'
 export type {
   WidgetAllowDeny,
   WidgetAppearance,

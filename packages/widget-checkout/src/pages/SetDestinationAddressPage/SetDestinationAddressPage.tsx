@@ -1,4 +1,5 @@
 import { useAccount, useWalletMenu } from '@lifi/wallet-management'
+import { useAddressForChain } from '@lifi/widget-provider'
 import {
   PageContainer,
   shortenAddress,
@@ -8,7 +9,6 @@ import {
   useHeader,
   useWidgetConfig,
 } from '@lifi/widget/shared'
-import { useAddressForChain } from '@lifi/widget-provider'
 import WalletOutlinedIcon from '@mui/icons-material/AccountBalanceWalletOutlined'
 import {
   Avatar,

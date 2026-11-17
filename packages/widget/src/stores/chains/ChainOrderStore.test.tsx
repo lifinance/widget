@@ -79,9 +79,8 @@ vi.mock('../form/useFieldActions.js', () => ({
   useFieldActions: () => fieldActions,
 }))
 
-const { ChainOrderStoreProvider, useChainOrderStore } = await import(
-  './ChainOrderStore.js'
-)
+const { ChainOrderStoreProvider, useChainOrderStore } =
+  await import('./ChainOrderStore.js')
 
 /** What `selectAllNetworks` does to the form: clear the field, as touched. */
 const clickAllNetworks = (key: 'from' | 'to') => {

@@ -60,6 +60,9 @@ const t = ((key: string, values?: Record<string, unknown>): string => {
 
 describe('every card the builder can produce', () => {
   it('asks only for copy that exists, and fills every placeholder', () => {
+    // Collected rather than asserted in place, so one failure names its case
+    // and the rest still run.
+    const problems: string[] = []
     for (const bucket of buckets) {
       for (const evidence of evidences) {
         for (const slippage of [undefined, '0.5', '3']) {
@@ -88,13 +91,17 @@ describe('every card the builder can produce', () => {
             const where = `${bucket} ${JSON.stringify(evidence, (_k, v) =>
               typeof v === 'bigint' ? `${v}n` : v
             )} slippage=${slippage} sent=${fromAmount}`
-            expect(card.title, where).not.toContain('MISSING:')
-            expect(card.description, where).not.toContain('MISSING:')
-            expect(card.description, where).not.toContain('{{')
-            expect(card.action?.label ?? '', where).not.toContain('MISSING:')
+            const text = [card.title, card.description, card.action?.label]
+            if (text.some((part) => part?.includes('MISSING:'))) {
+              problems.push(`missing copy: ${where}`)
+            }
+            if (card.description.includes('{{')) {
+              problems.push(`unfilled placeholder: ${where}`)
+            }
           }
         }
       }
     }
+    expect(problems).toEqual([])
   })
 })

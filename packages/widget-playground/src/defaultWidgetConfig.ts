@@ -78,7 +78,7 @@ export const widgetBaseConfig: WidgetConfig = {
   //   showFeeTooltip: true,
   // },
   // showSingleRoute: true,
-  useRelayerRoutes: true,
+  useGaslessRoutes: true,
   buildUrl: true,
   // hiddenUI: { poweredBy: true, language: true, appearance: true, drawerCloseButton: true, toAddress: true },
   // disabledUI: { toAddress: true, fromAmount: true, toToken: true, fromToken: true },

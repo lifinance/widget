@@ -167,11 +167,7 @@ export { createTheme } from './themes/createTheme.js'
 
 // ── types ────────────────────────────────────────────────────────────────────
 export { WidgetEvent } from './types/events.js'
-export type {
-  FormRef,
-  WidgetConfig,
-  WidgetTheme,
-} from './types/widget.js'
+export type { FormRef, WidgetConfig, WidgetTheme } from './types/widget.js'
 
 // ── utils ────────────────────────────────────────────────────────────────────
 export { buildRouteFromTxHistory } from './utils/converters.js'

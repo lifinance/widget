@@ -127,7 +127,7 @@ jobs:
           # build scripts, and a dlx install runs outside the workspace, so the
           # `allowBuilds` list in pnpm-workspace.yaml never reaches it. wrangler needs
           # esbuild and workerd built.
-          npx -y wrangler@4.90.1 pages deploy ./packages/widget-playground-vite/dist/ --project-name "$PROJECT_NAME" --branch "$BRANCH_NAME"
+          npx -y wrangler@4.160.0 pages deploy ./packages/widget-playground-vite/dist/ --project-name "$PROJECT_NAME" --branch "$BRANCH_NAME"
 
       - name: Resolve preview URL
         id: preview-url

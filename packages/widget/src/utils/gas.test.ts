@@ -1,7 +1,7 @@
 import type { LiFiStepExtended, RouteExtended, Token } from '@lifi/sdk'
 import { ChainType } from '@lifi/sdk'
 import { describe, expect, it } from 'vitest'
-import { getSelfFundedGasAmount } from './gas.js'
+import { getSelfFundedGasAmount, getWalletFundedSteps } from './gas.js'
 
 const solanaChainId = 1151111081099710
 const stellarChainId = 1201081091099710
@@ -188,5 +188,39 @@ describe('getSelfFundedGasAmount', () => {
         ChainType.STL
       )
     ).toBe(191028247n)
+  })
+})
+
+describe('getWalletFundedSteps', () => {
+  const stepWith = (
+    fields: Partial<Pick<LiFiStepExtended, 'typedData' | 'estimate'>>
+  ): LiFiStepExtended =>
+    ({ estimate: { feeCosts: [] }, ...fields }) as unknown as LiFiStepExtended
+
+  it('drops a gasless step, because the relayer pays its gas', () => {
+    const gasless = stepWith({
+      estimate: {
+        feeCosts: [{ name: 'LIFI Gasless Relay Fee', included: true }],
+      } as unknown as LiFiStepExtended['estimate'],
+    })
+
+    expect(getWalletFundedSteps([gasless])).toEqual([])
+  })
+
+  it('drops steps that sign a Permit or an Order', () => {
+    const permit = stepWith({
+      typedData: [{ primaryType: 'Permit' }],
+    } as unknown as LiFiStepExtended)
+    const order = stepWith({
+      typedData: [{ primaryType: 'Order' }],
+    } as unknown as LiFiStepExtended)
+
+    expect(getWalletFundedSteps([permit, order])).toEqual([])
+  })
+
+  it('keeps a standard step', () => {
+    const standard = stepWith({})
+
+    expect(getWalletFundedSteps([standard])).toEqual([standard])
   })
 })

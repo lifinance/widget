@@ -1,4 +1,5 @@
 import type { TokenAmount } from '@lifi/sdk'
+import { isGaslessStep } from '@lifi/sdk'
 import { Box, Tooltip } from '@mui/material'
 import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
@@ -39,7 +40,7 @@ export const RouteCard: React.FC<
     )
     const tags: string[] = mainTag ? [mainTag] : []
     const { combinedFeesUSD } = getAccumulatedFeeCostsBreakdown(route)
-    if (!combinedFeesUSD) {
+    if (!combinedFeesUSD || route.steps.every(isGaslessStep)) {
       tags.push('gasless')
     }
     if (route.steps.length > 1) {
@@ -47,6 +48,7 @@ export const RouteCard: React.FC<
     }
     const customLabels = getMatchingLabels(route, routeLabels)
     return [tags, customLabels]
+    // oxlint-disable-next-line react/exhaustive-deps -- `route.tags` also triggers a recompute when the same `route` object gets new tags
   }, [route.tags, route, routeLabels])
 
   const cardContent = (
