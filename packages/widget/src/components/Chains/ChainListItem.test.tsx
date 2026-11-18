@@ -96,12 +96,34 @@ describe('ChainListItem', () => {
     expect(container.querySelector('.chain-label')?.textContent).toBe('NEW')
   })
 
-  it('applies the integrator label sx after the layout sx', () => {
-    render({ label: { text: 'NEW', sx: { marginLeft: '7px' } } })
+  it('applies the integrator label sx over the default style', () => {
+    render({ label: { text: 'NEW', sx: { maxWidth: '50px' } } })
 
     const label = container.querySelector<HTMLElement>('.chain-label')
     expect(label).not.toBeNull()
-    expect(getComputedStyle(label!).marginLeft).toBe('7px')
+    expect(getComputedStyle(label!).maxWidth).toBe('50px')
+  })
+
+  it('places the label inside the row button above the logo', () => {
+    render({ label: { text: 'NEW' }, size: 70 })
+
+    const button = container.querySelector('li')?.firstElementChild
+    const label = container.querySelector<HTMLElement>('.chain-label')
+    expect(label?.parentElement).toBe(button)
+    expect(getComputedStyle(label!).position).toBe('absolute')
+    expect(getComputedStyle(label!).top).toBe('6px')
+    expect(getComputedStyle(label!).left).toBe('8px')
+  })
+
+  it('makes the button taller only in a labeled row', () => {
+    render({ label: { text: 'NEW' }, size: 70 })
+    const labeledButton = container.querySelector('li')?.firstElementChild
+    expect(getComputedStyle(labeledButton!).height).toBe('66px')
+    expect(getComputedStyle(labeledButton!).paddingTop).toBe('30px')
+
+    render()
+    const button = container.querySelector('li')?.firstElementChild
+    expect(getComputedStyle(button!).height).toBe('44px')
   })
 
   it('shows no label for whitespace text', () => {

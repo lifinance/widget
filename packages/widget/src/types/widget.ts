@@ -302,7 +302,12 @@ export type ChainLabel = RouteLabel
 
 export interface PinnedChain {
   chainId: number
-  /** Optional label next to the chain name. Same shape as `RouteLabel`. */
+  /**
+   * Optional label inside the chain row in the chain lists, above the chain logo.
+   * Same shape as `RouteLabel`. A labeled row is taller than the other rows.
+   * Keep the label to one short line.
+   * A label of 4 characters or fewer also shows as a badge on the chain grid tile.
+   */
   label?: ChainLabel
   /**
    * Limits the pin to the source ('from') or the destination ('to') chain list.

@@ -7,9 +7,13 @@ import { useConfigPinnedChains } from '../../hooks/useConfigPinnedChains.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import { FormKeyHelper, type FormType } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import { sortChainsByPins } from '../../utils/pinnedChains.js'
+import {
+  isVisibleChainLabel,
+  sortChainsByPins,
+} from '../../utils/pinnedChains.js'
 import { AllChainsAvatar } from './AllChainsAvatar.js'
 import {
+  chainRowLabelOffset,
   List,
   ListItem,
   ListItemAvatar,
@@ -83,6 +87,18 @@ export const VirtualizedChainList = ({
     [sortedChains, showAllNetworksOption]
   )
 
+  const estimateSize = useCallback(
+    (index: number) => {
+      const chain = sortedChains[index - (showAllNetworksOption ? 1 : 0)]
+      const rowHeight = itemsSize === 'small' ? 48 : 60
+      if (chain && isVisibleChainLabel(configPins.get(chain.id)?.label)) {
+        return rowHeight + chainRowLabelOffset
+      }
+      return rowHeight
+    },
+    [sortedChains, configPins, showAllNetworksOption, itemsSize]
+  )
+
   const onChainSelect = useCallback(
     (chain: ExtendedChain) => {
       setIsAllNetworks(false, formType)
@@ -97,9 +113,8 @@ export const VirtualizedChainList = ({
       overscan: 3,
       paddingEnd: 0,
       getScrollElement: () => scrollElementRef.current,
-      estimateSize: () => {
-        return itemsSize === 'small' ? 48 : 60
-      },
+      // getItemKey changes with sortedChains, so the sizes update with the pins.
+      estimateSize,
       getItemKey,
     })
 

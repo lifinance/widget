@@ -4,9 +4,10 @@ import type React from 'react'
 import { type JSX, memo } from 'react'
 import type { ChainLabel } from '../../types/widget.js'
 import { isVisibleChainLabel } from '../../utils/pinnedChains.js'
-import { CardLabel, CardLabelTypography } from '../Card/CardLabel.js'
 import {
   Avatar,
+  ChainRowLabel,
+  ChainRowLabelText,
   ListItem,
   ListItemAvatar,
   ListItemButton,
@@ -14,17 +15,24 @@ import {
 } from './ChainList.style.js'
 import { pinButtonClassName, PinChainButton } from './PinChainButton.js'
 
-// A zero flex basis makes the label truncate before the chain name.
-const labelLayoutSx = {
-  flex: '1 1 0px',
-  minWidth: 48,
-  maxWidth: 'max-content',
-  marginLeft: 1,
-}
-
 const nameSx = { minWidth: 0 }
 
-const nameWithLabelSx = { flex: '0 1 auto', minWidth: 0 }
+// The label sits in the top space of the row button, aligned with the chain logo.
+// The space above the label is the same as the space below the logo.
+const labelPositionSx = {
+  small: {
+    position: 'absolute',
+    top: 6,
+    left: 8,
+    maxWidth: 'calc(100% - 16px)',
+  },
+  medium: {
+    position: 'absolute',
+    top: 8,
+    left: 12,
+    maxWidth: 'calc(100% - 24px)',
+  },
+} as const
 
 interface ChainListItemProps {
   chain: ExtendedChain
@@ -75,38 +83,35 @@ export const ChainListItem: React.NamedExoticComponent<ChainListItemProps> =
             onClick={() => onSelect(chain)}
             selected={selected}
             size={itemsSize}
+            labeled={visibleLabel !== undefined}
           >
             <ListItemAvatar size={itemsSize}>
               <Avatar src={chain.logoURI} alt={chain.name} size={itemsSize}>
                 {chain.name[0]}
               </Avatar>
             </ListItemAvatar>
-            <ListItemText
-              primary={chain.name}
-              size={itemsSize}
-              sx={visibleLabel ? nameWithLabelSx : nameSx}
-            />
+            <ListItemText primary={chain.name} size={itemsSize} sx={nameSx} />
             {visibleLabel && (
-              <CardLabel
+              <ChainRowLabel
                 className="chain-label"
                 sx={[
-                  labelLayoutSx,
+                  labelPositionSx[itemsSize],
                   ...(Array.isArray(visibleLabel.sx)
                     ? visibleLabel.sx
                     : [visibleLabel.sx]),
                 ]}
               >
-                <CardLabelTypography noWrap>
+                <ChainRowLabelText noWrap>
                   {visibleLabel.text.trim()}
-                </CardLabelTypography>
-              </CardLabel>
+                </ChainRowLabelText>
+              </ChainRowLabel>
             )}
             {withPin && (
               <Box
                 style={{
                   position: 'relative',
                   flexShrink: 0,
-                  // Keeps the pin at the right edge when the label does not fill the row.
+                  // Keeps the pin at the right edge of the row.
                   marginLeft: 'auto',
                   height: 28,
                   width: 28,
