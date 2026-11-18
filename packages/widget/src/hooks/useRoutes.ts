@@ -633,45 +633,13 @@ export const useRoutes = ({
         setIntermediateRoutes(queryKey, initialRoutes)
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
         // Return early if we're only using main routes
-      } else if (shouldUseMainRoutes) {
+      } else if (shouldUseMainRoutes && !shouldUseGaslessRoute) {
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
-        if (shouldUseGaslessRoute) {
-          // No main route, and a gasless route still in flight. The no-route
-          // answer goes out now rather than waiting on the gasless request —
-          // seconds, or as long as it hangs — and a route it brings later takes
-          // its place, unless a newer request or answer has moved on since.
-          gaslessRoutePromise.then((gaslessRoute) => {
-            const query = queryClient
-              .getQueryCache()
-              .find<RoutesQueryData>({ queryKey, exact: true })
-            // Only for the request still on screen: once the user has moved on,
-            // the route answers an amount no longer in the form, and the event
-            // would tell integrators about it.
-            if (
-              !gaslessRoute ||
-              !query?.getObserversCount() ||
-              query.state.fetchStatus !== 'idle' ||
-              query.state.data?.routes.length
-            ) {
-              return
-            }
-            queryClient.setQueryData<RoutesQueryData>(queryKey, {
-              routes: [gaslessRoute],
-              issues: noIssues,
-            })
-            emitter.emit(WidgetEvent.AvailableRoutes, [gaslessRoute])
-          })
-        }
         return { routes: initialRoutes, issues: issuesFor(initialRoutes) }
       }
 
       const gaslessRoute = await gaslessRoutePromise
       if (!gaslessRoute) {
-        // Whatever produced the empty list, an integrator driving its UI from
-        // this event has to hear that it is empty. Gating on
-        // `shouldUseMainRoutes` left the observed-gasless path — where the
-        // gasless request resolved to null — silent, so a stale route list
-        // stayed on screen indefinitely.
         if (!initialRoutes.length) {
           emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
         }

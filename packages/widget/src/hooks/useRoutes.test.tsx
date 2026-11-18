@@ -302,10 +302,9 @@ describe('an empty main result beside a gasless request', () => {
     })
   })
 
-  // Reported in QA: the no-route answer waited on the optional second quote —
-  // 2.8 s live, and as long as it hung. It now goes out at once, and a gasless
-  // route that arrives later still takes its place.
-  it('answers at once and adds the gasless route when it arrives', async () => {
+  // As on main: the gasless request may still bring the only route, so the
+  // empty answer is not explained before it settles.
+  it('waits for the gasless request before it explains the empty result', async () => {
     let release = (_route: unknown): void => {}
     mocks.getGaslessRoute.mockReturnValue(
       new Promise((resolve) => {
@@ -313,77 +312,54 @@ describe('an empty main result beside a gasless request', () => {
       })
     )
     render()
+    await vi.waitFor(() => expect(mocks.getRoutes).toHaveBeenCalledTimes(1))
+    await new Promise((resolve) => setTimeout(resolve, 20))
+    expect(hook().isFetching).toBe(true)
+    expect(hook().issues).toEqual([])
+    expect(emittedRoutes()).toEqual([])
+
+    act(() => release(null))
     await settled()
-    expect(mocks.getGaslessRoute).toHaveBeenCalledTimes(1)
     expect(hook().routes).toEqual([])
     expect(hook().issues.map((issue) => issue.bucket)).toEqual(['temporary'])
     expect(emittedRoutes()).toEqual([[]])
+  })
 
-    act(() => release({ id: 'gasless-route' }))
-    await vi.waitFor(() =>
-      expect(hook().routes).toEqual([{ id: 'gasless-route' }])
+  it('shows a gasless route that arrives after the empty main result', async () => {
+    let release = (_route: unknown): void => {}
+    mocks.getGaslessRoute.mockReturnValue(
+      new Promise((resolve) => {
+        release = resolve
+      })
     )
+    render()
+    await vi.waitFor(() => expect(mocks.getRoutes).toHaveBeenCalledTimes(1))
+
+    act(() => release({ id: 'gasless-route' }))
+    await settled()
+    expect(hook().routes).toEqual([{ id: 'gasless-route' }])
     expect(hook().issues).toEqual([])
-    expect(emittedRoutes()).toEqual([[], [{ id: 'gasless-route' }]])
+    expect(emittedRoutes()).toEqual([[{ id: 'gasless-route' }]])
   })
 
-  // The user changed the amount before the gasless request answered. Its route belongs
-  // to an amount no longer in the form, and integrators must not hear of it.
-  it('drops a late gasless route for a request the user has left', async () => {
-    let release = (_route: unknown): void => {}
-    mocks.getGaslessRoute
-      .mockReturnValueOnce(
-        new Promise((resolve) => {
-          release = resolve
-        })
-      )
-      .mockResolvedValue(null)
+  // Reported in review: a gasless route that settled before the empty main
+  // result was dropped, and the user saw "No routes available".
+  it('shows a gasless route that is ready before the main result', async () => {
+    mocks.getGaslessRoute.mockResolvedValue({ id: 'gasless-route' })
+    mocks.getRoutes.mockImplementation(
+      () =>
+        new Promise((resolve) =>
+          setTimeout(
+            () => resolve({ routes: [], unavailableRoutes: reasons }),
+            10
+          )
+        )
+    )
     render()
     await settled()
-    expect(emittedRoutes()).toEqual([[]])
-
-    mocks.fields.fromAmount = '6'
-    render()
-    await vi.waitFor(() => expect(mocks.getRoutes).toHaveBeenCalledTimes(2))
-    await settled()
-
-    act(() => release({ id: 'gasless-route' }))
-    await new Promise((resolve) => setTimeout(resolve, 20))
-    expect(emittedRoutes()).toEqual([[], []])
-    expect(hook().routes).toEqual([])
-  })
-
-  // The late route answers an older request. A newer answer that already has a
-  // route must not be swapped for it.
-  it('keeps a newer answer when the gasless route arrives late', async () => {
-    let release = (_route: unknown): void => {}
-    mocks.getGaslessRoute
-      .mockReturnValueOnce(
-        new Promise((resolve) => {
-          release = resolve
-        })
-      )
-      .mockResolvedValue(null)
-    render()
-    await settled()
-
-    // The token fields feed the cache sync that runs on the first route.
-    const mainRoute = {
-      id: 'main-route',
-      fromToken: { chainId: 1, address: '0xusdc' },
-      toToken: { chainId: 10, address: '0xusdc10' },
-    }
-    mocks.getRoutes.mockResolvedValue({
-      routes: [mainRoute],
-      unavailableRoutes: reasons,
-    })
-    refetch()
-    await vi.waitFor(() => expect(hook().routes).toEqual([mainRoute]))
-    await settled()
-
-    act(() => release({ id: 'gasless-route' }))
-    await new Promise((resolve) => setTimeout(resolve, 20))
-    expect(hook().routes).toEqual([mainRoute])
+    expect(hook().routes).toEqual([{ id: 'gasless-route' }])
+    expect(hook().issues).toEqual([])
+    expect(emittedRoutes()).toEqual([[{ id: 'gasless-route' }]])
   })
 
   // getGaslessRoute turns every failure into null.
