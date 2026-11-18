@@ -72,6 +72,15 @@ const circleAnimation = keyframes`
   }
 `
 
+const svgRotateAnimation = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`
+
 // This `styled()` function invokes keyframes. `styled-components` only supports keyframes
 // in string templates. Do not convert these styles in JS object as it will break.
 export const CircularProgressPending: React.FC<
@@ -82,10 +91,16 @@ export const CircularProgressPending: React.FC<
     theme.applyStyles('dark', {
       color: theme.vars.palette.primary.light,
     })}
-  animation-duration: 3s;
   position: absolute;
   top: 0;
   left: 0;
+  /* A rotating root overflows a scroll container at its corners; clip the SVG instead (hidden: Safari < 16). */
+  animation: none;
+  overflow: hidden;
+  overflow: clip;
+  .${circularProgressClasses.svg} {
+    animation: ${svgRotateAnimation} 3s linear infinite;
+  }
   .${circularProgressClasses.circle} {
     animation-duration: 2s;
     animation-timing-function: linear;
