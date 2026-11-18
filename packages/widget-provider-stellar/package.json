@@ -40,8 +40,8 @@
   ],
   "dependencies": {
     "@creit.tech/stellar-wallets-kit": "^2.8.0",
-    "@lifi/sdk": "^4.12.1",
-    "@lifi/sdk-provider-stellar": "^4.3.10",
+    "@lifi/sdk": "^4.13.0",
+    "@lifi/sdk-provider-stellar": "^4.3.11",
     "@lifi/widget-provider": "workspace:*",
     "zustand": "^5.1.0"
   },
