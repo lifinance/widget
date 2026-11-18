@@ -24,7 +24,7 @@ const deps = (
   token: usdc,
   slippage: undefined,
   amountLocked: false,
-  receiverHidden: false,
+  receiverLocked: false,
   receiverRequired: false,
   spendable: undefined,
   toAddress: undefined,
@@ -397,7 +397,7 @@ describe('a card the user cannot act on', () => {
   )
 
   it.each([
-    ['a hidden receiver', { receiverHidden: true }],
+    ['a hidden or locked receiver', { receiverLocked: true }],
     ['a required receiver', { receiverRequired: true }],
     ['another ecosystem', { sameEcosystem: false }],
   ] as const)('asks for no address change with %s', (_label, override) => {

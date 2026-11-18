@@ -61,7 +61,7 @@ export function useRouteIssueCard(
     amountLocked: Boolean(disabledUI?.fromAmount),
     spendable:
       isBalanceLoading || balance?.amount === undefined ? undefined : maxAmount,
-    receiverHidden: Boolean(hiddenUI?.toAddress),
+    receiverLocked: Boolean(hiddenUI?.toAddress || disabledUI?.toAddress),
     receiverRequired: requiredToAddress || unsupportedReceiverBlocking,
     toAddress,
     sameEcosystem: Boolean(

@@ -40,7 +40,10 @@ export interface RouteIssueCardDeps {
    * applied, and an empty wallet (`0n`) can apply none.
    */
   spendable?: bigint
-  receiverHidden: boolean
+  /**
+   * The app hides or disables the receiver, so it is not the card's to clear.
+   */
+  receiverLocked: boolean
   /** The widget cannot execute without one, so clearing it is not a fix. */
   receiverRequired: boolean
   toAddress?: string
@@ -225,7 +228,7 @@ export const buildRouteIssueCard = (
   // an ecosystem; a cross-ecosystem transfer needs an explicit address.
   const canClearReceiver =
     Boolean(deps.toAddress) &&
-    !deps.receiverHidden &&
+    !deps.receiverLocked &&
     !deps.receiverRequired &&
     deps.sameEcosystem
 

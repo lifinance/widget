@@ -159,6 +159,27 @@ it('clears the receiver and its bookmark together', () => {
   expect(mocks.setSelectedBookmark).toHaveBeenCalledWith()
 })
 
+// The app fixed the receiver, so a clear would undo the integrator's choice and
+// leave a field the user cannot type back into.
+it('offers no receiver clear where the app locks the receiver', () => {
+  mocks.config = {
+    mode: 'default',
+    storageScopeKey: 'test',
+    disabledUI: { toAddress: true },
+  }
+  act(() => {
+    root.render(
+      <QueryClientProvider client={client}>
+        <Probe issue={withBucket('recipientNotSupported')} />
+      </QueryClientProvider>
+    )
+  })
+  expect(card?.action).toBeUndefined()
+  expect(card?.description).toBe(
+    'info.routeIssue.recipientNotSupported.descriptionNoAction'
+  )
+})
+
 // Every routes query shares the prefix, whatever the rest of its key holds, so
 // a retry has to reach them all and leave the other queries alone.
 it('retries by invalidating every routes query and nothing else', () => {
