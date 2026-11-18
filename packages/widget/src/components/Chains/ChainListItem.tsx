@@ -1,5 +1,5 @@
 import type { ExtendedChain } from '@lifi/sdk'
-import { Box } from '@mui/material'
+import { Box, type Theme } from '@mui/material'
 import type React from 'react'
 import { type JSX, memo } from 'react'
 import type { ChainLabel } from '../../types/widget.js'
@@ -15,21 +15,20 @@ import {
 } from './ChainList.style.js'
 import { pinButtonClassName, PinChainButton } from './PinChainButton.js'
 
-const nameSx = { minWidth: 0 }
-
-// Same inset as the chain logo, so the label lines up with it.
+// Same inset as the chain logo (the ListItemButton left padding), so the label
+// lines up with it.
 const labelPositionSx = {
   small: {
     position: 'absolute',
     top: 6,
-    left: 8,
-    maxWidth: 'calc(100% - 16px)',
+    left: (theme: Theme) => theme.spacing(1),
+    maxWidth: (theme: Theme) => `calc(100% - ${theme.spacing(2)})`,
   },
   medium: {
     position: 'absolute',
     top: 8,
-    left: 12,
-    maxWidth: 'calc(100% - 24px)',
+    left: (theme: Theme) => theme.spacing(1.5),
+    maxWidth: (theme: Theme) => `calc(100% - ${theme.spacing(3)})`,
   },
 } as const
 
@@ -89,7 +88,7 @@ export const ChainListItem: React.NamedExoticComponent<ChainListItemProps> =
                 {chain.name[0]}
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={chain.name} size={itemsSize} sx={nameSx} />
+            <ListItemText primary={chain.name} size={itemsSize} />
             {visibleLabel && (
               <ChainRowLabel
                 className="chain-label"
@@ -110,8 +109,6 @@ export const ChainListItem: React.NamedExoticComponent<ChainListItemProps> =
                 style={{
                   position: 'relative',
                   flexShrink: 0,
-                  // Keeps the pin at the right edge of the row.
-                  marginLeft: 'auto',
                   height: 28,
                   width: 28,
                 }}

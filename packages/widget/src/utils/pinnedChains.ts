@@ -2,7 +2,7 @@ import type { ExtendedChain } from '@lifi/sdk'
 import type { FormType } from '../stores/form/types.js'
 import type { ChainLabel, PinnedChain } from '../types/widget.js'
 
-export const maxGridLabelLength = 4
+const maxGridLabelLength = 4
 
 export const isVisibleChainLabel = (
   label: ChainLabel | undefined
