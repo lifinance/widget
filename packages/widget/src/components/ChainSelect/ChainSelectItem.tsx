@@ -29,7 +29,7 @@ export const ChainSelectItem: React.NamedExoticComponent<ChainSelectItemProps> =
       onSelect,
       label,
     }: ChainSelectItemProps): JSX.Element => {
-      const badgeLabel = label && isShortChainLabel(label) ? label : undefined
+      const badgeLabel = isShortChainLabel(label) ? label : undefined
       return (
         <Tooltip title={chain.name} enterNextDelay={100}>
           <ChainCard
@@ -45,14 +45,7 @@ export const ChainSelectItem: React.NamedExoticComponent<ChainSelectItemProps> =
             </ChainAvatar>
             {badgeLabel ? (
               <ChainCardBadgeContainer>
-                <ChainCardBadge
-                  className="chain-badge"
-                  sx={
-                    Array.isArray(badgeLabel.sx)
-                      ? badgeLabel.sx
-                      : [badgeLabel.sx]
-                  }
-                >
+                <ChainCardBadge className="chain-badge" sx={badgeLabel.sx}>
                   <ChainCardBadgeText>
                     {badgeLabel.text.trim()}
                   </ChainCardBadgeText>

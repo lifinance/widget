@@ -2,7 +2,10 @@ import { Avatar, Box, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import type React from 'react'
 import { Card } from '../../components/Card/Card.js'
-import { CardLabel } from '../../components/Card/CardLabel.js'
+import {
+  CardLabel,
+  CardLabelTypography,
+} from '../../components/Card/CardLabel.js'
 import { maxChainsToShow } from '../../stores/chains/createChainOrderStore.js'
 
 const chainCardWidthPx = 52
@@ -47,12 +50,10 @@ export const ChainCardBadge: React.FC<React.ComponentProps<typeof CardLabel>> =
   })
 
 export const ChainCardBadgeText: React.FC<
-  React.ComponentProps<typeof Typography>
-> = styled(Typography)(({ theme }) => ({
+  React.ComponentProps<typeof CardLabelTypography>
+> = styled(CardLabelTypography)(({ theme }) => ({
   padding: theme.spacing(0.25, 0.5),
   fontSize: 10,
-  fontWeight: 600,
-  lineHeight: 1,
   whiteSpace: 'nowrap',
 }))
 

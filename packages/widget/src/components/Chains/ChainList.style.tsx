@@ -7,10 +7,9 @@ import {
   ListItemAvatar as MuiListItemAvatar,
   ListItemText as MuiListItemText,
   styled,
-  Typography,
 } from '@mui/material'
 import type React from 'react'
-import { CardLabel } from '../Card/CardLabel.js'
+import { CardLabel, CardLabelTypography } from '../Card/CardLabel.js'
 import { ListItemButton as ListItemButtonBase } from '../ListItemButton.js'
 
 export const Avatar: React.FC<
@@ -112,11 +111,9 @@ export const ChainRowLabel: React.FC<React.ComponentProps<typeof CardLabel>> =
   })
 
 export const ChainRowLabelText: React.FC<
-  React.ComponentProps<typeof Typography>
-> = styled(Typography)(({ theme }) => ({
+  React.ComponentProps<typeof CardLabelTypography>
+> = styled(CardLabelTypography)(({ theme }) => ({
   // The extra bottom pixel centers the capital letters in the chip.
   padding: theme.spacing(0, 1, '1px'),
   fontSize: 10,
-  fontWeight: 600,
-  lineHeight: 1,
 }))

@@ -7,10 +7,7 @@ import { useConfigPinnedChains } from '../../hooks/useConfigPinnedChains.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import { FormKeyHelper, type FormType } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
-import {
-  isVisibleChainLabel,
-  sortChainsByPins,
-} from '../../utils/pinnedChains.js'
+import { sortChainsByPins } from '../../utils/pinnedChains.js'
 import { AllChainsAvatar } from './AllChainsAvatar.js'
 import {
   chainRowLabelOffset,
@@ -91,7 +88,7 @@ export const VirtualizedChainList = ({
     (index: number) => {
       const chain = sortedChains[index - (showAllNetworksOption ? 1 : 0)]
       const rowHeight = itemsSize === 'small' ? 48 : 60
-      if (chain && isVisibleChainLabel(configPins.get(chain.id)?.label)) {
+      if (chain && configPins.get(chain.id)?.label) {
         return rowHeight + chainRowLabelOffset
       }
       return rowHeight

@@ -31,12 +31,13 @@ export const getConfigPinnedChains = (
   const chainIds = new Set(chains.map((chain) => chain.id))
   for (const pin of pinned) {
     // Untyped config (plain JS, postMessage) can pass any shape.
+    if (typeof pin !== 'object' || pin === null) {
+      continue
+    }
     // An unknown `side` value counts as no side: the pin applies to both lists.
     const pinSide =
-      pin?.side === 'from' || pin?.side === 'to' ? pin.side : undefined
+      pin.side === 'from' || pin.side === 'to' ? pin.side : undefined
     if (
-      typeof pin !== 'object' ||
-      pin === null ||
       typeof pin.chainId !== 'number' ||
       (pinSide && pinSide !== side) ||
       !chainIds.has(pin.chainId) ||
@@ -44,7 +45,8 @@ export const getConfigPinnedChains = (
     ) {
       continue
     }
-    if (pin.label !== undefined && typeof pin.label?.text !== 'string') {
+    // Drops a label that cannot show, so the row height and the row agree.
+    if (pin.label !== undefined && !isVisibleChainLabel(pin.label)) {
       const { label: _label, ...pinWithoutLabel } = pin
       configPins.set(pin.chainId, pinWithoutLabel)
       continue

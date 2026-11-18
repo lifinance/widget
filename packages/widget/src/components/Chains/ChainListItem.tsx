@@ -17,8 +17,7 @@ import { pinButtonClassName, PinChainButton } from './PinChainButton.js'
 
 const nameSx = { minWidth: 0 }
 
-// The label sits in the top space of the row button, aligned with the chain logo.
-// The space above the label is the same as the space below the logo.
+// Same inset as the chain logo, so the label lines up with it.
 const labelPositionSx = {
   small: {
     position: 'absolute',

@@ -188,6 +188,12 @@ describe('getConfigPinnedChains', () => {
       expect(result.get(137)?.label).toBeUndefined()
     })
 
+    it('keeps the pin without a label for a whitespace-only text', () => {
+      const result = resolve([{ chainId: 137, label: { text: '   ' } }])
+      expect([...result.keys()]).toEqual([137])
+      expect(result.get(137)?.label).toBeUndefined()
+    })
+
     it('keeps a valid label', () => {
       const result = resolve([{ chainId: 137, label: { text: 'NEW' } }])
       expect(result.get(137)?.label).toEqual({ text: 'NEW' })
