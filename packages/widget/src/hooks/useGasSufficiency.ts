@@ -5,7 +5,7 @@ import { useQuery } from '@tanstack/react-query'
 import { useMemo } from 'react'
 import { useSDKClient } from '../providers/SDKClientProvider.js'
 import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
-import { getSelfFundedGasAmount } from '../utils/gas.js'
+import { getSelfFundedGasAmount, getWalletFundedSteps } from '../utils/gas.js'
 import { getQueryKey } from '../utils/queries.js'
 import { useAvailableChains } from './useAvailableChains.js'
 import { useIsContractAddress } from './useIsContractAddress.js'
@@ -77,13 +77,7 @@ export const useGasSufficiency = (
         return []
       }
 
-      // Filter out steps that are relayer steps or have primaryType 'Permit' or 'Order'
-      const filteredSteps = route.steps.filter(
-        (step) =>
-          !step.typedData?.some(
-            (t) => t.primaryType === 'Permit' || t.primaryType === 'Order'
-          )
-      )
+      const filteredSteps = getWalletFundedSteps(route.steps)
 
       // If all steps are filtered out, we don't need to check for gas sufficiency
       if (!filteredSteps.length) {
