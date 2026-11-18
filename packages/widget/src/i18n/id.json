@@ -154,10 +154,12 @@
       },
       "destinationAccountNotReady": {
         "title": "Akun penerima belum siap",
+        "titleStellarSwapFee": "XLM tidak cukup untuk membayar biaya",
         "description": "Akun penerima harus disiapkan agar dapat menerima token ini. Setelah itu, periksa lagi.",
         "descriptionStellarUnfunded": "Akun Stellar penerima belum aktif. Isi akun dengan XLM terlebih dahulu, atau pilih XLM sebagai token yang diterima.",
         "descriptionStellarTrustline": "Akun Stellar penerima belum memiliki trustline untuk token ini. Buat trustline di dompet penerima, lalu periksa lagi.",
         "descriptionStellarReserve": "Akun Stellar penerima tidak memiliki cukup XLM untuk cadangannya. Tambahkan XLM ke akun tersebut, lalu periksa lagi.",
+        "descriptionStellarSwapFee": "Dompet Stellar yang Anda gunakan untuk mengirim perlu XLM tambahan untuk membayar biaya swap. Tambahkan XLM ke dompet tersebut, lalu periksa lagi.",
         "descriptionLighterAccount": "Alamat penerima belum memiliki akun Lighter. Buat akun di Lighter, lalu periksa lagi.",
         "descriptionSeiLink": "Salah satu dompet dalam transfer ini belum ditautkan ke alamat SEI-nya. Tautkan di app.sei.io, lalu periksa lagi.",
         "descriptionSolAccountRent": "Salah satu dompet Solana di transfer ini perlu SOL tambahan untuk membuat akun token. Tambahkan sedikit SOL, lalu periksa lagi."

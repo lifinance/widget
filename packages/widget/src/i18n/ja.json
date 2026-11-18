@@ -154,10 +154,12 @@
       },
       "destinationAccountNotReady": {
         "title": "受取アカウントの準備ができていません",
+        "titleStellarSwapFee": "手数料の支払いに必要な XLM が足りません",
         "description": "このトークンを受け取るには、受取アカウントの設定が必要です。設定してから、再確認してください。",
         "descriptionStellarUnfunded": "受取側の Stellar アカウントはまだ有効化されていません。先に XLM を送金するか、受け取るトークンとして XLM を選択してください。",
         "descriptionStellarTrustline": "受取側の Stellar アカウントに、このトークンのトラストラインがありません。受取側のウォレットでトラストラインを追加してから、再確認してください。",
         "descriptionStellarReserve": "受取側の Stellar アカウントの XLM が、必要な最低残高（リザーブ）に足りません。XLM を追加してから、再確認してください。",
+        "descriptionStellarSwapFee": "送金元の Stellar ウォレットに、スワップ手数料の支払いに必要な XLM が足りません。XLM を追加してから、再確認してください。",
         "descriptionLighterAccount": "受取アドレスに Lighter アカウントがありません。Lighter でアカウントを作成してから、再確認してください。",
         "descriptionSeiLink": "この送金で使うウォレットが、SEI アドレスにリンクされていません。app.sei.io でリンクしてから、再確認してください。",
         "descriptionSolAccountRent": "この送金で使う Solana ウォレットに、トークンアカウントの作成に必要な SOL が足りません。SOL を追加してから、再確認してください。"

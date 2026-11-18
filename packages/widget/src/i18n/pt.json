@@ -154,10 +154,12 @@
       },
       "destinationAccountNotReady": {
         "title": "Conta do destinatário não está pronta",
+        "titleStellarSwapFee": "XLM insuficiente para pagar a taxa",
         "description": "A conta do destinatário precisa ser configurada antes de receber este token. Depois, verifique novamente.",
         "descriptionStellarUnfunded": "A conta Stellar do destinatário ainda não está ativa. Envie XLM para ela primeiro ou escolha XLM como o token a receber.",
         "descriptionStellarTrustline": "A conta Stellar do destinatário não tem trustline para este token. Crie uma na carteira do destinatário e depois verifique novamente.",
         "descriptionStellarReserve": "A conta Stellar do destinatário não tem XLM suficiente para a reserva. Adicione XLM a ela e depois verifique novamente.",
+        "descriptionStellarSwapFee": "A carteira Stellar de onde você envia precisa de mais XLM para pagar a taxa de swap. Adicione XLM a ela e depois verifique novamente.",
         "descriptionLighterAccount": "O endereço do destinatário não tem conta na Lighter. Crie uma na Lighter e depois verifique novamente.",
         "descriptionSeiLink": "Uma carteira desta transferência não está vinculada ao endereço SEI correspondente. Vincule-a em app.sei.io e depois verifique novamente.",
         "descriptionSolAccountRent": "Uma carteira Solana desta transferência precisa de mais SOL para abrir uma conta de token. Adicione um pouco de SOL e depois verifique novamente."

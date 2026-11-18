@@ -154,10 +154,12 @@
       },
       "destinationAccountNotReady": {
         "title": "받는 계정이 준비되지 않았습니다",
+        "titleStellarSwapFee": "수수료를 지불할 XLM이 부족합니다",
         "description": "이 토큰을 받으려면 먼저 받는 계정을 설정해야 합니다. 설정한 후 다시 확인하세요.",
         "descriptionStellarUnfunded": "받는 Stellar 계정이 아직 활성화되지 않았습니다. 먼저 계정에 XLM을 보내거나, 받을 토큰으로 XLM을 선택하세요.",
         "descriptionStellarTrustline": "받는 Stellar 계정에 이 토큰의 트러스트라인이 없습니다. 받는 지갑에서 트러스트라인을 추가한 후 다시 확인하세요.",
         "descriptionStellarReserve": "받는 Stellar 계정의 XLM 잔액이 최소 보유량보다 적습니다. 계정에 XLM을 추가한 후 다시 확인하세요.",
+        "descriptionStellarSwapFee": "보내는 Stellar 지갑에 스왑 수수료를 지불할 XLM이 부족합니다. 지갑에 XLM을 추가한 후 다시 확인하세요.",
         "descriptionLighterAccount": "받는 주소에 Lighter 계정이 없습니다. Lighter에서 계정을 생성한 후 다시 확인하세요.",
         "descriptionSeiLink": "이 전송에 사용하는 지갑이 SEI 주소와 연동되어 있지 않습니다. app.sei.io에서 연동한 후 다시 확인하세요.",
         "descriptionSolAccountRent": "이 전송에 사용하는 Solana 지갑에 SOL이 부족해 토큰 계정을 생성할 수 없습니다. SOL을 조금 추가한 후 다시 확인하세요."

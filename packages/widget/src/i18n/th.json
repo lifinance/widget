@@ -154,10 +154,12 @@
       },
       "destinationAccountNotReady": {
         "title": "บัญชีผู้รับยังไม่พร้อม",
+        "titleStellarSwapFee": "XLM ไม่พอจ่ายค่าธรรมเนียม",
         "description": "ต้องตั้งค่าบัญชีผู้รับก่อนจึงจะรับโทเค็นนี้ได้ จากนั้นโปรดตรวจสอบอีกครั้ง",
         "descriptionStellarUnfunded": "บัญชี Stellar ของผู้รับยังไม่เปิดใช้งาน โปรดเติม XLM เข้าบัญชีก่อน หรือเลือก XLM เป็นโทเค็นที่จะรับ",
         "descriptionStellarTrustline": "บัญชี Stellar ของผู้รับยังไม่มี Trustline สำหรับโทเค็นนี้ โปรดเพิ่ม Trustline ใน Wallet ของผู้รับ แล้วตรวจสอบอีกครั้ง",
         "descriptionStellarReserve": "บัญชี Stellar ของผู้รับมี XLM ไม่พอสำหรับยอดสำรองขั้นต่ำ โปรดเติม XLM เข้าบัญชีนี้ แล้วตรวจสอบอีกครั้ง",
+        "descriptionStellarSwapFee": "Wallet Stellar ที่คุณใช้ส่งต้องมี XLM เพิ่มเพื่อจ่ายค่าธรรมเนียม Swap โปรดเติม XLM เข้า Wallet นี้ แล้วตรวจสอบอีกครั้ง",
         "descriptionLighterAccount": "ที่อยู่ผู้รับยังไม่มีบัญชี Lighter โปรดสร้างบัญชีบน Lighter แล้วตรวจสอบอีกครั้ง",
         "descriptionSeiLink": "Wallet หนึ่งในการโอนนี้ยังไม่ได้เชื่อมโยงกับที่อยู่ SEI โปรดเชื่อมโยงที่ app.sei.io แล้วตรวจสอบอีกครั้ง",
         "descriptionSolAccountRent": "Wallet Solana หนึ่งในการโอนนี้ต้องใช้ SOL เพิ่มเพื่อเปิดบัญชีโทเค็น โปรดเติม SOL แล้วตรวจสอบอีกครั้ง"

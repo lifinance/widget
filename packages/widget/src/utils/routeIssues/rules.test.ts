@@ -294,6 +294,12 @@ describe('pinned reason fragments', () => {
       'Receiver GA123 holds 0.5 XLM but needs 1.5 XLM',
       'destinationAccountNotReady',
     ],
+    // Captured on li.quest for a Stellar USDC send to Base, 16 Nov 2026.
+    [
+      'stellarSwapFee',
+      'Stellar account GA2LKQIDGTEVPRMDDZQYAMI6ZPNSVWPKV7DQUIKQFJZ6Y4R2UONWHP66 holds 2.5000812 XLM but needs 3.5 XLM to pay the swap fee',
+      'destinationAccountNotReady',
+    ],
     [
       'destinationSignature',
       'Path requires a signature on the destination chain, but the request did not allow it',

@@ -447,6 +447,7 @@ describe('copy for the exact cause', () => {
     ['stellarUnfunded', 'descriptionStellarUnfunded'],
     ['stellarTrustline', 'descriptionStellarTrustline'],
     ['stellarReserve', 'descriptionStellarReserve'],
+    ['stellarSwapFee', 'descriptionStellarSwapFee'],
     ['lighterAccount', 'descriptionLighterAccount'],
     ['seiLink', 'descriptionSeiLink'],
     ['solAccountRent', 'descriptionSolAccountRent'],
@@ -459,6 +460,20 @@ describe('copy for the exact cause', () => {
     expect(card.description).toBe(
       `info.routeIssue.destinationAccountNotReady.${key}`
     )
+  })
+})
+
+describe('the title for a destination reason', () => {
+  it.each([
+    ['stellarSwapFee', 'titleStellarSwapFee'],
+    ['stellarReserve', 'title'],
+    ['stellarTrustline', 'title'],
+  ])('uses %s -> %s', (ruleId, key) => {
+    const card = buildRouteIssueCard(
+      { bucket: 'destinationAccountNotReady', ruleId, fromAmount: 1n },
+      deps()
+    )
+    expect(card.title).toBe(`info.routeIssue.destinationAccountNotReady.${key}`)
   })
 })
 

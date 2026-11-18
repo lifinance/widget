@@ -154,10 +154,12 @@
       },
       "destinationAccountNotReady": {
         "title": "Tài khoản người nhận chưa sẵn sàng",
+        "titleStellarSwapFee": "Không đủ XLM để trả phí",
         "description": "Tài khoản người nhận cần được thiết lập trước khi có thể nhận token này. Sau đó, hãy kiểm tra lại.",
         "descriptionStellarUnfunded": "Tài khoản Stellar của người nhận chưa được kích hoạt. Hãy nạp XLM vào tài khoản này trước, hoặc chọn XLM làm token nhận.",
         "descriptionStellarTrustline": "Tài khoản Stellar của người nhận chưa có trustline cho token này. Hãy tạo trustline trong ví người nhận, rồi kiểm tra lại.",
         "descriptionStellarReserve": "Tài khoản Stellar của người nhận không đủ XLM cho mức dự trữ bắt buộc. Hãy nạp thêm XLM, rồi kiểm tra lại.",
+        "descriptionStellarSwapFee": "Ví Stellar bạn dùng để gửi cần thêm XLM để trả phí hoán đổi. Hãy nạp thêm XLM vào ví này, rồi kiểm tra lại.",
         "descriptionLighterAccount": "Địa chỉ người nhận chưa có tài khoản Lighter. Hãy tạo tài khoản trên Lighter, rồi kiểm tra lại.",
         "descriptionSeiLink": "Một ví trong giao dịch này chưa liên kết với địa chỉ SEI tương ứng. Hãy liên kết tại app.sei.io, rồi kiểm tra lại.",
         "descriptionSolAccountRent": "Một ví Solana trong giao dịch này cần thêm SOL để mở tài khoản token. Hãy nạp thêm một ít SOL, rồi kiểm tra lại."

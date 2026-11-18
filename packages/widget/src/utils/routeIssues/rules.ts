@@ -511,6 +511,14 @@ export const routeIssueRules: RouteIssueRule[] = [
     'destinationAccountNotReady',
     /does not have a trustline open for/
   ),
+  // The fee comes out of the wallet the user sends from, so this one is about
+  // the sending account, not the receiver. It must come before
+  // `stellarReserve`, whose `XLM but needs` matches the same text.
+  fragmentRule(
+    'stellarSwapFee',
+    'destinationAccountNotReady',
+    /XLM but needs .* to pay the swap fee/
+  ),
   fragmentRule(
     'stellarReserve',
     'destinationAccountNotReady',

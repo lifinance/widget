@@ -360,3 +360,68 @@ describe('cards built from real API payloads', () => {
     }
   })
 })
+
+// Reported in QA: the shortfall is on the sending account, and the card named
+// the receiving one. Captured on li.quest, 16 Nov 2026, for a Stellar USDC
+// send to Base: every path was filtered out with this text.
+describe('a Stellar wallet short of XLM for the swap fee', () => {
+  const sender = 'GA2LKQIDGTEVPRMDDZQYAMI6ZPNSVWPKV7DQUIKQFJZ6Y4R2UONWHP66'
+
+  const cardFor = (reason: string) => {
+    const [issue] = classifyRouteIssues(
+      {
+        filteredOut: [{ overallPath: '(src)-(dest)', reason }],
+        failed: [],
+      } as never,
+      {
+        fromAmount: 10_000_000_000n,
+        fromChainId: 1201081091099710,
+        fromTokenSymbol: 'USDC',
+        fromTokenDecimals: 7,
+        fromTokenPriceUSD: '1',
+        fromAddress: sender,
+        toAddress: '0x9F2F3f48aE7563096452a0573DD6e774321f3D11',
+      }
+    )
+    expect(issue).toBeDefined()
+    const card = buildRouteIssueCard(issue!, {
+      t,
+      token: { symbol: 'USDC', decimals: 7, priceUSD: '1' } as Token,
+      slippage: '0.5',
+      amountLocked: false,
+      receiverHidden: false,
+      receiverRequired: false,
+      spendable: undefined,
+      toAddress: undefined,
+      sameEcosystem: false,
+      applyAmount: () => {},
+      applySlippage: () => {},
+      clearReceiver: () => {},
+      retry: () => {},
+    })
+    return { issue: issue!, card }
+  }
+
+  it('names the sending wallet', () => {
+    const { issue, card } = cardFor(
+      `Stellar account ${sender} holds 2.5000812 XLM but needs 3.5 XLM to pay the swap fee`
+    )
+    expect(issue.ruleId).toBe('stellarSwapFee')
+    expect(card.title).toBe('Not enough XLM to pay the fee')
+    expect(card.description).toBe(
+      'The Stellar wallet you send from needs more XLM to pay the swap fee. Add XLM to it, then check again.'
+    )
+    expect(card.action).toBeUndefined()
+  })
+
+  it('keeps the receiving account for a reserve shortfall', () => {
+    const { issue, card } = cardFor(
+      'Receiver GA123 holds 0.5 XLM but needs 1.5 XLM'
+    )
+    expect(issue.ruleId).toBe('stellarReserve')
+    expect(card.title).toBe('The receiving account is not ready')
+    expect(card.description).toBe(
+      'The receiving Stellar account holds too little XLM for its reserve. Add XLM to it, then check again.'
+    )
+  })
+})

@@ -154,10 +154,12 @@
       },
       "destinationAccountNotReady": {
         "title": "接收账户尚未就绪",
+        "titleStellarSwapFee": "XLM 不足，无法支付手续费",
         "description": "接收账户需先完成设置，才能接收此代币。完成后请重新查询。",
         "descriptionStellarUnfunded": "Stellar 接收账户尚未激活。请先向该账户转入 XLM，或选择 XLM 作为接收代币。",
         "descriptionStellarTrustline": "Stellar 接收账户尚未为此代币建立信任线。请在接收钱包中建立信任线，然后重新查询。",
         "descriptionStellarReserve": "Stellar 接收账户中的 XLM 不足以满足最低储备要求。请向该账户转入 XLM，然后重新查询。",
+        "descriptionStellarSwapFee": "您用于发送的 Stellar 钱包中 XLM 不足，无法支付兑换手续费。请向该钱包转入 XLM，然后重新查询。",
         "descriptionLighterAccount": "接收地址没有 Lighter 账户。请在 Lighter 上创建账户，然后重新查询。",
         "descriptionSeiLink": "本次交易中的某个钱包尚未绑定其 SEI 地址。请在 app.sei.io 完成绑定，然后重新查询。",
         "descriptionSolAccountRent": "本次交易中的某个 Solana 钱包 SOL 不足，无法创建代币账户。请转入一些 SOL，然后重新查询。"

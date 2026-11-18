@@ -58,9 +58,16 @@ const destinationSteps: Record<string, string> = {
   stellarUnfunded: 'descriptionStellarUnfunded',
   stellarTrustline: 'descriptionStellarTrustline',
   stellarReserve: 'descriptionStellarReserve',
+  stellarSwapFee: 'descriptionStellarSwapFee',
   lighterAccount: 'descriptionLighterAccount',
   seiLink: 'descriptionSeiLink',
   solAccountRent: 'descriptionSolAccountRent',
+}
+
+// The bucket's title names the receiving account. A reason about the sending
+// wallet needs a title of its own.
+const destinationTitles: Record<string, string> = {
+  stellarSwapFee: 'titleStellarSwapFee',
 }
 
 export const buildRouteIssueCard = (
@@ -359,8 +366,13 @@ export const buildRouteIssueCard = (
     return undefined
   })()
 
+  const titleKey =
+    issue.bucket === 'destinationAccountNotReady'
+      ? (destinationTitles[issue.ruleId] ?? 'title')
+      : 'title'
+
   return {
-    title: t(`${base}.title` as any),
+    title: t(`${base}.${titleKey}` as any),
     description,
     note,
     action,

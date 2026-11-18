@@ -154,10 +154,12 @@
       },
       "destinationAccountNotReady": {
         "title": "Alıcı hesap hazır değil",
+        "titleStellarSwapFee": "Ücreti ödemek için yeterli XLM yok",
         "description": "Alıcı hesabın bu token'ı alabilmesi için önce kurulması gerekiyor. Ardından tekrar kontrol edin.",
         "descriptionStellarUnfunded": "Alıcı Stellar hesabı henüz aktif değil. Önce hesaba XLM gönderin veya alınacak token olarak XLM seçin.",
         "descriptionStellarTrustline": "Alıcı Stellar hesabında bu token için trustline yok. Alıcı cüzdanda bir trustline açın, ardından tekrar kontrol edin.",
         "descriptionStellarReserve": "Alıcı Stellar hesabında rezervi karşılayacak kadar XLM yok. Hesaba XLM ekleyin, ardından tekrar kontrol edin.",
+        "descriptionStellarSwapFee": "Gönderim için kullandığınız Stellar cüzdanında swap ücretini ödemek için daha fazla XLM gerekiyor. Cüzdana XLM ekleyin, ardından tekrar kontrol edin.",
         "descriptionLighterAccount": "Alıcı adresine ait bir Lighter hesabı yok. Lighter'da bir hesap oluşturun, ardından tekrar kontrol edin.",
         "descriptionSeiLink": "Bu transferdeki bir cüzdan, SEI adresine bağlı değil. Cüzdanı app.sei.io üzerinden bağlayın, ardından tekrar kontrol edin.",
         "descriptionSolAccountRent": "Bu transferdeki bir Solana cüzdanının token hesabı açabilmesi için daha fazla SOL gerekiyor. Biraz SOL ekleyin, ardından tekrar kontrol edin."
