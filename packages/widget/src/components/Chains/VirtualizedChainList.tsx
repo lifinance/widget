@@ -114,10 +114,14 @@ export const VirtualizedChainList = ({
       overscan: 3,
       paddingEnd: 0,
       getScrollElement: () => scrollElementRef.current,
-      // getItemKey changes with sortedChains, so the sizes update with the pins.
       estimateSize,
       getItemKey,
     })
+
+  // virtual-core recomputes sizes when getItemKey changes, not estimateSize.
+  useEffect(() => {
+    measure()
+  }, [measure, estimateSize])
 
   // Using mountOnEnter of the ExpansionTransition component
   // leads to a short delay for setting up scrollElementRef,
