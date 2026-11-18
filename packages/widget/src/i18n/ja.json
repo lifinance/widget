@@ -119,6 +119,7 @@
       "emptyTokenListAllNetworks": "トークンが見つかりませんでした。トークンが表示されない場合は、コントラクトアドレスで検索するか、別のチェーンを選択してください。",
       "emptyTransactionHistory": "最初の送金を完了すると、ここにトランザクションが表示されます。",
       "routeNotFound": "流動性が低い、選択した数量が少なすぎる、ガス代が高すぎる、または選択した組み合わせに対応するルートがない、などの原因が考えられます。",
+      "quoteFailed": "利用可能なルートを確認できませんでした。もう一度お試しください。",
       "missingRouteRequiredAccount": "続行するには {{chainName}} ウォレットを接続してください。{{address}}"
     },
     "routeIssue": {
@@ -197,7 +198,8 @@
     "title": {
       "autoRefuel": "{{chainName}} のガスを補充",
       "emptyTransactionHistory": "最近のトランザクションはありません",
-      "routeNotFound": "利用可能なルートがありません"
+      "routeNotFound": "利用可能なルートがありません",
+      "quoteFailed": "見積もりのリクエストに失敗しました"
     }
   },
   "success": {

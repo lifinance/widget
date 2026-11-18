@@ -119,6 +119,7 @@
       "emptyTokenListAllNetworks": "Không tìm thấy token nào. Nếu token của bạn không hiển thị, vui lòng tìm theo địa chỉ hợp đồng hoặc thử chọn chuỗi khác.",
       "emptyTransactionHistory": "Giao dịch của bạn sẽ hiển thị tại đây sau khi bạn hoàn tất giao dịch đầu tiên.",
       "routeNotFound": "Nguyên nhân có thể là: thanh khoản thấp, số lượng đã chọn quá thấp, chi phí gas quá cao hoặc không có lộ trình cho tổ hợp token và chuỗi đã chọn.",
+      "quoteFailed": "Chúng tôi không thể kiểm tra các lộ trình khả dụng. Vui lòng thử lại.",
       "missingRouteRequiredAccount": "Kết nối ví {{chainName}} của bạn để tiếp tục. {{address}}"
     },
     "routeIssue": {
@@ -197,7 +198,8 @@
     "title": {
       "autoRefuel": "Nhận gas trên {{chainName}}",
       "emptyTransactionHistory": "Chưa có giao dịch gần đây",
-      "routeNotFound": "Không có lộ trình"
+      "routeNotFound": "Không có lộ trình",
+      "quoteFailed": "Yêu cầu báo giá thất bại"
     }
   },
   "success": {

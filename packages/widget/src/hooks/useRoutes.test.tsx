@@ -228,6 +228,7 @@ describe('an empty routes response', () => {
     refetch()
     await vi.waitFor(() => expect(hook().isError).toBe(true))
     expect(hook().issues).toEqual([])
+    expect(hook().quoteFailed).toBe(true)
   })
 
   // A 404 is the backend's answer rather than a failure to get one.
@@ -243,6 +244,63 @@ describe('an empty routes response', () => {
     refetch()
     await vi.waitFor(() => expect(hook().isError).toBe(true))
     expect(hook().issues.map((issue) => issue.bucket)).toEqual(['temporary'])
+    expect(hook().quoteFailed).toBe(false)
+  })
+})
+
+// A failed request says nothing about the routes, so the screen must not read
+// it as "No routes available".
+describe('a routes request that fails', () => {
+  it.each([
+    ['a server error', LiFiErrorCode.InternalError],
+    ['a rate limit', LiFiErrorCode.RateLimitExceeded],
+  ])(
+    'reports %s on the first request as a failed quote',
+    async (_label, code) => {
+      mocks.getRoutes.mockRejectedValue(sdkError(code))
+      render()
+      await vi.waitFor(() => expect(hook().isError).toBe(true))
+      expect(hook().routes).toBeUndefined()
+      expect(hook().issues).toEqual([])
+      expect(hook().quoteFailed).toBe(true)
+    }
+  )
+
+  it('reads a 404 as the answer that no route exists', async () => {
+    mocks.getRoutes.mockRejectedValue(sdkError(LiFiErrorCode.NotFound))
+    render()
+    await vi.waitFor(() => expect(hook().isError).toBe(true))
+    expect(mocks.getRoutes).toHaveBeenCalledTimes(1)
+    expect(hook().quoteFailed).toBe(false)
+  })
+
+  // The same token on the same chain sends no request at all.
+  it('does not read the same token on both sides as a failed quote', async () => {
+    mocks.fields.toChain = mocks.fields.fromChain
+    mocks.fields.toToken = mocks.fields.fromToken
+    render()
+    await vi.waitFor(() => expect(hook().isFetched).toBe(true))
+    await vi.waitFor(() => expect(hook().isFetching).toBe(false))
+    expect(mocks.getRoutes).not.toHaveBeenCalled()
+    expect(hook().quoteFailed).toBe(false)
+  })
+
+  // React Query keeps the routes of the last answer, and they are still a quote.
+  it('keeps the routes on screen through a failed refresh', async () => {
+    const route = {
+      id: 'route-1',
+      fromToken: { chainId: 1, address: '0xusdc' },
+      toToken: { chainId: 10, address: '0xusdc10' },
+    }
+    mocks.getRoutes.mockResolvedValueOnce({ routes: [route] })
+    render()
+    await settled()
+
+    mocks.getRoutes.mockRejectedValue(sdkError(LiFiErrorCode.InternalError))
+    refetch()
+    await vi.waitFor(() => expect(hook().isError).toBe(true))
+    expect(hook().routes).toEqual([route])
+    expect(hook().quoteFailed).toBe(false)
   })
 })
 
@@ -263,18 +321,21 @@ describe('a contract-call quote', () => {
   })
 
   // Nothing to explain, so the error state and its retry have to stand.
+  // Only the 404 is the API's answer that nothing routes; the rest failed.
   it.each([
-    ['a 404 without diagnostics', sdkError(LiFiErrorCode.NotFound, {})],
+    ['a 404 without diagnostics', sdkError(LiFiErrorCode.NotFound, {}), false],
     [
       'any other failure, diagnostics or not',
       sdkError(LiFiErrorCode.InternalError, { errors: reasons }),
+      true,
     ],
-  ])('rethrows %s', async (_label, error) => {
+  ])('rethrows %s', async (_label, error, quoteFailed) => {
     mocks.getContractCallsQuote.mockRejectedValue(error)
     render()
     await vi.waitFor(() => expect(hook().isError).toBe(true))
     expect(mocks.getContractCallsQuote).toHaveBeenCalled()
     expect(hook().issues).toEqual([])
+    expect(hook().quoteFailed).toBe(quoteFailed)
     expect(emittedRoutes()).toEqual([])
   })
 

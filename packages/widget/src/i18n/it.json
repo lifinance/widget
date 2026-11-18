@@ -119,6 +119,7 @@
       "emptyTokenListAllNetworks": "Non abbiamo trovato token. Se il tuo token non compare, cercalo per indirizzo del contratto oppure prova a selezionare un'altra chain.",
       "emptyTransactionHistory": "Le tue transazioni compariranno qui dopo il tuo primo trasferimento.",
       "routeNotFound": "I motivi possono essere: liquidità bassa, importo selezionato troppo basso, costi del gas troppo alti oppure nessun percorso per la combinazione selezionata.",
+      "quoteFailed": "Non siamo riusciti a cercare i percorsi disponibili. Riprova.",
       "missingRouteRequiredAccount": "Connetti il tuo wallet {{chainName}} per procedere. {{address}}"
     },
     "routeIssue": {
@@ -197,7 +198,8 @@
     "title": {
       "autoRefuel": "Ottieni gas su {{chainName}}",
       "emptyTransactionHistory": "Nessuna transazione recente",
-      "routeNotFound": "Nessun percorso disponibile"
+      "routeNotFound": "Nessun percorso disponibile",
+      "quoteFailed": "Richiesta di quotazione non riuscita"
     }
   },
   "success": {

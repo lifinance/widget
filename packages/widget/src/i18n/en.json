@@ -119,6 +119,7 @@
       "emptyTokenListAllNetworks": "We couldn't find any tokens. Please search by contract address if your token doesn't appear, or try selecting a different chain.",
       "emptyTransactionHistory": "Your transactions will appear here once you complete your first transfer.",
       "routeNotFound": "Reasons for that could be: low liquidity, amount selected is too low, gas costs are too high or there are no routes for the selected combination.",
+      "quoteFailed": "We couldn't check for available routes. Please try again.",
       "missingRouteRequiredAccount": "Connect your {{chainName}} wallet to proceed. {{address}}"
     },
     "routeIssue": {
@@ -197,7 +198,8 @@
     "title": {
       "autoRefuel": "Get {{chainName}} gas",
       "emptyTransactionHistory": "No recent transactions",
-      "routeNotFound": "No routes available"
+      "routeNotFound": "No routes available",
+      "quoteFailed": "Quote request failed"
     }
   },
   "success": {

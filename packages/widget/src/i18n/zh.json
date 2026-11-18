@@ -119,6 +119,7 @@
       "emptyTokenListAllNetworks": "未找到任何代币。如果您的代币未显示，请按合约地址搜索，或尝试选择其他链。",
       "emptyTransactionHistory": "完成首笔交易后，您的交易将显示在这里。",
       "routeNotFound": "可能的原因：流动性不足、所选金额过低、Gas 费过高，或所选组合没有可用路由。",
+      "quoteFailed": "无法查询可用路由，请重试。",
       "missingRouteRequiredAccount": "请连接您的 {{chainName}} 钱包以继续。{{address}}"
     },
     "routeIssue": {
@@ -197,7 +198,8 @@
     "title": {
       "autoRefuel": "获取 {{chainName}} Gas",
       "emptyTransactionHistory": "暂无近期交易",
-      "routeNotFound": "暂无可用路由"
+      "routeNotFound": "暂无可用路由",
+      "quoteFailed": "报价请求失败"
     }
   },
   "success": {

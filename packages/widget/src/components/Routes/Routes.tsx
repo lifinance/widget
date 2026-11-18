@@ -8,6 +8,7 @@ import { ButtonTertiary } from '../ButtonTertiary.js'
 import type { CardProps } from '../Card/Card.js'
 import { Card } from '../Card/Card.js'
 import { CardTitle } from '../Card/CardTitle.js'
+import { QuoteFailedMessage } from '../Messages/QuoteFailedMessage.js'
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js'
 import { RouteCard } from '../RouteCard/RouteCard.js'
 import { RouteCardSkeleton } from '../RouteCard/RouteCardSkeleton.js'
@@ -23,6 +24,7 @@ export const Routes: React.FC<CardProps> = (props) => {
     isLoading,
     isFetching,
     isFetched,
+    quoteFailed,
     dataUpdatedAt,
     refetchTime,
     refetch,
@@ -72,6 +74,8 @@ export const Routes: React.FC<CardProps> = (props) => {
       >
         {isLoading && !currentRoute ? (
           <RouteCardSkeleton variant="cardless" />
+        ) : quoteFailed ? (
+          <QuoteFailedMessage />
         ) : !currentRoute ? (
           <RouteNotFoundCard issues={issues} variant="cardless" />
         ) : (

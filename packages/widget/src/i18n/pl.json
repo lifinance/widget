@@ -119,6 +119,7 @@
       "emptyTokenListAllNetworks": "Nie znaleziono tokenów. Jeśli Twojego tokena nie ma na liście, wyszukaj go po adresie kontraktu lub wybierz inną sieć.",
       "emptyTransactionHistory": "Twoje transakcje pojawią się tutaj po ukończeniu pierwszego transferu.",
       "routeNotFound": "Możliwe przyczyny: niska płynność, zbyt mała kwota, zbyt wysokie koszty gazu lub brak tras dla wybranej kombinacji.",
+      "quoteFailed": "Nie udało się sprawdzić dostępnych tras. Spróbuj ponownie.",
       "missingRouteRequiredAccount": "Połącz portfel {{chainName}}, aby kontynuować. {{address}}"
     },
     "routeIssue": {
@@ -197,7 +198,8 @@
     "title": {
       "autoRefuel": "Uzyskaj gaz w sieci {{chainName}}",
       "emptyTransactionHistory": "Brak ostatnich transakcji",
-      "routeNotFound": "Brak dostępnych tras"
+      "routeNotFound": "Brak dostępnych tras",
+      "quoteFailed": "Nie udało się pobrać wyceny"
     }
   },
   "success": {

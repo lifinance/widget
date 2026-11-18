@@ -4,6 +4,7 @@ import { Box } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { type JSX, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { QuoteFailedMessage } from '../../components/Messages/QuoteFailedMessage.js'
 import { PageContainer } from '../../components/PageContainer.js'
 import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate.js'
 import { RouteCard } from '../../components/RouteCard/RouteCard.js'
@@ -27,6 +28,7 @@ export const RoutesPage = (): JSX.Element => {
   const {
     routes,
     issues,
+    quoteFailed,
     isLoading,
     isFetching,
     isFetched,
@@ -91,7 +93,9 @@ export const RoutesPage = (): JSX.Element => {
         style={{ height: listHeight, overflow: 'auto' }}
       >
         <Stack direction="column" spacing={2} sx={{ pt: 1.5 }}>
-          {routeNotFound ? (
+          {quoteFailed ? (
+            <QuoteFailedMessage />
+          ) : routeNotFound ? (
             <RouteNotFoundCard issues={issues} />
           ) : isLoading && !routes?.length ? (
             Array.from({ length: 3 }).map((_, index) => (

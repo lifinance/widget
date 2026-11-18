@@ -119,6 +119,7 @@
       "emptyTokenListAllNetworks": "Hiç token bulamadık. Token'ınız görünmüyorsa kontrat adresiyle arayın veya farklı bir zincir seçmeyi deneyin.",
       "emptyTransactionHistory": "İlk transferinizi tamamladığınızda işlemleriniz burada görünür.",
       "routeNotFound": "Bunun nedenleri şunlar olabilir: düşük likidite, seçilen tutarın çok düşük olması, gas ücretlerinin çok yüksek olması veya seçilen kombinasyon için rota bulunmaması.",
+      "quoteFailed": "Kullanılabilir rotaları kontrol edemedik. Lütfen tekrar deneyin.",
       "missingRouteRequiredAccount": "Devam etmek için {{chainName}} cüzdanınızı bağlayın. {{address}}"
     },
     "routeIssue": {
@@ -197,7 +198,8 @@
     "title": {
       "autoRefuel": "{{chainName}} ağında gas al",
       "emptyTransactionHistory": "Yakın zamanda işlem yok",
-      "routeNotFound": "Kullanılabilir rota yok"
+      "routeNotFound": "Kullanılabilir rota yok",
+      "quoteFailed": "Teklif talebi başarısız oldu"
     }
   },
   "success": {

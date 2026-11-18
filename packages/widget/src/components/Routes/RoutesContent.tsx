@@ -8,6 +8,7 @@ import { useToAddressRequirements } from '../../hooks/useToAddressRequirements.j
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import type { RouteIssue } from '../../utils/routeIssues/types.js'
+import { QuoteFailedMessage } from '../Messages/QuoteFailedMessage.js'
 import { PageContainer } from '../PageContainer.js'
 import { ProgressToNextUpdate } from '../ProgressToNextUpdate.js'
 import { RouteCard } from '../RouteCard/RouteCard.js'
@@ -18,6 +19,8 @@ import { Container, Header } from './RoutesExpanded.style.js'
 interface RoutesContentProps {
   routes?: Route[]
   issues?: readonly RouteIssue[]
+  /** See `useRoutes().quoteFailed`. */
+  quoteFailed: boolean
   isFetching: boolean
   isLoading: boolean
   isFetched: boolean
@@ -34,6 +37,7 @@ export const RoutesContent: React.NamedExoticComponent<RoutesContentProps> =
   memo(function RoutesContent({
     routes,
     issues,
+    quoteFailed,
     isFetching,
     isLoading,
     isFetched,
@@ -102,7 +106,9 @@ export const RoutesContent: React.NamedExoticComponent<RoutesContentProps> =
               paddingBottom: 3,
             }}
           >
-            {routeNotFound ? (
+            {quoteFailed && !currentRoute ? (
+              <QuoteFailedMessage />
+            ) : routeNotFound ? (
               <RouteNotFoundCard issues={issues} />
             ) : (isLoading || isFetching) && !routes?.length ? (
               Array.from({ length: 3 }).map((_, index) => (

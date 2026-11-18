@@ -97,6 +97,12 @@ export const useRoutes = ({
   isFetching: boolean
   isFetched: boolean
   isError: boolean
+  /**
+   * The request failed (a 500, a rate limit, a network error) and left no route
+   * on screen, so nothing is known about the routes. A 404 is the API's own
+   * answer that no route exists and does not count.
+   */
+  quoteFailed: boolean
   dataUpdatedAt: number
   refetchTime: number
   refetch: () => void
@@ -494,7 +500,9 @@ export const useRoutes = ({
         fromTokenAddress === toTokenAddress &&
         !(mode === 'custom' && modeOptions?.custom?.type === 'deposit')
       ) {
-        return
+        // An answer, not undefined: React Query fails an undefined result, and
+        // that error would read as a failed request.
+        return { routes: [], issues: noIssues }
       }
 
       const isObservableGaslessRoute =
@@ -693,22 +701,25 @@ export const useRoutes = ({
   )
 
   const routes = data?.routes || getIntermediateRoutes(queryKey)
+  // React Query keeps the last successful payload through a failed refetch, so
+  // routes that are still on screen stay a quote, not a failure.
+  const quoteFailed =
+    !routes?.length &&
+    isError &&
+    (error as SDKError | null)?.code !== LiFiErrorCode.NotFound
 
   return {
     routes,
-    // React Query keeps the last successful payload through a failed refetch,
-    // so a 500 would otherwise leave the card explaining a quote that is no
+    // Without this, a 500 would leave the card explaining a quote that is no
     // longer current — contradicting the failure message beside it and offering
     // a button that cannot help. A confirmed 404 is a real answer and stays.
     issues:
-      routes?.length ||
-      (isError && (error as SDKError | null)?.code !== LiFiErrorCode.NotFound)
-        ? noIssues
-        : (data?.issues ?? noIssues),
+      routes?.length || quoteFailed ? noIssues : (data?.issues ?? noIssues),
     isLoading: isEnabled && isLoading,
     isFetching,
     isFetched,
     isError,
+    quoteFailed,
     dataUpdatedAt,
     refetchTime,
     refetch,

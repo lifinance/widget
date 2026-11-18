@@ -5,6 +5,7 @@ import { useWideVariant } from '../../hooks/useWideVariant.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import type { CardProps } from '../Card/Card.js'
+import { QuoteFailedMessage } from '../Messages/QuoteFailedMessage.js'
 import { RouteNotFoundCard } from '../RouteCard/RouteNotFoundCard.js'
 import {
   RouteProviderCard,
@@ -12,7 +13,8 @@ import {
 } from '../RouteCard/RouteProviderCard.js'
 
 export const LimitOrderRoutes: React.FC<CardProps> = (props) => {
-  const { routes, issues, isLoading, isFetching, isFetched } = useRoutes()
+  const { routes, issues, isLoading, isFetching, isFetched, quoteFailed } =
+    useRoutes()
   const [toAddress, selectedRouteId] = useFieldValues(
     'toAddress',
     'selectedRouteId'
@@ -53,6 +55,8 @@ export const LimitOrderRoutes: React.FC<CardProps> = (props) => {
         Array.from({ length: 2 }).map((_, index) => (
           <RouteProviderCardSkeleton key={index} />
         ))
+      ) : quoteFailed ? (
+        <QuoteFailedMessage />
       ) : !currentRoute ? (
         <RouteNotFoundCard issues={issues} />
       ) : (

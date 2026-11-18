@@ -119,6 +119,7 @@
       "emptyTokenListAllNetworks": "ไม่พบโทเค็น หากโทเค็นของคุณไม่แสดง โปรดค้นหาด้วยที่อยู่ Contract หรือลองเลือกเชนอื่น",
       "emptyTransactionHistory": "ธุรกรรมของคุณจะแสดงที่นี่หลังจากคุณโอนครั้งแรกเสร็จสิ้น",
       "routeNotFound": "สาเหตุที่เป็นไปได้: สภาพคล่องต่ำ จำนวนที่เลือกน้อยเกินไป ค่า Gas สูงเกินไป หรือไม่มีเส้นทางสำหรับคู่โทเค็นที่เลือก",
+      "quoteFailed": "เราตรวจสอบเส้นทางที่ใช้ได้ไม่สำเร็จ โปรดลองอีกครั้ง",
       "missingRouteRequiredAccount": "เชื่อมต่อ Wallet {{chainName}} ของคุณเพื่อดำเนินการต่อ {{address}}"
     },
     "routeIssue": {
@@ -197,7 +198,8 @@
     "title": {
       "autoRefuel": "รับ Gas บน {{chainName}}",
       "emptyTransactionHistory": "ไม่มีธุรกรรมล่าสุด",
-      "routeNotFound": "ไม่พบเส้นทาง"
+      "routeNotFound": "ไม่พบเส้นทาง",
+      "quoteFailed": "ขอการเสนอราคาไม่สำเร็จ"
     }
   },
   "success": {

@@ -119,6 +119,7 @@
       "emptyTokenListAllNetworks": "Kami tidak dapat menemukan token apa pun. Cari berdasarkan alamat kontrak jika token Anda tidak muncul, atau coba pilih chain lain.",
       "emptyTransactionHistory": "Transaksi Anda akan muncul di sini setelah Anda menyelesaikan transfer pertama.",
       "routeNotFound": "Alasannya mungkin: likuiditas rendah, jumlah yang dipilih terlalu rendah, biaya gas terlalu tinggi, atau tidak ada rute untuk kombinasi yang dipilih.",
+      "quoteFailed": "Kami tidak dapat memeriksa rute yang tersedia. Silakan coba lagi.",
       "missingRouteRequiredAccount": "Hubungkan dompet {{chainName}} Anda untuk melanjutkan. {{address}}"
     },
     "routeIssue": {
@@ -197,7 +198,8 @@
     "title": {
       "autoRefuel": "Dapatkan gas di {{chainName}}",
       "emptyTransactionHistory": "Tidak ada transaksi terbaru",
-      "routeNotFound": "Rute tidak tersedia"
+      "routeNotFound": "Rute tidak tersedia",
+      "quoteFailed": "Permintaan kuotasi gagal"
     }
   },
   "success": {

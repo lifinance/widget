@@ -119,6 +119,7 @@
       "emptyTokenListAllNetworks": "Wir konnten keine Token finden. Wenn dein Token nicht erscheint, suche nach der Contract-Adresse oder wähle eine andere Chain.",
       "emptyTransactionHistory": "Deine Transaktionen erscheinen hier, sobald du deinen ersten Transfer abgeschlossen hast.",
       "routeNotFound": "Mögliche Gründe: geringe Liquidität, zu niedriger Betrag, zu hohe Netzwerkgebühren oder keine Routen für die gewählte Kombination.",
+      "quoteFailed": "Wir konnten nicht nach verfügbaren Routen suchen. Bitte versuche es erneut.",
       "missingRouteRequiredAccount": "Verbinde deine {{chainName}}-Wallet, um fortzufahren. {{address}}"
     },
     "routeIssue": {
@@ -197,7 +198,8 @@
     "title": {
       "autoRefuel": "{{chainName}}-Gas erhalten",
       "emptyTransactionHistory": "Noch keine Transaktionen",
-      "routeNotFound": "Keine Routen verfügbar"
+      "routeNotFound": "Keine Routen verfügbar",
+      "quoteFailed": "Angebotsanfrage fehlgeschlagen"
     }
   },
   "success": {
