@@ -20,9 +20,9 @@
   },
   "dependencies": {
     "@base-org/account": "~2.6.0",
-    "@bigmi/client": "^0.10.6",
-    "@bigmi/core": "^0.9.4",
-    "@bigmi/react": "^0.9.6",
+    "@bigmi/client": "^0.10.7",
+    "@bigmi/core": "^0.9.5",
+    "@bigmi/react": "^0.9.7",
     "@coinbase/wallet-sdk": "~4.4.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
@@ -67,7 +67,7 @@
     "@types/react-dom": "^19.3.0",
     "madge": "^8.0.0",
     "typescript": "^7.0.2",
-    "vitest": "^5.1.0"
+    "vitest": "^5.1.1"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0"
