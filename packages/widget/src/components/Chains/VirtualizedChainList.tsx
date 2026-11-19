@@ -76,29 +76,28 @@ export const VirtualizedChainList = ({
 
   const showAllNetworksOption = showAllNetworks && !hasSearchQuery
 
-  const getItemKey = useCallback(
-    (index: number) => {
-      if (showAllNetworksOption && index === 0) {
-        return 'all-chains'
-      }
-      const chainIndex = index - (showAllNetworksOption ? 1 : 0)
-      return `${sortedChains[chainIndex].id}-${index}`
-    },
-    [sortedChains, showAllNetworksOption]
-  )
-
-  const estimateSize = useCallback(
-    (index: number) => {
-      const chain = sortedChains[index - (showAllNetworksOption ? 1 : 0)]
-      const rowHeight = itemsSize === 'small' ? 48 : 60
-      // Same check as ChainListItem, so the row height and the row agree.
-      if (chain && isVisibleChainLabel(configPins.get(chain.id)?.label)) {
-        return rowHeight + chainRowLabelOffset
-      }
-      return rowHeight
-    },
-    [sortedChains, configPins, showAllNetworksOption, itemsSize]
-  )
+  // One memo for both: virtual-core recomputes the sizes when getItemKey
+  // changes, not estimateSize, so the two must always change together.
+  const { getItemKey, estimateSize } = useMemo(() => {
+    const chainOffset = showAllNetworksOption ? 1 : 0
+    const rowHeight = itemsSize === 'small' ? 48 : 60
+    return {
+      getItemKey: (index: number) => {
+        if (showAllNetworksOption && index === 0) {
+          return 'all-chains'
+        }
+        return `${sortedChains[index - chainOffset].id}-${index}`
+      },
+      estimateSize: (index: number) => {
+        const chain = sortedChains[index - chainOffset]
+        // Same check as ChainListItem, so the row height and the row agree.
+        if (chain && isVisibleChainLabel(configPins.get(chain.id)?.label)) {
+          return rowHeight + chainRowLabelOffset
+        }
+        return rowHeight
+      },
+    }
+  }, [sortedChains, configPins, showAllNetworksOption, itemsSize])
 
   const onChainSelect = useCallback(
     (chain: ExtendedChain) => {
@@ -117,11 +116,6 @@ export const VirtualizedChainList = ({
       estimateSize,
       getItemKey,
     })
-
-  // virtual-core recomputes sizes when getItemKey changes, not estimateSize.
-  useEffect(() => {
-    measure()
-  }, [measure, estimateSize])
 
   // Using mountOnEnter of the ExpansionTransition component
   // leads to a short delay for setting up scrollElementRef,
