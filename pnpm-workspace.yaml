@@ -15,6 +15,7 @@ packages:
 #     8.72.2, inside the age window (bump-packages fast-track: same publisher, same
 #     provenance repo and workflow, no advisory, no new install script or dependency).
 #   - 2026-11-17: fast-track @meshconnect/web-link-sdk@3.15.2, @oxlint/binding-android-arm-eabi@1.94.0, @oxlint/binding-android-arm64@1.94.0, @oxlint/binding-darwin-arm64@1.94.0, @oxlint/binding-darwin-x64@1.94.0, @oxlint/binding-freebsd-x64@1.94.0, @oxlint/binding-linux-arm-gnueabihf@1.94.0, @oxlint/binding-linux-arm-musleabihf@1.94.0, @oxlint/binding-linux-arm64-gnu@1.94.0, @oxlint/binding-linux-arm64-musl@1.94.0, @oxlint/binding-linux-ppc64-gnu@1.94.0, @oxlint/binding-linux-riscv64-gnu@1.94.0, @oxlint/binding-linux-riscv64-musl@1.94.0, @oxlint/binding-linux-s390x-gnu@1.94.0, @oxlint/binding-linux-x64-gnu@1.94.0, @oxlint/binding-linux-x64-musl@1.94.0, @oxlint/binding-openharmony-arm64@1.94.0, @oxlint/binding-win32-arm64-msvc@1.94.0, @oxlint/binding-win32-ia32-msvc@1.94.0, @oxlint/binding-win32-x64-msvc@1.94.0, @tanstack/query-core@5.107.2, @tanstack/react-query@5.107.2, csstype@3.2.4, oxlint@1.94.0, viem@2.58.0 (all checks pass, or approved by the user).
+#   - 2026-11-19: fast-track viem@2.58.1 (all checks pass).
 minimumReleaseAgeExclude:
   - '@bigmi/*'
   - '@lifi/*'
@@ -43,6 +44,7 @@ minimumReleaseAgeExclude:
   - csstype@3.2.4
   - oxlint@1.94.0
   - viem@2.58.0
+  - viem@2.58.1
 overrides:
   "@react-native-async-storage/async-storage": ">=2.2.0"
   "@reown/appkit": ">=1.8.20"
