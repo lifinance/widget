@@ -44,7 +44,7 @@
     "@reown/appkit": ">=1.8.20",
     "@reown/appkit-adapter-bitcoin": "^2.0.0",
     "@reown/appkit-adapter-solana": "^2.0.0",
-    "@reown/appkit-adapter-tron": "^1.8.24",
+    "@reown/appkit-adapter-tron": "^2.0.0",
     "@reown/appkit-adapter-wagmi": "^1.8.24",
     "@reown/appkit-common": "^1.8.24",
     "@reown/appkit-controllers": "^1.8.24",
