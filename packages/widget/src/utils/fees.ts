@@ -1,6 +1,6 @@
 import type { FeeCost, GasCost, RouteExtended, Token } from '@lifi/sdk'
 import { isGaslessStep } from '@lifi/sdk'
-import { formatTokenPrice } from './format.js'
+import { formatTokenPrice, parseAmountToBigInt } from './format.js'
 
 export interface FeesBreakdown {
   amount: bigint
@@ -119,7 +119,7 @@ const getStepFeeCostsBreakdown = (
 
   const { amount, amountUSD } = feeCosts.reduce(
     (acc, feeCost) => {
-      const feeAmount = BigInt(Number(feeCost.amount).toFixed(0) || 0)
+      const feeAmount = parseAmountToBigInt(feeCost.amount)
       const amountUSD = formatTokenPrice(
         feeAmount,
         feeCost.token.priceUSD,
