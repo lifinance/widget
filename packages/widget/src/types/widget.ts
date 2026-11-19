@@ -298,8 +298,31 @@ export type AllowDenyItems<T> = {
   to?: AllowDeny<T>
 } & AllowDeny<T>
 
+export type ChainLabel = RouteLabel
+
+export interface PinnedChain {
+  chainId: number
+  /**
+   * Optional label inside the chain row in the chain lists, above the chain logo.
+   * Same shape as `RouteLabel`. A labeled row is taller than the other rows.
+   * Keep the label to one short line.
+   * A label of 4 characters or fewer also shows as a badge on the chain grid tile.
+   */
+  label?: ChainLabel
+  /**
+   * Limits the pin to the source ('from') or the destination ('to') chain list.
+   * Without it, the pin applies to both lists.
+   */
+  side?: 'from' | 'to'
+}
+
 export type WidgetChains = {
   types?: AllowDeny<ChainType>
+  /**
+   * Chains pinned for all users, in this order, above the user's own pins.
+   * Users cannot unpin them. Filters (allow, deny, from, to, types) still apply.
+   */
+  pinned?: PinnedChain[]
 } & AllowDenyItems<number>
 
 export type WidgetTokens = {

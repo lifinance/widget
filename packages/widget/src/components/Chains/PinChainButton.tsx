@@ -5,6 +5,7 @@ import type { JSX } from 'react'
 
 interface PinChainButtonProps {
   isPinned: boolean
+  isLocked?: boolean
   onPin: () => void
 }
 
@@ -13,17 +14,24 @@ const animationDuration = 225
 
 export const PinChainButton = ({
   isPinned,
+  isLocked,
   onPin,
 }: PinChainButtonProps): JSX.Element => {
-  const PinIcon = isPinned ? PushPinIcon : PushPinOutlinedIcon
+  const PinIcon = isPinned || isLocked ? PushPinIcon : PushPinOutlinedIcon
   return (
     <IconButton
       className={pinButtonClassName}
       edge="end"
       aria-label="pin"
+      // Not `disabled`: it sets `pointer-events: none`, so the click would select the row.
+      aria-disabled={isLocked ? 'true' : undefined}
+      tabIndex={isLocked ? -1 : undefined}
+      disableRipple={isLocked}
       onClick={(e) => {
         e.stopPropagation()
-        onPin()
+        if (!isLocked) {
+          onPin()
+        }
       }}
       sx={{
         position: 'absolute',
@@ -32,7 +40,7 @@ export const PinChainButton = ({
         height: 28,
         width: 28,
         transition: `opacity ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1), transform ${animationDuration}ms cubic-bezier(0.4, 0, 0.2, 1)`,
-        ...(isPinned
+        ...(isPinned || isLocked
           ? {
               opacity: 1,
               transform: 'translateY(0)',
@@ -41,6 +49,14 @@ export const PinChainButton = ({
               opacity: 0,
               transform: 'translateY(-50%)',
             }),
+        ...(isLocked
+          ? {
+              cursor: 'default',
+              '&:hover': {
+                backgroundColor: 'transparent',
+              },
+            }
+          : {}),
       }}
     >
       <PinIcon

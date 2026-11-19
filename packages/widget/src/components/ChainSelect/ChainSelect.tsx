@@ -1,9 +1,9 @@
-import type { EVMChain } from '@lifi/sdk'
 import { Skeleton, type Theme, Tooltip, useMediaQuery } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import type React from 'react'
 import { type JSX, memo, useCallback, useEffect, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useConfigPinnedChains } from '../../hooks/useConfigPinnedChains.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import {
   maxChainsToOrder,
@@ -15,14 +15,15 @@ import { FormKeyHelper } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
 import { useFieldValues } from '../../stores/form/useFieldValues.js'
 import { navigationRoutes } from '../../utils/navigationRoutes.js'
+import { getGridChains } from '../../utils/pinnedChains.js'
 import { AllChainsAvatar } from '../Chains/AllChainsAvatar.js'
 import {
-  ChainAvatar,
   ChainCard,
   ChainContainer,
   MoreChainsBox,
   MoreChainsText,
 } from './ChainSelect.style.js'
+import { ChainSelectItem } from './ChainSelectItem.js'
 import { useChainSelect } from './useChainSelect.js'
 
 export const ChainSelect: React.NamedExoticComponent<FormTypeProps> = memo(
@@ -50,6 +51,7 @@ export const ChainSelect: React.NamedExoticComponent<FormTypeProps> = memo(
       ])
 
     const [chainId] = useFieldValues(FormKeyHelper.getChainKey(formType))
+    const configPins = useConfigPinnedChains(chains, formType)
 
     useEffect(() => {
       if (chainId) {
@@ -89,9 +91,19 @@ export const ChainSelect: React.NamedExoticComponent<FormTypeProps> = memo(
         ? 0
         : (chains?.length ?? 0) - maxChainsToOrder
 
+    const selectedChainId = typeof chainId === 'number' ? chainId : undefined
+
     const chainsToShow = useMemo(
-      () => (chainsToHide > 0 ? getSelectedChains() : chains) ?? [],
-      [chainsToHide, getSelectedChains, chains]
+      () =>
+        getGridChains({
+          chains: chains ?? [],
+          baseOrder: chainsToHide > 0 ? getSelectedChains() : (chains ?? []),
+          configPins,
+          selectedChainId,
+          tileCount:
+            chainsToHide > 0 ? maxChainsToOrder : (chains?.length ?? 0),
+        }),
+      [chainsToHide, getSelectedChains, chains, configPins, selectedChainId]
     )
 
     const tilesCount =
@@ -132,13 +144,14 @@ export const ChainSelect: React.NamedExoticComponent<FormTypeProps> = memo(
             </ChainCard>
           </Tooltip>
         )}
-        {chainsToShow.map((chain: EVMChain) => (
-          <ChainItem
+        {chainsToShow.map((chain) => (
+          <ChainSelectItem
             key={chain.id}
             chain={chain}
             isSelected={chainId === chain.id}
             isAllNetworks={isAllNetworks}
             onSelect={onChainSelect}
+            label={configPins.get(chain.id)?.label}
           />
         ))}
         {chainsToHide > 0 && (
@@ -149,35 +162,6 @@ export const ChainSelect: React.NamedExoticComponent<FormTypeProps> = memo(
           </ChainCard>
         )}
       </ChainContainer>
-    )
-  }
-)
-
-const ChainItem = memo(
-  ({
-    chain,
-    isSelected,
-    isAllNetworks,
-    onSelect,
-  }: {
-    chain: EVMChain
-    isSelected: boolean
-    isAllNetworks: boolean
-    onSelect: (id: number) => void
-  }) => {
-    return (
-      <Tooltip title={chain.name} enterNextDelay={100}>
-        <ChainCard
-          component="button"
-          onClick={() => onSelect(chain.id)}
-          type={!isAllNetworks && isSelected ? 'selected' : 'default'}
-          selectionColor="secondary"
-        >
-          <ChainAvatar src={chain.logoURI} alt={chain.key}>
-            {chain.name[0]}
-          </ChainAvatar>
-        </ChainCard>
-      </Tooltip>
     )
   }
 )

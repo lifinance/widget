@@ -3,11 +3,17 @@ import { useVirtualizer } from '@tanstack/react-virtual'
 import type { JSX, RefObject } from 'react'
 import { useCallback, useEffect, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { useConfigPinnedChains } from '../../hooks/useConfigPinnedChains.js'
 import { useChainOrderStore } from '../../stores/chains/ChainOrderStore.js'
 import { FormKeyHelper, type FormType } from '../../stores/form/types.js'
 import { useFieldActions } from '../../stores/form/useFieldActions.js'
+import {
+  isVisibleChainLabel,
+  sortChainsByPins,
+} from '../../utils/pinnedChains.js'
 import { AllChainsAvatar } from './AllChainsAvatar.js'
 import {
+  chainRowLabelOffset,
   List,
   ListItem,
   ListItemAvatar,
@@ -61,18 +67,12 @@ export const VirtualizedChainList = ({
     [setPinnedChain]
   )
 
-  const sortedChains = useMemo(() => {
-    if (!pinnedChains.length) {
-      return chains
-    }
-    // Pinning logic: move pinned chains to the top of the list
-    const pinned = pinnedChains
-      .map((id) => chains.find((c) => c.id === id))
-      .filter(Boolean) as ExtendedChain[]
-    const pinnedIds = new Set(pinned.map((c) => c.id))
-    const rest = chains.filter((c) => !pinnedIds.has(c.id))
-    return [...pinned, ...rest]
-  }, [chains, pinnedChains])
+  const configPins = useConfigPinnedChains(chains, formType)
+
+  const sortedChains = useMemo(
+    () => sortChainsByPins(chains, configPins, pinnedChains),
+    [chains, configPins, pinnedChains]
+  )
 
   const showAllNetworksOption = showAllNetworks && !hasSearchQuery
 
@@ -85,6 +85,19 @@ export const VirtualizedChainList = ({
       return `${sortedChains[chainIndex].id}-${index}`
     },
     [sortedChains, showAllNetworksOption]
+  )
+
+  const estimateSize = useCallback(
+    (index: number) => {
+      const chain = sortedChains[index - (showAllNetworksOption ? 1 : 0)]
+      const rowHeight = itemsSize === 'small' ? 48 : 60
+      // Same check as ChainListItem, so the row height and the row agree.
+      if (chain && isVisibleChainLabel(configPins.get(chain.id)?.label)) {
+        return rowHeight + chainRowLabelOffset
+      }
+      return rowHeight
+    },
+    [sortedChains, configPins, showAllNetworksOption, itemsSize]
   )
 
   const onChainSelect = useCallback(
@@ -101,11 +114,14 @@ export const VirtualizedChainList = ({
       overscan: 3,
       paddingEnd: 0,
       getScrollElement: () => scrollElementRef.current,
-      estimateSize: () => {
-        return itemsSize === 'small' ? 48 : 60
-      },
+      estimateSize,
       getItemKey,
     })
+
+  // virtual-core recomputes sizes when getItemKey changes, not estimateSize.
+  useEffect(() => {
+    measure()
+  }, [measure, estimateSize])
 
   // Using mountOnEnter of the ExpansionTransition component
   // leads to a short delay for setting up scrollElementRef,
@@ -145,10 +161,12 @@ export const VirtualizedChainList = ({
 
     // Only scroll if sortedChains is not empty and we haven't scrolled yet
     if (!hasScrolledRef.current && sortedChains.length > 0 && range) {
-      const selectedChainIndex = sortedChains.findIndex(
+      const chainIndex = sortedChains.findIndex(
         (chain) => chain.id === selectedChainIdRef.current
       )
-      if (selectedChainIndex !== -1) {
+      if (chainIndex !== -1) {
+        // Virtual indices include the "All networks" row.
+        const selectedChainIndex = chainIndex + (showAllNetworksOption ? 1 : 0)
         // Only scroll if the selected chain is not in the visible range
         // +1 and -1 to account for partially visible items
         if (
@@ -160,7 +178,7 @@ export const VirtualizedChainList = ({
       }
       hasScrolledRef.current = true // Mark as scrolled (when needed)
     }
-  }, [sortedChains, scrollToIndex, range, isAllNetworks])
+  }, [sortedChains, scrollToIndex, range, isAllNetworks, showAllNetworksOption])
 
   const selectAllNetworks = useCallback(() => {
     setIsAllNetworks(true, formType)
@@ -181,7 +199,7 @@ export const VirtualizedChainList = ({
             <ListItem
               key={item.key}
               style={{
-                height: `${itemsSize}px`,
+                height: `${item.size}px`,
                 transform: `translateY(${item.start}px)`,
                 padding: 0,
               }}
@@ -215,6 +233,8 @@ export const VirtualizedChainList = ({
             start={item.start}
             withPin={withPinnedChains}
             isPinned={pinnedChains.includes(chain.id)}
+            isLocked={configPins.has(chain.id)}
+            label={configPins.get(chain.id)?.label}
             onPin={onPin}
           />
         )
