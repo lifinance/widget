@@ -18,7 +18,7 @@
     "@lifi/widget-provider-ethereum": "4.1.10",
     "@mui/material": "^9.5.0",
     "@reown/appkit": ">=1.8.20",
-    "@reown/appkit-adapter-bitcoin": "^1.8.24",
+    "@reown/appkit-adapter-bitcoin": "^2.0.0",
     "@reown/appkit-adapter-solana": "^1.8.24",
     "@reown/appkit-adapter-wagmi": "^1.8.24",
     "@reown/appkit-common": "^1.8.24",
