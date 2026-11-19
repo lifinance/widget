@@ -66,7 +66,7 @@ interface LockedPinIconProps {
 export const LockedPinIcon = ({ tooltip }: LockedPinIconProps): JSX.Element => {
   const { t } = useTranslation()
   return (
-    <Tooltip title={tooltip ?? t('tooltip.lockedPin')} enterNextDelay={100}>
+    <Tooltip title={tooltip || t('tooltip.lockedPin')} enterNextDelay={100}>
       <PushPinIcon
         className={lockedPinIconClassName}
         // SvgIcon is aria-hidden by default, which hides the Tooltip aria-label.

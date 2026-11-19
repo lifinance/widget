@@ -75,11 +75,15 @@ export const VirtualizedChainList = ({
   )
 
   const showAllNetworksOption = showAllNetworks && !hasSearchQuery
+  // Virtual indices include the "All networks" row.
+  const chainOffset = showAllNetworksOption ? 1 : 0
 
   // One memo for both: virtual-core recomputes the sizes when getItemKey
   // changes, not estimateSize, so the two must always change together.
+  // This works only while no row uses measureElement: a measured size is
+  // cached by item key, and a label change keeps the key, so the row would
+  // keep its old height.
   const { getItemKey, estimateSize } = useMemo(() => {
-    const chainOffset = showAllNetworksOption ? 1 : 0
     const rowHeight = itemsSize === 'small' ? 48 : 60
     return {
       getItemKey: (index: number) => {
@@ -97,7 +101,7 @@ export const VirtualizedChainList = ({
         return rowHeight
       },
     }
-  }, [sortedChains, configPins, showAllNetworksOption, itemsSize])
+  }, [sortedChains, configPins, showAllNetworksOption, chainOffset, itemsSize])
 
   const onChainSelect = useCallback(
     (chain: ExtendedChain) => {
@@ -109,7 +113,7 @@ export const VirtualizedChainList = ({
 
   const { getVirtualItems, getTotalSize, measure, range, getOffsetForIndex } =
     useVirtualizer({
-      count: sortedChains.length + (showAllNetworksOption ? 1 : 0), // +1 for the all networks item
+      count: sortedChains.length + chainOffset, // +1 for the all networks item
       overscan: 3,
       paddingEnd: 0,
       getScrollElement: () => scrollElementRef.current,
@@ -159,8 +163,7 @@ export const VirtualizedChainList = ({
         (chain) => chain.id === selectedChainIdRef.current
       )
       if (chainIndex !== -1) {
-        // Virtual indices include the "All networks" row.
-        const selectedChainIndex = chainIndex + (showAllNetworksOption ? 1 : 0)
+        const selectedChainIndex = chainIndex + chainOffset
         // Only scroll if the selected chain is not in the visible range
         // +1 and -1 to account for partially visible items
         if (
@@ -172,7 +175,7 @@ export const VirtualizedChainList = ({
       }
       hasScrolledRef.current = true // Mark as scrolled (when needed)
     }
-  }, [sortedChains, scrollToIndex, range, isAllNetworks, showAllNetworksOption])
+  }, [sortedChains, scrollToIndex, range, isAllNetworks, chainOffset])
 
   const selectAllNetworks = useCallback(() => {
     setIsAllNetworks(true, formType)
@@ -215,7 +218,7 @@ export const VirtualizedChainList = ({
           )
         }
 
-        const chain = sortedChains[item.index - (showAllNetworksOption ? 1 : 0)]
+        const chain = sortedChains[item.index - chainOffset]
         const configPin = configPins.get(chain.id)
         return (
           <ChainListItem
