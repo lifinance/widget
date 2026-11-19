@@ -305,6 +305,7 @@
     "estimatedTime": "Zincir değiştirme ve token onayı hariç, swap veya köprü işleminin tamamlanma süresi.",
     "exchangeRate": "Kaynak ve hedef token'lar arasındaki tahmini kur. Yönü değiştirmek için tıklayın.",
     "feeCollection": "Bu ücret seçili token çiftlerine uygulanır ve size en iyi deneyimi sunmamızı sağlar.",
+    "lockedPin": "Her zaman sabitlenmiş",
     "minReceived": "Tahmini minimum tutar, swap veya köprü işlemi imzalanana kadar değişebilir. 2 adımlı transferlerde bu durum, ikinci adımın işlemi imzalanana kadar geçerlidir.",
     "notFound": {
       "text": "Bu sayfayı bulamadık.",

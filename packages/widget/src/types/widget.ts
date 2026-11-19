@@ -310,6 +310,11 @@ export interface PinnedChain {
    */
   label?: ChainLabel
   /**
+   * Optional tooltip on the faded pin icon of the chain row in the chain sidebar.
+   * Without it, the tooltip says "Always pinned" in the widget language.
+   */
+  tooltip?: string
+  /**
    * Limits the pin to the source ('from') or the destination ('to') chain list.
    * Without it, the pin applies to both lists.
    */

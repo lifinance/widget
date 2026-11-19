@@ -305,6 +305,7 @@
     "estimatedTime": "Czas potrzebny na ukończenie transakcji swapu lub przeniesienia, bez przełączania sieci i zatwierdzenia tokena.",
     "exchangeRate": "Szacowany kurs wymiany między tokenem źródłowym a docelowym. Kliknij, aby odwrócić kierunek.",
     "feeCollection": "Prowizja dotyczy wybranych par tokenów i pozwala nam zapewniać najlepszą jakość usług.",
+    "lockedPin": "Zawsze przypięta",
     "minReceived": "Szacowana minimalna kwota może się zmienić do momentu podpisania transakcji swapu lub przeniesienia. W przypadku transferów dwuetapowych dotyczy to czasu do podpisania transakcji drugiego etapu.",
     "notFound": {
       "text": "Nie znaleziono tej strony.",

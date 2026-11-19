@@ -13,7 +13,11 @@ import {
   ListItemButton,
   ListItemText,
 } from './ChainList.style.js'
-import { pinButtonClassName, PinChainButton } from './PinChainButton.js'
+import {
+  LockedPinIcon,
+  pinButtonClassName,
+  PinChainButton,
+} from './PinChainButton.js'
 
 // Same inset as the chain logo (the ListItemButton left padding), so the label
 // lines up with it.
@@ -42,6 +46,7 @@ interface ChainListItemProps {
   isPinned: boolean
   isLocked: boolean
   label?: ChainLabel
+  lockedPinTooltip?: string
   onPin: (chainId: number) => void
   withPin: boolean
 }
@@ -58,6 +63,7 @@ export const ChainListItem: React.NamedExoticComponent<ChainListItemProps> =
       isPinned,
       isLocked,
       label,
+      lockedPinTooltip,
       onPin,
       withPin,
     }: ChainListItemProps): JSX.Element => {
@@ -113,11 +119,14 @@ export const ChainListItem: React.NamedExoticComponent<ChainListItemProps> =
                   width: 28,
                 }}
               >
-                <PinChainButton
-                  isPinned={isPinned}
-                  isLocked={isLocked}
-                  onPin={() => onPin(chain.id)}
-                />
+                {isLocked ? (
+                  <LockedPinIcon tooltip={lockedPinTooltip} />
+                ) : (
+                  <PinChainButton
+                    isPinned={isPinned}
+                    onPin={() => onPin(chain.id)}
+                  />
+                )}
               </Box>
             )}
           </ListItemButton>

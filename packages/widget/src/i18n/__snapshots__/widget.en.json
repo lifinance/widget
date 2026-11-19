@@ -244,6 +244,7 @@
   "tooltip.estimatedTime": "Time to complete the swap or bridge transaction, excluding chain switching and token approval.",
   "tooltip.exchangeRate": "The estimated conversion rate between source and destination tokens. Click to toggle the direction.",
   "tooltip.feeCollection": "The fee is applied to selected token pairs and ensures we can provide the best experience.",
+  "tooltip.lockedPin": "Always pinned",
   "tooltip.minReceived": "The estimated minimum amount may change until the swapping/bridging transaction is signed. For 2-step transfers, this applies until the second step transaction is signed.",
   "tooltip.notFound.text": "We couldn't find this page.",
   "tooltip.notFound.title": "404",

@@ -305,6 +305,7 @@
     "estimatedTime": "Zeit bis zum Abschluss der Swap- oder Bridge-Transaktion, ohne Chain-Wechsel und Token-Genehmigung.",
     "exchangeRate": "Der geschätzte Kurs zwischen Quell- und Ziel-Token. Klicke, um die Richtung zu wechseln.",
     "feeCollection": "Die Gebühr gilt für ausgewählte Token-Paare und hilft uns, dir das beste Erlebnis zu bieten.",
+    "lockedPin": "Immer angeheftet",
     "minReceived": "Der geschätzte Mindestbetrag kann sich ändern, bis die Swap- bzw. Bridge-Transaktion signiert ist. Bei Transfers in 2 Schritten gilt das, bis die Transaktion des zweiten Schritts signiert ist.",
     "notFound": {
       "text": "Wir konnten diese Seite nicht finden.",
