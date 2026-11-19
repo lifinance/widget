@@ -28,6 +28,10 @@ export function formatSlippage(
   if (!slippage) {
     return slippage
   }
+  // Leave mixed separators on the existing path to avoid guessing the locale.
+  if (!slippage.includes('.') && (slippage.match(/,/g)?.length ?? 0) === 1) {
+    slippage = slippage.replace(',', '.')
+  }
   const parsedSlippage = Number.parseFloat(slippage)
   if (Number.isNaN(Number(slippage)) && !Number.isNaN(parsedSlippage)) {
     return parsedSlippage.toString()
