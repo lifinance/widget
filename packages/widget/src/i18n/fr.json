@@ -305,7 +305,7 @@
     "estimatedTime": "Temps nécessaire pour finaliser la transaction de swap ou de bridge, hors changement de chaîne et approbation du token.",
     "exchangeRate": "Le taux de conversion estimé entre le token source et le token de destination. Cliquez pour inverser le sens.",
     "feeCollection": "Ces frais s’appliquent à certaines paires de tokens et nous permettent de vous offrir la meilleure expérience.",
-    "lockedPin": "Toujours épinglé",
+    "lockedPin": "Toujours épinglée",
     "minReceived": "Le montant minimum estimé peut changer jusqu’à la signature de la transaction de swap ou de bridge. Pour les transferts en 2 étapes, cela s’applique jusqu’à la signature de la transaction de la deuxième étape.",
     "notFound": {
       "text": "Nous n’avons pas trouvé cette page.",
