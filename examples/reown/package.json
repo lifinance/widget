@@ -21,7 +21,7 @@
     "@reown/appkit-adapter-bitcoin": "^2.0.0",
     "@reown/appkit-adapter-solana": "^2.0.0",
     "@reown/appkit-adapter-wagmi": "^2.0.0",
-    "@reown/appkit-common": "^1.8.24",
+    "@reown/appkit-common": "^2.0.0",
     "@solana/wallet-adapter-base": "^0.9.28",
     "@solana/wallet-adapter-react": "^0.15.40",
     "@solana/web3.js": "^1.99.0",
