@@ -1,5 +1,15 @@
 # @lifi/widget-provider-zcash
 
+## 4.0.3
+
+### Patch Changes
+
+- [#933](https://github.com/lifinance/widget/pull/933) [`ae292f9`](https://github.com/lifinance/widget/commit/ae292f9a60fb82abd93cd2895038b34001de38a4) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.13.0 and `@lifi/sdk-provider-ethereum` to 4.3.0. These releases add the new gasless flow. Update the other `@lifi/sdk-provider-*` packages to the releases that use `@lifi/sdk` 4.13.0, so that the app keeps one copy of the SDK.
+  
+  `@lifi/sdk` 4.13.0 uses `@lifi/types` 19. This version removes the deprecated chains Moonbeam, Boba, BOB, opBNB, Lens, Blast, Fusion, Gravity and Lisk from `ChainId` and `ChainKey`, and their coin keys from `CoinKey`. `@lifi/widget` re-exports `ChainId` and `CoinKey`, so these members are no longer available from `@lifi/widget`.
+- Updated dependencies [[`ae292f9`](https://github.com/lifinance/widget/commit/ae292f9a60fb82abd93cd2895038b34001de38a4), [`ae292f9`](https://github.com/lifinance/widget/commit/ae292f9a60fb82abd93cd2895038b34001de38a4), [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b)]:
+  - @lifi/widget-provider@4.7.0
+
 ## 4.0.2
 
 ### Patch Changes

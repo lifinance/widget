@@ -1,5 +1,16 @@
 # @lifi/widget-provider-mesh
 
+## 4.0.9
+
+### Patch Changes
+
+- [#939](https://github.com/lifinance/widget/pull/939) [`e2059c7`](https://github.com/lifinance/widget/commit/e2059c7d6924d4819dd74dd31d40d5d6e316cb73) Thanks [@chybisov](https://github.com/chybisov)! - Update `@meshconnect/web-link-sdk` to 3.15.2.
+  Update `i18next` to 27.1.3.
+  Update `motion` to 14.14.0.
+  Update `react-i18next` to 18.0.2.
+- Updated dependencies [[`ae292f9`](https://github.com/lifinance/widget/commit/ae292f9a60fb82abd93cd2895038b34001de38a4), [`ae292f9`](https://github.com/lifinance/widget/commit/ae292f9a60fb82abd93cd2895038b34001de38a4), [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b)]:
+  - @lifi/widget-provider@4.7.0
+
 ## 4.0.8
 
 ### Patch Changes
