@@ -4,6 +4,7 @@ import { Box } from '@mui/material'
 import { useNavigate } from '@tanstack/react-router'
 import { type JSX, useMemo, useRef } from 'react'
 import { useTranslation } from 'react-i18next'
+import { QuoteFailedMessage } from '../../components/Messages/QuoteFailedMessage.js'
 import { PageContainer } from '../../components/PageContainer.js'
 import { ProgressToNextUpdate } from '../../components/ProgressToNextUpdate.js'
 import { RouteCard } from '../../components/RouteCard/RouteCard.js'
@@ -26,8 +27,11 @@ export const RoutesPage = (): JSX.Element => {
   const listParentRef = useRef<HTMLDivElement>(null)
   const {
     routes,
+    issues,
+    quoteFailed,
     isLoading,
     isFetching,
+    isFetched,
     dataUpdatedAt,
     refetchTime,
     fromChain,
@@ -71,7 +75,9 @@ export const RoutesPage = (): JSX.Element => {
     })
   }
 
-  const routeNotFound = !routes?.length && !isLoading && !isFetching
+  // A refresh asks the same question again, so the answer stands until it
+  // returns, as it does in <Routes>.
+  const routeNotFound = !routes?.length && isFetched && !isLoading
 
   const toAddressUnsatisfied =
     routes?.[0] &&
@@ -87,8 +93,10 @@ export const RoutesPage = (): JSX.Element => {
         style={{ height: listHeight, overflow: 'auto' }}
       >
         <Stack direction="column" spacing={2} sx={{ pt: 1.5 }}>
-          {routeNotFound ? (
-            <RouteNotFoundCard />
+          {quoteFailed ? (
+            <QuoteFailedMessage />
+          ) : routeNotFound ? (
+            <RouteNotFoundCard issues={issues} />
           ) : isLoading && !routes?.length ? (
             Array.from({ length: 3 }).map((_, index) => (
               <RouteCardSkeleton key={index} />
