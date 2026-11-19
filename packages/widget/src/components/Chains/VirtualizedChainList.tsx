@@ -216,6 +216,7 @@ export const VirtualizedChainList = ({
         }
 
         const chain = sortedChains[item.index - (showAllNetworksOption ? 1 : 0)]
+        const configPin = configPins.get(chain.id)
         return (
           <ChainListItem
             key={item.key}
@@ -227,9 +228,9 @@ export const VirtualizedChainList = ({
             start={item.start}
             withPin={withPinnedChains}
             isPinned={pinnedChains.includes(chain.id)}
-            isLocked={configPins.has(chain.id)}
-            label={configPins.get(chain.id)?.label}
-            lockedPinTooltip={configPins.get(chain.id)?.tooltip}
+            isLocked={configPin !== undefined}
+            label={configPin?.label}
+            lockedPinTooltip={configPin?.tooltip}
             onPin={onPin}
           />
         )

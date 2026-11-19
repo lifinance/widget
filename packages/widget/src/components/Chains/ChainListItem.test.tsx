@@ -145,6 +145,8 @@ describe('ChainListItem', () => {
     )
     expect(icon).not.toBeNull()
     expect(icon?.getAttribute('aria-label')).toBe('tooltip.lockedPin')
+    expect(icon?.getAttribute('aria-hidden')).not.toBe('true')
+    expect(icon?.getAttribute('role')).toBe('img')
 
     act(() => {
       icon!.dispatchEvent(new MouseEvent('click', { bubbles: true }))
@@ -158,25 +160,11 @@ describe('ChainListItem', () => {
     render({
       withPin: true,
       isLocked: true,
-      lockedPinTooltip: '  Promoted by the app  ',
+      lockedPinTooltip: 'Promoted by the app',
     })
 
     const icon = container.querySelector(`.${lockedPinIconClassName}`)
     expect(icon?.getAttribute('aria-label')).toBe('Promoted by the app')
-  })
-
-  it('uses the default tooltip for a blank or malformed integrator tooltip', () => {
-    render({ withPin: true, isLocked: true, lockedPinTooltip: '   ' })
-    const icon = container.querySelector(`.${lockedPinIconClassName}`)
-    expect(icon?.getAttribute('aria-label')).toBe('tooltip.lockedPin')
-
-    render({
-      withPin: true,
-      isLocked: true,
-      lockedPinTooltip: 42 as unknown as string,
-    })
-    const nextIcon = container.querySelector(`.${lockedPinIconClassName}`)
-    expect(nextIcon?.getAttribute('aria-label')).toBe('tooltip.lockedPin')
   })
 
   it('a pin click unpins and does not select the chain', () => {

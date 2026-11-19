@@ -65,15 +65,14 @@ interface LockedPinIconProps {
 // selects the chain row.
 export const LockedPinIcon = ({ tooltip }: LockedPinIconProps): JSX.Element => {
   const { t } = useTranslation()
-  // Untyped config (plain JS, postMessage) can pass any value.
-  const title =
-    typeof tooltip === 'string' && tooltip.trim()
-      ? tooltip.trim()
-      : t('tooltip.lockedPin')
   return (
-    <Tooltip title={title} enterNextDelay={100}>
+    <Tooltip title={tooltip ?? t('tooltip.lockedPin')} enterNextDelay={100}>
       <PushPinIcon
         className={lockedPinIconClassName}
+        // SvgIcon is aria-hidden by default, which hides the Tooltip aria-label.
+        // oxlint-disable-next-line jsx-a11y/prefer-tag-over-role -- an svg element cannot become an img tag
+        role="img"
+        aria-hidden={false}
         sx={{
           position: 'absolute',
           top: 4,
