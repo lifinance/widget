@@ -16,7 +16,11 @@ import {
 } from 'vitest'
 import { createTheme } from '../../themes/createTheme.js'
 import { ChainListItem } from './ChainListItem.js'
-import { pinButtonClassName } from './PinChainButton.js'
+import { lockedPinIconClassName, pinButtonClassName } from './PinChainButton.js'
+
+vi.mock('react-i18next', () => ({
+  useTranslation: () => ({ t: (key: string) => key }),
+}))
 
 const chain = {
   id: 143,
@@ -132,23 +136,39 @@ describe('ChainListItem', () => {
     expect(container.querySelector('.chain-label')).toBeNull()
   })
 
-  it('a locked pin click does not unpin or select', () => {
+  it('shows a static icon with a tooltip for a locked pin, and a click on it selects the chain', () => {
     render({ withPin: true, isPinned: true, isLocked: true })
 
-    const pinButton = container.querySelector<HTMLButtonElement>(
-      `.${pinButtonClassName}`
+    expect(container.querySelector(`.${pinButtonClassName}`)).toBeNull()
+    const icon = container.querySelector<SVGElement>(
+      `.${lockedPinIconClassName}`
     )
-    expect(pinButton?.getAttribute('aria-disabled')).toBe('true')
-    expect(pinButton?.tabIndex).toBe(-1)
+    expect(icon).not.toBeNull()
+    expect(icon?.getAttribute('aria-label')).toBe('tooltip.lockedPin')
+    expect(icon?.getAttribute('aria-hidden')).not.toBe('true')
+    expect(icon?.getAttribute('role')).toBe('img')
 
-    clickPin()
+    act(() => {
+      icon!.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+    })
 
+    expect(onSelect).toHaveBeenCalledWith(chain)
     expect(onPin).not.toHaveBeenCalled()
-    expect(onSelect).not.toHaveBeenCalled()
   })
 
-  it('an unlocked pin click unpins', () => {
-    render({ withPin: true, isPinned: true, isLocked: false })
+  it('uses the integrator tooltip for a locked pin', () => {
+    render({
+      withPin: true,
+      isLocked: true,
+      lockedPinTooltip: 'Promoted by the app',
+    })
+
+    const icon = container.querySelector(`.${lockedPinIconClassName}`)
+    expect(icon?.getAttribute('aria-label')).toBe('Promoted by the app')
+  })
+
+  it('a pin click unpins and does not select the chain', () => {
+    render({ withPin: true, isPinned: true })
 
     clickPin()
 

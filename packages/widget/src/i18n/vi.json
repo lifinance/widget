@@ -305,6 +305,7 @@
     "estimatedTime": "Thời gian hoàn tất giao dịch hoán đổi hoặc cầu nối, chưa tính thời gian chuyển chuỗi và phê duyệt token.",
     "exchangeRate": "Tỷ giá quy đổi ước tính giữa token nguồn và token đích. Nhấn để đổi chiều.",
     "feeCollection": "Phí được áp dụng cho một số cặp token nhất định và giúp chúng tôi mang lại trải nghiệm tốt nhất.",
+    "lockedPin": "Luôn được ghim",
     "minReceived": "Số lượng tối thiểu ước tính có thể thay đổi cho đến khi giao dịch hoán đổi/cầu nối được ký. Với giao dịch 2 bước, điều này áp dụng cho đến khi giao dịch ở bước thứ hai được ký.",
     "notFound": {
       "text": "Chúng tôi không thể tìm thấy trang này.",

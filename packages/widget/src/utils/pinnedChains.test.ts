@@ -198,6 +198,20 @@ describe('getConfigPinnedChains', () => {
       const result = resolve([{ chainId: 137, label: { text: 'NEW' } }])
       expect(result.get(137)?.label).toEqual({ text: 'NEW' })
     })
+
+    it('keeps a trimmed tooltip', () => {
+      const result = resolve([{ chainId: 137, tooltip: '  Promoted  ' }])
+      expect(result.get(137)?.tooltip).toBe('Promoted')
+    })
+
+    it('drops a whitespace-only or a non-string tooltip', () => {
+      expect(
+        resolve([{ chainId: 137, tooltip: '   ' }]).get(137)?.tooltip
+      ).toBeUndefined()
+      expect(
+        resolve([{ chainId: 137, tooltip: 42 }]).get(137)?.tooltip
+      ).toBeUndefined()
+    })
   })
 })
 

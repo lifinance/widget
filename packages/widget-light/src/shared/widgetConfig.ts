@@ -225,6 +225,7 @@ export type WidgetChainLabel = WidgetRouteLabel
 export interface WidgetPinnedChain {
   chainId: number
   label?: WidgetChainLabel
+  tooltip?: string
   side?: 'from' | 'to'
 }
 

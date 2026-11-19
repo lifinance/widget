@@ -45,13 +45,17 @@ export const getConfigPinnedChains = (
     ) {
       continue
     }
+    const { label, tooltip, ...rest } = pin
+    const configPin: PinnedChain = rest
     // Drops a label that cannot show, so the row height and the row agree.
-    if (pin.label !== undefined && !isVisibleChainLabel(pin.label)) {
-      const { label: _label, ...pinWithoutLabel } = pin
-      configPins.set(pin.chainId, pinWithoutLabel)
-      continue
+    if (isVisibleChainLabel(label)) {
+      configPin.label = label
     }
-    configPins.set(pin.chainId, pin)
+    const tooltipText = typeof tooltip === 'string' ? tooltip.trim() : ''
+    if (tooltipText) {
+      configPin.tooltip = tooltipText
+    }
+    configPins.set(pin.chainId, configPin)
   }
   return configPins
 }
