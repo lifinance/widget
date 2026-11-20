@@ -14,35 +14,11 @@ packages:
 #   - 2026-11-10: next and @next/* 16.4.6, and typescript-eslint and @typescript-eslint/*
 #     8.72.2, inside the age window (bump-packages fast-track: same publisher, same
 #     provenance repo and workflow, no advisory, no new install script or dependency).
-#   - 2026-11-17: fast-track @meshconnect/web-link-sdk@3.15.2, @oxlint/binding-android-arm-eabi@1.94.0, @oxlint/binding-android-arm64@1.94.0, @oxlint/binding-darwin-arm64@1.94.0, @oxlint/binding-darwin-x64@1.94.0, @oxlint/binding-freebsd-x64@1.94.0, @oxlint/binding-linux-arm-gnueabihf@1.94.0, @oxlint/binding-linux-arm-musleabihf@1.94.0, @oxlint/binding-linux-arm64-gnu@1.94.0, @oxlint/binding-linux-arm64-musl@1.94.0, @oxlint/binding-linux-ppc64-gnu@1.94.0, @oxlint/binding-linux-riscv64-gnu@1.94.0, @oxlint/binding-linux-riscv64-musl@1.94.0, @oxlint/binding-linux-s390x-gnu@1.94.0, @oxlint/binding-linux-x64-gnu@1.94.0, @oxlint/binding-linux-x64-musl@1.94.0, @oxlint/binding-openharmony-arm64@1.94.0, @oxlint/binding-win32-arm64-msvc@1.94.0, @oxlint/binding-win32-ia32-msvc@1.94.0, @oxlint/binding-win32-x64-msvc@1.94.0, @tanstack/query-core@5.107.2, @tanstack/react-query@5.107.2, csstype@3.2.4, oxlint@1.94.0, viem@2.58.0 (all checks pass, or approved by the user).
+#   - 2026-11-19: fast-track viem@2.58.1 (all checks pass).
 minimumReleaseAgeExclude:
   - '@bigmi/*'
   - '@lifi/*'
-  - '@meshconnect/web-link-sdk@3.15.2'
-  - '@oxlint/binding-android-arm-eabi@1.94.0'
-  - '@oxlint/binding-android-arm64@1.94.0'
-  - '@oxlint/binding-darwin-arm64@1.94.0'
-  - '@oxlint/binding-darwin-x64@1.94.0'
-  - '@oxlint/binding-freebsd-x64@1.94.0'
-  - '@oxlint/binding-linux-arm-gnueabihf@1.94.0'
-  - '@oxlint/binding-linux-arm-musleabihf@1.94.0'
-  - '@oxlint/binding-linux-arm64-gnu@1.94.0'
-  - '@oxlint/binding-linux-arm64-musl@1.94.0'
-  - '@oxlint/binding-linux-ppc64-gnu@1.94.0'
-  - '@oxlint/binding-linux-riscv64-gnu@1.94.0'
-  - '@oxlint/binding-linux-riscv64-musl@1.94.0'
-  - '@oxlint/binding-linux-s390x-gnu@1.94.0'
-  - '@oxlint/binding-linux-x64-gnu@1.94.0'
-  - '@oxlint/binding-linux-x64-musl@1.94.0'
-  - '@oxlint/binding-openharmony-arm64@1.94.0'
-  - '@oxlint/binding-win32-arm64-msvc@1.94.0'
-  - '@oxlint/binding-win32-ia32-msvc@1.94.0'
-  - '@oxlint/binding-win32-x64-msvc@1.94.0'
-  - '@tanstack/query-core@5.107.2'
-  - '@tanstack/react-query@5.107.2'
-  - csstype@3.2.4
-  - oxlint@1.94.0
-  - viem@2.58.0
+  - viem@2.58.1
 overrides:
   "@react-native-async-storage/async-storage": ">=2.2.0"
   "@reown/appkit": ">=1.8.20"
@@ -122,6 +98,17 @@ overrides:
   # @reown/appkit-adapter-bitcoin 1.8.24 and 2.0.0 pin 6.1.7. Remove this when a release pins
   # 6.1.8 or later.
   "@reown/appkit-adapter-bitcoin>bitcoinjs-lib": "6.1.10"
+  # @reown/appkit-utils 2.0.0 pins @x402/* 2.27.0, and @x402/svm 2.27.0 needs @solana/kit 5.
+  # 2.31.0 needs @solana/kit 8; @coinbase/cdp-sdk and @privy-io/react-auth accept it.
+  # Remove these when an @reown/appkit-utils release allows 2.31.0.
+  "@x402/core": "^2.31.0"
+  "@x402/evm": "^2.31.0"
+  "@x402/extensions": "^2.31.0"
+  "@x402/svm": "^2.31.0"
+  # @reown/appkit-adapter-solana 2.0.0 pins @solana/kit and @solana/compat 8.3.0. Keep one
+  # @solana/kit 8 copy. Remove these when an adapter release allows the latest 8.x.
+  "@reown/appkit-adapter-solana>@solana/kit": "^8.6.0"
+  "@reown/appkit-adapter-solana>@solana/compat": "^8.6.0"
 allowBuilds:
   "@opensea/seaport-js": false
   "@parcel/watcher": false

@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-bitcoin",
-  "version": "4.3.5",
+  "version": "4.3.6",
   "description": "LI.FI Widget Provider for Bitcoin blockchain integration.",
   "type": "module",
   "main": "./src/index.ts",
@@ -40,10 +40,10 @@
     "lifi"
   ],
   "dependencies": {
-    "@bigmi/client": "^0.10.6",
-    "@bigmi/core": "^0.9.4",
+    "@bigmi/client": "^0.10.7",
+    "@bigmi/core": "^0.9.5",
     "@lifi/sdk": "^4.13.0",
-    "@lifi/sdk-provider-bitcoin": "^4.1.4",
+    "@lifi/sdk-provider-bitcoin": "^4.1.5",
     "@lifi/widget-provider": "workspace:*"
   },
   "peerDependencies": {
@@ -55,6 +55,6 @@
     "madge": "^8.0.0",
     "react": "^19.3.1",
     "typescript": "^7.0.2",
-    "vitest": "^5.1.0"
+    "vitest": "^5.1.1"
   }
 }

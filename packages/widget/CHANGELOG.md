@@ -1,5 +1,69 @@
 # @lifi/widget
 
+## 4.11.0
+
+### Minor Changes
+
+- [#874](https://github.com/lifinance/widget/pull/874) [`4ed814d`](https://github.com/lifinance/widget/commit/4ed814d1f0271df82973d34689fdc4de5db16b90) Thanks [@chybisov](https://github.com/chybisov)! - Explain why a quote returned no routes instead of showing one generic sentence. The widget ranks the API's own filter and tool-error reasons, including the reasons partners state in their own error text, and shows the one that blocks the route as a card. Where the user can act on it, the card offers one button that names what it sets, such as "Use 2.1 USDC" or "Set slippage to 0.8%". It never asks for a change the user cannot make, such as a locked amount or a receiver that cannot be cleared. An unrecognised reason still shows the existing generic message.
+  
+  In `mode: 'custom'`, a contract-call quote that answers 404 with diagnostics shows the no-routes screen rather than an error state; the diagnostics are read from `errors`, or from JSON inside `message`. The routes page keeps the answer on screen through a refresh, and in the wide layout the limit page no longer shows the card twice.
+
+- [#942](https://github.com/lifinance/widget/pull/942) [`a5a0774`](https://github.com/lifinance/widget/commit/a5a0774dd52f6107a66bfe9e8816b5f180d76dfb) Thanks [@chybisov](https://github.com/chybisov)! - Show a faded pin icon on config-pinned chains in the chain sidebar, with an "Always pinned" tooltip. Add an optional `tooltip` to each `chains.pinned` entry to set the tooltip text.
+
+- [#940](https://github.com/lifinance/widget/pull/940) [`97552c1`](https://github.com/lifinance/widget/commit/97552c1f2b3389cf3ffea3ace38f3cd101eca8ae) Thanks [@chybisov](https://github.com/chybisov)! - Add `chains.pinned` to pin chains for all users. Config pins show above user pins in the chain lists and first in the chain grid. Each pin can have an optional label with the same shape as a route label. Short labels (4 characters or fewer) also show as a badge in the chain grid.
+
+- [#933](https://github.com/lifinance/widget/pull/933) [`ae292f9`](https://github.com/lifinance/widget/commit/ae292f9a60fb82abd93cd2895038b34001de38a4) Thanks [@chybisov](https://github.com/chybisov)! - Support the new LI.FI gasless flow. The `useGaslessRoutes` config option replaces `useRelayerRoutes`.
+  
+  When `useGaslessRoutes` is on, the widget requests gasless routes with `options.gasless: true` next to the normal routes and adds the best one at position 2. It requests them only for an EVM source chain, a source token that is not the native token, a connected wallet, message signing on, and not in limit or private mode. A gasless route shows the "Gasless" tag, the free fee value and the gasless tooltip. The step list labels the relay fee step "Gasless service", and the route details show the integrator fee as for other routes. The gas check skips gasless steps.
+  
+  The relayer pays the gas of a gasless step. Its gas cost therefore counts as 0 in the fee breakdown and in the `gasCostUSD` of the widget events.
+  
+  Breaking changes, released as a minor version because the legacy gasless service is shut down:
+  
+  - `useRelayerRoutes` is renamed to `useGaslessRoutes` in `WidgetConfig` and in the widget-light config.
+  - `isGaslessStep` and `isBatchingSupported` are removed from `EthereumProviderContext`. Use `isGaslessStep` from `@lifi/sdk`. Nothing in the widget reads `isBatchingSupported` now.
+
+### Patch Changes
+
+- [#939](https://github.com/lifinance/widget/pull/939) [`e2059c7`](https://github.com/lifinance/widget/commit/e2059c7d6924d4819dd74dd31d40d5d6e316cb73) Thanks [@chybisov](https://github.com/chybisov)! - Update `@meshconnect/web-link-sdk` to 3.15.2.
+  Update `i18next` to 27.1.3.
+  Update `motion` to 14.14.0.
+  Update `react-i18next` to 18.0.2.
+
+- [#943](https://github.com/lifinance/widget/pull/943) [`b997aca`](https://github.com/lifinance/widget/commit/b997aca65483d90a7c15708070379157025e7eaa) Thanks [@chybisov](https://github.com/chybisov)! - Update `@bigmi/client` to 0.10.7.
+  Update `@bigmi/core` to 0.9.5.
+  Update `@lifi/sdk-provider-bitcoin` to 4.1.5.
+  Update `@lifi/sdk-provider-ethereum` to 4.3.1.
+  Update `@lifi/sdk-provider-solana` to 4.3.9.
+  Update `i18next` to 27.1.5.
+
+- [#918](https://github.com/lifinance/widget/pull/918) [`7167584`](https://github.com/lifinance/widget/commit/7167584bea77f9d691b11c533d0f3c2538728186) Thanks [@chybisov](https://github.com/chybisov)! - Show the strings of the selected language everywhere after they load. Memoized components, such as the navigation tabs, kept the English fallback or old saved strings.
+
+- [#925](https://github.com/lifinance/widget/pull/925) [`dc7a92e`](https://github.com/lifinance/widget/commit/dc7a92ea97263d5be57a8c903ade729352b31d32) Thanks [@thesems](https://github.com/thesems)! - Stop the header scrollbar from flickering while the history button shows a transaction in progress. The pending spinners now rotate inside a fixed box, so they do not overflow their container.
+
+- [#874](https://github.com/lifinance/widget/pull/874) [`4ed814d`](https://github.com/lifinance/widget/commit/4ed814d1f0271df82973d34689fdc4de5db16b90) Thanks [@chybisov](https://github.com/chybisov)! - Show "Quote request failed" when the routes request fails, for example with a 500 or a rate limit, instead of "No routes available". The swap card, the wide routes panel, the routes page and the limit form now tell a failed request apart from the API's answer that no route exists. A 404 still shows "No routes available", and routes from an earlier answer stay on screen through a failed refresh.
+
+- [#930](https://github.com/lifinance/widget/pull/930) [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b) Thanks [@chybisov](https://github.com/chybisov)! - Update `i18next` to 27.1.1 and `react-i18next` to 18.0.1.
+  
+  `Trans` text now always decodes HTML entities. If your `languageResources` override `tooltip.progressToNextUpdate`, `checkout.legal.termsDisclaimer` or `checkout.transferDeposit.warning` with an entity such as `&amp;` or `&nbsp;`, the widget now shows the character instead of the entity. The built-in translations have no entities, so they do not change.
+  
+  With `i18next` 27.1, if your `languageResources` do not have the plural form that a count needs, the widget shows the `_other` form of the same language. Before, it showed the fallback language. An example is the French `many` form for exact millions. The built-in translations have no plural forms, so they do not change.
+
+- [#933](https://github.com/lifinance/widget/pull/933) [`ae292f9`](https://github.com/lifinance/widget/commit/ae292f9a60fb82abd93cd2895038b34001de38a4) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.13.0 and `@lifi/sdk-provider-ethereum` to 4.3.0. These releases add the new gasless flow. Update the other `@lifi/sdk-provider-*` packages to the releases that use `@lifi/sdk` 4.13.0, so that the app keeps one copy of the SDK.
+  
+  `@lifi/sdk` 4.13.0 uses `@lifi/types` 19. This version removes the deprecated chains Moonbeam, Boba, BOB, opBNB, Lens, Blast, Fusion, Gravity and Lisk from `ChainId` and `ChainKey`, and their coin keys from `CoinKey`. `@lifi/widget` re-exports `ChainId` and `CoinKey`, so these members are no longer available from `@lifi/widget`.
+
+- [#930](https://github.com/lifinance/widget/pull/930) [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b) Thanks [@chybisov](https://github.com/chybisov)! - Update `motion` to 14.12.0.
+
+- [#930](https://github.com/lifinance/widget/pull/930) [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b) Thanks [@chybisov](https://github.com/chybisov)! - Update `@tanstack/react-router` to 1.170.46.
+
+- [#930](https://github.com/lifinance/widget/pull/930) [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b) Thanks [@chybisov](https://github.com/chybisov)! - Update `@tanstack/react-virtual` to 3.14.26.
+
+- [#930](https://github.com/lifinance/widget/pull/930) [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b) Thanks [@chybisov](https://github.com/chybisov)! - Update `zustand` to 5.1.0.
+- Updated dependencies [[`e2059c7`](https://github.com/lifinance/widget/commit/e2059c7d6924d4819dd74dd31d40d5d6e316cb73), [`b997aca`](https://github.com/lifinance/widget/commit/b997aca65483d90a7c15708070379157025e7eaa), [`ae292f9`](https://github.com/lifinance/widget/commit/ae292f9a60fb82abd93cd2895038b34001de38a4), [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b), [`ae292f9`](https://github.com/lifinance/widget/commit/ae292f9a60fb82abd93cd2895038b34001de38a4), [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b)]:
+  - @lifi/wallet-management@4.3.6
+  - @lifi/widget-provider@4.7.0
+
 ## 4.10.3
 
 ### Patch Changes

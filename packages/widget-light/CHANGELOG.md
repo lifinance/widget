@@ -1,5 +1,28 @@
 # @lifi/widget-light
 
+## 4.6.0
+
+### Minor Changes
+
+- [#942](https://github.com/lifinance/widget/pull/942) [`a5a0774`](https://github.com/lifinance/widget/commit/a5a0774dd52f6107a66bfe9e8816b5f180d76dfb) Thanks [@chybisov](https://github.com/chybisov)! - Show a faded pin icon on config-pinned chains in the chain sidebar, with an "Always pinned" tooltip. Add an optional `tooltip` to each `chains.pinned` entry to set the tooltip text.
+
+- [#940](https://github.com/lifinance/widget/pull/940) [`97552c1`](https://github.com/lifinance/widget/commit/97552c1f2b3389cf3ffea3ace38f3cd101eca8ae) Thanks [@chybisov](https://github.com/chybisov)! - Add `chains.pinned` to pin chains for all users. Config pins show above user pins in the chain lists and first in the chain grid. Each pin can have an optional label with the same shape as a route label. Short labels (4 characters or fewer) also show as a badge in the chain grid.
+
+- [#933](https://github.com/lifinance/widget/pull/933) [`ae292f9`](https://github.com/lifinance/widget/commit/ae292f9a60fb82abd93cd2895038b34001de38a4) Thanks [@chybisov](https://github.com/chybisov)! - Support the new LI.FI gasless flow. The `useGaslessRoutes` config option replaces `useRelayerRoutes`.
+  
+  When `useGaslessRoutes` is on, the widget requests gasless routes with `options.gasless: true` next to the normal routes and adds the best one at position 2. It requests them only for an EVM source chain, a source token that is not the native token, a connected wallet, message signing on, and not in limit or private mode. A gasless route shows the "Gasless" tag, the free fee value and the gasless tooltip. The step list labels the relay fee step "Gasless service", and the route details show the integrator fee as for other routes. The gas check skips gasless steps.
+  
+  The relayer pays the gas of a gasless step. Its gas cost therefore counts as 0 in the fee breakdown and in the `gasCostUSD` of the widget events.
+  
+  Breaking changes, released as a minor version because the legacy gasless service is shut down:
+  
+  - `useRelayerRoutes` is renamed to `useGaslessRoutes` in `WidgetConfig` and in the widget-light config.
+  - `isGaslessStep` and `isBatchingSupported` are removed from `EthereumProviderContext`. Use `isGaslessStep` from `@lifi/sdk`. Nothing in the widget reads `isBatchingSupported` now.
+
+### Patch Changes
+
+- [#930](https://github.com/lifinance/widget/pull/930) [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b) Thanks [@chybisov](https://github.com/chybisov)! - Raise the `@mysten/dapp-kit-react`, `@wagmi/core` and `wagmi` peer floors to 2.1.45, 3.6.9 and 3.7.11.
+
 ## 4.5.2
 
 ### Patch Changes

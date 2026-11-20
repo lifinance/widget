@@ -1,4 +1,12 @@
-import type { ExtendedChain, Route, RoutesRequest, Token } from '@lifi/sdk'
+import type {
+  ExtendedChain,
+  LiFiStep,
+  Route,
+  RoutesRequest,
+  SDKError,
+  Token,
+  UnavailableRoutes,
+} from '@lifi/sdk'
 import {
   ChainType,
   convertQuoteToRoute,
@@ -33,6 +41,9 @@ import {
 } from '../utils/customReceiver.js'
 import { getGaslessRoute } from '../utils/getGaslessRoute.js'
 import { getQueryKey } from '../utils/queries.js'
+import { classifyRouteIssues } from '../utils/routeIssues/classify.js'
+import { unavailableRoutesFromError } from '../utils/routeIssues/fromError.js'
+import type { ClassifyContext, RouteIssue } from '../utils/routeIssues/types.js'
 import { updateTokenInCache } from '../utils/token.js'
 import {
   isCurrentQuoteRequest,
@@ -49,6 +60,19 @@ import { useWidgetEvents } from './useWidgetEvents.js'
 
 const refetchTime = routeRefetchTime
 
+// Stable identity: a fresh literal here would re-render every memoized consumer.
+const noIssues: readonly RouteIssue[] = Object.freeze([])
+
+// Every reason can be suppressed, and a fresh empty array would then re-render
+// each memoized consumer on every refetch. Fall back to the stable one.
+const toIssues = (
+  unavailableRoutes: UnavailableRoutes | undefined,
+  context: ClassifyContext
+): readonly RouteIssue[] => {
+  const issues = classifyRouteIssues(unavailableRoutes, context)
+  return issues.length ? issues : noIssues
+}
+
 interface RoutesProps {
   observableRoute?: Route
   /**
@@ -63,16 +87,28 @@ interface RoutesProps {
   keepPreviousData?: boolean
 }
 
+interface RoutesQueryData {
+  routes: Route[]
+  issues: readonly RouteIssue[]
+}
+
 export const useRoutes = ({
   observableRoute,
   quoteFromAddress,
   keepPreviousData: keepPreviousDataEnabled,
 }: RoutesProps = {}): {
   routes: Route[] | undefined
+  issues: readonly RouteIssue[]
   isLoading: boolean
   isFetching: boolean
   isFetched: boolean
   isError: boolean
+  /**
+   * The request failed (a 500, a rate limit, a network error) and left no route
+   * on screen, so nothing is known about the routes. A 404 is the API's own
+   * answer that no route exists and does not count.
+   */
+  quoteFailed: boolean
   dataUpdatedAt: number
   refetchTime: number
   refetch: () => void
@@ -289,6 +325,7 @@ export const useRoutes = ({
 
   const {
     data,
+    error,
     isLoading,
     isFetching,
     isFetched,
@@ -335,6 +372,24 @@ export const useRoutes = ({
       const toAmount = toTokenAmount
         ? parseUnits(toTokenAmount, toToken!.decimals)
         : undefined
+      // Mirrors the contract-call branch below exactly, `toAmount` included: it
+      // is driven by the receive amount, so the sell field is not what gets
+      // sent — config and the URL can still fill it. Classifying against it
+      // would let a stale figure rewrite a liquidity reason as "amount too low"
+      // and offer a button the request ignores. A custom flow without a
+      // `toAmount` quotes through getRoutes and does send it, so it is not one.
+      const receiveDriven = Boolean(
+        mode === 'custom' && contractCalls?.length && toAmount
+      )
+      const classifyContext: ClassifyContext = {
+        fromAmount: receiveDriven ? 0n : fromAmount,
+        fromChainId,
+        fromTokenSymbol: fromToken!.symbol,
+        fromTokenDecimals: fromToken!.decimals,
+        fromTokenPriceUSD: fromToken!.priceUSD,
+        fromAddress,
+        toAddress,
+      }
       const formattedSlippage = slippage
         ? Number.parseFloat(slippage) / 100
         : defaultSlippage
@@ -375,29 +430,47 @@ export const useRoutes = ({
       })
 
       if (mode === 'custom' && contractCalls?.length && toAmount) {
-        const contractCallQuote = await getContractCallsQuote(
-          sdkClient,
-          {
-            // Contract calls are enabled only when fromAddress is set
-            fromAddress: fromAddress as string,
-            fromChain: fromChainId,
-            fromToken: fromTokenAddress,
-            toAmount: toAmount.toString(),
-            toChain: toChainId,
-            toToken: toTokenAddress,
-            contractCalls,
-            denyBridges: disabledBridges.length ? disabledBridges : undefined,
-            denyExchanges: disabledExchanges.length
-              ? disabledExchanges
-              : undefined,
-            allowBridges,
-            allowExchanges,
-            toFallbackAddress: toAddress,
-            slippage: formattedSlippage,
-            fee: calculatedFee || configuredFee,
-          },
-          { signal }
-        )
+        let contractCallQuote: LiFiStep
+        try {
+          contractCallQuote = await getContractCallsQuote(
+            sdkClient,
+            {
+              // Contract calls are enabled only when fromAddress is set
+              fromAddress: fromAddress as string,
+              fromChain: fromChainId,
+              fromToken: fromTokenAddress,
+              toAmount: toAmount.toString(),
+              toChain: toChainId,
+              toToken: toTokenAddress,
+              contractCalls,
+              denyBridges: disabledBridges.length ? disabledBridges : undefined,
+              denyExchanges: disabledExchanges.length
+                ? disabledExchanges
+                : undefined,
+              allowBridges,
+              allowExchanges,
+              toFallbackAddress: toAddress,
+              slippage: formattedSlippage,
+              fee: calculatedFee || configuredFee,
+            },
+            { signal }
+          )
+        } catch (error) {
+          const unavailableRoutes = unavailableRoutesFromError(error)
+          // Without diagnostics there is nothing to explain, so the error state
+          // and its retry affordance must stand.
+          if (
+            (error as SDKError)?.code !== LiFiErrorCode.NotFound ||
+            !unavailableRoutes
+          ) {
+            throw error
+          }
+          emitter.emit(WidgetEvent.AvailableRoutes, [])
+          return {
+            routes: [],
+            issues: toIssues(unavailableRoutes, classifyContext),
+          }
+        }
 
         contractCallQuote.action.toToken = toToken!
 
@@ -420,7 +493,10 @@ export const useRoutes = ({
 
         const route: Route = convertQuoteToRoute(contractCallQuote)
 
-        return [route]
+        // The catch below reports an empty list, so the success path has to
+        // report the refill or an integrator's UI never recovers.
+        emitter.emit(WidgetEvent.AvailableRoutes, [route])
+        return { routes: [route], issues: noIssues }
       }
 
       // Prevent sending a request for the same chain token combinations.
@@ -430,7 +506,9 @@ export const useRoutes = ({
         fromTokenAddress === toTokenAddress &&
         !(mode === 'custom' && modeOptions?.custom?.type === 'deposit')
       ) {
-        return
+        // An answer, not undefined: React Query fails an undefined result, and
+        // that error would read as a failed request.
+        return { routes: [], issues: noIssues }
       }
 
       const isObservableGaslessRoute =
@@ -567,6 +645,10 @@ export const useRoutes = ({
       }
 
       const initialRoutes = routesResult?.routes ?? []
+      const issuesFor = (routes: Route[]): readonly RouteIssue[] =>
+        routes.length
+          ? noIssues
+          : toIssues(routesResult?.unavailableRoutes, classifyContext)
 
       if (shouldUseGaslessRoute && initialRoutes.length) {
         setIntermediateRoutes(queryKey, initialRoutes)
@@ -574,7 +656,7 @@ export const useRoutes = ({
         // Return early if we're only using main routes
       } else if (shouldUseMainRoutes && !shouldUseGaslessRoute) {
         emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
-        return initialRoutes
+        return { routes: initialRoutes, issues: issuesFor(initialRoutes) }
       }
 
       const gaslessRoute = await gaslessRoutePromise
@@ -585,7 +667,7 @@ export const useRoutes = ({
         if (!initialRoutes.length) {
           emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
         }
-        return initialRoutes
+        return { routes: initialRoutes, issues: issuesFor(initialRoutes) }
       }
       // A new array: the routes above are already emitted and stored.
       const routes = [
@@ -594,7 +676,7 @@ export const useRoutes = ({
         ...initialRoutes.slice(1),
       ]
       emitter.emit(WidgetEvent.AvailableRoutes, routes)
-      return routes
+      return { routes, issues: noIssues }
     },
     enabled: isEnabled,
     staleTime: refetchTime,
@@ -630,21 +712,39 @@ export const useRoutes = ({
         return false
       }
       const queryDataKey = queryKey.toSpliced(queryKey.length - 1, 1, route.id)
-      queryClient.setQueryData(queryDataKey, [route], {
-        updatedAt: quotedAt,
-      })
+      queryClient.setQueryData<RoutesQueryData>(
+        queryDataKey,
+        { routes: [route], issues: noIssues },
+        {
+          updatedAt: quotedAt,
+        }
+      )
       setExecutableRoute(route, undefined, quotedAt)
       return true
     },
     [queryClient, dataUpdatedAt, setExecutableRoute, queryKey]
   )
 
+  const routes = data?.routes || getIntermediateRoutes(queryKey)
+  // React Query keeps the last successful payload through a failed refetch, so
+  // routes that are still on screen stay a quote, not a failure.
+  const quoteFailed =
+    !routes?.length &&
+    isError &&
+    (error as SDKError | null)?.code !== LiFiErrorCode.NotFound
+
   return {
-    routes: data || getIntermediateRoutes(queryKey),
+    routes,
+    // Without this, a 500 would leave the card explaining a quote that is no
+    // longer current — contradicting the failure message beside it and offering
+    // a button that cannot help. A confirmed 404 is a real answer and stays.
+    issues:
+      routes?.length || quoteFailed ? noIssues : (data?.issues ?? noIssues),
     isLoading: isEnabled && isLoading,
     isFetching,
     isFetched,
     isError,
+    quoteFailed,
     dataUpdatedAt,
     refetchTime,
     refetch,

@@ -308,6 +308,25 @@ export const widgetBaseConfig: WidgetConfig = {
   //       route.gasCostUSD ? Number(route.gasCostUSD) < 1 : false,
   //   },
   // ],
+  // chains: {
+  //   pinned: [
+  //     {
+  //       chainId: ChainId.BAS,
+  //       label: { text: 'NEW' },
+  //     },
+  //     {
+  //       chainId: ChainId.ARB,
+  //       label: {
+  //         text: 'Zero fees this week',
+  //         sx: {
+  //           background: 'linear-gradient(90deg, #ff0404, #ff04c8)',
+  //           color: '#ffffff',
+  //         },
+  //       },
+  //       side: 'to',
+  //     },
+  //   ],
+  // },
 }
 
 export const defaultWidgetConfig: Partial<WidgetConfig> = {

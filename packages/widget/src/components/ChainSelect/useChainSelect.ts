@@ -1,4 +1,4 @@
-import type { EVMChain, ExtendedChain } from '@lifi/sdk'
+import type { ExtendedChain } from '@lifi/sdk'
 import { useCallback } from 'react'
 import { useChains } from '../../hooks/useChains.js'
 import { useSwapOnly } from '../../hooks/useSwapOnly.js'
@@ -16,7 +16,7 @@ export const useChainSelect = (
 ): {
   chainOrder: number[]
   chains: ExtendedChain[] | undefined
-  getSelectedChains: () => EVMChain[]
+  getSelectedChains: () => ExtendedChain[]
   isLoading: boolean
   setChainOrder: (chainId: number, type: FormType) => void
   setCurrentChain: (chainId: number) => void
@@ -40,13 +40,13 @@ export const useChainSelect = (
   const swapOnly = useSwapOnly()
   const { tryResetToAddress } = useToAddressReset()
 
-  const getSelectedChains = useCallback((): EVMChain[] => {
+  const getSelectedChains = useCallback((): ExtendedChain[] => {
     if (!chains) {
       return []
     }
     const selectedChains = chainOrder
       .map((chainId) => chains.find((chain) => chain.id === chainId))
-      .filter(Boolean) as EVMChain[]
+      .filter(Boolean) as ExtendedChain[]
     return selectedChains
   }, [chains, chainOrder])
 

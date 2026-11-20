@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-zcash",
-  "version": "4.0.2",
+  "version": "4.0.3",
   "description": "LI.FI Widget Provider for Zcash as a destination chain.",
   "type": "module",
   "main": "./src/index.ts",
@@ -50,6 +50,6 @@
     "madge": "^8.0.0",
     "react": "^19.3.1",
     "typescript": "^7.0.2",
-    "vitest": "^5.1.0"
+    "vitest": "^5.1.1"
   }
 }
