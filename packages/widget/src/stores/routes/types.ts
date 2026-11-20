@@ -3,11 +3,17 @@ import type { Route, RouteExtended } from '@lifi/sdk'
 export interface RouteExecution {
   route: RouteExtended
   status: RouteExecutionStatus
+  /** Quote fetch time. Idle routes past the refresh window are not signed. */
+  quotedAt?: number
 }
 
 export interface RouteExecutionState {
   routes: Partial<Record<string, RouteExecution>>
-  setExecutableRoute: (route: Route, observableRouteIds?: string[]) => void
+  setExecutableRoute: (
+    route: Route,
+    observableRouteIds?: string[],
+    quotedAt?: number
+  ) => void
   updateRoute: (route: Route) => void
   deleteRoute: (routeId: string) => void
   deleteRoutes: (

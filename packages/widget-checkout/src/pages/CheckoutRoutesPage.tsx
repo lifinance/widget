@@ -55,7 +55,9 @@ export const CheckoutRoutesPage = (): JSX.Element => {
   useHeader(t('header.receive'), headerAction)
 
   const handleRouteClick = (route: Route) => {
-    setReviewableRoute(route)
+    if (!setReviewableRoute(route)) {
+      return
+    }
     navigate({
       to: checkoutAbsolutePaths.transactionExecution,
       search: { routeId: route.id },
