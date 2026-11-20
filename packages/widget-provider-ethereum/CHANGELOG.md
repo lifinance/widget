@@ -1,5 +1,37 @@
 # @lifi/widget-provider-ethereum
 
+## 4.2.0
+
+### Minor Changes
+
+- [#933](https://github.com/lifinance/widget/pull/933) [`ae292f9`](https://github.com/lifinance/widget/commit/ae292f9a60fb82abd93cd2895038b34001de38a4) Thanks [@chybisov](https://github.com/chybisov)! - Support the new LI.FI gasless flow. The `useGaslessRoutes` config option replaces `useRelayerRoutes`.
+  
+  When `useGaslessRoutes` is on, the widget requests gasless routes with `options.gasless: true` next to the normal routes and adds the best one at position 2. It requests them only for an EVM source chain, a source token that is not the native token, a connected wallet, message signing on, and not in limit or private mode. A gasless route shows the "Gasless" tag, the free fee value and the gasless tooltip. The step list labels the relay fee step "Gasless service", and the route details show the integrator fee as for other routes. The gas check skips gasless steps.
+  
+  The relayer pays the gas of a gasless step. Its gas cost therefore counts as 0 in the fee breakdown and in the `gasCostUSD` of the widget events.
+  
+  Breaking changes, released as a minor version because the legacy gasless service is shut down:
+  
+  - `useRelayerRoutes` is renamed to `useGaslessRoutes` in `WidgetConfig` and in the widget-light config.
+  - `isGaslessStep` and `isBatchingSupported` are removed from `EthereumProviderContext`. Use `isGaslessStep` from `@lifi/sdk`. Nothing in the widget reads `isBatchingSupported` now.
+
+### Patch Changes
+
+- [#943](https://github.com/lifinance/widget/pull/943) [`b997aca`](https://github.com/lifinance/widget/commit/b997aca65483d90a7c15708070379157025e7eaa) Thanks [@chybisov](https://github.com/chybisov)! - Update `@bigmi/client` to 0.10.7.
+  Update `@bigmi/core` to 0.9.5.
+  Update `@lifi/sdk-provider-bitcoin` to 4.1.5.
+  Update `@lifi/sdk-provider-ethereum` to 4.3.1.
+  Update `@lifi/sdk-provider-solana` to 4.3.9.
+  Update `i18next` to 27.1.5.
+
+- [#933](https://github.com/lifinance/widget/pull/933) [`ae292f9`](https://github.com/lifinance/widget/commit/ae292f9a60fb82abd93cd2895038b34001de38a4) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.13.0 and `@lifi/sdk-provider-ethereum` to 4.3.0. These releases add the new gasless flow. Update the other `@lifi/sdk-provider-*` packages to the releases that use `@lifi/sdk` 4.13.0, so that the app keeps one copy of the SDK.
+  
+  `@lifi/sdk` 4.13.0 uses `@lifi/types` 19. This version removes the deprecated chains Moonbeam, Boba, BOB, opBNB, Lens, Blast, Fusion, Gravity and Lisk from `ChainId` and `ChainKey`, and their coin keys from `CoinKey`. `@lifi/widget` re-exports `ChainId` and `CoinKey`, so these members are no longer available from `@lifi/widget`.
+
+- [#930](https://github.com/lifinance/widget/pull/930) [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk-provider-ethereum` to 4.2.12 and raise the `@wagmi/core` and `wagmi` peer floors to 3.6.9 and 3.7.11.
+- Updated dependencies [[`ae292f9`](https://github.com/lifinance/widget/commit/ae292f9a60fb82abd93cd2895038b34001de38a4), [`ae292f9`](https://github.com/lifinance/widget/commit/ae292f9a60fb82abd93cd2895038b34001de38a4), [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b)]:
+  - @lifi/widget-provider@4.7.0
+
 ## 4.1.10
 
 ### Patch Changes

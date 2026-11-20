@@ -24,7 +24,7 @@
     "@mui/material": "^9.5.0",
     "@mui/system": "^9.5.0",
     "@opensea/seaport-js": "4.6.0",
-    "@tanstack/react-query": "^5.107.2",
+    "@tanstack/react-query": "^5.108.0",
     "bignumber.js": "^11.1.5",
     "ethers": "^6.17.0",
     "events": "^3.3.0",

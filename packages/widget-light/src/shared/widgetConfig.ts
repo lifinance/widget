@@ -220,10 +220,20 @@ export type WidgetLanguageResources = Record<string, Record<string, unknown>>
 // Chain filtering (mirrors WidgetChains)
 // ---------------------------------------------------------------------------
 
+export type WidgetChainLabel = WidgetRouteLabel
+
+export interface WidgetPinnedChain {
+  chainId: number
+  label?: WidgetChainLabel
+  tooltip?: string
+  side?: 'from' | 'to'
+}
+
 export type WidgetChains = {
   types?: WidgetAllowDeny<WidgetChainType>
   from?: WidgetAllowDeny<number>
   to?: WidgetAllowDeny<number>
+  pinned?: WidgetPinnedChain[]
 } & WidgetAllowDeny<number>
 
 // ---------------------------------------------------------------------------

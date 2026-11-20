@@ -1,5 +1,35 @@
 # @lifi/wallet-management
 
+## 4.3.6
+
+### Patch Changes
+
+- [#939](https://github.com/lifinance/widget/pull/939) [`e2059c7`](https://github.com/lifinance/widget/commit/e2059c7d6924d4819dd74dd31d40d5d6e316cb73) Thanks [@chybisov](https://github.com/chybisov)! - Update `@meshconnect/web-link-sdk` to 3.15.2.
+  Update `i18next` to 27.1.3.
+  Update `motion` to 14.14.0.
+  Update `react-i18next` to 18.0.2.
+
+- [#943](https://github.com/lifinance/widget/pull/943) [`b997aca`](https://github.com/lifinance/widget/commit/b997aca65483d90a7c15708070379157025e7eaa) Thanks [@chybisov](https://github.com/chybisov)! - Update `@bigmi/client` to 0.10.7.
+  Update `@bigmi/core` to 0.9.5.
+  Update `@lifi/sdk-provider-bitcoin` to 4.1.5.
+  Update `@lifi/sdk-provider-ethereum` to 4.3.1.
+  Update `@lifi/sdk-provider-solana` to 4.3.9.
+  Update `i18next` to 27.1.5.
+
+- [#930](https://github.com/lifinance/widget/pull/930) [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b) Thanks [@chybisov](https://github.com/chybisov)! - Update `i18next` to 27.1.1 and `react-i18next` to 18.0.1.
+  
+  `Trans` text now always decodes HTML entities. If your `languageResources` override `tooltip.progressToNextUpdate`, `checkout.legal.termsDisclaimer` or `checkout.transferDeposit.warning` with an entity such as `&amp;` or `&nbsp;`, the widget now shows the character instead of the entity. The built-in translations have no entities, so they do not change.
+  
+  With `i18next` 27.1, if your `languageResources` do not have the plural form that a count needs, the widget shows the `_other` form of the same language. Before, it showed the fallback language. An example is the French `many` form for exact millions. The built-in translations have no plural forms, so they do not change.
+
+- [#933](https://github.com/lifinance/widget/pull/933) [`ae292f9`](https://github.com/lifinance/widget/commit/ae292f9a60fb82abd93cd2895038b34001de38a4) Thanks [@chybisov](https://github.com/chybisov)! - Update `@lifi/sdk` to 4.13.0 and `@lifi/sdk-provider-ethereum` to 4.3.0. These releases add the new gasless flow. Update the other `@lifi/sdk-provider-*` packages to the releases that use `@lifi/sdk` 4.13.0, so that the app keeps one copy of the SDK.
+  
+  `@lifi/sdk` 4.13.0 uses `@lifi/types` 19. This version removes the deprecated chains Moonbeam, Boba, BOB, opBNB, Lens, Blast, Fusion, Gravity and Lisk from `ChainId` and `ChainKey`, and their coin keys from `CoinKey`. `@lifi/widget` re-exports `ChainId` and `CoinKey`, so these members are no longer available from `@lifi/widget`.
+
+- [#930](https://github.com/lifinance/widget/pull/930) [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b) Thanks [@chybisov](https://github.com/chybisov)! - Update `zustand` to 5.1.0.
+- Updated dependencies [[`ae292f9`](https://github.com/lifinance/widget/commit/ae292f9a60fb82abd93cd2895038b34001de38a4), [`ae292f9`](https://github.com/lifinance/widget/commit/ae292f9a60fb82abd93cd2895038b34001de38a4), [`8186786`](https://github.com/lifinance/widget/commit/81867866df4de223da9a7f3e5edf16d5ef69306b)]:
+  - @lifi/widget-provider@4.7.0
+
 ## 4.3.5
 
 ### Patch Changes

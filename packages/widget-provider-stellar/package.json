@@ -1,6 +1,6 @@
 {
   "name": "@lifi/widget-provider-stellar",
-  "version": "4.2.5",
+  "version": "4.2.6",
   "description": "LI.FI Widget Provider for Stellar blockchain integration.",
   "type": "module",
   "main": "./src/index.ts",
@@ -53,6 +53,6 @@
     "madge": "^8.0.0",
     "react": "^19.3.1",
     "typescript": "^7.0.2",
-    "vitest": "^5.1.0"
+    "vitest": "^5.1.1"
   }
 }

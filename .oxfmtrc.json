@@ -36,6 +36,7 @@
     "pnpm-lock.yaml",
     "**/*.yaml",
     "**/*.yml",
-    ".claude/skills/bump-packages/scripts/test/fixtures/**"
+    ".claude/skills/bump-packages/scripts/test/fixtures/**",
+    "**/routeIssues/fixtures/live-payloads.json"
   ]
 }
