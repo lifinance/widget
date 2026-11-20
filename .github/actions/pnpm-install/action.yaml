@@ -7,6 +7,9 @@ inputs:
       Use the pnpm store cache. Set "false" in privileged jobs (publish / version
       PR / preview) so a poisoned cache can't reach a context with publish/write perms.
     default: 'true'
+  filters:
+    description: 'Workspace package selectors, one per line; empty installs the full workspace.'
+    default: ''
 
 runs:
   using: 'composite'
@@ -23,5 +26,13 @@ runs:
     - name: Install dependencies
       env:
         HUSKY: '0' # By default do not run HUSKY install
+        PNPM_FILTERS: ${{ inputs.filters }}
       shell: bash
-      run: pnpm install --frozen-lockfile --prefer-offline
+      run: |
+        filters=()
+        while IFS= read -r filter; do
+          if [[ -n "$filter" ]]; then
+            filters+=("--filter=$filter")
+          fi
+        done <<< "$PNPM_FILTERS"
+        pnpm "${filters[@]}" install --frozen-lockfile --prefer-offline
