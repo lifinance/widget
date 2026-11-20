@@ -6,6 +6,7 @@ import { useWidgetConfig } from '../providers/WidgetProvider/WidgetProvider.js'
 import { useHeaderHeight } from '../stores/header/useHeaderStore.js'
 import type { WidgetVariant } from '../types/widget.js'
 import { createElementId, ElementId } from '../utils/elements.js'
+import { fixedHeaderTopOffset } from '../utils/fixedHeaderTop.js'
 import { getWidgetMaxHeight } from '../utils/widgetSize.js'
 
 // NOTE: the setting of the height in AppExpandedContainer, RelativeContainer and CssBaselineContainer can
@@ -120,8 +121,12 @@ export const AppContainer: React.FC<PropsWithChildren> = ({ children }) => {
   // const ref = useRef<HTMLDivElement>(null);
   const { variant, elementId, theme } = useWidgetConfig()
   const { headerHeight } = useHeaderHeight()
+  // header.top shifts the fixed header down (a page header above the widget).
+  // Padding has to clear both that offset and the header's own height.
   const positionFixedAdjustment =
-    theme?.header?.position === 'fixed' ? headerHeight : 0
+    theme?.header?.position === 'fixed'
+      ? headerHeight + fixedHeaderTopOffset(theme.header.top)
+      : 0
 
   return (
     <RelativeContainer
