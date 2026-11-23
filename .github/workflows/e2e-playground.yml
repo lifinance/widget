@@ -104,6 +104,8 @@ jobs:
       - name: Install dependencies
         uses: ./.github/actions/pnpm-install
         with:
+          # The shards serve the dist from the build job, so they need only
+          # Playwright and the Vite preview server.
           filters: |
             @lifi/widget-e2e
             widget-playground-vite
@@ -187,19 +189,33 @@ jobs:
           echo "has-reports=$([ "$count" -gt 0 ] && echo true || echo false)" >> "$GITHUB_OUTPUT"
           echo "Found $count blob report(s)"
 
-      - name: Merge blob reports into HTML report
+      # Merge with the exact Playwright version from pnpm-lock.yaml, the one the
+      # shards ran. The range in e2e/package.json would let npx take the newest npm
+      # release, outside the lockfile, into a job that can write PR comments.
+      - name: Read the locked Playwright version
+        id: playwright-version
         if: steps.check-blobs.outputs.has-reports == 'true'
         run: |
-          PW_VERSION=$(node -p "require('./e2e/package.json').devDependencies['@playwright/test']")
-          npx --yes "@playwright/test@${PW_VERSION}" merge-reports --reporter html ./all-blob-reports
+          version=$(yq 'select(.importers.e2e) | .importers.e2e.devDependencies."@playwright/test".version' pnpm-lock.yaml)
+          if [[ ! "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
+            echo "::error::pnpm-lock.yaml has no exact @playwright/test version for e2e (found '${version}')."
+            exit 1
+          fi
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "Locked @playwright/test version: ${version}"
+
+      - name: Merge blob reports into HTML report
+        if: steps.check-blobs.outputs.has-reports == 'true'
+        env:
+          PW_VERSION: ${{ steps.playwright-version.outputs.version }}
+        run: npx --yes "@playwright/test@${PW_VERSION}" merge-reports --reporter html ./all-blob-reports
 
       - name: Merge blob reports into JSON report
         if: steps.check-blobs.outputs.has-reports == 'true'
         env:
           PLAYWRIGHT_JSON_OUTPUT_NAME: report.json
-        run: |
-          PW_VERSION=$(node -p "require('./e2e/package.json').devDependencies['@playwright/test']")
-          npx --yes "@playwright/test@${PW_VERSION}" merge-reports --reporter json ./all-blob-reports
+          PW_VERSION: ${{ steps.playwright-version.outputs.version }}
+        run: npx --yes "@playwright/test@${PW_VERSION}" merge-reports --reporter json ./all-blob-reports
 
       - name: Upload merged HTML report
         if: steps.check-blobs.outputs.has-reports == 'true'
