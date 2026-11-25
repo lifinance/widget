@@ -7,7 +7,7 @@ let moduleAvailable = true
 let moduleSelected = true
 let walletNetwork: string | null = null
 let walletNetworkMissing = false
-let moduleProductId = 'freighter'
+let moduleProductId = 'varial'
 
 vi.mock('@creit.tech/stellar-wallets-kit', () => ({
   Networks: {
@@ -46,7 +46,7 @@ vi.mock('@creit.tech/stellar-wallets-kit', () => ({
       }
       return {
         productId: moduleProductId,
-        productName: 'Freighter',
+        productName: 'Varial',
         productIcon: 'icon',
         isAvailable: async () => moduleAvailable,
       }
@@ -59,7 +59,7 @@ vi.mock('@creit.tech/stellar-wallets-kit/modules/xbull', () => ({
 }))
 
 vi.mock('./createStellarWalletsKit.js', () => ({
-  ENABLED_WALLET_IDS: ['freighter', 'xbull'],
+  ENABLED_WALLET_IDS: ['varial', 'xbull'],
   initStellarWalletsKit: () => ({
     networkPassphrase: 'Test SDF Network ; September 2015',
   }),
@@ -79,7 +79,7 @@ describe('createStellarWalletsKitStore', () => {
     disposers.length = 0
     walletNetwork = null
     walletNetworkMissing = false
-    moduleProductId = 'freighter'
+    moduleProductId = 'varial'
   })
 
   it('reports a restored address as connected', () => {
@@ -94,7 +94,7 @@ describe('createStellarWalletsKitStore', () => {
   it('reports connected after an explicit connect', async () => {
     const store = createStellarWalletsKitStore()
 
-    await store.getState().connect('freighter')
+    await store.getState().connect('varial')
 
     expect(store.getState().address).toBe('GCONNECTED')
     expect(store.getState().connected).toBe(true)
@@ -102,7 +102,7 @@ describe('createStellarWalletsKitStore', () => {
 
   it('clears connected state on disconnect', async () => {
     const store = createStellarWalletsKitStore()
-    await store.getState().connect('freighter')
+    await store.getState().connect('varial')
 
     await store.getState().disconnect()
 
@@ -174,7 +174,7 @@ describe('createStellarWalletsKitStore', () => {
     moduleSelected = false
     listeners.STATE_UPDATE?.({ payload: { address: 'GRESTORED' } })
 
-    expect(store.getState().address).toBe('GRESTORED')
+    expect(store.getState().address).toBeNull()
     expect(store.getState().connected).toBe(false)
   })
 
@@ -199,7 +199,7 @@ describe('createStellarWalletsKitStore', () => {
     it('leaves every action safe to call', async () => {
       const store = createStellarWalletsKitStore()
 
-      await expect(store.getState().connect('freighter')).resolves.toBeNull()
+      await expect(store.getState().connect('varial')).resolves.toBeNull()
       await expect(store.getState().refreshWallets()).resolves.toBeUndefined()
       await expect(store.getState().disconnect()).resolves.toBeUndefined()
       await expect(store.getState().isWalletReachable()).resolves.toBe(false)

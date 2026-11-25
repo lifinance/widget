@@ -51,7 +51,7 @@ const safeDisconnect = async (): Promise<void> => {
   }
 }
 
-// Best effort: only Freighter, Klever and Bitget implement getNetwork.
+// Best effort: only Varial, Klever and Bitget implement getNetwork.
 const assertWalletNetwork = async (expected: string): Promise<void> => {
   let actual: string | undefined
   try {
@@ -185,12 +185,10 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
   // on external disconnects and at launch, since SWK restores the address).
   // The store is a process-lifetime singleton, so these listeners live as long as the page.
   StellarWalletsKit.on(KitEventType.STATE_UPDATED, (event) => {
-    const address = event.payload.address ?? null
     // A restored address from a module we do not enable has no usable connector.
-    store.setState({
-      address,
-      connected: Boolean(address) && readSelectedWallet() !== null,
-    })
+    const address =
+      readSelectedWallet() !== null ? (event.payload.address ?? null) : null
+    store.setState({ address, connected: Boolean(address) })
   })
 
   // Fires immediately with the module SWK restored from its own storage, then
