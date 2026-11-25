@@ -17,6 +17,7 @@ import { useTranslation } from 'react-i18next'
 import { useAccount } from '../hooks/useAccount.js'
 import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
 import { useCombinedWallets } from '../hooks/useCombinedWallets.js'
+import { useRefreshWalletsOnOpen } from '../hooks/useRefreshWalletsOnOpen.js'
 import type { WalletMenuOpenArgs } from '../providers/WalletMenuProvider/types.js'
 import type { WalletTagType } from '../types/walletTagType.js'
 import { ElementId } from '../utils/elements.js'
@@ -73,6 +74,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
   walletChainArgs,
 }) => {
   const { t } = useTranslation()
+  useRefreshWalletsOnOpen()
   const installedWallets = useCombinedWallets()
   const selectedWalletRef = useRef<CombinedWallet>(null)
 

@@ -35,6 +35,7 @@ export const StellarProviderValues: FC<
     disconnect,
     isWalletReachable,
     getWalletNetwork,
+    refreshWallets,
   } = useStellarWalletsKit()
 
   const connector = useMemo(
@@ -179,6 +180,7 @@ export const StellarProviderValues: FC<
       isExternalContext,
       connect: handleConnect,
       disconnect: handleDisconnect,
+      refreshWallets,
     }),
     [
       account,
@@ -187,6 +189,7 @@ export const StellarProviderValues: FC<
       isExternalContext,
       handleConnect,
       handleDisconnect,
+      refreshWallets,
     ]
   )
 

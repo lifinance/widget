@@ -37,6 +37,7 @@ export type WidgetProviderContext = {
     onSuccess?: (address: string, chainId: number) => void
   ) => Promise<void>
   disconnect: () => Promise<void>
+  refreshWallets?: () => Promise<void>
 }
 
 // EVM-specific context extensions
