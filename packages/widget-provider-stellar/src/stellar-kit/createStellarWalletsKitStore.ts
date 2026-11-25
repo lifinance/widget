@@ -105,7 +105,9 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
   // SWK reports a probe timeout as "not available", so a later miss must not hide a found wallet.
   const seenAvailable = new Set<string>()
   // While a connect runs, the kit's address is not trusted until the network check passes.
-  let connectsInFlight = 0
+  // Only the newest connect may settle the store; an abandoned one can fail after it.
+  let connectSeq = 0
+  let activeConnect: number | undefined
 
   const store = create<StellarWalletsKitState>((set) => ({
     networkPassphrase,
@@ -149,8 +151,9 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
       return refreshing
     },
     async connect(walletId: string) {
+      const connectId = ++connectSeq
+      activeConnect = connectId
       set({ connecting: true })
-      connectsInFlight++
       try {
         StellarWalletsKit.setWallet(walletId)
         const { address } = await StellarWalletsKit.fetchAddress()
@@ -160,13 +163,19 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
           await safeDisconnect()
           throw error
         }
-        set({ address, connected: Boolean(address), connecting: false })
+        if (activeConnect === connectId) {
+          set({ address, connected: Boolean(address), connecting: false })
+        }
         return address ?? null
       } catch (error) {
-        set({ address: null, connected: false, connecting: false })
+        if (activeConnect === connectId) {
+          set({ address: null, connected: false, connecting: false })
+        }
         throw error
       } finally {
-        connectsInFlight--
+        if (activeConnect === connectId) {
+          activeConnect = undefined
+        }
       }
     },
     async disconnect() {
@@ -208,7 +217,7 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
   // on external disconnects and at launch, since SWK restores the address).
   // The store is a process-lifetime singleton, so these listeners live as long as the page.
   StellarWalletsKit.on(KitEventType.STATE_UPDATED, (event) => {
-    if (connectsInFlight > 0) {
+    if (activeConnect !== undefined) {
       return
     }
     // A restored address from a module we do not enable has no usable connector.

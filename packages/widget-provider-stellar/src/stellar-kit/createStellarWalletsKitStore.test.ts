@@ -236,6 +236,28 @@ describe('createStellarWalletsKitStore', () => {
     })
   })
 
+  it('keeps a newer connection when an abandoned connect fails late', async () => {
+    const store = createStellarWalletsKitStore()
+    let rejectAbandoned!: (reason: unknown) => void
+    vi.mocked(StellarWalletsKit.fetchAddress).mockImplementationOnce(
+      () =>
+        new Promise((_resolve, reject) => {
+          rejectAbandoned = reject
+        })
+    )
+
+    const abandoned = store.getState().connect('varial')
+    await store.getState().connect('xbull')
+    rejectAbandoned({ code: -4, message: 'The user rejected this request.' })
+    await expect(abandoned).rejects.toMatchObject({ code: -4 })
+
+    expect(store.getState()).toMatchObject({
+      address: 'GCONNECTED',
+      connected: true,
+      connecting: false,
+    })
+  })
+
   it('clears connected state on disconnect', async () => {
     const store = createStellarWalletsKitStore()
     await store.getState().connect('varial')
