@@ -5,12 +5,14 @@
     "selectWalletWithChain": "Wybierz portfel {{chainLabel}}",
     "selectEcosystem": "Wybierz ekosystem",
     "waitingForWallet": "Oczekiwanie na {{walletName}}",
-    "availableWalletsNotFound": "Nie znaleziono dostępnych portfeli"
+    "availableWalletsNotFound": "Nie znaleziono dostępnych portfeli",
+    "connectionFailed": "Nie udało się połączyć z {{walletName}}"
   },
   "message": {
     "connecting": "Kliknij „Połącz” w okienku portfela. Nie widzisz portfela? Sprawdź inne okna przeglądarki.",
     "multipleEcosystems": "{{walletName}} obsługuje kilka ekosystemów blockchain. Wybierz, z którym chcesz się połączyć.",
-    "availableWalletsNotFound": "Nie wykryto zgodnych rozszerzeń portfela. Zainstaluj obsługiwany portfel i odśwież stronę. Jeśli portfel jest już zainstalowany, upewnij się, że jest włączony i zgodny, lub skontaktuj się z supportem."
+    "availableWalletsNotFound": "Nie wykryto zgodnych rozszerzeń portfela. Zainstaluj obsługiwany portfel i odśwież stronę. Jeśli portfel jest już zainstalowany, upewnij się, że jest włączony i zgodny, lub skontaktuj się z supportem.",
+    "connectionFailed": "Coś poszło nie tak. Spróbuj ponownie."
   },
   "tags": {
     "connected": "Połączony",

@@ -5,12 +5,14 @@
     "selectWalletWithChain": "Selecionar carteira {{chainLabel}}",
     "selectEcosystem": "Selecionar ecossistema",
     "waitingForWallet": "Aguardando {{walletName}}",
-    "availableWalletsNotFound": "Nenhuma carteira disponível encontrada"
+    "availableWalletsNotFound": "Nenhuma carteira disponível encontrada",
+    "connectionFailed": "Não foi possível conectar {{walletName}}"
   },
   "message": {
     "connecting": "Clique em Conectar no pop-up da sua carteira. Não está vendo sua carteira? Verifique as outras janelas do navegador.",
     "multipleEcosystems": "{{walletName}} é compatível com vários ecossistemas de redes. Selecione qual você quer conectar.",
-    "availableWalletsNotFound": "Nenhuma extensão de carteira compatível foi detectada. Instale uma carteira suportada e atualize a página. Se ela já estiver instalada, verifique se está ativada e é compatível, ou entre em contato com o suporte."
+    "availableWalletsNotFound": "Nenhuma extensão de carteira compatível foi detectada. Instale uma carteira suportada e atualize a página. Se ela já estiver instalada, verifique se está ativada e é compatível, ou entre em contato com o suporte.",
+    "connectionFailed": "Algo deu errado. Tente novamente."
   },
   "tags": {
     "connected": "Conectada",

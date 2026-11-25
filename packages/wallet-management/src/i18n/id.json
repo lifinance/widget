@@ -5,12 +5,14 @@
     "selectWalletWithChain": "Pilih dompet {{chainLabel}}",
     "selectEcosystem": "Pilih ekosistem",
     "waitingForWallet": "Menunggu {{walletName}}",
-    "availableWalletsNotFound": "Dompet yang tersedia tidak ditemukan"
+    "availableWalletsNotFound": "Dompet yang tersedia tidak ditemukan",
+    "connectionFailed": "Gagal menghubungkan {{walletName}}"
   },
   "message": {
     "connecting": "Klik Hubungkan di popup dompet Anda. Dompet tidak muncul? Periksa jendela browser Anda yang lain.",
     "multipleEcosystems": "{{walletName}} mendukung beberapa ekosistem chain. Pilih ekosistem yang ingin dihubungkan.",
-    "availableWalletsNotFound": "Tidak ada ekstensi dompet kompatibel yang terdeteksi. Silakan pasang dompet yang didukung lalu muat ulang halaman. Jika sudah terpasang, pastikan dompet aktif dan kompatibel, atau hubungi dukungan."
+    "availableWalletsNotFound": "Tidak ada ekstensi dompet kompatibel yang terdeteksi. Silakan pasang dompet yang didukung lalu muat ulang halaman. Jika sudah terpasang, pastikan dompet aktif dan kompatibel, atau hubungi dukungan.",
+    "connectionFailed": "Terjadi kesalahan. Silakan coba lagi."
   },
   "tags": {
     "connected": "Terhubung",

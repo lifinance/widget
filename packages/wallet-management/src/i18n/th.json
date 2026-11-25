@@ -5,12 +5,14 @@
     "selectWalletWithChain": "เลือก Wallet {{chainLabel}}",
     "selectEcosystem": "เลือกระบบนิเวศ",
     "waitingForWallet": "กำลังรอ {{walletName}}",
-    "availableWalletsNotFound": "ไม่พบ Wallet ที่ใช้งานได้"
+    "availableWalletsNotFound": "ไม่พบ Wallet ที่ใช้งานได้",
+    "connectionFailed": "เชื่อมต่อ {{walletName}} ไม่สำเร็จ"
   },
   "message": {
     "connecting": "คลิกเชื่อมต่อในป๊อปอัปของ Wallet หากไม่เห็น Wallet ของคุณ โปรดตรวจสอบหน้าต่างเบราว์เซอร์อื่น",
     "multipleEcosystems": "{{walletName}} รองรับเชนหลายระบบนิเวศ โปรดเลือกระบบนิเวศที่ต้องการเชื่อมต่อ",
-    "availableWalletsNotFound": "ไม่พบส่วนขยาย Wallet ที่รองรับ โปรดติดตั้ง Wallet ที่รองรับแล้วรีเฟรชหน้านี้ หากติดตั้งแล้ว โปรดตรวจสอบว่าเปิดใช้งานอยู่และรองรับ หรือติดต่อฝ่ายสนับสนุน"
+    "availableWalletsNotFound": "ไม่พบส่วนขยาย Wallet ที่รองรับ โปรดติดตั้ง Wallet ที่รองรับแล้วรีเฟรชหน้านี้ หากติดตั้งแล้ว โปรดตรวจสอบว่าเปิดใช้งานอยู่และรองรับ หรือติดต่อฝ่ายสนับสนุน",
+    "connectionFailed": "เกิดข้อผิดพลาด โปรดลองอีกครั้ง"
   },
   "tags": {
     "connected": "เชื่อมต่อแล้ว",

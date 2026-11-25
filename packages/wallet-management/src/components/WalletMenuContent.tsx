@@ -3,6 +3,8 @@ import type { WalletConnector } from '@lifi/widget-provider'
 import ArrowBack from '@mui/icons-material/ArrowBack'
 import Close from '@mui/icons-material/Close'
 import {
+  Alert,
+  AlertTitle,
   Box,
   Collapse,
   DialogContent,
@@ -34,39 +36,11 @@ import { TronListItemButton } from './TronListItemButton.js'
 import type { WalletListItemButtonProps } from './types.js'
 import { WalletInfoDisplay } from './WalletInfoDisplay.js'
 import { WalletMenuContentEmpty } from './WalletMenuContentEmpty.js'
+import { walletMenuReducer, type WalletMenuState } from './walletMenuReducer.js'
 
 interface WalletMenuContentProps {
   onClose: () => void
   walletChainArgs?: WalletMenuOpenArgs
-}
-
-interface State {
-  view: 'wallet-list' | 'multi-ecosystem' | 'connecting'
-  selectedWalletId?: string
-}
-
-type Action =
-  | { type: 'SHOW_WALLET_LIST' }
-  | { type: 'SHOW_MULTI_ECOSYSTEM'; id: string }
-  | { type: 'SHOW_CONNECTING'; id: string }
-  | { type: 'HANDLE_ERROR'; id: string; error: any }
-
-function reducer(state: State, action: Action): State {
-  switch (action.type) {
-    case 'SHOW_WALLET_LIST':
-      return { ...state, view: 'wallet-list' }
-    case 'SHOW_MULTI_ECOSYSTEM':
-      return { view: 'multi-ecosystem', selectedWalletId: action.id }
-    case 'SHOW_CONNECTING':
-      return { view: 'connecting', selectedWalletId: action.id }
-    case 'HANDLE_ERROR':
-      if (action.error?.message?.includes('pending')) {
-        return { view: 'connecting', selectedWalletId: action.id }
-      }
-      return { view: 'wallet-list', selectedWalletId: action.id }
-    default:
-      return state
-  }
 }
 
 export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
@@ -88,17 +62,21 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
 
   const openedWithWalletId = Boolean(walletChainArgs?.walletId)
 
-  const [state, dispatch] = useReducer(reducer, undefined, (): State => {
-    const walletId = walletChainArgs?.walletId
-    if (!walletId) {
-      return { view: 'wallet-list' }
+  const [state, dispatch] = useReducer(
+    walletMenuReducer,
+    undefined,
+    (): WalletMenuState => {
+      const walletId = walletChainArgs?.walletId
+      if (!walletId) {
+        return { view: 'wallet-list' }
+      }
+      const wallet = installedWallets.find((w) => w.id === walletId)
+      if (!wallet) {
+        return { view: 'wallet-list' }
+      }
+      return { view: 'multi-ecosystem', selectedWalletId: walletId }
     }
-    const wallet = installedWallets.find((w) => w.id === walletId)
-    if (!wallet) {
-      return { view: 'wallet-list' }
-    }
-    return { view: 'multi-ecosystem', selectedWalletId: walletId }
-  })
+  )
 
   const handleMultiEcosystem = (id: string) => {
     dispatch({ type: 'SHOW_MULTI_ECOSYSTEM', id })
@@ -123,8 +101,9 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
     }
   }
 
-  const handleError = (id: string, error: any) => {
-    dispatch({ type: 'HANDLE_ERROR', id, error })
+  const handleError = (id: string, walletName: string, error: unknown) => {
+    console.error('Wallet connection failed:', error)
+    dispatch({ type: 'HANDLE_ERROR', id, walletName, error })
   }
 
   const walletChainLabel = useMemo(() => {
@@ -244,7 +223,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
         connector={connector}
         onConnected={onClose}
         onConnecting={() => handleConnecting(id)}
-        onError={(error) => handleError(id, error)}
+        onError={(error) => handleError(id, name, error)}
       />
     ) : null
   }
@@ -321,44 +300,59 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
             in={state.view === 'wallet-list'}
             timeout={{ appear: 225, enter: 100, exit: 225 }}
           >
-            <List
-              component="div"
-              sx={{
-                padding: 0,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: '8px',
-              }}
-            >
-              {filteredWalletsWithTagTypes.length ? (
-                filteredWalletsWithTagTypes.map(
-                  ({ id, name, icon, connectors, tagType }) => {
-                    if (connectors.length === 1) {
-                      const { chainType, connector } = connectors[0]
-                      return getWalletButton(
-                        getConnectorId(connector, chainType),
-                        name,
-                        chainType,
-                        connector,
-                        false,
-                        tagType
+            <Box>
+              {state.error ? (
+                <Alert
+                  severity="error"
+                  sx={{ marginBottom: 2, wordBreak: 'break-word' }}
+                >
+                  <AlertTitle>
+                    {t('title.connectionFailed', {
+                      walletName: state.error.walletName,
+                    })}
+                  </AlertTitle>
+                  {state.error.message ?? t('message.connectionFailed')}
+                </Alert>
+              ) : null}
+              <List
+                component="div"
+                sx={{
+                  padding: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px',
+                }}
+              >
+                {filteredWalletsWithTagTypes.length ? (
+                  filteredWalletsWithTagTypes.map(
+                    ({ id, name, icon, connectors, tagType }) => {
+                      if (connectors.length === 1) {
+                        const { chainType, connector } = connectors[0]
+                        return getWalletButton(
+                          getConnectorId(connector, chainType),
+                          name,
+                          chainType,
+                          connector,
+                          false,
+                          tagType
+                        )
+                      }
+                      return (
+                        <CardListItemButton
+                          key={name}
+                          onClick={() => handleMultiEcosystem(id ?? name)}
+                          title={name}
+                          icon={icon ?? ''}
+                          tagType={tagType}
+                        />
                       )
                     }
-                    return (
-                      <CardListItemButton
-                        key={name}
-                        onClick={() => handleMultiEcosystem(id ?? name)}
-                        title={name}
-                        icon={icon ?? ''}
-                        tagType={tagType}
-                      />
-                    )
-                  }
-                )
-              ) : (
-                <WalletMenuContentEmpty />
-              )}
-            </List>
+                  )
+                ) : (
+                  <WalletMenuContentEmpty />
+                )}
+              </List>
+            </Box>
           </Fade>
         </Collapse>
         {/* Multi Ecosystem View */}
