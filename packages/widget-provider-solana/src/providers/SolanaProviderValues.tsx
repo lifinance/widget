@@ -100,13 +100,9 @@ export const SolanaProviderValues: FC<
       walletName: string,
       onSuccess?: (address: string, chainId: number) => void
     ) => {
-      try {
-        const address = await connect(walletName)
-        if (address) {
-          onSuccess?.(address, ChainId.SOL)
-        }
-      } catch (error) {
-        console.error('Failed to connect wallet:', error)
+      const address = await connect(walletName)
+      if (address) {
+        onSuccess?.(address, ChainId.SOL)
       }
     },
     [connect]
