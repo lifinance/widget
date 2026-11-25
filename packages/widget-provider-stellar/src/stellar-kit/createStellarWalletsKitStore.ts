@@ -97,6 +97,8 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
   const { networkPassphrase } = initStellarWalletsKit()
 
   let refreshing: Promise<void> | undefined
+  // While a connect runs, the kit's address is not trusted until the network check passes.
+  let connectsInFlight = 0
 
   const store = create<StellarWalletsKitState>((set) => ({
     networkPassphrase,
@@ -129,6 +131,7 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
     },
     async connect(walletId: string) {
       set({ connecting: true })
+      connectsInFlight++
       try {
         StellarWalletsKit.setWallet(walletId)
         const { address } = await StellarWalletsKit.fetchAddress()
@@ -141,8 +144,10 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
         set({ address, connected: Boolean(address), connecting: false })
         return address ?? null
       } catch (error) {
-        set({ connecting: false })
+        set({ address: null, connected: false, connecting: false })
         throw error
+      } finally {
+        connectsInFlight--
       }
     },
     async disconnect() {
@@ -185,6 +190,9 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
   // on external disconnects and at launch, since SWK restores the address).
   // The store is a process-lifetime singleton, so these listeners live as long as the page.
   StellarWalletsKit.on(KitEventType.STATE_UPDATED, (event) => {
+    if (connectsInFlight > 0) {
+      return
+    }
     // A restored address from a module we do not enable has no usable connector.
     const address =
       readSelectedWallet() !== null ? (event.payload.address ?? null) : null

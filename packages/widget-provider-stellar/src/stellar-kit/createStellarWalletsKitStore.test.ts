@@ -8,6 +8,7 @@ let moduleSelected = true
 let walletNetwork: string | null = null
 let walletNetworkMissing = false
 let moduleProductId = 'varial'
+let fetchAddressError: unknown
 
 vi.mock('@creit.tech/stellar-wallets-kit', () => ({
   Networks: {
@@ -28,8 +29,17 @@ vi.mock('@creit.tech/stellar-wallets-kit', () => ({
     }),
     refreshSupportedWallets: vi.fn(async () => []),
     setWallet: vi.fn(),
-    fetchAddress: vi.fn(async () => ({ address: 'GCONNECTED' })),
-    disconnect: vi.fn(async () => {}),
+    // Like the real kit, these update SWK state, which fires STATE_UPDATED synchronously.
+    fetchAddress: vi.fn(async () => {
+      if (fetchAddressError !== undefined) {
+        throw fetchAddressError
+      }
+      listeners.STATE_UPDATE?.({ payload: { address: 'GCONNECTED' } })
+      return { address: 'GCONNECTED' }
+    }),
+    disconnect: vi.fn(async () => {
+      listeners.STATE_UPDATE?.({ payload: { address: undefined } })
+    }),
     getNetwork: vi.fn(async () => {
       // Klever and Bitget pass the extension's reply through untyped.
       if (walletNetworkMissing) {
@@ -80,6 +90,7 @@ describe('createStellarWalletsKitStore', () => {
     walletNetwork = null
     walletNetworkMissing = false
     moduleProductId = 'varial'
+    fetchAddressError = undefined
   })
 
   it('reports a restored address as connected', () => {
@@ -98,6 +109,38 @@ describe('createStellarWalletsKitStore', () => {
 
     expect(store.getState().address).toBe('GCONNECTED')
     expect(store.getState().connected).toBe(true)
+  })
+
+  it('never reports connected when the wallet is on another network', async () => {
+    const store = createStellarWalletsKitStore()
+    walletNetwork = 'Public Global Stellar Network ; September 2015'
+    const seen: boolean[] = []
+    store.subscribe((state) => seen.push(state.connected))
+
+    await expect(store.getState().connect('varial')).rejects.toThrow(
+      'Switch the network in your wallet and connect again.'
+    )
+
+    expect(seen).not.toContain(true)
+    expect(store.getState()).toMatchObject({
+      address: null,
+      connected: false,
+      connecting: false,
+    })
+  })
+
+  it('rethrows a declined request unchanged and ends disconnected', async () => {
+    const store = createStellarWalletsKitStore()
+    const declined = { code: -4, message: 'The user rejected this request.' }
+    fetchAddressError = declined
+
+    await expect(store.getState().connect('varial')).rejects.toBe(declined)
+
+    expect(store.getState()).toMatchObject({
+      address: null,
+      connected: false,
+      connecting: false,
+    })
   })
 
   it('clears connected state on disconnect', async () => {
