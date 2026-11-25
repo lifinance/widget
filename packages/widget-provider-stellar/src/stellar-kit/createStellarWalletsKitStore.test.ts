@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 
 const listeners: Record<string, (event: unknown) => void> = {}
 const disposers: Array<ReturnType<typeof vi.fn>> = []
@@ -9,6 +9,7 @@ let walletNetwork: string | null = null
 let walletNetworkMissing = false
 let moduleProductId = 'varial'
 let fetchAddressError: unknown
+let modulePending = false
 
 vi.mock('@creit.tech/stellar-wallets-kit', () => ({
   Networks: {
@@ -58,7 +59,10 @@ vi.mock('@creit.tech/stellar-wallets-kit', () => ({
         productId: moduleProductId,
         productName: 'Varial',
         productIcon: 'icon',
-        isAvailable: async () => moduleAvailable,
+        isAvailable: () =>
+          modulePending
+            ? new Promise<boolean>(() => {})
+            : Promise.resolve(moduleAvailable),
       }
     },
   },
@@ -77,6 +81,17 @@ vi.mock('./createStellarWalletsKit.js', () => ({
 
 const { createStellarWalletsKitStore } =
   await import('./createStellarWalletsKitStore.js')
+const { StellarWalletsKit } = await import('@creit.tech/stellar-wallets-kit')
+
+const varialWallet = (isAvailable: boolean) => ({
+  id: 'varial',
+  name: 'Varial',
+  type: 'HOT_WALLET',
+  isAvailable,
+  isPlatformWrapper: false,
+  icon: 'icon',
+  url: 'https://varialwallet.com',
+})
 
 describe('createStellarWalletsKitStore', () => {
   beforeEach(() => {
@@ -91,6 +106,84 @@ describe('createStellarWalletsKitStore', () => {
     walletNetworkMissing = false
     moduleProductId = 'varial'
     fetchAddressError = undefined
+    modulePending = false
+    vi.mocked(StellarWalletsKit.refreshSupportedWallets)
+      .mockReset()
+      .mockImplementation(async () => [])
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it('runs one follow-up probe for calls made during a probe', async () => {
+    let release!: () => void
+    vi.mocked(StellarWalletsKit.refreshSupportedWallets).mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          release = () => resolve([])
+        })
+    )
+    const store = createStellarWalletsKitStore()
+
+    const first = store.getState().refreshWallets()
+    const second = store.getState().refreshWallets()
+    expect(StellarWalletsKit.refreshSupportedWallets).toHaveBeenCalledTimes(1)
+
+    release()
+    await Promise.all([first, second])
+
+    expect(StellarWalletsKit.refreshSupportedWallets).toHaveBeenCalledTimes(2)
+  })
+
+  it('keeps a wallet available after a later probe misses it', async () => {
+    vi.mocked(StellarWalletsKit.refreshSupportedWallets)
+      .mockResolvedValueOnce([varialWallet(true)])
+      .mockResolvedValue([varialWallet(false)])
+    const store = createStellarWalletsKitStore()
+
+    await store.getState().refreshWallets()
+    await store.getState().refreshWallets()
+
+    expect(store.getState().wallets).toEqual([
+      { id: 'varial', name: 'Varial', icon: 'icon', isAvailable: true },
+    ])
+  })
+
+  it('probes again after a probe fails', async () => {
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+    vi.mocked(StellarWalletsKit.refreshSupportedWallets).mockRejectedValueOnce(
+      new Error('probe failed')
+    )
+    const store = createStellarWalletsKitStore()
+
+    await store
+      .getState()
+      .refreshWallets()
+      .catch(() => {})
+    await store.getState().refreshWallets()
+
+    expect(
+      vi.mocked(StellarWalletsKit.refreshSupportedWallets).mock.calls.length
+    ).toBeGreaterThanOrEqual(2)
+  })
+
+  it('waits up to 3 seconds for the wallet before signing', async () => {
+    vi.useFakeTimers()
+    const store = createStellarWalletsKitStore()
+    modulePending = true
+    let result: boolean | undefined
+    void store
+      .getState()
+      .isWalletReachable()
+      .then((reachable) => {
+        result = reachable
+      })
+
+    await vi.advanceTimersByTimeAsync(2999)
+    expect(result).toBeUndefined()
+    await vi.advanceTimersByTimeAsync(1)
+    expect(result).toBe(false)
   })
 
   it('reports a restored address as connected', () => {

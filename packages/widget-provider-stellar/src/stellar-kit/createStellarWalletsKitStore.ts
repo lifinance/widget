@@ -51,6 +51,10 @@ const safeDisconnect = async (): Promise<void> => {
   }
 }
 
+// Varial's availability check is a round trip to its MV3 service worker, which can be
+// cold; freighter-api gives up after 2s, so wait a little longer than that.
+const WALLET_REACHABLE_TIMEOUT_MS = 3000
+
 // Best effort: only Varial, Klever and Bitget implement getNetwork.
 const assertWalletNetwork = async (expected: string): Promise<void> => {
   let actual: string | undefined
@@ -97,6 +101,9 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
   const { networkPassphrase } = initStellarWalletsKit()
 
   let refreshing: Promise<void> | undefined
+  let probeAgain = false
+  // SWK reports a probe timeout as "not available", so a later miss must not hide a found wallet.
+  const seenAvailable = new Set<string>()
   // While a connect runs, the kit's address is not trusted until the network check passes.
   let connectsInFlight = 0
 
@@ -109,24 +116,36 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
     connected: false,
     connecting: false,
     refreshWallets() {
-      if (!refreshing) {
-        refreshing = StellarWalletsKit.refreshSupportedWallets()
-          .then((supported) => {
-            set({
-              wallets: supported
-                .filter((wallet) => ENABLED_WALLET_IDS.includes(wallet.id))
-                .map((wallet) => ({
-                  id: wallet.id,
-                  name: wallet.name,
-                  icon: wallet.icon,
-                  isAvailable: isWalletInstalled(wallet.id, wallet.isAvailable),
-                })),
-            })
-          })
-          .finally(() => {
-            refreshing = undefined
-          })
+      if (refreshing) {
+        probeAgain = true
+        return refreshing
       }
+      const runProbes = async (): Promise<void> => {
+        do {
+          probeAgain = false
+          const supported = await StellarWalletsKit.refreshSupportedWallets()
+          const wallets = supported
+            .filter((wallet) => ENABLED_WALLET_IDS.includes(wallet.id))
+            .map((wallet) => {
+              const isAvailable =
+                seenAvailable.has(wallet.id) ||
+                isWalletInstalled(wallet.id, wallet.isAvailable)
+              if (isAvailable) {
+                seenAvailable.add(wallet.id)
+              }
+              return {
+                id: wallet.id,
+                name: wallet.name,
+                icon: wallet.icon,
+                isAvailable,
+              }
+            })
+          set({ wallets })
+        } while (probeAgain)
+      }
+      refreshing = runProbes().finally(() => {
+        refreshing = undefined
+      })
       return refreshing
     },
     async connect(walletId: string) {
@@ -173,10 +192,9 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
     async isWalletReachable() {
       try {
         const module = StellarWalletsKit.selectedModule
-        // SWK races its own availability probe against 1s; an absent extension
-        // otherwise stalls every signing attempt.
+        // An absent extension otherwise stalls every signing attempt.
         const timeout = new Promise<boolean>((resolve) =>
-          setTimeout(() => resolve(false), 1000)
+          setTimeout(() => resolve(false), WALLET_REACHABLE_TIMEOUT_MS)
         )
         const reported = await Promise.race([timeout, module.isAvailable()])
         return isWalletInstalled(module.productId, reported)
