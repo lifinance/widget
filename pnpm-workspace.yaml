@@ -54,6 +54,9 @@ overrides:
   "@walletconnect/ethereum-provider@<2.23.10": ">=2.23.10"
   # @walletconnect/logger 3.0.x pins 10.0.0.
   "pino@<10.1.1": ">=10.1.1"
+  # SWK 2.8.0 pins 6.0.0, which drops the signer `address` in signTransaction; 6.0.1 fixes it.
+  # Remove once SWK moves past 6.0.0 or to @stellar/varial-sdk.
+  "@stellar/freighter-api": "6.0.1"
   # Forced major. tronweb pins 3.21.4, and no tronweb release fixes it.
   "google-protobuf@<4.0.3": "^4.0.3"
   # Forced major. MetaMask calls only v4() and validate(). uuid 12+ has no require() export.
