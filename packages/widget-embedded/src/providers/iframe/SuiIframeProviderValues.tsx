@@ -2,7 +2,6 @@ import { ChainId, ChainType } from '@lifi/sdk'
 import { SuiProvider as SuiSDKProvider } from '@lifi/sdk-provider-sui'
 import { SuiContext } from '@lifi/widget-provider'
 import { SuiGrpcClient } from '@mysten/sui/grpc'
-import { getJsonRpcFullnodeUrl } from '@mysten/sui/jsonRpc'
 import {
   type FC,
   type PropsWithChildren,
@@ -14,6 +13,9 @@ import {
 import type { IframeConnectorInfo } from './BaseIframeProvider.js'
 import { IframeSuiSigner } from './IframeSuiSigner.js'
 import { SuiIframeProvider } from './SuiIframeProvider.js'
+
+// @mysten/sui 3 removed getJsonRpcFullnodeUrl (it throws).
+const SUI_MAINNET_FULLNODE_URL = 'https://fullnode.mainnet.sui.io:443'
 
 interface IframeWalletState {
   accounts: string[]
@@ -119,7 +121,7 @@ export const SuiIframeProviderValues: FC<PropsWithChildren> = ({
         getClient: async () =>
           new SuiGrpcClient({
             network: 'mainnet',
-            baseUrl: getJsonRpcFullnodeUrl('mainnet'),
+            baseUrl: SUI_MAINNET_FULLNODE_URL,
           }),
         getSigner: async () => new IframeSuiSigner(address!, provider),
       }),
