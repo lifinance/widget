@@ -107,7 +107,7 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
   const seenAvailable = new Set<string>()
   // While any connect runs, the kit's address is not trusted until the network check passes.
   // Only the active connect may settle the store, return an address or disconnect. An older
-  // connect takes over when the active one is for the same wallet, or when none is active,
+  // connect takes over from a newer active one for the same wallet, or when none is active,
   // nothing is connected and no connect succeeded since it started; otherwise it rejects.
   let connectSeq = 0
   let activeConnect: number | undefined
@@ -186,7 +186,7 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
           const takeOver =
             activeConnect === undefined
               ? !get().connected && connectId > settledConnect
-              : activeConnect !== connectId && activeConnectFor(walletId)
+              : activeConnect > connectId && activeConnectFor(walletId)
           if (takeOver) {
             // The user still wants the wallet they approved.
             activeConnect = connectId

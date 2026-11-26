@@ -584,6 +584,31 @@ describe('createStellarWalletsKitStore', () => {
       expect(activeAddress.value).toBe('GLEFT')
     })
 
+    it('keeps the turn of the request that took over when the second request answers during its network check', async () => {
+      const store = createStellarWalletsKitStore()
+      const left = startLeftConnect(store)
+      await failNewerConnect(store)
+      const second = holdFetchAddress('GSECOND')
+      const again = store.getState().connect('varial')
+      const leftCheck = holdNetworkCheck()
+      approveLeft()
+      await vi.waitFor(() => expect(leftCheck.release).toBeDefined())
+
+      second.approve()
+      await new Promise((resolve) => setTimeout(resolve, 0))
+      leftCheck.release?.()
+
+      await expect(Promise.all([left, again])).resolves.toEqual([
+        'GLEFT',
+        'GLEFT',
+      ])
+      expect(activeAddress.value).toBe('GLEFT')
+      expect(store.getState()).toMatchObject({
+        address: 'GLEFT',
+        connected: true,
+      })
+    })
+
     it('waits for the second request of that wallet when the first is declined', async () => {
       const store = createStellarWalletsKitStore()
       const left = startLeftConnect(store)
