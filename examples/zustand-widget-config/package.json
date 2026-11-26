@@ -9,20 +9,20 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@lifi/widget": "4.10.3",
-    "@mui/material": "^9.5.0",
-    "@tanstack/react-query": "^5.108.0",
+    "@lifi/widget": "4.11.0",
+    "@mui/material": "^9.6.0",
+    "@tanstack/react-query": "^5.108.4",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "wagmi": "^3.7.11",
     "zustand": "^5.1.0"
   },
   "devDependencies": {
-    "@types/react": "^19.3.0",
+    "@types/react": "^19.3.3",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^6.3.0",
     "typescript": "^7.0.2",
-    "vite": "^8.3.8",
+    "vite": "^8.4.0",
     "vite-plugin-node-polyfills": "^0.26.0"
   }
 }

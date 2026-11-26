@@ -39,7 +39,7 @@
     "lifi"
   ],
   "dependencies": {
-    "@meshconnect/web-link-sdk": "^3.15.2"
+    "@meshconnect/web-link-sdk": "^3.16.0"
   },
   "peerDependencies": {
     "@lifi/widget-provider": "workspace:*",

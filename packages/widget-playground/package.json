@@ -38,9 +38,9 @@
     "@lifi/widget-provider-tron": "workspace:*",
     "@lifi/widget-provider-zcash": "workspace:*",
     "@metamask/connect-evm": "^2.1.1",
-    "@mui/icons-material": "^9.5.0",
-    "@mui/material": "^9.5.0",
-    "@mui/system": "^9.5.0",
+    "@mui/icons-material": "^9.6.0",
+    "@mui/material": "^9.6.0",
+    "@mui/system": "^9.6.0",
     "@reown/appkit": ">=1.8.20",
     "@reown/appkit-adapter-bitcoin": "^2.0.0",
     "@reown/appkit-adapter-solana": "^2.0.0",
@@ -62,12 +62,12 @@
   },
   "devDependencies": {
     "@types/lodash.isequal": "^4.5.8",
-    "@types/node": "^26.6.6",
-    "@types/react": "^19.3.0",
+    "@types/node": "^26.6.10",
+    "@types/react": "^19.3.3",
     "@types/react-dom": "^19.3.0",
     "madge": "^8.0.0",
     "typescript": "^7.0.2",
-    "vitest": "^5.1.1"
+    "vitest": "^5.1.2"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0"
