@@ -7,6 +7,11 @@ inputs:
       Use the pnpm store cache. Set "false" in privileged jobs (publish / version
       PR / preview) so a poisoned cache can't reach a context with publish/write perms.
     default: 'true'
+  filters:
+    description: >-
+      Workspace package selectors, one per line; empty installs the full workspace.
+      The install stops if a selector matches no workspace project.
+    default: ''
 
 runs:
   using: 'composite'
@@ -23,5 +28,21 @@ runs:
     - name: Install dependencies
       env:
         HUSKY: '0' # By default do not run HUSKY install
+        PNPM_FILTERS: ${{ inputs.filters }}
       shell: bash
-      run: pnpm install --frozen-lockfile --prefer-offline
+      run: |
+        filters=()
+        # Plain `read` trims the spaces around each selector.
+        while read -r filter; do
+          if [[ -z "$filter" ]]; then
+            continue
+          fi
+          # pnpm skips a selector that matches nothing and still exits 0, even
+          # with --fail-if-no-match when another selector matches. Check each one.
+          if ! pnpm --filter="$filter" --fail-if-no-match ls --depth=-1 > /dev/null; then
+            echo "::error::No workspace project matches the pnpm filter '$filter'."
+            exit 1
+          fi
+          filters+=("--filter=$filter")
+        done <<< "$PNPM_FILTERS"
+        pnpm "${filters[@]}" install --frozen-lockfile --prefer-offline
