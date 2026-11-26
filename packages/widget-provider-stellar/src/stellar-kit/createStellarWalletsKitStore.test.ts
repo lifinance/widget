@@ -258,6 +258,25 @@ describe('createStellarWalletsKitStore', () => {
     })
   })
 
+  it('joins a running connect to the same wallet', async () => {
+    const store = createStellarWalletsKitStore()
+    vi.mocked(StellarWalletsKit.fetchAddress).mockClear()
+
+    const first = store.getState().connect('varial')
+    const second = store.getState().connect('varial')
+
+    await expect(Promise.all([first, second])).resolves.toEqual([
+      'GCONNECTED',
+      'GCONNECTED',
+    ])
+    expect(StellarWalletsKit.fetchAddress).toHaveBeenCalledTimes(1)
+    expect(store.getState()).toMatchObject({
+      address: 'GCONNECTED',
+      connected: true,
+      connecting: false,
+    })
+  })
+
   it('rejects a connect that a newer connect replaced', async () => {
     const store = createStellarWalletsKitStore()
     let resolveAbandoned!: () => void

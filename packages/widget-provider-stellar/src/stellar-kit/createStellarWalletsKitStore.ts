@@ -109,6 +109,10 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
   // older one rejects, because the kit now belongs to the newer one.
   let connectSeq = 0
   let activeConnect: number | undefined
+  // A second click on the same wallet joins the running request instead of opening another.
+  let newestConnect:
+    | { id: number; walletId: string; promise: Promise<string | null> }
+    | undefined
 
   const store = create<StellarWalletsKitState>((set) => ({
     networkPassphrase,
@@ -151,7 +155,14 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
       })
       return refreshing
     },
-    async connect(walletId: string) {
+    connect(walletId: string) {
+      if (
+        newestConnect !== undefined &&
+        newestConnect.id === activeConnect &&
+        newestConnect.walletId === walletId
+      ) {
+        return newestConnect.promise
+      }
       const connectId = ++connectSeq
       activeConnect = connectId
       const assertLatest = () => {
@@ -159,32 +170,36 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
           throw new Error('A newer wallet connection replaced this one.')
         }
       }
-      set({ connecting: true })
-      try {
-        StellarWalletsKit.setWallet(walletId)
-        const { address } = await StellarWalletsKit.fetchAddress()
-        assertLatest()
+      const promise = (async () => {
+        set({ connecting: true })
         try {
-          await assertWalletNetwork(networkPassphrase)
+          StellarWalletsKit.setWallet(walletId)
+          const { address } = await StellarWalletsKit.fetchAddress()
+          assertLatest()
+          try {
+            await assertWalletNetwork(networkPassphrase)
+          } catch (error) {
+            if (activeConnect === connectId) {
+              await safeDisconnect()
+            }
+            throw error
+          }
+          assertLatest()
+          set({ address, connected: Boolean(address), connecting: false })
+          return address ?? null
         } catch (error) {
           if (activeConnect === connectId) {
-            await safeDisconnect()
+            set({ address: null, connected: false, connecting: false })
           }
           throw error
+        } finally {
+          if (activeConnect === connectId) {
+            activeConnect = undefined
+          }
         }
-        assertLatest()
-        set({ address, connected: Boolean(address), connecting: false })
-        return address ?? null
-      } catch (error) {
-        if (activeConnect === connectId) {
-          set({ address: null, connected: false, connecting: false })
-        }
-        throw error
-      } finally {
-        if (activeConnect === connectId) {
-          activeConnect = undefined
-        }
-      }
+      })()
+      newestConnect = { id: connectId, walletId, promise }
+      return promise
     },
     async disconnect() {
       // SWK's `disconnect()` calls the active module's own `disconnect()`
