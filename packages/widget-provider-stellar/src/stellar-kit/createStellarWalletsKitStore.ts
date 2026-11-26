@@ -106,8 +106,8 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
   // SWK reports a probe timeout as "not available", so a later miss must not hide a found wallet.
   const seenAvailable = new Set<string>()
   // While any connect runs, the kit's address is not trusted until the network check passes.
-  // Only the newest connect may settle the store, return an address or disconnect; an
-  // older one rejects, because the kit now belongs to the newer one.
+  // Only the newest connect may settle the store, return an address or disconnect. An older
+  // one rejects while a newer one runs or another wallet is connected; otherwise it takes over.
   let connectSeq = 0
   let activeConnect: number | undefined
   let runningConnects = 0

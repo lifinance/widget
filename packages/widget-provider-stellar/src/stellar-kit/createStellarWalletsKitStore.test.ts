@@ -312,6 +312,7 @@ describe('createStellarWalletsKitStore', () => {
         () =>
           new Promise((resolve) => {
             approveLeft = () => {
+              activeAddress.value = 'GLEFT'
               listeners.STATE_UPDATE?.({ payload: { address: 'GLEFT' } })
               resolve({ address: 'GLEFT' })
             }
