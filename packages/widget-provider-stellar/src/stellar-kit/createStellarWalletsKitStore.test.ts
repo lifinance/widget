@@ -10,6 +10,7 @@ let walletNetworkMissing = false
 let moduleProductId = 'varial'
 let fetchAddressError: unknown
 let modulePending = false
+const activeAddress: { value: string | undefined } = { value: undefined }
 
 vi.mock('@creit.tech/stellar-wallets-kit', () => ({
   Networks: {
@@ -21,6 +22,7 @@ vi.mock('@creit.tech/stellar-wallets-kit', () => ({
     WALLET_SELECTED: 'WALLET_SELECTED',
     DISCONNECT: 'DISCONNECT',
   },
+  activeAddress,
   StellarWalletsKit: {
     on: vi.fn((type: string, callback: (event: unknown) => void) => {
       listeners[type] = callback
@@ -107,6 +109,7 @@ describe('createStellarWalletsKitStore', () => {
     moduleProductId = 'varial'
     fetchAddressError = undefined
     modulePending = false
+    activeAddress.value = undefined
     vi.mocked(StellarWalletsKit.refreshSupportedWallets)
       .mockReset()
       .mockImplementation(async () => [])
@@ -274,6 +277,115 @@ describe('createStellarWalletsKitStore', () => {
       address: 'GCONNECTED',
       connected: true,
       connecting: false,
+    })
+  })
+
+  it('starts a new request after the previous connect settled', async () => {
+    const store = createStellarWalletsKitStore()
+    vi.mocked(StellarWalletsKit.fetchAddress).mockClear()
+
+    await store.getState().connect('varial')
+    await store.getState().connect('varial')
+
+    expect(StellarWalletsKit.fetchAddress).toHaveBeenCalledTimes(2)
+  })
+
+  it('resets the kit when the newest connect fails', async () => {
+    const store = createStellarWalletsKitStore()
+    vi.mocked(StellarWalletsKit.disconnect).mockClear()
+    fetchAddressError = { code: -4, message: 'The user rejected this request.' }
+
+    await expect(store.getState().connect('varial')).rejects.toMatchObject({
+      code: -4,
+    })
+
+    expect(StellarWalletsKit.disconnect).toHaveBeenCalledTimes(1)
+  })
+
+  describe('when the user approves a wallet they left', () => {
+    let approveLeft: () => void
+
+    const startLeftConnect = (
+      store: ReturnType<typeof createStellarWalletsKitStore>
+    ) => {
+      vi.mocked(StellarWalletsKit.fetchAddress).mockImplementationOnce(
+        () =>
+          new Promise((resolve) => {
+            approveLeft = () => {
+              listeners.STATE_UPDATE?.({ payload: { address: 'GLEFT' } })
+              resolve({ address: 'GLEFT' })
+            }
+          })
+      )
+      return store.getState().connect('varial')
+    }
+
+    const failNewerConnect = async (
+      store: ReturnType<typeof createStellarWalletsKitStore>
+    ) => {
+      fetchAddressError = {
+        code: -4,
+        message: 'The user rejected this request.',
+      }
+      await expect(store.getState().connect('xbull')).rejects.toMatchObject({
+        code: -4,
+      })
+      fetchAddressError = undefined
+    }
+
+    it('connects it after the newer connect failed', async () => {
+      const store = createStellarWalletsKitStore()
+      const left = startLeftConnect(store)
+      await failNewerConnect(store)
+      vi.mocked(StellarWalletsKit.setWallet).mockClear()
+
+      approveLeft()
+
+      await expect(left).resolves.toBe('GLEFT')
+      expect(StellarWalletsKit.setWallet).toHaveBeenLastCalledWith('varial')
+      expect(store.getState()).toMatchObject({
+        address: 'GLEFT',
+        connected: true,
+        connecting: false,
+      })
+    })
+
+    it('checks its network before it reports a connection', async () => {
+      const store = createStellarWalletsKitStore()
+      const left = startLeftConnect(store)
+      await failNewerConnect(store)
+      walletNetwork = 'Public Global Stellar Network ; September 2015'
+      vi.mocked(StellarWalletsKit.disconnect).mockClear()
+      const seen: boolean[] = []
+      store.subscribe((state) => seen.push(state.connected))
+
+      approveLeft()
+
+      await expect(left).rejects.toThrow('Switch the network')
+      expect(seen).not.toContain(true)
+      expect(StellarWalletsKit.disconnect).toHaveBeenCalledTimes(1)
+      expect(store.getState()).toMatchObject({
+        address: null,
+        connected: false,
+      })
+    })
+
+    it('keeps the connection of the wallet the user chose next', async () => {
+      const store = createStellarWalletsKitStore()
+      const left = startLeftConnect(store)
+      await store.getState().connect('xbull')
+      activeAddress.value = 'GCONNECTED'
+
+      approveLeft()
+
+      await expect(left).rejects.toThrow(
+        'A newer wallet connection replaced this one.'
+      )
+      expect(activeAddress.value).toBe('GCONNECTED')
+      expect(store.getState()).toMatchObject({
+        address: 'GCONNECTED',
+        connected: true,
+      })
     })
   })
 

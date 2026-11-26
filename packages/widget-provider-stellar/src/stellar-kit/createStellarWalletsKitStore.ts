@@ -1,4 +1,5 @@
 import {
+  activeAddress,
   KitEventType,
   Networks,
   StellarWalletsKit,
@@ -104,17 +105,18 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
   let probeAgain = false
   // SWK reports a probe timeout as "not available", so a later miss must not hide a found wallet.
   const seenAvailable = new Set<string>()
-  // While a connect runs, the kit's address is not trusted until the network check passes.
+  // While any connect runs, the kit's address is not trusted until the network check passes.
   // Only the newest connect may settle the store, return an address or disconnect; an
   // older one rejects, because the kit now belongs to the newer one.
   let connectSeq = 0
   let activeConnect: number | undefined
+  let runningConnects = 0
   // A second click on the same wallet joins the running request instead of opening another.
   let newestConnect:
     | { id: number; walletId: string; promise: Promise<string | null> }
     | undefined
 
-  const store = create<StellarWalletsKitState>((set) => ({
+  const store = create<StellarWalletsKitState>((set, get) => ({
     networkPassphrase,
     wallets: [],
     selectedWalletId: null,
@@ -170,29 +172,35 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
           throw new Error('A newer wallet connection replaced this one.')
         }
       }
+      runningConnects += 1
       const promise = (async () => {
         set({ connecting: true })
         try {
           StellarWalletsKit.setWallet(walletId)
           const { address } = await StellarWalletsKit.fetchAddress()
-          assertLatest()
-          try {
-            await assertWalletNetwork(networkPassphrase)
-          } catch (error) {
-            if (activeConnect === connectId) {
-              await safeDisconnect()
+          if (activeConnect === undefined) {
+            if (get().connected) {
+              // The kit took the left wallet's address; give it back the connected one.
+              activeAddress.value = get().address ?? undefined
+            } else {
+              // Every newer connect failed, so the user wants the wallet they approved.
+              activeConnect = connectId
+              StellarWalletsKit.setWallet(walletId)
             }
-            throw error
           }
+          assertLatest()
+          await assertWalletNetwork(networkPassphrase)
           assertLatest()
           set({ address, connected: Boolean(address), connecting: false })
           return address ?? null
         } catch (error) {
           if (activeConnect === connectId) {
+            await safeDisconnect()
             set({ address: null, connected: false, connecting: false })
           }
           throw error
         } finally {
+          runningConnects -= 1
           if (activeConnect === connectId) {
             activeConnect = undefined
           }
@@ -240,7 +248,7 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
   // on external disconnects and at launch, since SWK restores the address).
   // The store is a process-lifetime singleton, so these listeners live as long as the page.
   StellarWalletsKit.on(KitEventType.STATE_UPDATED, (event) => {
-    if (activeConnect !== undefined) {
+    if (runningConnects > 0) {
       return
     }
     // A restored address from a module we do not enable has no usable connector.
