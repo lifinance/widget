@@ -19,7 +19,9 @@ vi.mock('react-i18next', () => ({
 }))
 
 vi.mock('./RouteToken.js', () => ({
-  RouteToken: () => <div data-testid="route-token" />,
+  RouteToken: ({ labelId }: { labelId?: string }) => (
+    <div data-testid="route-token" id={labelId} />
+  ),
 }))
 
 const { RouteCard } = await import('./RouteCard.js')
@@ -93,6 +95,59 @@ describe('RouteCard', () => {
     config.mode = 'default'
     render(<RouteCard route={createRoute(['CHEAPEST'])} />)
     expect(container.textContent).toContain('main.tags.cheapest')
+  })
+
+  it('styles the active card as selected', () => {
+    render(<RouteCard route={createRoute()} active />)
+    expect(getComputedStyle(card()!).borderStyle).toBe('solid')
+
+    render(<RouteCard route={createRoute()} />)
+    expect(getComputedStyle(card()!).borderStyle).not.toBe('solid')
+  })
+
+  describe('keyboard selection', () => {
+    const selectButton = () =>
+      container.querySelector<HTMLButtonElement>('button[aria-labelledby]')
+
+    it.each(['default', 'refuel'] as const)(
+      'adds a focusable button that selects the route in %s mode',
+      (mode) => {
+        config.mode = mode
+        const onClick = vi.fn()
+        render(<RouteCard route={createRoute(['FASTEST'])} onClick={onClick} />)
+
+        const button = selectButton()
+        expect(button).not.toBeNull()
+        expect(button!.type).toBe('button')
+        expect(button!.tabIndex).toBe(0)
+
+        // The name comes from the token row of the quote only: not from the
+        // tags, so the button does not also match a "Fastest" settings button,
+        // and not from the essentials row, whose tooltip targets carry an
+        // `aria-label` that would replace their values in the name.
+        const label = document.getElementById(
+          button!.getAttribute('aria-labelledby')!
+        )
+        expect(label?.dataset.testid).toBe('route-token')
+        expect(label?.textContent).not.toContain('main.tags.fastest')
+
+        // A browser turns Enter and Space on a focused button into a click.
+        act(() => {
+          button!.click()
+        })
+        expect(onClick).toHaveBeenCalledTimes(1)
+      }
+    )
+
+    it('adds no button when the card cannot be selected', () => {
+      render(<RouteCard route={createRoute()} />)
+      expect(selectButton()).toBeNull()
+
+      render(
+        <RouteCard route={createRoute()} variant="cardless" onClick={vi.fn()} />
+      )
+      expect(selectButton()).toBeNull()
+    })
   })
 })
 

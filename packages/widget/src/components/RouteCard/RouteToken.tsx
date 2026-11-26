@@ -17,6 +17,8 @@ interface RouteTokenProps {
   impactToken?: TokenAmount
   defaultExpanded?: boolean
   showEssentials?: boolean
+  /** Id for the token row, so a control can take its name from it. */
+  labelId?: string
 }
 
 export const RouteToken = ({
@@ -25,6 +27,7 @@ export const RouteToken = ({
   impactToken,
   defaultExpanded,
   showEssentials,
+  labelId,
 }: RouteTokenProps): JSX.Element => {
   const { hiddenUI } = useWidgetConfig()
 
@@ -37,7 +40,7 @@ export const RouteToken = ({
 
   return (
     <Box>
-      <TokenContainer>
+      <TokenContainer id={labelId}>
         <Token
           token={token}
           impactToken={impactToken}
