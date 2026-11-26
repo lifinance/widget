@@ -6,6 +6,13 @@ import { act } from 'react'
 import { createRoot, type Root } from 'react-dom/client'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { WidgetEvent } from '../types/events.js'
+import {
+  isCurrentQuoteRequest,
+  isExecutableQuote,
+  isRouteExpired,
+  msUntilRouteRefresh,
+  routeRefetchTime,
+} from './routeQuote.js'
 import { useRoutes } from './useRoutes.js'
 
 // The classifier is covered on its own. These cover the query around it: which
@@ -432,5 +439,34 @@ describe('an empty main result beside a gasless request', () => {
     expect(hook().routes).toEqual([])
     expect(hook().issues.map((issue) => issue.bucket)).toEqual(['temporary'])
     expect(emittedRoutes()).toEqual([[]])
+  })
+})
+
+describe('quote refresh window', () => {
+  it('treats the request as current only while its signal is live', () => {
+    const controller = new AbortController()
+    expect(isCurrentQuoteRequest(controller.signal)).toBe(true)
+    controller.abort()
+    expect(isCurrentQuoteRequest(controller.signal)).toBe(false)
+  })
+
+  it('expires at the window and stays expired after it', () => {
+    const updatedAt = 1_700_000_000_000
+    expect(isRouteExpired(updatedAt, updatedAt + routeRefetchTime - 1)).toBe(
+      false
+    )
+    expect(isRouteExpired(updatedAt, updatedAt + routeRefetchTime)).toBe(true)
+    const pastWindow = updatedAt + routeRefetchTime + 30_000
+    expect(isRouteExpired(updatedAt, pastWindow)).toBe(true)
+    expect(msUntilRouteRefresh(updatedAt, pastWindow)).toBe(0)
+    expect(isRouteExpired(0, updatedAt)).toBe(false)
+    expect(msUntilRouteRefresh(0, updatedAt)).toBe(routeRefetchTime)
+    expect(isExecutableQuote(undefined, updatedAt)).toBe(true)
+    expect(isExecutableQuote(updatedAt, updatedAt + routeRefetchTime)).toBe(
+      false
+    )
+    expect(isExecutableQuote(updatedAt, updatedAt + routeRefetchTime - 1)).toBe(
+      true
+    )
   })
 })

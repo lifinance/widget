@@ -45,6 +45,12 @@ import { classifyRouteIssues } from '../utils/routeIssues/classify.js'
 import { unavailableRoutesFromError } from '../utils/routeIssues/fromError.js'
 import type { ClassifyContext, RouteIssue } from '../utils/routeIssues/types.js'
 import { updateTokenInCache } from '../utils/token.js'
+import {
+  isCurrentQuoteRequest,
+  isRouteExpired,
+  msUntilRouteRefresh,
+  routeRefetchTime,
+} from './routeQuote.js'
 import { useChain } from './useChain.js'
 import { useDebouncedWatch } from './useDebouncedWatch.js'
 import { useGasRefuel } from './useGasRefuel.js'
@@ -52,7 +58,7 @@ import { useSwapOnly } from './useSwapOnly.js'
 import { useToken } from './useToken.js'
 import { useWidgetEvents } from './useWidgetEvents.js'
 
-const refetchTime = 60_000
+const refetchTime = routeRefetchTime
 
 // Stable identity: a fresh literal here would re-render every memoized consumer.
 const noIssues: readonly RouteIssue[] = Object.freeze([])
@@ -109,7 +115,7 @@ export const useRoutes = ({
   fromChain: ExtendedChain | undefined
   toChain: ExtendedChain | undefined
   queryKey: readonly unknown[]
-  setReviewableRoute: (route: Route) => void
+  setReviewableRoute: (route: Route) => boolean
 } => {
   const {
     mode,
@@ -585,6 +591,13 @@ export const useRoutes = ({
       // Wait for the main routes to complete first
       const routesResult = await mainRoutesPromise
 
+      // A newer request aborts this one. Skip cache writes and events so a
+      // retired quote cannot reach an integrator or the token price cache.
+      // The query cache already drops this result because the signal is aborted.
+      if (!isCurrentQuoteRequest(signal)) {
+        return
+      }
+
       if (routesResult?.routes[0] && fromAddress) {
         // Update local tokens cache to keep priceUSD in sync
         const { fromToken, toToken } = routesResult.routes[0]
@@ -647,6 +660,9 @@ export const useRoutes = ({
       }
 
       const gaslessRoute = await gaslessRoutePromise
+      if (!isCurrentQuoteRequest(signal)) {
+        return
+      }
       if (!gaslessRoute) {
         if (!initialRoutes.length) {
           emitter.emit(WidgetEvent.AvailableRoutes, initialRoutes)
@@ -666,10 +682,14 @@ export const useRoutes = ({
     staleTime: refetchTime,
     placeholderData: keepPreviousDataEnabled ? keepPreviousData : undefined,
     refetchInterval(query) {
-      return Math.min(
-        Math.abs(refetchTime - (Date.now() - query.state.dataUpdatedAt)),
-        refetchTime
-      )
+      const updatedAt = query.state.dataUpdatedAt
+      const now = Date.now()
+      // A quote at the end of the window is due immediately. The same clock
+      // reading is passed to both checks so they cannot disagree.
+      if (isRouteExpired(updatedAt, now)) {
+        return 0
+      }
+      return msUntilRouteRefresh(updatedAt, now)
     },
     retry(failureCount, error: any) {
       if (process.env.NODE_ENV === 'development') {
@@ -686,16 +706,21 @@ export const useRoutes = ({
   })
 
   const setReviewableRoute = useCallback(
-    (route: Route) => {
+    (route: Route): boolean => {
+      const quotedAt = dataUpdatedAt || Date.now()
+      if (isRouteExpired(quotedAt)) {
+        return false
+      }
       const queryDataKey = queryKey.toSpliced(queryKey.length - 1, 1, route.id)
       queryClient.setQueryData<RoutesQueryData>(
         queryDataKey,
         { routes: [route], issues: noIssues },
         {
-          updatedAt: dataUpdatedAt || Date.now(),
+          updatedAt: quotedAt,
         }
       )
-      setExecutableRoute(route)
+      setExecutableRoute(route, undefined, quotedAt)
+      return true
     },
     [queryClient, dataUpdatedAt, setExecutableRoute, queryKey]
   )
