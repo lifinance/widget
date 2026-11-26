@@ -258,6 +258,75 @@ describe('createStellarWalletsKitStore', () => {
     })
   })
 
+  it('rejects a connect that a newer connect replaced', async () => {
+    const store = createStellarWalletsKitStore()
+    let resolveAbandoned!: () => void
+    vi.mocked(StellarWalletsKit.fetchAddress).mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          resolveAbandoned = () => {
+            listeners.STATE_UPDATE?.({ payload: { address: 'GSTALE' } })
+            resolve({ address: 'GSTALE' })
+          }
+        })
+    )
+    let resolveNewer!: () => void
+    vi.mocked(StellarWalletsKit.fetchAddress).mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          resolveNewer = () => {
+            listeners.STATE_UPDATE?.({ payload: { address: 'GNEWER' } })
+            resolve({ address: 'GNEWER' })
+          }
+        })
+    )
+
+    const abandoned = store.getState().connect('varial')
+    const newer = store.getState().connect('xbull')
+    resolveAbandoned()
+    await expect(abandoned).rejects.toThrow(
+      'A newer wallet connection replaced this one.'
+    )
+    resolveNewer()
+    await expect(newer).resolves.toBe('GNEWER')
+
+    expect(store.getState()).toMatchObject({
+      address: 'GNEWER',
+      connected: true,
+      connecting: false,
+    })
+  })
+
+  it('does not disconnect a newer connection when an older network check fails', async () => {
+    const store = createStellarWalletsKitStore()
+    vi.mocked(StellarWalletsKit.disconnect).mockClear()
+    let resolveNetwork:
+      | ((value: { network: string; networkPassphrase: string }) => void)
+      | undefined
+    vi.mocked(StellarWalletsKit.getNetwork).mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          resolveNetwork = resolve
+        })
+    )
+
+    const abandoned = store.getState().connect('varial')
+    await vi.waitFor(() => expect(resolveNetwork).toBeDefined())
+    await store.getState().connect('xbull')
+    resolveNetwork?.({
+      network: 'PUBLIC',
+      networkPassphrase: 'Public Global Stellar Network ; September 2015',
+    })
+    await expect(abandoned).rejects.toThrow('Switch the network')
+
+    expect(StellarWalletsKit.disconnect).not.toHaveBeenCalled()
+    expect(store.getState()).toMatchObject({
+      address: 'GCONNECTED',
+      connected: true,
+      connecting: false,
+    })
+  })
+
   it('clears connected state on disconnect', async () => {
     const store = createStellarWalletsKitStore()
     await store.getState().connect('varial')

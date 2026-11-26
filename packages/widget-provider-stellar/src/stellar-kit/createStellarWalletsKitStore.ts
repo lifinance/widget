@@ -105,7 +105,8 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
   // SWK reports a probe timeout as "not available", so a later miss must not hide a found wallet.
   const seenAvailable = new Set<string>()
   // While a connect runs, the kit's address is not trusted until the network check passes.
-  // Only the newest connect may settle the store; an abandoned one can fail after it.
+  // Only the newest connect may settle the store, return an address or disconnect; an
+  // older one rejects, because the kit now belongs to the newer one.
   let connectSeq = 0
   let activeConnect: number | undefined
 
@@ -153,19 +154,26 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
     async connect(walletId: string) {
       const connectId = ++connectSeq
       activeConnect = connectId
+      const assertLatest = () => {
+        if (activeConnect !== connectId) {
+          throw new Error('A newer wallet connection replaced this one.')
+        }
+      }
       set({ connecting: true })
       try {
         StellarWalletsKit.setWallet(walletId)
         const { address } = await StellarWalletsKit.fetchAddress()
+        assertLatest()
         try {
           await assertWalletNetwork(networkPassphrase)
         } catch (error) {
-          await safeDisconnect()
+          if (activeConnect === connectId) {
+            await safeDisconnect()
+          }
           throw error
         }
-        if (activeConnect === connectId) {
-          set({ address, connected: Boolean(address), connecting: false })
-        }
+        assertLatest()
+        set({ address, connected: Boolean(address), connecting: false })
         return address ?? null
       } catch (error) {
         if (activeConnect === connectId) {
