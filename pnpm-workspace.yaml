@@ -109,6 +109,14 @@ overrides:
   # @solana/kit 8 copy. Remove these when an adapter release allows the latest 8.x.
   "@reown/appkit-adapter-solana>@solana/kit": "^8.6.0"
   "@reown/appkit-adapter-solana>@solana/compat": "^8.6.0"
+  # Nuxt example only. Hold the Nuxt stack at 4.6.4. nuxt 4.7.0 adds
+  # @nuxt/nitro-v3-server, which needs prereleases (ofetch 2.0.0-alpha.3,
+  # unstorage 2.0.0-beta.0). nitropack 2.14.0 (croner 11) and @nuxt/cli 4.1.0
+  # (my-bad 1) bring majors too. Move them together in a separate PR.
+  nuxt: "4.6.4"
+  "@nuxt/kit": "4.6.4"
+  "@nuxt/cli": "4.0.3"
+  nitropack: "2.13.6"
 allowBuilds:
   "@opensea/seaport-js": false
   "@parcel/watcher": false
