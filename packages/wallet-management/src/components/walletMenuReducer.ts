@@ -35,6 +35,14 @@ export function walletMenuReducer(
     case 'SHOW_CONNECTING':
       return { view: 'connecting', selectedWalletId: action.id }
     case 'HANDLE_ERROR':
+      // A wallet the user left can fail late; it must not replace another wallet's view.
+      if (
+        state.view === 'connecting' &&
+        state.selectedWalletId !== undefined &&
+        state.selectedWalletId !== action.id
+      ) {
+        return state
+      }
       if (isPendingRequest(action.error)) {
         return { view: 'connecting', selectedWalletId: action.id }
       }

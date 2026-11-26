@@ -48,6 +48,64 @@ describe('walletMenuReducer', () => {
     })
   })
 
+  it('ignores an error from a wallet the user left for another wallet', () => {
+    const connecting: WalletMenuState = {
+      view: 'connecting',
+      selectedWalletId: 'xbull',
+    }
+
+    expect(
+      walletMenuReducer(connecting, {
+        type: 'HANDLE_ERROR',
+        id: 'varial',
+        walletName: 'Varial',
+        error: { code: -4, message: 'The user rejected this request.' },
+      })
+    ).toBe(connecting)
+  })
+
+  it('shows the error of the first request after a second click is pending', () => {
+    const pending = new Error(
+      "Request of type 'wallet_requestPermissions' already pending"
+    )
+    const afterSecondClick = walletMenuReducer(
+      { view: 'connecting', selectedWalletId: 'metaMask' },
+      {
+        type: 'HANDLE_ERROR',
+        id: 'metaMask',
+        walletName: 'MetaMask',
+        error: pending,
+      }
+    )
+
+    expect(
+      walletMenuReducer(afterSecondClick, {
+        type: 'HANDLE_ERROR',
+        id: 'metaMask',
+        walletName: 'MetaMask',
+        error: new Error('User rejected the request.'),
+      })
+    ).toEqual({
+      view: 'wallet-list',
+      selectedWalletId: 'metaMask',
+      error: { walletName: 'MetaMask', message: 'User rejected the request.' },
+    })
+  })
+
+  it('shows an error that arrives on the wallet list', () => {
+    expect(
+      walletMenuReducer(
+        { view: 'wallet-list' },
+        {
+          type: 'HANDLE_ERROR',
+          id: 'varial',
+          walletName: 'Varial',
+          error: new Error('Closed'),
+        }
+      ).error
+    ).toEqual({ walletName: 'Varial', message: 'Closed' })
+  })
+
   it('stores no message when the error has none', () => {
     expect(
       walletMenuReducer(
