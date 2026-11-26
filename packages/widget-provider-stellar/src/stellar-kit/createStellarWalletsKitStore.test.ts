@@ -58,15 +58,29 @@ vi.mock('@creit.tech/stellar-wallets-kit/modules/xbull', () => ({
   XBULL_ID: 'xbull',
 }))
 
+const kitModules: never[] = []
+
 vi.mock('./createStellarWalletsKit.js', () => ({
   ENABLED_WALLET_IDS: ['freighter', 'xbull'],
   initStellarWalletsKit: () => ({
     networkPassphrase: 'Test SDF Network ; September 2015',
+    modules: kitModules,
   }),
+}))
+
+vi.mock('./metaMaskStellarModule.js', () => ({
+  metaMaskStellar: { productId: 'metamask' },
+}))
+
+vi.mock('./watchWalletSessions.js', () => ({
+  watchWalletSessions: vi.fn(),
 }))
 
 const { createStellarWalletsKitStore } =
   await import('./createStellarWalletsKitStore.js')
+const { StellarWalletsKit } = await import('@creit.tech/stellar-wallets-kit')
+const { metaMaskStellar } = await import('./metaMaskStellarModule.js')
+const { watchWalletSessions } = await import('./watchWalletSessions.js')
 
 describe('createStellarWalletsKitStore', () => {
   beforeEach(() => {
@@ -80,6 +94,26 @@ describe('createStellarWalletsKitStore', () => {
     walletNetwork = null
     walletNetworkMissing = false
     moduleProductId = 'freighter'
+    vi.mocked(watchWalletSessions).mockClear()
+    vi.mocked(StellarWalletsKit.on).mockClear()
+  })
+
+  it('starts the session watch once, after the kit subscriptions', () => {
+    const store = createStellarWalletsKitStore()
+
+    expect(watchWalletSessions).toHaveBeenCalledTimes(1)
+    expect(watchWalletSessions).toHaveBeenCalledWith(
+      store,
+      kitModules,
+      metaMaskStellar
+    )
+    const [watchOrder] = vi.mocked(watchWalletSessions).mock.invocationCallOrder
+    const subscriptionOrders = vi.mocked(StellarWalletsKit.on).mock
+      .invocationCallOrder
+    expect(subscriptionOrders).toHaveLength(2)
+    for (const order of subscriptionOrders) {
+      expect(order).toBeLessThan(watchOrder)
+    }
   })
 
   it('reports a restored address as connected', () => {
@@ -188,6 +222,7 @@ describe('createStellarWalletsKitStore', () => {
       const store = createStellarWalletsKitStore()
 
       expect(Object.keys(listeners)).toHaveLength(0)
+      expect(watchWalletSessions).not.toHaveBeenCalled()
       expect(store.getState().wallets).toEqual([])
       expect(store.getState().address).toBeNull()
       expect(store.getState().connected).toBe(false)
