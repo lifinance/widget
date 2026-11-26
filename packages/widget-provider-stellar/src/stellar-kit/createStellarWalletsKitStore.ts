@@ -9,11 +9,13 @@ import {
   ENABLED_WALLET_IDS,
   initStellarWalletsKit,
 } from './createStellarWalletsKit.js'
+import { metaMaskStellar } from './metaMaskStellarModule.js'
 import type {
   StellarWalletIdentity,
   StellarWalletsKitState,
   StellarWalletsKitStore,
 } from './types.js'
+import { watchWalletSessions } from './watchWalletSessions.js'
 
 // SWK reports xBull as available via its web popup, so gate it to the extension global.
 const isWalletInstalled = (id: string, reported: boolean): boolean => {
@@ -51,7 +53,7 @@ const safeDisconnect = async (): Promise<void> => {
   }
 }
 
-// Best effort: only Freighter, Klever and Bitget implement getNetwork.
+// Best effort: only Freighter, Klever, Bitget and MetaMask implement getNetwork.
 const assertWalletNetwork = async (expected: string): Promise<void> => {
   let actual: string | undefined
   try {
@@ -94,7 +96,7 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
     return createServerStore()
   }
 
-  const { networkPassphrase } = initStellarWalletsKit()
+  const { networkPassphrase, modules } = initStellarWalletsKit()
 
   let refreshing: Promise<void> | undefined
 
@@ -161,7 +163,7 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
           Networks.PUBLIC
         )
       } catch {
-        // Five of the eight enabled modules have no getNetwork; treat them as compliant.
+        // Five of the nine enabled modules have no getNetwork; treat them as compliant.
         return Networks.PUBLIC
       }
     },
@@ -202,6 +204,10 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
       selectedWalletId: selectedWallet?.id ?? null,
     })
   })
+
+  // After the two subscriptions above: they set the restored wallet and
+  // address that the watch's page-load check reads.
+  watchWalletSessions(store, modules, metaMaskStellar)
 
   // Extension globals inject asynchronously and SWK's probe gives up after 1s, so a probe
   // issued during the first render can miss an installed wallet.
