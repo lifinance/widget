@@ -17,7 +17,7 @@ export const useGasRefuel = (): {
   fromAmount: string | undefined
 } => {
   const { getChainById } = useAvailableChains()
-  const { hiddenUI } = useWidgetConfig()
+  const { mode, hiddenUI } = useWidgetConfig()
   const [fromChainId, fromTokenAddress, toChainId, toAddress] = useFieldValues(
     'fromChain',
     'fromToken',
@@ -39,7 +39,15 @@ export const useGasRefuel = (): {
       ? toAccount.address
       : undefined
 
-  const effectiveToAddress = toAddress || toAccountAddress
+  // Refuel mode already delivers native gas, so it never refuels. A refuel on
+  // top would add more gas than the user asked for, behind a toggle that mode
+  // does not need. Without inputs, the lookups below keep their queries off,
+  // and `fromAmount` stays undefined, so the routes query key does not change.
+  const isRefuelMode = mode === 'refuel'
+
+  const effectiveToAddress = isRefuelMode
+    ? undefined
+    : toAddress || toAccountAddress
 
   const { isContractAddress: isToContractAddress } = useIsContractAddress(
     effectiveToAddress,
@@ -53,9 +61,9 @@ export const useGasRefuel = (): {
   )
 
   const { data: gasRecommendation, isLoading } = useGasRecommendation(
-    toChainId,
-    fromChainId,
-    fromTokenAddress
+    isRefuelMode ? undefined : toChainId,
+    isRefuelMode ? undefined : fromChainId,
+    isRefuelMode ? undefined : fromTokenAddress
   )
 
   // When we bridge between ecosystems we need to be sure toAddress is set
@@ -67,6 +75,7 @@ export const useGasRefuel = (): {
 
   const enabled = useMemo(() => {
     if (
+      isRefuelMode ||
       // Same chain refuel is not allowed since users need gas on source chain to initiate transaction
       // We allow refuel when bridging to native token since bridging routes may require gas for destination swaps
       fromChainId === toChainId ||
@@ -87,6 +96,7 @@ export const useGasRefuel = (): {
     const insufficientGas = tokenBalance < recommendedAmount
     return insufficientGas
   }, [
+    isRefuelMode,
     fromChainId,
     gasRecommendation,
     isChainTypeSatisfied,

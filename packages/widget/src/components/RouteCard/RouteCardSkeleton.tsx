@@ -48,7 +48,7 @@ export const RouteCardSkeleton: React.FC<
     </Box>
   )
 
-  return mode === 'refuel' || variant === 'cardless' ? (
+  return variant === 'cardless' ? (
     cardContent
   ) : (
     <Card indented {...other}>

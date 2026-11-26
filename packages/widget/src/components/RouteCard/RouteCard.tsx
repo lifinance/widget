@@ -115,7 +115,9 @@ export const RouteCard: React.FC<
     </Box>
   )
 
-  return mode === 'refuel' || variant === 'cardless' ? (
+  // Only the cardless variant drops the card: the card carries `onClick`, so a
+  // bare quote in a list could not be selected.
+  return variant === 'cardless' ? (
     cardContent
   ) : (
     <Card
