@@ -1,4 +1,5 @@
 import {
+  activeAddress,
   KitEventType,
   Networks,
   StellarWalletsKit,
@@ -51,7 +52,11 @@ const safeDisconnect = async (): Promise<void> => {
   }
 }
 
-// Best effort: only Freighter, Klever and Bitget implement getNetwork.
+// Varial's availability check is a round trip to its MV3 service worker, which can be
+// cold; freighter-api gives up after 2s, so wait a little longer than that.
+const WALLET_REACHABLE_TIMEOUT_MS = 3000
+
+// Best effort: only Varial, Klever and Bitget implement getNetwork.
 const assertWalletNetwork = async (expected: string): Promise<void> => {
   let actual: string | undefined
   try {
@@ -97,8 +102,28 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
   const { networkPassphrase } = initStellarWalletsKit()
 
   let refreshing: Promise<void> | undefined
+  let probeAgain = false
+  // SWK reports a probe timeout as "not available", so a later miss must not hide a found wallet.
+  const seenAvailable = new Set<string>()
+  // While any connect runs, the kit's address is not trusted until the network check passes.
+  // Only the active connect may settle the store, return an address or disconnect. An older
+  // connect takes over from a newer active one for the same wallet, or when none is active,
+  // nothing is connected and no connect succeeded since it started; otherwise it rejects.
+  let connectSeq = 0
+  let activeConnect: number | undefined
+  let settledConnect = 0
+  let runningConnects = 0
+  // The connect that started or took over last. While it runs, a click on its wallet joins it.
+  let newestConnect:
+    | { id: number; walletId: string; promise: Promise<string | null> }
+    | undefined
 
-  const store = create<StellarWalletsKitState>((set) => ({
+  const activeConnectFor = (walletId: string) =>
+    newestConnect !== undefined &&
+    newestConnect.id === activeConnect &&
+    newestConnect.walletId === walletId
+
+  const store = create<StellarWalletsKitState>((set, get) => ({
     networkPassphrase,
     wallets: [],
     selectedWalletId: null,
@@ -107,43 +132,103 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
     connected: false,
     connecting: false,
     refreshWallets() {
-      if (!refreshing) {
-        refreshing = StellarWalletsKit.refreshSupportedWallets()
-          .then((supported) => {
-            set({
-              wallets: supported
-                .filter((wallet) => ENABLED_WALLET_IDS.includes(wallet.id))
-                .map((wallet) => ({
-                  id: wallet.id,
-                  name: wallet.name,
-                  icon: wallet.icon,
-                  isAvailable: isWalletInstalled(wallet.id, wallet.isAvailable),
-                })),
-            })
-          })
-          .finally(() => {
-            refreshing = undefined
-          })
+      if (refreshing) {
+        probeAgain = true
+        return refreshing
       }
+      const runProbes = async (): Promise<void> => {
+        do {
+          probeAgain = false
+          const supported = await StellarWalletsKit.refreshSupportedWallets()
+          const wallets = supported
+            .filter((wallet) => ENABLED_WALLET_IDS.includes(wallet.id))
+            .map((wallet) => {
+              const isAvailable =
+                seenAvailable.has(wallet.id) ||
+                isWalletInstalled(wallet.id, wallet.isAvailable)
+              if (isAvailable) {
+                seenAvailable.add(wallet.id)
+              }
+              return {
+                id: wallet.id,
+                name: wallet.name,
+                icon: wallet.icon,
+                isAvailable,
+              }
+            })
+          set({ wallets })
+        } while (probeAgain)
+      }
+      refreshing = runProbes().finally(() => {
+        refreshing = undefined
+      })
       return refreshing
     },
-    async connect(walletId: string) {
-      set({ connecting: true })
-      try {
-        StellarWalletsKit.setWallet(walletId)
-        const { address } = await StellarWalletsKit.fetchAddress()
-        try {
-          await assertWalletNetwork(networkPassphrase)
-        } catch (error) {
-          await safeDisconnect()
-          throw error
-        }
-        set({ address, connected: Boolean(address), connecting: false })
-        return address ?? null
-      } catch (error) {
-        set({ connecting: false })
-        throw error
+    connect(walletId: string) {
+      if (newestConnect !== undefined && activeConnectFor(walletId)) {
+        return newestConnect.promise
       }
+      const connectId = ++connectSeq
+      activeConnect = connectId
+      const assertLatest = () => {
+        if (activeConnect !== connectId) {
+          throw new Error('A newer wallet connection replaced this one.')
+        }
+      }
+      runningConnects += 1
+      const run = async (): Promise<string | null> => {
+        set({ connecting: true })
+        try {
+          // A left connect may still hold its address in the kit; it must not pair with this wallet.
+          activeAddress.value = undefined
+          StellarWalletsKit.setWallet(walletId)
+          const { address } = await StellarWalletsKit.fetchAddress()
+          const takeOver =
+            activeConnect === undefined
+              ? !get().connected && connectId > settledConnect
+              : activeConnect > connectId && activeConnectFor(walletId)
+          if (takeOver) {
+            // The user still wants the wallet they approved.
+            activeConnect = connectId
+            newestConnect = { id: connectId, walletId, promise }
+            StellarWalletsKit.setWallet(walletId)
+          }
+          assertLatest()
+          await assertWalletNetwork(networkPassphrase)
+          assertLatest()
+          // An older connect can write its address while this one checks the network.
+          activeAddress.value = address
+          settledConnect = connectSeq
+          set({ address, connected: Boolean(address), connecting: false })
+          return address ?? null
+        } catch (error) {
+          if (activeConnect === connectId) {
+            await safeDisconnect()
+            set({ address: null, connected: false, connecting: false })
+          } else {
+            // SWK saves its address next to the selected wallet and restores the pair on
+            // reload, so a connect that lost its turn must not leave its own address there.
+            const { connected, address } = get()
+            activeAddress.value =
+              activeConnect === undefined && connected
+                ? (address ?? undefined)
+                : undefined
+            // The user picked this wallet again, so that request decides the result.
+            if (newestConnect !== undefined && activeConnectFor(walletId)) {
+              return newestConnect.promise
+            }
+          }
+          throw error
+        } finally {
+          runningConnects -= 1
+          if (activeConnect === connectId) {
+            activeConnect = undefined
+          }
+        }
+      }
+      const promise = run()
+      newestConnect = { id: connectId, walletId, promise }
+      return promise
     },
     async disconnect() {
       // SWK's `disconnect()` calls the active module's own `disconnect()`
@@ -168,10 +253,9 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
     async isWalletReachable() {
       try {
         const module = StellarWalletsKit.selectedModule
-        // SWK races its own availability probe against 1s; an absent extension
-        // otherwise stalls every signing attempt.
+        // An absent extension otherwise stalls every signing attempt.
         const timeout = new Promise<boolean>((resolve) =>
-          setTimeout(() => resolve(false), 1000)
+          setTimeout(() => resolve(false), WALLET_REACHABLE_TIMEOUT_MS)
         )
         const reported = await Promise.race([timeout, module.isAvailable()])
         return isWalletInstalled(module.productId, reported)
@@ -185,12 +269,13 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
   // on external disconnects and at launch, since SWK restores the address).
   // The store is a process-lifetime singleton, so these listeners live as long as the page.
   StellarWalletsKit.on(KitEventType.STATE_UPDATED, (event) => {
-    const address = event.payload.address ?? null
+    if (runningConnects > 0) {
+      return
+    }
     // A restored address from a module we do not enable has no usable connector.
-    store.setState({
-      address,
-      connected: Boolean(address) && readSelectedWallet() !== null,
-    })
+    const address =
+      readSelectedWallet() !== null ? (event.payload.address ?? null) : null
+    store.setState({ address, connected: Boolean(address) })
   })
 
   // Fires immediately with the module SWK restored from its own storage, then

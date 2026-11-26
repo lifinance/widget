@@ -5,12 +5,14 @@
     "selectWalletWithChain": "选择 {{chainLabel}} 钱包",
     "selectEcosystem": "选择生态",
     "waitingForWallet": "正在等待 {{walletName}}",
-    "availableWalletsNotFound": "未找到可用的钱包"
+    "availableWalletsNotFound": "未找到可用的钱包",
+    "connectionFailed": "无法连接 {{walletName}}"
   },
   "message": {
     "connecting": "请在钱包弹窗中点击连接。没有看到钱包？请检查其他浏览器窗口。",
     "multipleEcosystems": "{{walletName}} 支持多个链生态。请选择要连接的生态。",
-    "availableWalletsNotFound": "未检测到兼容的钱包扩展。请安装受支持的钱包并刷新页面。如果已安装，请确保它已启用且兼容，或联系技术支持。"
+    "availableWalletsNotFound": "未检测到兼容的钱包扩展。请安装受支持的钱包并刷新页面。如果已安装，请确保它已启用且兼容，或联系技术支持。",
+    "connectionFailed": "出错了，请重试。"
   },
   "tags": {
     "connected": "已连接",

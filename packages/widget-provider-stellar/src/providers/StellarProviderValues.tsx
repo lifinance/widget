@@ -1,4 +1,3 @@
-import { StellarWalletsKit } from '@creit.tech/stellar-wallets-kit'
 import { ChainId, ChainType } from '@lifi/sdk'
 import {
   StellarProvider as StellarSDKProvider,
@@ -12,6 +11,7 @@ import {
   useMemo,
   useRef,
 } from 'react'
+import { createSigningMethods } from '../stellar-kit/createSigningMethods.js'
 import { useStellarWalletsKit } from '../stellar-kit/useStellarWalletsKit.js'
 import type { StellarProviderConfig } from '../types.js'
 
@@ -34,6 +34,7 @@ export const StellarProviderValues: FC<
     disconnect,
     isWalletReachable,
     getWalletNetwork,
+    refreshWallets,
   } = useStellarWalletsKit()
 
   const connector = useMemo(
@@ -92,18 +93,7 @@ export const StellarProviderValues: FC<
         // The route's network is fixed; this is the wallet's own, so the SDK can
         // refuse to sign a mismatch.
         networkPassphrase: await getWalletNetwork(),
-        signTransaction: (xdr, opts) =>
-          StellarWalletsKit.signTransaction(xdr, {
-            address: walletAddress,
-            networkPassphrase,
-            ...opts,
-          }),
-        signAuthEntry: (authEntry, opts) =>
-          StellarWalletsKit.signAuthEntry(authEntry, {
-            address: walletAddress,
-            networkPassphrase,
-            ...opts,
-          }),
+        ...createSigningMethods({ walletAddress, networkPassphrase }),
       }
     }
     if (typeof config?.sdkProvider === 'function') {
@@ -162,6 +152,7 @@ export const StellarProviderValues: FC<
       isExternalContext,
       connect: handleConnect,
       disconnect: handleDisconnect,
+      refreshWallets,
     }),
     [
       account,
@@ -170,6 +161,7 @@ export const StellarProviderValues: FC<
       isExternalContext,
       handleConnect,
       handleDisconnect,
+      refreshWallets,
     ]
   )
 

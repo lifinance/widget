@@ -5,12 +5,14 @@
     "selectWalletWithChain": "{{chainLabel}}-Wallet auswählen",
     "selectEcosystem": "Ökosystem auswählen",
     "waitingForWallet": "Warten auf {{walletName}}",
-    "availableWalletsNotFound": "Keine verfügbaren Wallets gefunden"
+    "availableWalletsNotFound": "Keine verfügbaren Wallets gefunden",
+    "connectionFailed": "Verbindung mit {{walletName}} fehlgeschlagen"
   },
   "message": {
     "connecting": "Klicke im Pop-up deiner Wallet auf „Verbinden“. Du siehst deine Wallet nicht? Prüfe deine anderen Browserfenster.",
     "multipleEcosystems": "{{walletName}} unterstützt mehrere Chain-Ökosysteme. Wähle aus, mit welchem du dich verbinden möchtest.",
-    "availableWalletsNotFound": "Keine kompatiblen Wallet-Erweiterungen gefunden. Bitte installiere eine unterstützte Wallet und lade die Seite neu. Falls sie bereits installiert ist, stelle sicher, dass sie aktiviert und kompatibel ist, oder kontaktiere den Support."
+    "availableWalletsNotFound": "Keine kompatiblen Wallet-Erweiterungen gefunden. Bitte installiere eine unterstützte Wallet und lade die Seite neu. Falls sie bereits installiert ist, stelle sicher, dass sie aktiviert und kompatibel ist, oder kontaktiere den Support.",
+    "connectionFailed": "Etwas ist schiefgelaufen. Bitte versuche es erneut."
   },
   "tags": {
     "connected": "Verbunden",

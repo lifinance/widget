@@ -197,6 +197,7 @@ overrides:
   '@walletconnect/universal-provider@<2.23.10': '>=2.23.10'
   '@walletconnect/ethereum-provider@<2.23.10': '>=2.23.10'
   pino@<10.1.1: '>=10.1.1'
+  '@stellar/freighter-api@6.0.0': 6.0.1
   google-protobuf@<4.0.3: ^4.0.3
   uuid@<11.1.1: ^11.1.1
   i18next@<26.3.4: ^26.3.4
@@ -7555,8 +7556,8 @@ packages:
   '@speed-highlight/core@1.2.24':
     resolution: {integrity: sha512-qeW2e1l78afw8VhRPfPQ1Gjj+KU5XFQ/OFV5ti6eTa9bruO7mJyZtA4vw0ofqmA3tKCkROE9xLk3VZoeRc98nw==}
 
-  '@stellar/freighter-api@6.0.0':
-    resolution: {integrity: sha512-8CTQcKQmTq/wL715ZUzn1x1POpR0eYhYPKEiaeA7AT0WYBOauOGTxfWPFtSidX3ohAlJZP5HFXy1kG29cVjqxw==}
+  '@stellar/freighter-api@6.0.1':
+    resolution: {integrity: sha512-eqwakEqSg+zoLuPpSbKyrX0pG8DQFzL/J5GtbfuMCmJI+h+oiC9pQ5C6QLc80xopZQKdGt8dUAFCmDMNdAG95w==}
 
   '@stellar/js-xdr@5.0.0':
     resolution: {integrity: sha512-HBDNKnxr+ecdaEmbZ0mcKkirOF8tXXEbWSw34P3wT40Tn3g+u+cCH17xAWZymzscq8cojHB8340pR8QNVaD32w==}
@@ -16237,7 +16238,7 @@ snapshots:
       '@metamask/connect-stellar': 0.3.0
       '@preact/signals': 2.9.0(preact@11.2.0)
       '@reown/appkit': 2.0.0(@react-native-async-storage/async-storage@3.1.1(react-native@0.88.1(@babel/core@7.29.13(supports-color@10.2.2))(@types/react@19.3.0)(bufferutil@4.2.0)(react@19.3.1)(supports-color@10.2.2)(utf-8-validate@6.0.6))(react@19.3.1))(@solana/kit@8.6.0(bufferutil@4.2.0)(fastestsmallesttextencoderdecoder@1.0.22)(typescript@7.0.2)(utf-8-validate@6.0.6))(@solana/sysvars@8.6.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@7.0.2))(@types/react@19.3.0)(bufferutil@4.2.0)(db0@0.4.2)(debug@4.4.3(supports-color@10.2.2))(encoding@0.1.14)(ethers@6.17.0(bufferutil@4.2.0)(utf-8-validate@6.0.6))(fastestsmallesttextencoderdecoder@1.0.22)(ioredis@6.0.0(supports-color@10.2.2))(react@19.3.1)(supports-color@10.2.2)(typescript@7.0.2)(use-sync-external-store@1.7.0(react@19.3.1))(utf-8-validate@6.0.6)(zod@4.6.7)
-      '@stellar/freighter-api': 6.0.0
+      '@stellar/freighter-api': 6.0.1
       '@stellar/stellar-sdk': 17.4.0(debug@4.4.3(supports-color@10.2.2))(supports-color@10.2.2)
       '@trezor/connect-web': 10.0.0-beta.1(bufferutil@4.2.0)(tslib@2.9.1)(utf-8-validate@6.0.6)
       '@twind/core': 1.1.3(typescript@7.0.2)
@@ -22886,7 +22887,7 @@ snapshots:
 
   '@speed-highlight/core@1.2.24': {}
 
-  '@stellar/freighter-api@6.0.0':
+  '@stellar/freighter-api@6.0.1':
     dependencies:
       buffer: 6.0.3
       semver: 7.7.1
