@@ -12,6 +12,12 @@ let fetchAddressError: unknown
 let modulePending = false
 const activeAddress: { value: string | undefined } = { value: undefined }
 
+// Like the real kit: the address signal changes and STATE_UPDATED fires synchronously.
+const writeKitAddress = (address: string | undefined) => {
+  activeAddress.value = address
+  listeners.STATE_UPDATE?.({ payload: { address } })
+}
+
 vi.mock('@creit.tech/stellar-wallets-kit', () => ({
   Networks: {
     PUBLIC: 'Public Global Stellar Network ; September 2015',
@@ -32,16 +38,15 @@ vi.mock('@creit.tech/stellar-wallets-kit', () => ({
     }),
     refreshSupportedWallets: vi.fn(async () => []),
     setWallet: vi.fn(),
-    // Like the real kit, these update SWK state, which fires STATE_UPDATED synchronously.
     fetchAddress: vi.fn(async () => {
       if (fetchAddressError !== undefined) {
         throw fetchAddressError
       }
-      listeners.STATE_UPDATE?.({ payload: { address: 'GCONNECTED' } })
+      writeKitAddress('GCONNECTED')
       return { address: 'GCONNECTED' }
     }),
     disconnect: vi.fn(async () => {
-      listeners.STATE_UPDATE?.({ payload: { address: undefined } })
+      writeKitAddress(undefined)
     }),
     getNetwork: vi.fn(async () => {
       // Klever and Bitget pass the extension's reply through untyped.
@@ -312,8 +317,7 @@ describe('createStellarWalletsKitStore', () => {
         () =>
           new Promise((resolve) => {
             approveLeft = () => {
-              activeAddress.value = 'GLEFT'
-              listeners.STATE_UPDATE?.({ payload: { address: 'GLEFT' } })
+              writeKitAddress('GLEFT')
               resolve({ address: 'GLEFT' })
             }
           })
@@ -375,7 +379,6 @@ describe('createStellarWalletsKitStore', () => {
       const store = createStellarWalletsKitStore()
       const left = startLeftConnect(store)
       await store.getState().connect('xbull')
-      activeAddress.value = 'GCONNECTED'
 
       approveLeft()
 
@@ -388,6 +391,109 @@ describe('createStellarWalletsKitStore', () => {
         connected: true,
       })
     })
+
+    it('keeps its address out of the kit while a newer connect runs', async () => {
+      const store = createStellarWalletsKitStore()
+      const left = startLeftConnect(store)
+      let approveNewer!: () => void
+      vi.mocked(StellarWalletsKit.fetchAddress).mockImplementationOnce(
+        () =>
+          new Promise((resolve) => {
+            approveNewer = () => {
+              writeKitAddress('GNEWER')
+              resolve({ address: 'GNEWER' })
+            }
+          })
+      )
+      const newer = store.getState().connect('xbull')
+
+      approveLeft()
+
+      await expect(left).rejects.toThrow(
+        'A newer wallet connection replaced this one.'
+      )
+      expect(activeAddress.value).toBeUndefined()
+      approveNewer()
+      await expect(newer).resolves.toBe('GNEWER')
+      expect(activeAddress.value).toBe('GNEWER')
+    })
+
+    it('leaves the newer address in the kit when it approves during the newer network check', async () => {
+      const store = createStellarWalletsKitStore()
+      const left = startLeftConnect(store)
+      let releaseNetwork: (() => void) | undefined
+      vi.mocked(StellarWalletsKit.getNetwork).mockImplementationOnce(
+        () =>
+          new Promise((resolve) => {
+            releaseNetwork = () =>
+              resolve({
+                network: 'TESTNET',
+                networkPassphrase: 'Test SDF Network ; September 2015',
+              })
+          })
+      )
+      const newer = store.getState().connect('xbull')
+      await vi.waitFor(() => expect(releaseNetwork).toBeDefined())
+
+      approveLeft()
+      await expect(left).rejects.toThrow(
+        'A newer wallet connection replaced this one.'
+      )
+      releaseNetwork?.()
+
+      await expect(newer).resolves.toBe('GCONNECTED')
+      expect(activeAddress.value).toBe('GCONNECTED')
+      expect(store.getState()).toMatchObject({
+        address: 'GCONNECTED',
+        connected: true,
+      })
+    })
+
+    it('does not connect it after a newer connect succeeded and the user disconnected', async () => {
+      const store = createStellarWalletsKitStore()
+      const left = startLeftConnect(store)
+      await store.getState().connect('xbull')
+      await store.getState().disconnect()
+
+      approveLeft()
+
+      await expect(left).rejects.toThrow(
+        'A newer wallet connection replaced this one.'
+      )
+      expect(activeAddress.value).toBeUndefined()
+      expect(store.getState()).toMatchObject({
+        address: null,
+        connected: false,
+      })
+    })
+  })
+
+  it('clears its address from the kit when a newer connect starts during its network check', async () => {
+    const store = createStellarWalletsKitStore()
+    let releaseNetwork: (() => void) | undefined
+    vi.mocked(StellarWalletsKit.getNetwork).mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          releaseNetwork = () =>
+            resolve({
+              network: 'TESTNET',
+              networkPassphrase: 'Test SDF Network ; September 2015',
+            })
+        })
+    )
+    const older = store.getState().connect('varial')
+    await vi.waitFor(() => expect(releaseNetwork).toBeDefined())
+    vi.mocked(StellarWalletsKit.fetchAddress).mockImplementationOnce(
+      () => new Promise(() => {})
+    )
+    void store.getState().connect('xbull')
+
+    releaseNetwork?.()
+
+    await expect(older).rejects.toThrow(
+      'A newer wallet connection replaced this one.'
+    )
+    expect(activeAddress.value).toBeUndefined()
   })
 
   it('rejects a connect that a newer connect replaced', async () => {
@@ -397,7 +503,7 @@ describe('createStellarWalletsKitStore', () => {
       () =>
         new Promise((resolve) => {
           resolveAbandoned = () => {
-            listeners.STATE_UPDATE?.({ payload: { address: 'GSTALE' } })
+            writeKitAddress('GSTALE')
             resolve({ address: 'GSTALE' })
           }
         })
@@ -407,7 +513,7 @@ describe('createStellarWalletsKitStore', () => {
       () =>
         new Promise((resolve) => {
           resolveNewer = () => {
-            listeners.STATE_UPDATE?.({ payload: { address: 'GNEWER' } })
+            writeKitAddress('GNEWER')
             resolve({ address: 'GNEWER' })
           }
         })

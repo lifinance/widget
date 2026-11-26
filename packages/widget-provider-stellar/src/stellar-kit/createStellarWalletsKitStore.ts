@@ -107,9 +107,11 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
   const seenAvailable = new Set<string>()
   // While any connect runs, the kit's address is not trusted until the network check passes.
   // Only the newest connect may settle the store, return an address or disconnect. An older
-  // one rejects while a newer one runs or another wallet is connected; otherwise it takes over.
+  // one rejects while a newer one runs, after a newer one succeeded, or while another wallet
+  // is connected; otherwise it takes over.
   let connectSeq = 0
   let activeConnect: number | undefined
+  let settledConnect = 0
   let runningConnects = 0
   // A second click on the same wallet joins the running request instead of opening another.
   let newestConnect:
@@ -178,25 +180,35 @@ export function createStellarWalletsKitStore(): StellarWalletsKitStore {
         try {
           StellarWalletsKit.setWallet(walletId)
           const { address } = await StellarWalletsKit.fetchAddress()
-          if (activeConnect === undefined) {
-            if (get().connected) {
-              // The kit took the left wallet's address; give it back the connected one.
-              activeAddress.value = get().address ?? undefined
-            } else {
-              // Every newer connect failed, so the user wants the wallet they approved.
-              activeConnect = connectId
-              StellarWalletsKit.setWallet(walletId)
-            }
+          if (
+            activeConnect === undefined &&
+            !get().connected &&
+            connectId > settledConnect
+          ) {
+            // Every newer connect failed, so the user wants the wallet they approved.
+            activeConnect = connectId
+            StellarWalletsKit.setWallet(walletId)
           }
           assertLatest()
           await assertWalletNetwork(networkPassphrase)
           assertLatest()
+          // An older connect can write its address while this one checks the network.
+          activeAddress.value = address
+          settledConnect = connectSeq
           set({ address, connected: Boolean(address), connecting: false })
           return address ?? null
         } catch (error) {
           if (activeConnect === connectId) {
             await safeDisconnect()
             set({ address: null, connected: false, connecting: false })
+          } else {
+            // SWK saves its address next to the selected wallet and restores the pair on
+            // reload, so a connect that lost its turn must not leave its own address there.
+            const { connected, address } = get()
+            activeAddress.value =
+              activeConnect === undefined && connected
+                ? (address ?? undefined)
+                : undefined
           }
           throw error
         } finally {
