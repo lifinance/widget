@@ -764,20 +764,11 @@ test.describe('Playground settings — Theme', () => {
     })
   })
 
-  // ---------------------------------------------------------------------------
-  // Regression: EMB-424 — theme switch replaces entire config.theme including layout
-  // ---------------------------------------------------------------------------
-
-  // Regression for EMB-424 (PR #769 open): setConfigTheme replaced the entire config.theme
-  // including the user's layout container settings (e.g. height). This caused restricted-height
-  // values set before switching themes to be lost after the switch.
-  // Marked test.fail() — stays green while the bug exists, turns RED (unexpected pass) once
-  // PR #769 lands, signalling that test.fail() should be removed.
+  // setConfigTheme keeps the user's container height, maxHeight, and display.
   test("switching themes preserves the user's restricted height setting", async ({
     sidebar,
     widget,
   }) => {
-    test.fail()
     await test.step('set Restricted height to 800px', async () => {
       await sidebar.nav.height.click()
       await sidebar.heightEditor.cards.restrictedHeight.click()
