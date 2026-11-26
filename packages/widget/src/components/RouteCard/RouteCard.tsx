@@ -1,7 +1,7 @@
 import type { TokenAmount } from '@lifi/sdk'
 import { isGaslessStep } from '@lifi/sdk'
 import { Box, Tooltip } from '@mui/material'
-import { useMemo } from 'react'
+import { useId, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useWidgetConfig } from '../../providers/WidgetProvider/WidgetProvider.js'
 import type { RouteLabel } from '../../types/widget.js'
@@ -20,10 +20,13 @@ export const RouteCard: React.FC<
   active,
   variant = 'default',
   expanded: defaultExpanded,
+  sx,
   ...other
 }) => {
   const { t } = useTranslation()
   const { mode, modeOptions, routeLabels, hiddenUI } = useWidgetConfig()
+  const labelId = useId()
+  const selectable = variant !== 'cardless' && Boolean(other.onClick)
 
   const token: TokenAmount =
     mode === 'custom' && modeOptions?.custom?.type !== 'deposit'
@@ -111,19 +114,53 @@ export const RouteCard: React.FC<
         impactToken={impactToken}
         defaultExpanded={defaultExpanded}
         showEssentials
+        labelId={labelId}
       />
     </Box>
   )
 
-  return mode === 'refuel' || variant === 'cardless' ? (
+  // Only the cardless variant drops the card: the card carries `onClick`, so a
+  // bare quote in a list could not be selected.
+  return variant === 'cardless' ? (
     cardContent
   ) : (
     <Card
       type={active ? 'selected' : 'default'}
       selectionColor="secondary"
       indented
+      sx={[
+        selectable ? { position: 'relative' } : {},
+        ...(Array.isArray(sx) ? sx : [sx]),
+      ]}
       {...other}
     >
+      {selectable ? (
+        // Keyboard access to `onClick`: the card holds its own buttons (expand,
+        // rate), so it cannot be a button itself. This native button covers the
+        // card but lets the pointer through; Enter and Space on it fire a click
+        // that bubbles to the card. Named by the token row only: the tags would
+        // match other buttons, and the tooltip targets in the essentials row
+        // carry an `aria-label` that replaces their values in the name.
+        <Box
+          component="button"
+          type="button"
+          aria-labelledby={labelId}
+          sx={(theme) => ({
+            position: 'absolute',
+            inset: 0,
+            m: 0,
+            p: 0,
+            border: 0,
+            borderRadius: 'inherit',
+            background: 'transparent',
+            pointerEvents: 'none',
+            '&:focus-visible': {
+              outline: `2px solid ${theme.vars.palette.primary.main}`,
+              outlineOffset: -2,
+            },
+          })}
+        />
+      ) : null}
       {cardContent}
     </Card>
   )
