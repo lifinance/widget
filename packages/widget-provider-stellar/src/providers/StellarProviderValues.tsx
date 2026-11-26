@@ -1,4 +1,3 @@
-import { StellarWalletsKit } from '@creit.tech/stellar-wallets-kit'
 import { ChainId, ChainType } from '@lifi/sdk'
 import {
   StellarProvider as StellarSDKProvider,
@@ -12,7 +11,7 @@ import {
   useMemo,
   useRef,
 } from 'react'
-import { assertExpectedSigner } from '../stellar-kit/assertExpectedSigner.js'
+import { createSigningMethods } from '../stellar-kit/createSigningMethods.js'
 import { useStellarWalletsKit } from '../stellar-kit/useStellarWalletsKit.js'
 import type { StellarProviderConfig } from '../types.js'
 
@@ -77,8 +76,6 @@ export const StellarProviderValues: FC<
 
   const addressRef = useRef(address)
   addressRef.current = address
-  const selectedWalletIdRef = useRef(selectedWallet?.id ?? null)
-  selectedWalletIdRef.current = selectedWallet?.id ?? null
 
   const sdkProvider = useMemo(() => {
     const getWallet = async (): Promise<StellarWallet> => {
@@ -96,32 +93,7 @@ export const StellarProviderValues: FC<
         // The route's network is fixed; this is the wallet's own, so the SDK can
         // refuse to sign a mismatch.
         networkPassphrase: await getWalletNetwork(),
-        signTransaction: async (xdr, opts) => {
-          const result = await StellarWalletsKit.signTransaction(xdr, {
-            address: walletAddress,
-            networkPassphrase,
-            ...opts,
-          })
-          assertExpectedSigner({
-            walletId: selectedWalletIdRef.current,
-            expectedAddress: walletAddress,
-            signerAddress: result.signerAddress,
-          })
-          return result
-        },
-        signAuthEntry: async (authEntry, opts) => {
-          const result = await StellarWalletsKit.signAuthEntry(authEntry, {
-            address: walletAddress,
-            networkPassphrase,
-            ...opts,
-          })
-          assertExpectedSigner({
-            walletId: selectedWalletIdRef.current,
-            expectedAddress: walletAddress,
-            signerAddress: result.signerAddress,
-          })
-          return result
-        },
+        ...createSigningMethods({ walletAddress, networkPassphrase }),
       }
     }
     if (typeof config?.sdkProvider === 'function') {
