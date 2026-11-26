@@ -197,7 +197,7 @@ overrides:
   '@walletconnect/universal-provider@<2.23.10': '>=2.23.10'
   '@walletconnect/ethereum-provider@<2.23.10': '>=2.23.10'
   pino@<10.1.1: '>=10.1.1'
-  '@stellar/freighter-api': 6.0.1
+  '@stellar/freighter-api@6.0.0': 6.0.1
   google-protobuf@<4.0.3: ^4.0.3
   uuid@<11.1.1: ^11.1.1
   i18next@<26.3.4: ^26.3.4
