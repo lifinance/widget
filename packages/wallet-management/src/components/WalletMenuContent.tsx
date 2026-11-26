@@ -14,7 +14,7 @@ import {
   List,
   Typography,
 } from '@mui/material'
-import { useEffect, useMemo, useReducer, useRef } from 'react'
+import { useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useAccount } from '../hooks/useAccount.js'
 import type { CombinedWallet } from '../hooks/useCombinedWallets.js'
@@ -22,6 +22,10 @@ import { useCombinedWallets } from '../hooks/useCombinedWallets.js'
 import { useRefreshWalletsOnOpen } from '../hooks/useRefreshWalletsOnOpen.js'
 import type { WalletMenuOpenArgs } from '../providers/WalletMenuProvider/types.js'
 import type { WalletTagType } from '../types/walletTagType.js'
+import {
+  type ConnectAttempt,
+  createConnectAttempts,
+} from '../utils/createConnectAttempts.js'
 import { ElementId } from '../utils/elements.js'
 import { getConnectorId } from '../utils/getConnectorId.js'
 import { getSortedByTags } from '../utils/getSortedByTags.js'
@@ -51,6 +55,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
   useRefreshWalletsOnOpen()
   const installedWallets = useCombinedWallets()
   const selectedWalletRef = useRef<CombinedWallet>(null)
+  const [connectAttempts] = useState(createConnectAttempts)
 
   const { accounts } = useAccount()
   const connectedConnectorIds: string[] = useMemo(() => {
@@ -101,9 +106,16 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
     }
   }
 
-  const handleError = (id: string, walletName: string, error: unknown) => {
+  const handleError = (
+    id: string,
+    walletName: string,
+    error: unknown,
+    attempt: ConnectAttempt
+  ) => {
     console.error('Wallet connection failed:', error)
-    dispatch({ type: 'HANDLE_ERROR', id, walletName, error })
+    if (!attempt.isSuperseded()) {
+      dispatch({ type: 'HANDLE_ERROR', id, walletName, error })
+    }
   }
 
   const walletChainLabel = useMemo(() => {
@@ -191,6 +203,7 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
     tagType?: WalletTagType
   ) => {
     const key = `${name}${ecosystemSelection ? `-${chainType}` : ''}`
+    const attempt = connectAttempts.create()
 
     let ListItemButtonComponent: React.FC<WalletListItemButtonProps> | null =
       null
@@ -221,9 +234,16 @@ export const WalletMenuContent: React.FC<WalletMenuContentProps> = ({
         ecosystemSelection={ecosystemSelection}
         tagType={tagType}
         connector={connector}
-        onConnected={onClose}
-        onConnecting={() => handleConnecting(id)}
-        onError={(error) => handleError(id, name, error)}
+        onConnected={() => {
+          if (!attempt.isSuperseded()) {
+            onClose()
+          }
+        }}
+        onConnecting={() => {
+          attempt.start()
+          handleConnecting(id)
+        }}
+        onError={(error) => handleError(id, name, error, attempt)}
       />
     ) : null
   }
