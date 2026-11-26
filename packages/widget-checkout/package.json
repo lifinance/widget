@@ -56,26 +56,26 @@
     "@lifi/widget": "workspace:*",
     "@lifi/widget-provider": "workspace:*",
     "@lifi/widget-provider-mesh": "workspace:*",
-    "@mui/icons-material": "^9.5.0",
-    "@mui/material": "^9.5.0",
-    "@mui/system": "^9.5.0",
+    "@mui/icons-material": "^9.6.0",
+    "@mui/material": "^9.6.0",
+    "@mui/system": "^9.6.0",
     "@tanstack/react-router": "^1.170.46",
-    "i18next": "^27.1.5",
+    "i18next": "^27.2.9",
     "motion": "^14.14.0",
     "qrcode.react": "^4.2.0",
-    "react-i18next": "^18.0.2",
+    "react-i18next": "^18.0.3",
     "zustand": "^5.1.0"
   },
   "devDependencies": {
     "@testing-library/dom": "^10.4.2",
     "@testing-library/react": "^16.3.3",
-    "@types/node": "^26.6.6",
+    "@types/node": "^26.6.10",
     "happy-dom": "^21.0.4",
     "madge": "^8.0.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "typescript": "^7.0.2",
-    "vitest": "^5.1.1"
+    "vitest": "^5.1.2"
   },
   "peerDependencies": {
     "@tanstack/react-query": ">=5.90.0",

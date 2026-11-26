@@ -14,13 +14,11 @@ packages:
 #   - 2026-11-10: next and @next/* 16.4.6, and typescript-eslint and @typescript-eslint/*
 #     8.72.2, inside the age window (bump-packages fast-track: same publisher, same
 #     provenance repo and workflow, no advisory, no new install script or dependency).
-#   - 2026-11-19: fast-track viem@2.58.1 (all checks pass).
 #   - 2026-11-26: fast-track svelte@5.59.2, viem@2.58.7, vite@8.4.0 (all checks pass, or approved by the user).
 minimumReleaseAgeExclude:
   - '@bigmi/*'
   - '@lifi/*'
   - svelte@5.59.2
-  - viem@2.58.1
   - viem@2.58.7
   - vite@8.4.0
 overrides:
@@ -105,10 +103,10 @@ overrides:
   # @reown/appkit-utils 2.0.0 pins @x402/* 2.27.0, and @x402/svm 2.27.0 needs @solana/kit 5.
   # 2.31.0 needs @solana/kit 8; @coinbase/cdp-sdk and @privy-io/react-auth accept it.
   # Remove these when an @reown/appkit-utils release allows 2.31.0.
-  "@x402/core": "^2.31.0"
-  "@x402/evm": "^2.31.0"
-  "@x402/extensions": "^2.31.0"
-  "@x402/svm": "^2.31.0"
+  "@x402/core": "^2.32.0"
+  "@x402/evm": "^2.32.0"
+  "@x402/extensions": "^2.32.0"
+  "@x402/svm": "^2.32.0"
   # @reown/appkit-adapter-solana 2.0.0 pins @solana/kit and @solana/compat 8.3.0. Keep one
   # @solana/kit 8 copy. Remove these when an adapter release allows the latest 8.x.
   "@reown/appkit-adapter-solana>@solana/kit": "^8.6.0"
