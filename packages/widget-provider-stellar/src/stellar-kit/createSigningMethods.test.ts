@@ -81,6 +81,17 @@ describe('createSigningMethods', () => {
     await expect(methods().signAuthEntry('ENTRY')).rejects.toThrow(wrongAccount)
   })
 
+  it('checks the signer against the address the caller requested', async () => {
+    signerAddress = 'GREQUESTED'
+
+    await expect(
+      methods().signTransaction('XDR', { address: 'GREQUESTED' })
+    ).resolves.toBeDefined()
+    await expect(
+      methods().signAuthEntry('ENTRY', { address: 'GREQUESTED' })
+    ).resolves.toBeDefined()
+  })
+
   it('accepts a Varial signature that reports no signer', async () => {
     signerAddress = undefined
 

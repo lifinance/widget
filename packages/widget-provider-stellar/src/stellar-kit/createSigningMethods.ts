@@ -26,28 +26,22 @@ export function createSigningMethods({
   return {
     async signTransaction(xdr, opts) {
       const walletId = readSelectedModuleId()
-      const result = await StellarWalletsKit.signTransaction(xdr, {
-        address: walletAddress,
-        networkPassphrase,
-        ...opts,
-      })
+      const options = { address: walletAddress, networkPassphrase, ...opts }
+      const result = await StellarWalletsKit.signTransaction(xdr, options)
       assertExpectedSigner({
         walletId,
-        expectedAddress: walletAddress,
+        expectedAddress: options.address ?? walletAddress,
         signerAddress: result.signerAddress,
       })
       return result
     },
     async signAuthEntry(authEntry, opts) {
       const walletId = readSelectedModuleId()
-      const result = await StellarWalletsKit.signAuthEntry(authEntry, {
-        address: walletAddress,
-        networkPassphrase,
-        ...opts,
-      })
+      const options = { address: walletAddress, networkPassphrase, ...opts }
+      const result = await StellarWalletsKit.signAuthEntry(authEntry, options)
       assertExpectedSigner({
         walletId,
-        expectedAddress: walletAddress,
+        expectedAddress: options.address ?? walletAddress,
         signerAddress: result.signerAddress,
       })
       return result
