@@ -112,14 +112,14 @@ overrides:
   # Preview of lifinance/sdk#566 (@mysten/sui 3, JUMEMB-223). Each provider pins one
   # exact @lifi/sdk, so the whole family moves together. Remove these when the
   # sdk release is out, and set the released versions.
-  "@lifi/sdk": "0.0.0-preview-df697626"
-  "@lifi/sdk-provider-bitcoin": "0.0.0-preview-df697626"
-  "@lifi/sdk-provider-ethereum": "0.0.0-preview-df697626"
-  "@lifi/sdk-provider-solana": "0.0.0-preview-df697626"
-  "@lifi/sdk-provider-stellar": "0.0.0-preview-df697626"
-  "@lifi/sdk-provider-sui": "0.0.0-preview-df697626"
-  "@lifi/sdk-provider-tron": "0.0.0-preview-df697626"
-  "@lifi/sdk-provider-zcash": "0.0.0-preview-df697626"
+  "@lifi/sdk": "0.0.0-preview-155bb7fe"
+  "@lifi/sdk-provider-bitcoin": "0.0.0-preview-155bb7fe"
+  "@lifi/sdk-provider-ethereum": "0.0.0-preview-155bb7fe"
+  "@lifi/sdk-provider-solana": "0.0.0-preview-155bb7fe"
+  "@lifi/sdk-provider-stellar": "0.0.0-preview-155bb7fe"
+  "@lifi/sdk-provider-sui": "0.0.0-preview-155bb7fe"
+  "@lifi/sdk-provider-tron": "0.0.0-preview-155bb7fe"
+  "@lifi/sdk-provider-zcash": "0.0.0-preview-155bb7fe"
 allowBuilds:
   "@opensea/seaport-js": false
   "@parcel/watcher": false
