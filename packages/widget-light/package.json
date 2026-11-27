@@ -63,7 +63,7 @@
   "peerDependencies": {
     "@bigmi/client": "^0.10.5",
     "@bigmi/react": "^0.9.5",
-    "@mysten/dapp-kit-react": "^2.1.45",
+    "@mysten/dapp-kit-react": "^3.0.1",
     "@wagmi/core": "^3.6.9",
     "@wallet-standard/base": "^1.1.1",
     "react": ">=19",
