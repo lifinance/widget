@@ -1,5 +1,13 @@
 # @lifi/widget
 
+## 4.11.1
+
+### Patch Changes
+
+- [#947](https://github.com/lifinance/widget/pull/947) [`c86a2c0`](https://github.com/lifinance/widget/commit/c86a2c042d86d71159e0c54bb560015e238932cc) Thanks [@chybisov](https://github.com/chybisov)! - In `mode: 'refuel'`, let users select any quote in the quotes list of the wide layout. Before, a click on a quote did nothing, because the quote rendered without the card that handles the click. Refuel mode also no longer shows the "Get {chain} gas" toggle and no longer adds extra gas to the quote request, because the mode already delivers gas.
+
+- [#947](https://github.com/lifinance/widget/pull/947) [`c86a2c0`](https://github.com/lifinance/widget/commit/c86a2c042d86d71159e0c54bb560015e238932cc) Thanks [@chybisov](https://github.com/chybisov)! - Let users select a quote card with the keyboard. When a quote card can be selected, the Tab key moves the focus to it, and Enter or Space selects the quote.
+
 ## 4.11.0
 
 ### Minor Changes
